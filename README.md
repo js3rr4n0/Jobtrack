@@ -177,13 +177,25 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 Sin ellas la aplicacion despliega igual y muestra un aviso explicando que falta
 configurar Supabase, pero no permite iniciar sesion.
 
-### API
+### API en Render
 
-Cualquier entorno Node. Compila con `npm run build --workspace @jobtrack/api` y
-arranca con `npm run start:prod --workspace @jobtrack/api`. Declara en
-`CORS_ORIGINS` el dominio publico de la web. La API es un proceso persistente
-con WebSockets, asi que no encaja en las funciones serverless de Vercel:
-conviene alojarla en un servicio con proceso continuo.
+El repositorio incluye `render.yaml`, asi que basta con **New -> Blueprint** y
+seleccionar el repositorio. Render pedira tres valores al crear el servicio:
+`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` y `CORS_ORIGINS` (el dominio publico
+de la web).
+
+La API es un proceso persistente con WebSockets, asi que no encaja en las
+funciones serverless de Vercel: necesita un servicio con proceso continuo.
+
+Para cualquier otro proveedor, los comandos son:
+
+```bash
+npm install --include=dev   # NODE_ENV=production omitiria TypeScript y la CLI de Nest
+npm run build --workspace @jobtrack/api
+npm run start:prod --workspace @jobtrack/api
+```
+
+La sonda de disponibilidad es `GET /api/health`.
 
 ## Convenciones de codigo
 

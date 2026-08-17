@@ -6,10 +6,16 @@ services:
     runtime: node
     plan: free
     # Render inyecta PORT; la API lo respeta a traves de su configuracion.
-    buildCommand: npm install && npm run build --workspace @jobtrack/api
+    # --include=dev es imprescindible: con NODE_ENV=production npm omitiria las
+    # dependencias de desarrollo, entre ellas TypeScript y la CLI de Nest.
+    buildCommand: npm install --include=dev && npm run build --workspace @jobtrack/api
     startCommand: npm run start:prod --workspace @jobtrack/api
     healthCheckPath: /api/health
     envVars:
+      # Se fija la version de Node: sin esto Render elige la mas reciente que
+      # cumpla el rango de engines, que puede adelantarse a lo que soporta Nest.
+      - key: NODE_VERSION
+        value: "22"
       - key: NODE_ENV
         value: production
       - key: DATA_DRIVER
