@@ -1,0 +1,23 @@
+# Despliegue de la API de Jobtrack en Render.
+# Importar desde el panel con New -> Blueprint apuntando a este repositorio.
+services:
+  - type: web
+    name: jobtrack-api
+    runtime: node
+    plan: free
+    # Render inyecta PORT; la API lo respeta a traves de su configuracion.
+    buildCommand: npm install && npm run build --workspace @jobtrack/api
+    startCommand: npm run start:prod --workspace @jobtrack/api
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATA_DRIVER
+        value: supabase
+      # Los valores marcados con sync: false se piden al crear el servicio.
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false

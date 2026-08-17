@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build:contracts": "tsc --project ../../packages/contracts/tsconfig.json",
-    "build": "npm run build:contracts && nest build",
+    "build": "npm run build:contracts && nest build --path tsconfig.build.json",
     "start": "npm run build:contracts && nest start",
     "start:dev": "npm run build:contracts && nest start --watch",
     "start:prod": "node dist/main.js",
