@@ -147,14 +147,40 @@ desglose completo esta en [`docs/PLAN_DE_PRUEBAS.md`](docs/PLAN_DE_PRUEBAS.md).
 
 ## Despliegue
 
-- **Web**: Vercel. El `vercel.json` de la raiz ya define el comando de
-  compilacion y el directorio de salida del monorepo. Define
-  `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SUPABASE_URL` y
-  `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
-- **API**: cualquier entorno Node. Compila con
-  `npm run build --workspace @jobtrack/api` y arranca con
-  `npm run start:prod --workspace @jobtrack/api`. Declara en `CORS_ORIGINS` el
-  dominio publico de la web.
+### Web en Vercel
+
+Al importar el repositorio, en **Settings -> General**:
+
+| Ajuste | Valor |
+| --- | --- |
+| Root Directory | `apps/web` |
+| Include files outside the root directory | **Activado** |
+| Framework Preset | Next.js (se detecta solo) |
+| Build Command | por defecto (`npm run build`) |
+
+El **Root Directory debe apuntar a `apps/web`**, no a la raiz: Vercel busca la
+dependencia `next` en el `package.json` de ese directorio, y el de la raiz solo
+declara los workspaces. La casilla de archivos externos es obligatoria porque la
+web compila `packages/contracts` antes de construirse.
+
+Variables de entorno del proyecto:
+
+```
+NEXT_PUBLIC_API_URL=https://<tu-api>/api
+NEXT_PUBLIC_SUPABASE_URL=https://<proyecto>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
+```
+
+Sin ellas la aplicacion despliega igual y muestra un aviso explicando que falta
+configurar Supabase, pero no permite iniciar sesion.
+
+### API
+
+Cualquier entorno Node. Compila con `npm run build --workspace @jobtrack/api` y
+arranca con `npm run start:prod --workspace @jobtrack/api`. Declara en
+`CORS_ORIGINS` el dominio publico de la web. La API es un proceso persistente
+con WebSockets, asi que no encaja en las funciones serverless de Vercel:
+conviene alojarla en un servicio con proceso continuo.
 
 ## Convenciones de codigo
 
