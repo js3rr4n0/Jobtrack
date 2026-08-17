@@ -1,0 +1,330 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Cada tema redefine el mismo conjunto de variables. Los componentes solo usan
+ * los nombres semanticos, por lo que agregar un tema no exige tocar el markup.
+ * Los colores se expresan en canales RGB para permitir opacidad en Tailwind.
+ */
+@layer base {
+  :root,
+  [data-theme='light'] {
+    color-scheme: light;
+
+    --color-base: 248 250 252;
+    --color-raised: 255 255 255;
+    --color-overlay: 255 255 255;
+    --color-border-subtle: 226 232 240;
+    --color-border-strong: 100 116 139;
+    --color-text-primary: 15 23 42;
+    --color-text-secondary: 71 85 105;
+    --color-text-inverse: 255 255 255;
+    --color-accent: 37 99 235;
+    --color-accent-strong: 29 78 216;
+    --color-accent-soft: 219 234 254;
+    --color-success: 21 128 61;
+    --color-warning: 161 98 7;
+    --color-danger: 185 28 28;
+
+    --color-status-wishlist: 71 85 105;
+    --color-status-applied: 37 99 235;
+    --color-status-interview: 126 34 206;
+    --color-status-offer: 161 98 7;
+    --color-status-hired: 21 128 61;
+    --color-status-rejected: 185 28 28;
+
+    --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --radius-card: 0.875rem;
+    --radius-control: 0.625rem;
+    --shadow-card: 0 1px 2px rgb(15 23 42 / 0.08), 0 8px 24px rgb(15 23 42 / 0.06);
+    --shadow-raised: 0 12px 32px rgb(15 23 42 / 0.14);
+    --page-backdrop: none;
+    --letter-spacing-display: normal;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark;
+
+    --color-base: 15 23 42;
+    --color-raised: 30 41 59;
+    --color-overlay: 30 41 59;
+    --color-border-subtle: 51 65 85;
+    --color-border-strong: 148 163 184;
+    --color-text-primary: 241 245 249;
+    --color-text-secondary: 165 180 199;
+    --color-text-inverse: 15 23 42;
+    --color-accent: 96 165 250;
+    --color-accent-strong: 147 197 253;
+    --color-accent-soft: 30 58 138;
+    --color-success: 74 222 128;
+    --color-warning: 251 191 36;
+    --color-danger: 248 113 113;
+
+    --color-status-wishlist: 165 180 199;
+    --color-status-applied: 96 165 250;
+    --color-status-interview: 192 132 252;
+    --color-status-offer: 250 204 21;
+    --color-status-hired: 74 222 128;
+    --color-status-rejected: 248 113 113;
+
+    --shadow-card: 0 1px 2px rgb(2 6 23 / 0.5), 0 8px 24px rgb(2 6 23 / 0.4);
+    --shadow-raised: 0 12px 32px rgb(2 6 23 / 0.6);
+  }
+
+  [data-theme='pixel-pink'] {
+    color-scheme: dark;
+
+    --color-base: 42 12 34;
+    --color-raised: 61 20 48;
+    --color-overlay: 61 20 48;
+    --color-border-subtle: 118 42 92;
+    --color-border-strong: 255 153 204;
+    --color-text-primary: 255 235 247;
+    --color-text-secondary: 247 183 218;
+    --color-text-inverse: 42 12 34;
+    --color-accent: 255 133 195;
+    --color-accent-strong: 255 173 214;
+    --color-accent-soft: 92 28 71;
+    --color-success: 126 231 135;
+    --color-warning: 255 209 102;
+    --color-danger: 255 138 138;
+
+    --color-status-wishlist: 247 183 218;
+    --color-status-applied: 255 133 195;
+    --color-status-interview: 209 149 255;
+    --color-status-offer: 255 209 102;
+    --color-status-hired: 126 231 135;
+    --color-status-rejected: 255 138 138;
+
+    --font-display: 'Courier New', ui-monospace, monospace;
+    --font-body: 'Courier New', ui-monospace, monospace;
+    --radius-card: 0;
+    --radius-control: 0;
+    --shadow-card: 4px 4px 0 rgb(118 42 92);
+    --shadow-raised: 6px 6px 0 rgb(255 133 195 / 0.6);
+    --letter-spacing-display: 0.06em;
+  }
+
+  [data-theme='pixel-blue'] {
+    color-scheme: dark;
+
+    --color-base: 8 20 46;
+    --color-raised: 16 34 72;
+    --color-overlay: 16 34 72;
+    --color-border-subtle: 30 64 128;
+    --color-border-strong: 125 211 252;
+    --color-text-primary: 226 242 255;
+    --color-text-secondary: 158 202 250;
+    --color-text-inverse: 8 20 46;
+    --color-accent: 86 199 250;
+    --color-accent-strong: 147 220 253;
+    --color-accent-soft: 12 74 110;
+    --color-success: 52 211 153;
+    --color-warning: 250 204 21;
+    --color-danger: 251 113 133;
+
+    --color-status-wishlist: 158 202 250;
+    --color-status-applied: 86 199 250;
+    --color-status-interview: 167 139 250;
+    --color-status-offer: 250 204 21;
+    --color-status-hired: 52 211 153;
+    --color-status-rejected: 251 113 133;
+
+    --font-display: 'Courier New', ui-monospace, monospace;
+    --font-body: 'Courier New', ui-monospace, monospace;
+    --radius-card: 0;
+    --radius-control: 0;
+    --shadow-card: 4px 4px 0 rgb(30 64 128);
+    --shadow-raised: 6px 6px 0 rgb(86 199 250 / 0.6);
+    --letter-spacing-display: 0.06em;
+  }
+
+  [data-theme='gaming'] {
+    color-scheme: dark;
+
+    --color-base: 10 10 16;
+    --color-raised: 21 21 32;
+    --color-overlay: 26 26 40;
+    --color-border-subtle: 45 45 66;
+    --color-border-strong: 0 229 160;
+    --color-text-primary: 236 253 245;
+    --color-text-secondary: 163 191 182;
+    --color-text-inverse: 10 10 16;
+    --color-accent: 0 229 160;
+    --color-accent-strong: 110 255 214;
+    --color-accent-soft: 6 60 45;
+    --color-success: 0 229 160;
+    --color-warning: 255 196 0;
+    --color-danger: 255 99 114;
+
+    --color-status-wishlist: 163 191 182;
+    --color-status-applied: 0 229 160;
+    --color-status-interview: 192 132 252;
+    --color-status-offer: 255 196 0;
+    --color-status-hired: 74 222 128;
+    --color-status-rejected: 255 99 114;
+
+    --font-display: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', monospace;
+    --radius-card: 0.25rem;
+    --radius-control: 0.25rem;
+    --shadow-card: 0 0 0 1px rgb(0 229 160 / 0.18), 0 8px 26px rgb(0 0 0 / 0.6);
+    --shadow-raised: 0 0 24px rgb(0 229 160 / 0.35);
+    --letter-spacing-display: 0.04em;
+  }
+
+  [data-theme='anime'] {
+    color-scheme: light;
+
+    --color-base: 255 247 251;
+    --color-raised: 255 255 255;
+    --color-overlay: 255 255 255;
+    --color-border-subtle: 250 214 228;
+    --color-border-strong: 219 39 119;
+    --color-text-primary: 58 27 47;
+    --color-text-secondary: 122 78 104;
+    --color-text-inverse: 255 255 255;
+    --color-accent: 219 39 119;
+    --color-accent-strong: 157 23 77;
+    --color-accent-soft: 252 231 243;
+    --color-success: 15 118 110;
+    --color-warning: 161 98 7;
+    --color-danger: 190 18 60;
+
+    --color-status-wishlist: 122 78 104;
+    --color-status-applied: 37 99 235;
+    --color-status-interview: 126 34 206;
+    --color-status-offer: 161 98 7;
+    --color-status-hired: 15 118 110;
+    --color-status-rejected: 190 18 60;
+
+    --radius-card: 1.25rem;
+    --radius-control: 999px;
+    --shadow-card: 0 6px 18px rgb(219 39 119 / 0.12);
+    --shadow-raised: 0 16px 36px rgb(219 39 119 / 0.22);
+  }
+
+  [data-theme='minimal'] {
+    color-scheme: light;
+
+    --color-base: 255 255 255;
+    --color-raised: 255 255 255;
+    --color-overlay: 255 255 255;
+    --color-border-subtle: 229 229 229;
+    --color-border-strong: 23 23 23;
+    --color-text-primary: 23 23 23;
+    --color-text-secondary: 82 82 82;
+    --color-text-inverse: 255 255 255;
+    --color-accent: 23 23 23;
+    --color-accent-strong: 0 0 0;
+    --color-accent-soft: 245 245 245;
+    --color-success: 21 128 61;
+    --color-warning: 161 98 7;
+    --color-danger: 185 28 28;
+
+    --color-status-wishlist: 115 115 115;
+    --color-status-applied: 23 23 23;
+    --color-status-interview: 82 82 82;
+    --color-status-offer: 161 98 7;
+    --color-status-hired: 21 128 61;
+    --color-status-rejected: 185 28 28;
+
+    --radius-card: 0.25rem;
+    --radius-control: 0.25rem;
+    --shadow-card: none;
+    --shadow-raised: 0 6px 18px rgb(0 0 0 / 0.1);
+  }
+
+  [data-theme='galaxy'] {
+    color-scheme: dark;
+
+    --color-base: 9 8 24;
+    --color-raised: 22 19 50;
+    --color-overlay: 28 24 62;
+    --color-border-subtle: 51 44 96;
+    --color-border-strong: 167 155 255;
+    --color-text-primary: 234 232 255;
+    --color-text-secondary: 184 178 226;
+    --color-text-inverse: 9 8 24;
+    --color-accent: 154 140 255;
+    --color-accent-strong: 190 180 255;
+    --color-accent-soft: 40 33 92;
+    --color-success: 94 234 212;
+    --color-warning: 253 224 71;
+    --color-danger: 251 113 133;
+
+    --color-status-wishlist: 184 178 226;
+    --color-status-applied: 154 140 255;
+    --color-status-interview: 244 114 182;
+    --color-status-offer: 253 224 71;
+    --color-status-hired: 94 234 212;
+    --color-status-rejected: 251 113 133;
+
+    --radius-card: 1rem;
+    --radius-control: 0.75rem;
+    --shadow-card: 0 8px 28px rgb(3 2 12 / 0.6);
+    --shadow-raised: 0 0 32px rgb(154 140 255 / 0.35);
+    --page-backdrop: radial-gradient(circle at 15% 12%, rgb(154 140 255 / 0.16), transparent 42%),
+      radial-gradient(circle at 82% 24%, rgb(244 114 182 / 0.12), transparent 38%),
+      radial-gradient(circle at 55% 88%, rgb(94 234 212 / 0.1), transparent 45%);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: rgb(var(--color-base));
+    background-image: var(--page-backdrop);
+    background-attachment: fixed;
+    color: rgb(var(--color-text-primary));
+    font-family: var(--font-body);
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: var(--letter-spacing-display);
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-accent-strong));
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  .surface-card {
+    @apply rounded-card border border-subtle bg-raised shadow-card;
+  }
+
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-base;
+  }
+
+  /* Oculta contenido visualmente sin retirarlo de los lectores de pantalla. */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}

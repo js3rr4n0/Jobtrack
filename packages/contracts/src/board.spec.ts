@@ -1,0 +1,127 @@
+import { describe, expect, it } from 'vitest';
+
+import { diffBoardPositions, groupIntoColumns, reorderBoard } from './board';
+import { APPLICATION_STATUSES } from './job-application';
+import { buildJobApplication } from './test-factories';
+
+const wishlistCard = (id: string, boardOrder: number) =>
+  buildJobApplication({ id, status: 'wishlist', boardOrder });
+
+describe('groupIntoColumns', () => {
+  it('devuelve una columna por estado incluso sin postulaciones', () => {
+    const columns = groupIntoColumns([]);
+
+    expect(columns).toHaveLength(APPLICATION_STATUSES.length);
+    expect(columns.every((column) => column.applications.length === 0)).toBe(true);
+  });
+
+  it('ordena cada columna por su posicion en el tablero', () => {
+    const columns = groupIntoColumns([wishlistCard('c', 2), wishlistCard('a', 0), wishlistCard('b', 1)]);
+    const wishlist = columns.find((column) => column.status === 'wishlist');
+
+    expect(wishlist?.applications.map((application) => application.id)).toEqual(['a', 'b', 'c']);
+  });
+
+  it('desempata posiciones iguales por fecha de creacion', () => {
+    const columns = groupIntoColumns([
+      buildJobApplication({ id: 'nueva', boardOrder: 0, createdAt: '2026-02-02T00:00:00.000Z' }),
+      buildJobApplication({ id: 'antigua', boardOrder: 0, createdAt: '2026-01-01T00:00:00.000Z' }),
+    ]);
+    const wishlist = columns.find((column) => column.status === 'wishlist');
+
+    expect(wishlist?.applications.map((application) => application.id)).toEqual([
+      'antigua',
+      'nueva',
+    ]);
+  });
+});
+
+describe('reorderBoard', () => {
+  it('devuelve el tablero intacto si la tarjeta no existe', () => {
+    const applications = [wishlistCard('a', 0)];
+
+    expect(reorderBoard(applications, 'inexistente', 'applied', 0)).toEqual(applications);
+  });
+
+  it('renumera la columna destino sin dejar huecos', () => {
+    const applications = [wishlistCard('a', 0), wishlistCard('b', 1), wishlistCard('c', 2)];
+
+    const result = reorderBoard(applications, 'c', 'wishlist', 0);
+    const wishlist = groupIntoColumns(result)[0];
+
+    expect(wishlist.applications.map((application) => application.id)).toEqual(['c', 'a', 'b']);
+    expect(wishlist.applications.map((application) => application.boardOrder)).toEqual([0, 1, 2]);
+  });
+
+  it('renumera tambien la columna de origen al cambiar de estado', () => {
+    const applications = [wishlistCard('a', 0), wishlistCard('b', 1), wishlistCard('c', 2)];
+
+    const result = reorderBoard(applications, 'a', 'applied', 0);
+    const columns = groupIntoColumns(result);
+    const wishlist = columns.find((column) => column.status === 'wishlist');
+    const applied = columns.find((column) => column.status === 'applied');
+
+    expect(wishlist?.applications.map((application) => application.boardOrder)).toEqual([0, 1]);
+    expect(applied?.applications.map((application) => application.id)).toEqual(['a']);
+    expect(applied?.applications[0].status).toBe('applied');
+  });
+
+  it('acota indices fuera de rango al final de la columna', () => {
+    const applications = [wishlistCard('a', 0), wishlistCard('b', 1)];
+
+    const result = reorderBoard(applications, 'a', 'wishlist', 50);
+    const wishlist = groupIntoColumns(result)[0];
+
+    expect(wishlist.applications.map((application) => application.id)).toEqual(['b', 'a']);
+  });
+
+  it('trata indices negativos como el inicio de la columna', () => {
+    const applications = [wishlistCard('a', 0), wishlistCard('b', 1)];
+
+    const result = reorderBoard(applications, 'b', 'wishlist', -5);
+    const wishlist = groupIntoColumns(result)[0];
+
+    expect(wishlist.applications.map((application) => application.id)).toEqual(['b', 'a']);
+  });
+
+  it('no pierde postulaciones de columnas ajenas al movimiento', () => {
+    const applications = [
+      wishlistCard('a', 0),
+      buildJobApplication({ id: 'x', status: 'offer', boardOrder: 0 }),
+      buildJobApplication({ id: 'y', status: 'hired', boardOrder: 0 }),
+    ];
+
+    const result = reorderBoard(applications, 'a', 'applied', 0);
+
+    expect(result).toHaveLength(3);
+    expect(result.map((application) => application.id).sort()).toEqual(['a', 'x', 'y']);
+  });
+
+  it('es idempotente al mover una tarjeta a su posicion actual', () => {
+    const applications = [wishlistCard('a', 0), wishlistCard('b', 1)];
+
+    const result = reorderBoard(applications, 'a', 'wishlist', 0);
+
+    expect(groupIntoColumns(result)[0].applications.map((application) => application.id)).toEqual([
+      'a',
+      'b',
+    ]);
+  });
+});
+
+describe('diffBoardPositions', () => {
+  it('no reporta cambios cuando el tablero no se movio', () => {
+    const applications = [wishlistCard('a', 0), wishlistCard('b', 1)];
+
+    expect(diffBoardPositions(applications, applications)).toHaveLength(0);
+  });
+
+  it('reporta unicamente las tarjetas cuya posicion o estado cambio', () => {
+    const before = [wishlistCard('a', 0), wishlistCard('b', 1), wishlistCard('c', 2)];
+    const after = reorderBoard(before, 'c', 'wishlist', 0);
+
+    const changed = diffBoardPositions(before, after).map((application) => application.id).sort();
+
+    expect(changed).toEqual(['a', 'b', 'c']);
+  });
+});

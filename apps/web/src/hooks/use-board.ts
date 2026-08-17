@@ -1,0 +1,235 @@
+'use client';
+
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type {
+  ApplicationStatus,
+  CreateJobApplicationInput,
+  JobApplication,
+  UpdateJobApplicationInput,
+} from '@jobtrack/contracts';
+import { buildGamificationProfile, groupIntoColumns, reorderBoard } from '@jobtrack/contracts';
+
+import { useNetworkStatus } from '@/hooks/use-network-status';
+import { ApiClient, ApiError } from '@/lib/api-client';
+import { applyRemoteChange, isOwnEcho, replaceApplication } from '@/lib/board-state';
+import { createOriginId, getApiBaseUrl } from '@/lib/config';
+import { type RealtimeStatus, subscribeToBoardChanges } from '@/lib/realtime-client';
+
+export type BoardStatus = 'loading' | 'ready' | 'error';
+
+export interface BoardFeedback {
+  readonly tone: 'error' | 'success';
+  readonly message: string;
+  readonly details: readonly string[];
+}
+
+export interface UseBoardResult {
+  readonly columns: ReturnType<typeof groupIntoColumns>;
+  readonly gamification: ReturnType<typeof buildGamificationProfile>;
+  readonly status: BoardStatus;
+  readonly feedback: BoardFeedback | null;
+  readonly realtimeStatus: RealtimeStatus;
+  readonly isOnline: boolean;
+  /** Nivel recien alcanzado, para celebrarlo una sola vez en la interfaz. */
+  readonly celebratedLevel: number | null;
+  readonly dismissFeedback: () => void;
+  readonly dismissCelebration: () => void;
+  readonly reload: () => Promise<void>;
+  readonly createApplication: (input: CreateJobApplicationInput) => Promise<boolean>;
+  readonly updateApplication: (id: string, input: UpdateJobApplicationInput) => Promise<boolean>;
+  readonly moveApplication: (
+    id: string,
+    status: ApplicationStatus,
+    boardOrder: number,
+  ) => Promise<boolean>;
+  readonly deleteApplication: (id: string) => Promise<boolean>;
+}
+
+const GENERIC_ERROR = 'No fue posible completar la operacion. Intentalo de nuevo.';
+
+function describeError(error: unknown): BoardFeedback {
+  if (error instanceof ApiError) {
+    return { tone: 'error', message: error.message, details: error.details };
+  }
+
+  return { tone: 'error', message: GENERIC_ERROR, details: [] };
+}
+
+/**
+ * Estado del tablero: carga inicial, mutaciones optimistas, sincronizacion en
+ * tiempo real y traduccion de fallos a mensajes legibles.
+ */
+export function useBoard(accessToken: string | null): UseBoardResult {
+  const [applications, setApplications] = useState<JobApplication[]>([]);
+  const [status, setStatus] = useState<BoardStatus>('loading');
+  const [feedback, setFeedback] = useState<BoardFeedback | null>(null);
+  const [realtimeStatus, setRealtimeStatus] = useState<RealtimeStatus>('disconnected');
+  const [celebratedLevel, setCelebratedLevel] = useState<number | null>(null);
+
+  const isOnline = useNetworkStatus();
+  const originId = useRef(createOriginId()).current;
+  const lastLevel = useRef<number | null>(null);
+
+  const client = useMemo(
+    () =>
+      accessToken === null
+        ? null
+        : new ApiClient({ baseUrl: getApiBaseUrl(), accessToken, originId }),
+    [accessToken, originId],
+  );
+
+  const gamification = useMemo(() => buildGamificationProfile(applications), [applications]);
+  const columns = useMemo(() => groupIntoColumns(applications), [applications]);
+
+  const reload = useCallback(async () => {
+    if (!client) {
+      return;
+    }
+
+    setStatus('loading');
+
+    try {
+      const snapshot = await client.getBoard();
+      setApplications(snapshot.columns.flatMap((column) => column.applications));
+      setStatus('ready');
+      setFeedback(null);
+    } catch (error) {
+      setStatus('error');
+      setFeedback(describeError(error));
+    }
+  }, [client]);
+
+  useEffect(() => {
+    void reload();
+  }, [reload]);
+
+  // Celebra el ascenso de nivel una unica vez por cambio.
+  useEffect(() => {
+    if (status !== 'ready') {
+      return;
+    }
+
+    const currentLevel = gamification.progress.level;
+
+    if (lastLevel.current !== null && currentLevel > lastLevel.current) {
+      setCelebratedLevel(currentLevel);
+    }
+
+    lastLevel.current = currentLevel;
+  }, [gamification.progress.level, status]);
+
+  useEffect(() => {
+    if (!accessToken) {
+      return;
+    }
+
+    const subscription = subscribeToBoardChanges({
+      baseUrl: getApiBaseUrl(),
+      accessToken,
+      onStatusChange: setRealtimeStatus,
+      onChange: (event) => {
+        if (isOwnEcho(event, originId)) {
+          return;
+        }
+        setApplications((current) => applyRemoteChange(current, event));
+      },
+    });
+
+    return subscription.close;
+  }, [accessToken, originId]);
+
+  // Al recuperar la conexion, el tablero se recarga para descartar divergencias.
+  useEffect(() => {
+    if (isOnline && status === 'error') {
+      void reload();
+    }
+  }, [isOnline, status, reload]);
+
+  const runMutation = useCallback(
+    async (mutation: () => Promise<void>, successMessage?: string): Promise<boolean> => {
+      if (!client) {
+        return false;
+      }
+
+      try {
+        await mutation();
+        setFeedback(successMessage ? { tone: 'success', message: successMessage, details: [] } : null);
+        return true;
+      } catch (error) {
+        setFeedback(describeError(error));
+        return false;
+      }
+    },
+    [client],
+  );
+
+  const createApplication = useCallback(
+    (input: CreateJobApplicationInput) =>
+      runMutation(async () => {
+        const created = await client!.createApplication(input);
+        setApplications((current) => [...current, created]);
+      }, 'Postulacion registrada.'),
+    [client, runMutation],
+  );
+
+  const updateApplication = useCallback(
+    (id: string, input: UpdateJobApplicationInput) =>
+      runMutation(async () => {
+        const updated = await client!.updateApplication(id, input);
+        setApplications((current) => replaceApplication(current, updated));
+      }, 'Cambios guardados.'),
+    [client, runMutation],
+  );
+
+  const deleteApplication = useCallback(
+    (id: string) =>
+      runMutation(async () => {
+        await client!.deleteApplication(id);
+        setApplications((current) => current.filter((application) => application.id !== id));
+      }, 'Postulacion eliminada.'),
+    [client, runMutation],
+  );
+
+  /**
+   * El movimiento se refleja de inmediato con el mismo algoritmo que usa el
+   * servidor; si la peticion falla, se restaura el tablero anterior.
+   */
+  const moveApplication = useCallback(
+    async (id: string, targetStatus: ApplicationStatus, boardOrder: number) => {
+      if (!client) {
+        return false;
+      }
+
+      const previous = applications;
+      setApplications(reorderBoard(previous, id, targetStatus, boardOrder));
+
+      try {
+        await client.moveApplication(id, { status: targetStatus, boardOrder });
+        setFeedback(null);
+        return true;
+      } catch (error) {
+        setApplications(previous);
+        setFeedback(describeError(error));
+        return false;
+      }
+    },
+    [applications, client],
+  );
+
+  return {
+    columns,
+    gamification,
+    status,
+    feedback,
+    realtimeStatus,
+    isOnline,
+    celebratedLevel,
+    dismissFeedback: useCallback(() => setFeedback(null), []),
+    dismissCelebration: useCallback(() => setCelebratedLevel(null), []),
+    reload,
+    createApplication,
+    updateApplication,
+    moveApplication,
+    deleteApplication,
+  };
+}

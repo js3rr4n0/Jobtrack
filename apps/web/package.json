@@ -5,13 +5,14 @@
   "description": "Interfaz web de Jobtrack construida con Next.js y Tailwind CSS",
   "license": "MIT",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "build:contracts": "tsc --project ../../packages/contracts/tsconfig.json",
+    "dev": "npm run build:contracts && next dev",
+    "build": "npm run build:contracts && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:unit": "vitest run --dir src",
-    "test:integration": "vitest run --dir tests/integration",
+    "test:unit": "vitest run src",
+    "test:integration": "vitest run tests/integration",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
   },

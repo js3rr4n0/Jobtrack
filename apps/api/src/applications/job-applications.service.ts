@@ -3,10 +3,13 @@ import {
   ApplicationStatus,
   BoardChangeEvent,
   BoardChangeKind,
+  BoardColumn,
   GamificationProfile,
   JobApplication,
-  ORDERED_STATUSES,
   buildGamificationProfile,
+  diffBoardPositions,
+  groupIntoColumns,
+  reorderBoard,
 } from '@jobtrack/contracts';
 
 import { BoardEventPublisher } from '../realtime/board-event.publisher';
@@ -17,13 +20,6 @@ import {
   JobApplicationPatch,
   JobApplicationsRepository,
 } from './repositories/job-applications.repository';
-
-export interface BoardColumn {
-  readonly status: ApplicationStatus;
-  readonly label: string;
-  readonly description: string;
-  readonly applications: readonly JobApplication[];
-}
 
 export interface BoardSnapshot {
   readonly columns: readonly BoardColumn[];
@@ -47,14 +43,7 @@ export class JobApplicationsService {
     const applications = await this.repository.findAllByUser(userId);
 
     return {
-      columns: ORDERED_STATUSES.map((definition) => ({
-        status: definition.id,
-        label: definition.label,
-        description: definition.description,
-        applications: applications
-          .filter((application) => application.status === definition.id)
-          .sort((first, second) => first.boardOrder - second.boardOrder),
-      })),
+      columns: groupIntoColumns(applications),
       gamification: buildGamificationProfile(applications),
       generatedAt: new Date().toISOString(),
     };
@@ -125,30 +114,19 @@ export class JobApplicationsService {
     payload: MoveJobApplicationDto,
     originId: string | null,
   ): Promise<JobApplication> {
-    const current = await this.getById(userId, applicationId);
+    await this.getById(userId, applicationId);
+
     const applications = await this.repository.findAllByUser(userId);
+    const reordered = reorderBoard(applications, applicationId, payload.status, payload.boardOrder);
 
-    const destination = applications
-      .filter(
-        (application) =>
-          application.status === payload.status && application.id !== applicationId,
-      )
-      .sort((first, second) => first.boardOrder - second.boardOrder);
-
-    const insertIndex = clamp(payload.boardOrder, 0, destination.length);
-    destination.splice(insertIndex, 0, { ...current, status: payload.status });
-
-    await this.persistColumnOrder(userId, destination, applicationId, payload.status);
-
-    if (current.status !== payload.status) {
-      const origin = applications
-        .filter(
-          (application) =>
-            application.status === current.status && application.id !== applicationId,
-        )
-        .sort((first, second) => first.boardOrder - second.boardOrder);
-      await this.persistColumnOrder(userId, origin, applicationId, current.status);
-    }
+    await Promise.all(
+      diffBoardPositions(applications, reordered).map((application) =>
+        this.repository.update(userId, application.id, {
+          status: application.status,
+          boardOrder: application.boardOrder,
+        }),
+      ),
+    );
 
     const moved = await this.repository.findById(userId, applicationId);
 
@@ -168,31 +146,6 @@ export class JobApplicationsService {
     }
 
     this.notify(userId, 'deleted', applicationId, null, originId);
-  }
-
-  /** Escribe la numeracion secuencial de una columna evitando escrituras inutiles. */
-  private async persistColumnOrder(
-    userId: string,
-    column: readonly JobApplication[],
-    movedApplicationId: string,
-    status: ApplicationStatus,
-  ): Promise<void> {
-    const writes = column.map((application, index) => {
-      const needsStatusChange = application.id === movedApplicationId;
-      const alreadyPositioned = application.boardOrder === index && !needsStatusChange;
-
-      if (alreadyPositioned) {
-        return null;
-      }
-
-      const patch: JobApplicationPatch = needsStatusChange
-        ? { status, boardOrder: index }
-        : { boardOrder: index };
-
-      return this.repository.update(userId, application.id, patch);
-    });
-
-    await Promise.all(writes.filter((write): write is Promise<JobApplication | null> => write !== null));
   }
 
   private defaultAppliedAt(status: ApplicationStatus): string | null {
@@ -216,10 +169,6 @@ export class JobApplicationsService {
 
     this.eventPublisher.publish(userId, event);
   }
-}
-
-function clamp(value: number, minimum: number, maximum: number): number {
-  return Math.min(Math.max(value, minimum), maximum);
 }
 
 /** Traduce el DTO en un parche que solo contiene los campos enviados. */
