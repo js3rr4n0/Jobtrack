@@ -89,13 +89,24 @@ describe('ApiClient', () => {
     await expect(client.deleteApplication('id-1')).resolves.toBeUndefined();
   });
 
-  it('convierte un fallo de red en un error legible en lugar de propagarlo crudo', async () => {
+  it('distingue un servidor inalcanzable de la falta de conexion', async () => {
     const client = buildClient(vi.fn().mockRejectedValue(new TypeError('Failed to fetch')));
 
     const failure = await client.getBoard().catch((error: unknown) => error);
 
     expect(failure).toBeInstanceOf(ApiError);
-    expect((failure as ApiError).message).toMatch(/Sin conexion a internet/);
+    expect((failure as ApiError).kind).toBe('unreachable');
+    expect((failure as ApiError).message).toMatch(/No se pudo contactar con el servidor/);
+  });
+
+  it('reporta falta de conexion cuando el dispositivo esta sin red', async () => {
+    const client = buildClient(vi.fn().mockRejectedValue(new TypeError('Failed to fetch')), {
+      isOnline: () => false,
+    });
+
+    const failure = await client.getBoard().catch((error: unknown) => error);
+
+    expect((failure as ApiError).kind).toBe('offline');
   });
 
   it('reporta un tiempo de espera agotado cuando la peticion se aborta', async () => {

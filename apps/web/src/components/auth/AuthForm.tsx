@@ -91,7 +91,12 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
       const { data, error } =
         mode === 'signIn'
           ? await client.auth.signInWithPassword(credentials)
-          : await client.auth.signUp(credentials);
+          : await client.auth.signUp({
+              ...credentials,
+              // El enlace del correo debe volver a esta misma aplicacion, no al
+              // dominio configurado por defecto en el proyecto de Supabase.
+              options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+            });
 
       if (error) {
         setFormError(describeAuthError(error.message));

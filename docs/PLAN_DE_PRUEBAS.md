@@ -33,9 +33,10 @@ npm test --workspace @jobtrack/web
 | api | `test/applications.e2e-spec.ts` | Integracion | 15 |
 | api | `test/realtime.e2e-spec.ts` | Integracion | 5 |
 | web | `src/lib/application-form.test.ts` | Unitaria | 19 |
-| web | `src/lib/api-client.test.ts` | Unitaria | 10 |
+| web | `src/lib/api-client.test.ts` | Unitaria | 11 |
 | web | `src/lib/board-state.test.ts` | Unitaria | 9 |
 | web | `src/lib/auth-form.test.ts` | Unitaria | 9 |
+| web | `src/lib/auth-callback.test.ts` | Unitaria | 9 |
 | web | `src/lib/drag-and-drop.test.ts` | Unitaria | 8 |
 | web | `src/lib/preferences.test.ts` | Unitaria | 7 |
 | web | `src/components/board/ApplicationForm.test.tsx` | Componente | 6 |
@@ -43,7 +44,7 @@ npm test --workspace @jobtrack/web
 | web | `src/components/gamification/LevelMeter.test.tsx` | Componente | 4 |
 | web | `tests/integration/board-workspace.test.tsx` | Integracion | 10 |
 
-**Total: 189 casos.**
+**Total: 199 casos.**
 
 ---
 
@@ -217,7 +218,7 @@ La entrega se considera correcta cuando:
 3. `npm run build` compila el paquete compartido, la API y la web.
 4. Ninguna prueba deja procesos abiertos ni depende de servicios externos.
 
-Estado actual: **189 casos, todos en verde**, sin dependencias de red externas.
+Estado actual: **199 casos, todos en verde**, sin dependencias de red externas.
 
 ## 7. Verificacion manual complementaria
 

@@ -20,7 +20,13 @@ export interface BoardSnapshot {
 }
 
 /** Motivo del fallo, usado por la interfaz para elegir el mensaje al usuario. */
-export type ApiErrorKind = 'offline' | 'timeout' | 'unauthorized' | 'validation' | 'server';
+export type ApiErrorKind =
+  | 'offline'
+  | 'unreachable'
+  | 'timeout'
+  | 'unauthorized'
+  | 'validation'
+  | 'server';
 
 export class ApiError extends Error {
   readonly kind: ApiErrorKind;
@@ -40,6 +46,8 @@ const REQUEST_TIMEOUT_MS = 10_000;
 
 const OFFLINE_MESSAGE =
   'Sin conexion a internet. Tus cambios no se guardaron; vuelve a intentarlo cuando recuperes la senal.';
+const UNREACHABLE_MESSAGE =
+  'No se pudo contactar con el servidor de Jobtrack. Revisa que la API este desplegada y que NEXT_PUBLIC_API_URL apunte a ella.';
 const TIMEOUT_MESSAGE = 'El servidor tardo demasiado en responder. Revisa tu conexion e intentalo de nuevo.';
 
 export interface ApiClientOptions {
@@ -183,6 +191,10 @@ export class ApiClient {
       return new ApiError('timeout', TIMEOUT_MESSAGE);
     }
 
-    return new ApiError('offline', OFFLINE_MESSAGE);
+    // Con red disponible, un fallo de transporte significa que el servidor no
+    // responde, no que el dispositivo este sin conexion.
+    return this.isOnline()
+      ? new ApiError('unreachable', UNREACHABLE_MESSAGE)
+      : new ApiError('offline', OFFLINE_MESSAGE);
   }
 }
