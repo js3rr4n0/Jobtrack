@@ -1,0 +1,26 @@
+{
+  "name": "jobtrack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Seguimiento gamificado de ofertas de empleo",
+  "license": "MIT",
+  "workspaces": [
+    "packages/contracts",
+    "apps/api",
+    "apps/web"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "dev:api": "npm run start:dev --workspace @jobtrack/api",
+    "dev:web": "npm run dev --workspace @jobtrack/web",
+    "build": "npm run build --workspace @jobtrack/contracts && npm run build --workspace @jobtrack/api && npm run build --workspace @jobtrack/web",
+    "build:contracts": "npm run build --workspace @jobtrack/contracts",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:unit": "npm run test:unit --workspaces --if-present",
+    "test:integration": "npm run test:integration --workspaces --if-present"
+  }
+}

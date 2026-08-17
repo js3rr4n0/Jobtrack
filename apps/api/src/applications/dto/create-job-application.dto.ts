@@ -1,0 +1,89 @@
+import { Transform } from 'class-transformer';
+import {
+  IsIn,
+  IsISO8601,
+  IsInt,
+  IsOptional,
+  IsString,
+  IsUrl,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+} from 'class-validator';
+import {
+  APPLICATION_STATUSES,
+  ApplicationStatus,
+  PRIORITIES,
+  Priority,
+  WORK_MODES,
+  WorkMode,
+} from '@jobtrack/contracts';
+
+/** Convierte cadenas vacias en `null` para no guardar basura en la base de datos. */
+const emptyToNull = ({ value }: { value: unknown }) =>
+  typeof value === 'string' && value.trim().length === 0 ? null : value;
+
+const trimmed = ({ value }: { value: unknown }) =>
+  typeof value === 'string' ? value.trim() : value;
+
+export class CreateJobApplicationDto {
+  @Transform(trimmed)
+  @IsString({ message: 'La empresa debe ser texto.' })
+  @MinLength(1, { message: 'La empresa es obligatoria.' })
+  @MaxLength(120, { message: 'La empresa admite hasta 120 caracteres.' })
+  company: string;
+
+  @Transform(trimmed)
+  @IsString({ message: 'El puesto debe ser texto.' })
+  @MinLength(1, { message: 'El puesto es obligatorio.' })
+  @MaxLength(120, { message: 'El puesto admite hasta 120 caracteres.' })
+  position: string;
+
+  @IsOptional()
+  @IsIn(APPLICATION_STATUSES, { message: 'El estado indicado no existe.' })
+  status?: ApplicationStatus;
+
+  @IsOptional()
+  @Transform(emptyToNull)
+  @IsString({ message: 'La ubicacion debe ser texto.' })
+  @MaxLength(120, { message: 'La ubicacion admite hasta 120 caracteres.' })
+  location?: string | null;
+
+  @IsOptional()
+  @Transform(emptyToNull)
+  @IsIn(WORK_MODES, { message: 'La modalidad indicada no existe.' })
+  workMode?: WorkMode | null;
+
+  @IsOptional()
+  @IsIn(PRIORITIES, { message: 'La prioridad indicada no existe.' })
+  priority?: Priority;
+
+  @IsOptional()
+  @Transform(emptyToNull)
+  @IsInt({ message: 'La expectativa salarial debe ser un numero entero.' })
+  @Min(0, { message: 'La expectativa salarial no puede ser negativa.' })
+  @Max(100_000_000, { message: 'La expectativa salarial excede el maximo permitido.' })
+  salaryExpectation?: number | null;
+
+  @IsOptional()
+  @Transform(emptyToNull)
+  @IsUrl({ require_protocol: true }, { message: 'El enlace debe ser una URL valida con protocolo.' })
+  sourceUrl?: string | null;
+
+  @IsOptional()
+  @Transform(emptyToNull)
+  @IsString({ message: 'Las notas deben ser texto.' })
+  @MaxLength(4000, { message: 'Las notas admiten hasta 4000 caracteres.' })
+  notes?: string | null;
+
+  @IsOptional()
+  @Transform(emptyToNull)
+  @IsISO8601({}, { message: 'La fecha de entrevista debe tener formato ISO 8601.' })
+  interviewAt?: string | null;
+
+  @IsOptional()
+  @Transform(emptyToNull)
+  @IsISO8601({}, { message: 'La fecha de postulacion debe tener formato ISO 8601.' })
+  appliedAt?: string | null;
+}
