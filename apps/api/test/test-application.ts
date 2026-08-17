@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
+import { SignJWT } from 'jose';
 
 import { AppModule } from '../src/app.module';
 import { configureApplication } from '../src/bootstrap';
@@ -9,8 +9,8 @@ import { ApplicationConfig, CONFIG_TOKEN, loadConfiguration } from '../src/confi
 export interface TestContext {
   readonly app: INestApplication;
   readonly config: ApplicationConfig;
-  /** Emite un token equivalente al que produce Supabase Auth. */
-  readonly issueToken: (userId: string, options?: { expiresIn?: string }) => string;
+  /** Emite un token HS256 equivalente al del esquema heredado de Supabase. */
+  readonly issueToken: (userId: string, options?: { expiresIn?: string }) => Promise<string>;
 }
 
 /**
@@ -29,15 +29,17 @@ export async function createTestApplication(): Promise<TestContext> {
   configureApplication(app, config);
   await app.init();
 
-  const jwtService = app.get(JwtService);
+  const secret = new TextEncoder().encode(config.jwtSecret);
 
   return {
     app,
     config,
     issueToken: (userId, options) =>
-      jwtService.sign(
-        { sub: userId, email: `${userId}@ejemplo.test`, role: 'authenticated' },
-        { secret: config.jwtSecret, expiresIn: options?.expiresIn ?? '1h' },
-      ),
+      new SignJWT({ email: `${userId}@ejemplo.test`, role: 'authenticated' })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setSubject(userId)
+        .setIssuedAt()
+        .setExpirationTime(options?.expiresIn ?? '1h')
+        .sign(secret),
   };
 }

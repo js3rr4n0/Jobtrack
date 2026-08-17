@@ -1,35 +1,100 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import {
+  type JWTVerifyGetKey,
+  type JWTPayload,
+  createRemoteJWKSet,
+  decodeProtectedHeader,
+  jwtVerify,
+} from 'jose';
 
 import { ApplicationConfig, CONFIG_TOKEN } from '../config/environment';
-import { AuthenticatedUser, SupabaseJwtPayload } from './authenticated-user';
+import { AuthenticatedUser } from './authenticated-user';
+
+/** Fabrica del conjunto de claves publicas; se sustituye en las pruebas. */
+export type KeySetFactory = (jwksUrl: URL) => JWTVerifyGetKey;
+
+export const KEY_SET_FACTORY = 'JWKS_KEY_SET_FACTORY';
+
+const BEARER_PREFIX = 'Bearer ';
 
 /**
- * Verificacion de tokens para transportes que no pasan por el guard HTTP,
- * como el gateway de WebSockets.
+ * Verifica los tokens de sesion emitidos por Supabase Auth.
+ *
+ * Supabase firma con claves asimetricas (ES256 o RS256) publicadas en el JWKS
+ * del proyecto, y mantiene el secreto compartido HS256 heredado durante la
+ * migracion. Esta clase resuelve el metodo a partir del encabezado del propio
+ * token, de modo que ambos esquemas conviven sin configuracion adicional.
  */
 @Injectable()
 export class TokenVerifierService {
+  private cachedKeySet: JWTVerifyGetKey | null = null;
+
   constructor(
-    private readonly jwtService: JwtService,
     @Inject(CONFIG_TOKEN) private readonly config: ApplicationConfig,
+    @Inject(KEY_SET_FACTORY) private readonly keySetFactory: KeySetFactory,
   ) {}
 
-  verify(token: string | undefined): AuthenticatedUser | null {
-    if (!token) {
+  async verify(token: string | undefined): Promise<AuthenticatedUser | null> {
+    const normalizedToken = normalize(token);
+
+    if (!normalizedToken) {
       return null;
     }
 
-    const normalizedToken = token.startsWith('Bearer ') ? token.slice('Bearer '.length) : token;
-
     try {
-      const payload = this.jwtService.verify<SupabaseJwtPayload>(normalizedToken, {
-        secret: this.config.jwtSecret,
-      });
-
-      return payload.sub ? { id: payload.sub, email: payload.email ?? null } : null;
+      const payload = await this.decode(normalizedToken);
+      return payload?.sub ? { id: payload.sub, email: readEmail(payload) } : null;
     } catch {
       return null;
     }
   }
+
+  private async decode(token: string): Promise<JWTPayload | null> {
+    const usesSharedSecret = decodeProtectedHeader(token).alg === 'HS256';
+
+    if (usesSharedSecret) {
+      const secret = new TextEncoder().encode(this.config.jwtSecret);
+      const { payload } = await jwtVerify(token, secret);
+      return payload;
+    }
+
+    const keySet = this.resolveKeySet();
+
+    if (!keySet) {
+      return null;
+    }
+
+    const { payload } = await jwtVerify(token, keySet);
+    return payload;
+  }
+
+  /** El conjunto de claves se cachea: `jose` renueva y almacena el JWKS por su cuenta. */
+  private resolveKeySet(): JWTVerifyGetKey | null {
+    if (this.cachedKeySet) {
+      return this.cachedKeySet;
+    }
+
+    if (!this.config.supabaseUrl) {
+      return null;
+    }
+
+    const jwksUrl = new URL('/auth/v1/.well-known/jwks.json', this.config.supabaseUrl);
+    this.cachedKeySet = this.keySetFactory(jwksUrl);
+    return this.cachedKeySet;
+  }
+}
+
+export const defaultKeySetFactory: KeySetFactory = (jwksUrl) => createRemoteJWKSet(jwksUrl);
+
+function normalize(token: string | undefined): string | null {
+  if (!token) {
+    return null;
+  }
+
+  const value = token.startsWith(BEARER_PREFIX) ? token.slice(BEARER_PREFIX.length) : token;
+  return value.trim().length > 0 ? value.trim() : null;
+}
+
+function readEmail(payload: JWTPayload): string | null {
+  return typeof payload.email === 'string' ? payload.email : null;
 }

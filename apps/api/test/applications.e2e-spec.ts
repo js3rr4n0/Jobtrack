@@ -18,8 +18,8 @@ describe('Postulaciones (integracion)', () => {
   beforeAll(async () => {
     context = await createTestApplication();
     app = context.app;
-    token = context.issueToken(USER_ID);
-    otherToken = context.issueToken(OTHER_USER_ID);
+    token = await context.issueToken(USER_ID);
+    otherToken = await context.issueToken(OTHER_USER_ID);
   });
 
   afterAll(async () => {
@@ -45,7 +45,7 @@ describe('Postulaciones (integracion)', () => {
     });
 
     it('rechaza un token expirado', async () => {
-      const expiredToken = context.issueToken(USER_ID, { expiresIn: '-1s' });
+      const expiredToken = await context.issueToken(USER_ID, { expiresIn: '-1s' });
 
       await request(app.getHttpServer())
         .get(url('/applications'))
@@ -224,7 +224,7 @@ describe('Postulaciones (integracion)', () => {
     });
 
     it('mantiene el perfil de gamificacion sincronizado con el tablero', async () => {
-      const gamificationToken = context.issueToken('33333333-3333-4333-8333-333333333333');
+      const gamificationToken = await context.issueToken('33333333-3333-4333-8333-333333333333');
 
       await request(app.getHttpServer())
         .post(url('/applications'))

@@ -132,12 +132,27 @@ Variables relevantes:
 
 ### 4.2 Autenticacion
 
-`JwtStrategy` extrae el token del encabezado `Authorization`, verifica la firma
-HS256 con el secreto del proyecto de Supabase y expone `{ id, email }`.
-`JwtAuthGuard` protege los controladores y `@CurrentUser()` inyecta la identidad.
+`TokenVerifierService` es el unico punto de verificacion de tokens y soporta los
+dos esquemas de firma de Supabase Auth, eligiendo segun el encabezado del propio
+token:
 
-`TokenVerifierService` cubre el transporte que no pasa por el guard HTTP: el
-gateway de WebSockets valida ahi el token del handshake.
+| Algoritmo del token | Como se verifica |
+| --- | --- |
+| `ES256` / `RS256` | Contra las claves publicas del proyecto, descargadas de `<SUPABASE_URL>/auth/v1/.well-known/jwks.json`. |
+| `HS256` | Contra `SUPABASE_JWT_SECRET`, el secreto compartido heredado. |
+
+Los proyectos actuales de Supabase firman con **JWT Signing Keys asimetricas**,
+asi que basta con declarar `SUPABASE_URL`; el secreto compartido solo hace falta
+en proyectos que no han migrado. Soportar ambos permite rotar de un esquema al
+otro sin ventana de indisponibilidad.
+
+El conjunto de claves se resuelve una sola vez por proceso y `jose` se encarga de
+cachearlo y renovarlo cuando aparece un `kid` desconocido.
+
+`JwtAuthGuard` aplica esa verificacion en HTTP y deja la identidad resuelta en la
+peticion, de donde la toma el decorador `@CurrentUser()`. El gateway de
+WebSockets usa el mismo servicio sobre el token del handshake, de modo que ambos
+transportes comparten exactamente las mismas reglas.
 
 ### 4.3 Modulo de postulaciones
 

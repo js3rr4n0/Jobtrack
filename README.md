@@ -109,8 +109,11 @@ sin credenciales externas. Para persistir en PostgreSQL, ejecuta
 DATA_DRIVER=supabase
 SUPABASE_URL=https://<proyecto>.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=<clave de servicio>
-SUPABASE_JWT_SECRET=<secreto JWT del proyecto>
 ```
+
+La API verifica los tokens con las claves publicas del proyecto (`SUPABASE_URL`),
+asi que no hace falta ningun secreto de firma. Solo los proyectos que aun usan el
+esquema heredado HS256 necesitan ademas `SUPABASE_JWT_SECRET`.
 
 Y en `apps/web/.env.local`:
 
@@ -132,12 +135,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 
 ## Pruebas
 
-175 casos, todos en verde y sin dependencias de red externas:
+189 casos, todos en verde y sin dependencias de red externas:
 
 | Paquete | Herramienta | Casos |
 | --- | --- | --- |
 | `contracts` | Vitest | 44 |
-| `api` | Jest y Supertest | 44 |
+| `api` | Jest y Supertest | 58 |
 | `web` | Vitest y Testing Library | 87 |
 
 Cubren las restricciones del plan: ausencia de conexion, valores nulos, datos

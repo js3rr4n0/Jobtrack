@@ -28,6 +28,7 @@ npm test --workspace @jobtrack/web
 | contracts | `src/analytics.spec.ts` | Unitaria | 15 |
 | contracts | `src/board.spec.ts` | Unitaria | 12 |
 | api | `src/config/environment.spec.ts` | Unitaria | 6 |
+| api | `src/auth/token-verifier.service.spec.ts` | Unitaria | 14 |
 | api | `src/applications/job-applications.service.spec.ts` | Unitaria | 18 |
 | api | `test/applications.e2e-spec.ts` | Integracion | 15 |
 | api | `test/realtime.e2e-spec.ts` | Integracion | 5 |
@@ -42,7 +43,7 @@ npm test --workspace @jobtrack/web
 | web | `src/components/gamification/LevelMeter.test.tsx` | Componente | 4 |
 | web | `tests/integration/board-workspace.test.tsx` | Integracion | 10 |
 
-**Total: 175 casos.**
+**Total: 189 casos.**
 
 ---
 
@@ -216,7 +217,7 @@ La entrega se considera correcta cuando:
 3. `npm run build` compila el paquete compartido, la API y la web.
 4. Ninguna prueba deja procesos abiertos ni depende de servicios externos.
 
-Estado actual: **175 casos, todos en verde**, sin dependencias de red externas.
+Estado actual: **189 casos, todos en verde**, sin dependencias de red externas.
 
 ## 7. Verificacion manual complementaria
 

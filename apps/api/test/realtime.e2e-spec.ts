@@ -74,7 +74,7 @@ describe('Sincronizacion en tiempo real (integracion)', () => {
 
     const address = app.getHttpServer().address() as AddressInfo;
     baseUrl = `http://127.0.0.1:${address.port}`;
-    token = context.issueToken(USER_ID);
+    token = await context.issueToken(USER_ID);
   });
 
   afterEach(() => {
@@ -148,7 +148,7 @@ describe('Sincronizacion en tiempo real (integracion)', () => {
   });
 
   it('no filtra eventos a los dispositivos de otras cuentas', async () => {
-    const intruderDevice = await openSocket(context.issueToken(INTRUDER_ID));
+    const intruderDevice = await openSocket(await context.issueToken(INTRUDER_ID));
     let receivedEvents = 0;
     intruderDevice.on(BOARD_EVENT, () => {
       receivedEvents += 1;

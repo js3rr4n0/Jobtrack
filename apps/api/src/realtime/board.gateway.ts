@@ -33,9 +33,9 @@ export class BoardGateway
     super();
   }
 
-  handleConnection(client: Socket): void {
+  async handleConnection(client: Socket): Promise<void> {
     const token = this.extractToken(client);
-    const user = this.tokenVerifier.verify(token);
+    const user = await this.tokenVerifier.verify(token);
 
     if (!user) {
       client.emit('connection:rejected', { reason: 'Token de sesion invalido o ausente.' });
