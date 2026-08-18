@@ -117,6 +117,32 @@ describe('ApiClient', () => {
     await expect(client.getBoard()).rejects.toMatchObject({ kind: 'timeout' });
   });
 
+  it('reintenta una lectura que expira, para tolerar un servidor que despierta', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockRejectedValueOnce(new DOMException('Abortada', 'AbortError'))
+      .mockResolvedValueOnce(jsonResponse(200, { columns: [] }));
+
+    await expect(buildClient(fetchMock).getBoard()).resolves.toEqual({ columns: [] });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('no reintenta una escritura que expira, para no duplicar la operacion', async () => {
+    const fetchMock = vi.fn().mockRejectedValue(new DOMException('Abortada', 'AbortError'));
+
+    await expect(
+      buildClient(fetchMock).createApplication({ company: 'Empresa', position: 'Puesto' }),
+    ).rejects.toMatchObject({ kind: 'timeout' });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('propaga el fallo si el reintento tampoco responde', async () => {
+    const fetchMock = vi.fn().mockRejectedValue(new DOMException('Abortada', 'AbortError'));
+
+    await expect(buildClient(fetchMock).getBoard()).rejects.toMatchObject({ kind: 'timeout' });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
   it('normaliza la barra final de la URL base', async () => {
     const fetchMock = vi.fn().mockResolvedValue(jsonResponse(200, {}));
 

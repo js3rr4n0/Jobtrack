@@ -42,13 +42,20 @@ export class ApiError extends Error {
   }
 }
 
-const REQUEST_TIMEOUT_MS = 10_000;
+const REQUEST_TIMEOUT_MS = 15_000;
+/**
+ * Los alojamientos de plan gratuito suspenden el proceso tras un rato sin
+ * trafico y tardan casi un minuto en despertar. Las lecturas, al ser
+ * idempotentes, se reintentan una vez con un margen mucho mayor.
+ */
+const COLD_START_TIMEOUT_MS = 60_000;
 
 const OFFLINE_MESSAGE =
   'Sin conexion a internet. Tus cambios no se guardaron; vuelve a intentarlo cuando recuperes la senal.';
 const UNREACHABLE_MESSAGE =
   'No se pudo contactar con el servidor de Jobtrack. Revisa que la API este desplegada y que NEXT_PUBLIC_API_URL apunte a ella.';
-const TIMEOUT_MESSAGE = 'El servidor tardo demasiado en responder. Revisa tu conexion e intentalo de nuevo.';
+const TIMEOUT_MESSAGE =
+  'El servidor tardo demasiado en responder. Si esta alojado en un plan gratuito puede estar despertando; vuelve a intentarlo en un minuto.';
 
 export interface ApiClientOptions {
   readonly baseUrl: string;
@@ -109,13 +116,30 @@ export class ApiClient {
     await this.request<null>({ method: 'DELETE', path: `/applications/${id}` });
   }
 
-  private async request<TResponse>({ method, path, body }: RequestOptions): Promise<TResponse> {
+  private async request<TResponse>(options: RequestOptions): Promise<TResponse> {
     if (!this.isOnline()) {
       throw new ApiError('offline', OFFLINE_MESSAGE);
     }
 
+    try {
+      return await this.attempt<TResponse>(options, REQUEST_TIMEOUT_MS);
+    } catch (error) {
+      const isReadTimeout = error instanceof ApiError && error.kind === 'timeout' && options.method === 'GET';
+
+      if (!isReadTimeout) {
+        throw error;
+      }
+
+      return this.attempt<TResponse>(options, COLD_START_TIMEOUT_MS);
+    }
+  }
+
+  private async attempt<TResponse>(
+    { method, path, body }: RequestOptions,
+    timeoutMs: number,
+  ): Promise<TResponse> {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
       const response = await this.fetchImplementation(`${this.baseUrl}${path}`, {
