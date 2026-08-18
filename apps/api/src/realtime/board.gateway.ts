@@ -6,7 +6,12 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { BOARD_EVENT, BoardChangeEvent } from '@jobtrack/contracts';
+import {
+  BOARD_EVENT,
+  BoardChangeEvent,
+  NOTE_EVENT,
+  NoteChangeEvent,
+} from '@jobtrack/contracts';
 
 import { TokenVerifierService } from '../auth/token-verifier.service';
 import { ApplicationConfig, CONFIG_TOKEN } from '../config/environment';
@@ -54,7 +59,15 @@ export class BoardGateway
   }
 
   publish(userId: string, event: BoardChangeEvent): void {
-    this.server?.to(roomForUser(userId)).emit(BOARD_EVENT, event);
+    this.emitToUser(userId, BOARD_EVENT, event);
+  }
+
+  publishNote(userId: string, event: NoteChangeEvent): void {
+    this.emitToUser(userId, NOTE_EVENT, event);
+  }
+
+  private emitToUser(userId: string, eventName: string, payload: unknown): void {
+    this.server?.to(roomForUser(userId)).emit(eventName, payload);
   }
 
   private extractToken(client: Socket): string | undefined {

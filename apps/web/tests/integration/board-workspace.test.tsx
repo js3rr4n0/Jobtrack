@@ -1,8 +1,8 @@
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { BoardChangeEvent, JobApplication } from '@jobtrack/contracts';
-import { buildJobApplication, groupIntoColumns } from '@jobtrack/contracts';
+import type { BoardChangeEvent, NoteChangeEvent, JobApplication, StickyNote } from '@jobtrack/contracts';
+import { buildJobApplication, buildStickyNote, groupIntoColumns } from '@jobtrack/contracts';
 
 import { renderWithPreferences } from '../render-helpers';
 
@@ -27,15 +27,18 @@ vi.mock('@/lib/supabase/browser-client', () => ({
   }),
 }));
 
-/** Captura el manejador de eventos remotos para simular un segundo dispositivo. */
+/** Captura los manejadores remotos para simular un segundo dispositivo. */
 let emitRemoteChange: ((event: BoardChangeEvent) => void) | null = null;
+let emitRemoteNoteChange: ((event: NoteChangeEvent) => void) | null = null;
 
 vi.mock('@/lib/realtime-client', () => ({
   subscribeToBoardChanges: (options: {
     onChange: (event: BoardChangeEvent) => void;
+    onNoteChange?: (event: NoteChangeEvent) => void;
     onStatusChange: (status: string) => void;
   }) => {
     emitRemoteChange = options.onChange;
+    emitRemoteNoteChange = options.onNoteChange ?? null;
     options.onStatusChange('connected');
     return { close: () => undefined };
   },
@@ -50,6 +53,7 @@ interface RequestRecord {
 }
 
 let storedApplications: JobApplication[] = [];
+let storedNotes: StickyNote[] = [];
 let requests: RequestRecord[] = [];
 let failNextMutation = false;
 
@@ -83,6 +87,33 @@ function createFakeApi(): typeof fetch {
 
     if (method === 'GET' && url.endsWith('/applications/board')) {
       return jsonResponse(200, boardPayload());
+    }
+
+    if (method === 'GET' && url.endsWith('/notes')) {
+      return jsonResponse(200, storedNotes);
+    }
+
+    if (method === 'POST' && url.endsWith('/notes')) {
+      const created = buildStickyNote({
+        id: `nota-${storedNotes.length + 1}`,
+        text: body.text,
+        color: body.color,
+        createdAt: `2026-01-1${storedNotes.length}T12:00:00.000Z`,
+      });
+      storedNotes = [...storedNotes, created];
+      return jsonResponse(201, created);
+    }
+
+    if (method === 'PATCH' && url.includes('/notes/')) {
+      const id = url.split('/notes/')[1];
+      storedNotes = storedNotes.map((note) => (note.id === id ? { ...note, ...body } : note));
+      return jsonResponse(200, storedNotes.find((note) => note.id === id));
+    }
+
+    if (method === 'DELETE' && url.includes('/notes/')) {
+      const id = url.split('/notes/')[1];
+      storedNotes = storedNotes.filter((note) => note.id !== id);
+      return new Response(null, { status: 204 });
     }
 
     if (method === 'POST' && url.endsWith('/applications')) {
@@ -129,9 +160,11 @@ describe('BoardWorkspace (integracion)', () => {
         boardOrder: 0,
       }),
     ];
+    storedNotes = [];
     requests = [];
     failNextMutation = false;
     emitRemoteChange = null;
+    emitRemoteNoteChange = null;
     vi.stubGlobal('fetch', createFakeApi());
     vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(true);
   });
@@ -214,6 +247,73 @@ describe('BoardWorkspace (integracion)', () => {
 
     expect(await screen.findByText(/Sin conexion a internet/)).toBeInTheDocument();
     expect(requests.some((request) => request.method === 'POST')).toBe(false);
+  });
+
+  it('crea una nota en el mural y la muestra', async () => {
+    const user = userEvent.setup();
+    renderWithPreferences(<BoardWorkspace />);
+
+    await screen.findByText('Desarrollador Frontend');
+    expect(screen.getByText(/Aun no tienes notas/)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /Nueva nota/ }));
+    await user.type(screen.getByLabelText('Nota'), 'Preparar portafolio');
+    await user.click(screen.getByRole('button', { name: 'Crear nota' }));
+
+    expect(await screen.findByRole('article', { name: /Preparar portafolio/ })).toBeInTheDocument();
+    expect(requests.some((request) => request.method === 'POST' && request.url.endsWith('/notes'))).toBe(
+      true,
+    );
+  });
+
+  it('no guarda una nota vacia', async () => {
+    const user = userEvent.setup();
+    renderWithPreferences(<BoardWorkspace />);
+
+    await screen.findByText('Desarrollador Frontend');
+    await user.click(screen.getByRole('button', { name: /Nueva nota/ }));
+    await user.type(screen.getByLabelText('Nota'), '   ');
+    await user.click(screen.getByRole('button', { name: 'Crear nota' }));
+
+    expect(await screen.findByText(/Escribe algo antes de guardar/)).toBeInTheDocument();
+    expect(requests.some((request) => request.method === 'POST' && request.url.endsWith('/notes'))).toBe(
+      false,
+    );
+  });
+
+  it('elimina una nota desde su editor', async () => {
+    const user = userEvent.setup();
+    storedNotes = [buildStickyNote({ id: 'nota-1', text: 'Llamar el martes' })];
+
+    renderWithPreferences(<BoardWorkspace />);
+
+    await user.click(await screen.findByRole('button', { name: /Editar la nota: Llamar el martes/ }));
+    await user.click(screen.getByRole('button', { name: 'Eliminar' }));
+
+    await waitFor(() =>
+      expect(screen.queryByRole('article', { name: /Llamar el martes/ })).not.toBeInTheDocument(),
+    );
+  });
+
+  it('incorpora en vivo una nota creada desde otro dispositivo', async () => {
+    renderWithPreferences(<BoardWorkspace />);
+
+    await screen.findByText('Desarrollador Frontend');
+    expect(emitRemoteNoteChange).not.toBeNull();
+
+    const remoteNote = buildStickyNote({ id: 'nota-remota', text: 'Nota de otro equipo' });
+
+    act(() =>
+      emitRemoteNoteChange?.({
+        kind: 'created',
+        noteId: remoteNote.id,
+        note: remoteNote,
+        emittedAt: new Date().toISOString(),
+        originId: 'otro-dispositivo',
+      }),
+    );
+
+    expect(await screen.findByRole('article', { name: /Nota de otro equipo/ })).toBeInTheDocument();
   });
 
   it('incorpora en vivo un cambio hecho desde otro dispositivo', async () => {

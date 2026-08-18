@@ -46,6 +46,18 @@
     --page-backdrop: radial-gradient(circle at 12% 8%, rgb(37 99 235 / 0.07), transparent 45%),
       radial-gradient(circle at 88% 18%, rgb(126 34 206 / 0.05), transparent 40%);
     --letter-spacing-display: normal;
+
+    /*
+     * Colores del mural. Son fijos en todos los temas y llevan tinta oscura,
+     * de modo que el contraste del texto de una nota no depende del tema
+     * elegido y siempre queda legible.
+     */
+    --note-ink: 28 25 23;
+    --note-amarillo: 253 224 71;
+    --note-rosa: 249 168 212;
+    --note-azul: 147 197 253;
+    --note-verde: 134 239 172;
+    --note-lila: 196 181 253;
   }
 
   [data-theme='dark'] {
@@ -355,6 +367,34 @@
 @layer components {
   .surface-card {
     @apply rounded-card border border-subtle bg-raised shadow-card;
+  }
+
+  /* Nota del mural: color solido, tinta oscura y sombra que la despega. */
+  .sticky-note {
+    @apply rounded-card shadow-lifted;
+    background-color: rgb(var(--note-color));
+    color: rgb(var(--note-ink));
+    border: 1px solid rgb(var(--note-ink) / 0.15);
+  }
+
+  .sticky-note[data-color='amarillo'] {
+    --note-color: var(--note-amarillo);
+  }
+
+  .sticky-note[data-color='rosa'] {
+    --note-color: var(--note-rosa);
+  }
+
+  .sticky-note[data-color='azul'] {
+    --note-color: var(--note-azul);
+  }
+
+  .sticky-note[data-color='verde'] {
+    --note-color: var(--note-verde);
+  }
+
+  .sticky-note[data-color='lila'] {
+    --note-color: var(--note-lila);
   }
 
   .focus-ring {

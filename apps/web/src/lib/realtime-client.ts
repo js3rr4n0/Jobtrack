@@ -1,5 +1,10 @@
 import { io, type Socket } from 'socket.io-client';
-import { BOARD_EVENT, type BoardChangeEvent } from '@jobtrack/contracts';
+import {
+  BOARD_EVENT,
+  NOTE_EVENT,
+  type BoardChangeEvent,
+  type NoteChangeEvent,
+} from '@jobtrack/contracts';
 
 export type RealtimeStatus = 'connecting' | 'connected' | 'disconnected';
 
@@ -11,6 +16,7 @@ export interface RealtimeOptions {
   readonly baseUrl: string;
   readonly accessToken: string;
   readonly onChange: (event: BoardChangeEvent) => void;
+  readonly onNoteChange?: (event: NoteChangeEvent) => void;
   readonly onStatusChange: (status: RealtimeStatus) => void;
 }
 
@@ -39,6 +45,10 @@ export function subscribeToBoardChanges(options: RealtimeOptions): RealtimeSubsc
     socket.close();
   });
   socket.on(BOARD_EVENT, options.onChange);
+
+  if (options.onNoteChange) {
+    socket.on(NOTE_EVENT, options.onNoteChange);
+  }
 
   return {
     close: () => {

@@ -1,9 +1,12 @@
 import type {
   CreateJobApplicationInput,
+  CreateStickyNoteInput,
   GamificationProfile,
   JobApplication,
   MoveJobApplicationInput,
+  StickyNote,
   UpdateJobApplicationInput,
+  UpdateStickyNoteInput,
 } from '@jobtrack/contracts';
 
 export interface BoardColumnResponse {
@@ -114,6 +117,22 @@ export class ApiClient {
 
   async deleteApplication(id: string): Promise<void> {
     await this.request<null>({ method: 'DELETE', path: `/applications/${id}` });
+  }
+
+  getNotes(): Promise<StickyNote[]> {
+    return this.request<StickyNote[]>({ method: 'GET', path: '/notes' });
+  }
+
+  createNote(input: CreateStickyNoteInput): Promise<StickyNote> {
+    return this.request<StickyNote>({ method: 'POST', path: '/notes', body: input });
+  }
+
+  updateNote(id: string, input: UpdateStickyNoteInput): Promise<StickyNote> {
+    return this.request<StickyNote>({ method: 'PATCH', path: `/notes/${id}`, body: input });
+  }
+
+  async deleteNote(id: string): Promise<void> {
+    await this.request<null>({ method: 'DELETE', path: `/notes/${id}` });
   }
 
   private async request<TResponse>(options: RequestOptions): Promise<TResponse> {

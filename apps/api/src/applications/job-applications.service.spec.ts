@@ -1,18 +1,9 @@
 import { NotFoundException } from '@nestjs/common';
-import { BoardChangeEvent } from '@jobtrack/contracts';
 
-import { BoardEventPublisher } from '../realtime/board-event.publisher';
+import { RecordingEventPublisher } from '../realtime/recording-event.publisher';
 import { CreateJobApplicationDto } from './dto/create-job-application.dto';
 import { JobApplicationsService } from './job-applications.service';
 import { InMemoryJobApplicationsRepository } from './repositories/in-memory-job-applications.repository';
-
-class RecordingPublisher extends BoardEventPublisher {
-  readonly events: Array<{ userId: string; event: BoardChangeEvent }> = [];
-
-  publish(userId: string, event: BoardChangeEvent): void {
-    this.events.push({ userId, event });
-  }
-}
 
 const USER_ID = 'usuario-1';
 const OTHER_USER_ID = 'usuario-2';
@@ -27,12 +18,12 @@ const payload = (overrides: Partial<CreateJobApplicationDto> = {}): CreateJobApp
 
 describe('JobApplicationsService', () => {
   let repository: InMemoryJobApplicationsRepository;
-  let publisher: RecordingPublisher;
+  let publisher: RecordingEventPublisher;
   let service: JobApplicationsService;
 
   beforeEach(() => {
     repository = new InMemoryJobApplicationsRepository();
-    publisher = new RecordingPublisher();
+    publisher = new RecordingEventPublisher();
     service = new JobApplicationsService(repository, publisher);
   });
 

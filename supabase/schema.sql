@@ -3,18 +3,30 @@
 
 create extension if not exists "pgcrypto";
 
-create type public.application_status as enum (
-  'wishlist',
-  'applied',
-  'interview',
-  'offer',
-  'hired',
-  'rejected'
-);
+-- Los tipos se crean solo si faltan, de modo que este archivo puede volver a
+-- ejecutarse entero sobre un proyecto ya existente para aplicar novedades.
+do $$
+begin
+  if not exists (select 1 from pg_type where typname = 'application_status') then
+    create type public.application_status as enum (
+      'wishlist',
+      'applied',
+      'interview',
+      'offer',
+      'hired',
+      'rejected'
+    );
+  end if;
 
-create type public.work_mode as enum ('onsite', 'hybrid', 'remote');
+  if not exists (select 1 from pg_type where typname = 'work_mode') then
+    create type public.work_mode as enum ('onsite', 'hybrid', 'remote');
+  end if;
 
-create type public.application_priority as enum ('low', 'medium', 'high');
+  if not exists (select 1 from pg_type where typname = 'application_priority') then
+    create type public.application_priority as enum ('low', 'medium', 'high');
+  end if;
+end
+$$;
 
 create table if not exists public.job_applications (
   id uuid primary key default gen_random_uuid(),
@@ -95,6 +107,41 @@ create policy job_applications_delete_own
   for delete
   using (auth.uid() = user_id);
 
+-- Mural de notas adhesivas. La posicion se guarda en porcentaje del mural para
+-- que una nota colocada en el telefono aparezca en el mismo sitio relativo en
+-- la computadora.
+create table if not exists public.sticky_notes (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  text text not null check (char_length(trim(text)) between 1 and 280),
+  color text not null default 'amarillo'
+    check (color in ('amarillo', 'rosa', 'azul', 'verde', 'lila')),
+  position_x numeric(5, 2) not null default 4 check (position_x between 0 and 100),
+  position_y numeric(5, 2) not null default 4 check (position_y between 0 and 100),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+-- El mural siempre se lee completo por usuario y en orden de creacion.
+create index if not exists sticky_notes_user_idx
+  on public.sticky_notes (user_id, created_at);
+
+drop trigger if exists sticky_notes_touch_updated_at on public.sticky_notes;
+
+create trigger sticky_notes_touch_updated_at
+  before update on public.sticky_notes
+  for each row
+  execute function public.touch_updated_at();
+
+alter table public.sticky_notes enable row level security;
+
+drop policy if exists sticky_notes_manage_own on public.sticky_notes;
+create policy sticky_notes_manage_own
+  on public.sticky_notes
+  for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
 -- Preferencias de interfaz sincronizadas entre dispositivos.
 create table if not exists public.user_preferences (
   user_id uuid primary key references auth.users (id) on delete cascade,
@@ -119,6 +166,8 @@ create trigger user_preferences_touch_updated_at
   for each row
   execute function public.touch_updated_at();
 
--- Migracion para proyectos creados antes de las areas de tablero.
+-- Migraciones para proyectos creados antes de estas funciones. Las tablas
+-- nuevas ya se crean arriba con `if not exists`; una columna anadida a una tabla
+-- que ya existe necesita este paso explicito.
 alter table public.job_applications
   add column if not exists category text check (char_length(category) <= 60);

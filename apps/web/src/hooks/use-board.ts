@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type {
   ApplicationStatus,
+  BoardChangeEvent,
   CreateJobApplicationInput,
   JobApplication,
   UpdateJobApplicationInput,
@@ -20,8 +21,6 @@ import {
 import { useNetworkStatus } from '@/hooks/use-network-status';
 import { ApiClient, ApiError } from '@/lib/api-client';
 import { applyRemoteChange, isOwnEcho, replaceApplication } from '@/lib/board-state';
-import { createOriginId, getApiBaseUrl } from '@/lib/config';
-import { type RealtimeStatus, subscribeToBoardChanges } from '@/lib/realtime-client';
 
 export type BoardStatus = 'loading' | 'ready' | 'error';
 
@@ -41,7 +40,6 @@ export interface UseBoardResult {
   readonly gamification: ReturnType<typeof buildGamificationProfile>;
   readonly status: BoardStatus;
   readonly feedback: BoardFeedback | null;
-  readonly realtimeStatus: RealtimeStatus;
   readonly isOnline: boolean;
   /** Nivel recien alcanzado, para celebrarlo una sola vez en la interfaz. */
   readonly celebratedLevel: number | null;
@@ -56,6 +54,8 @@ export interface UseBoardResult {
     boardOrder: number,
   ) => Promise<boolean>;
   readonly deleteApplication: (id: string) => Promise<boolean>;
+  /** Punto de entrada de los eventos del tablero recibidos por el canal comun. */
+  readonly applyRemoteEvent: (event: BoardChangeEvent) => void;
 }
 
 const GENERIC_ERROR = 'No fue posible completar la operacion. Intentalo de nuevo.';
@@ -72,25 +72,15 @@ function describeError(error: unknown): BoardFeedback {
  * Estado del tablero: carga inicial, mutaciones optimistas, sincronizacion en
  * tiempo real y traduccion de fallos a mensajes legibles.
  */
-export function useBoard(accessToken: string | null): UseBoardResult {
+export function useBoard(client: ApiClient | null, originId: string): UseBoardResult {
   const [applications, setApplications] = useState<JobApplication[]>([]);
   const [status, setStatus] = useState<BoardStatus>('loading');
   const [feedback, setFeedback] = useState<BoardFeedback | null>(null);
-  const [realtimeStatus, setRealtimeStatus] = useState<RealtimeStatus>('disconnected');
   const [celebratedLevel, setCelebratedLevel] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>(ALL_CATEGORIES);
 
   const isOnline = useNetworkStatus();
-  const originId = useRef(createOriginId()).current;
   const lastLevel = useRef<number | null>(null);
-
-  const client = useMemo(
-    () =>
-      accessToken === null
-        ? null
-        : new ApiClient({ baseUrl: getApiBaseUrl(), accessToken, originId }),
-    [accessToken, originId],
-  );
 
   const gamification = useMemo(() => buildGamificationProfile(applications), [applications]);
   const categories = useMemo(() => listCategories(applications), [applications]);
@@ -141,26 +131,6 @@ export function useBoard(accessToken: string | null): UseBoardResult {
 
     lastLevel.current = currentLevel;
   }, [gamification.progress.level, status]);
-
-  useEffect(() => {
-    if (!accessToken) {
-      return;
-    }
-
-    const subscription = subscribeToBoardChanges({
-      baseUrl: getApiBaseUrl(),
-      accessToken,
-      onStatusChange: setRealtimeStatus,
-      onChange: (event) => {
-        if (isOwnEcho(event, originId)) {
-          return;
-        }
-        setApplications((current) => applyRemoteChange(current, event));
-      },
-    });
-
-    return subscription.close;
-  }, [accessToken, originId]);
 
   // Al recuperar la conexion, el tablero se recarga para descartar divergencias.
   useEffect(() => {
@@ -240,6 +210,17 @@ export function useBoard(accessToken: string | null): UseBoardResult {
     [applications, client],
   );
 
+  const applyRemoteEvent = useCallback(
+    (event: BoardChangeEvent) => {
+      if (isOwnEcho(event, originId)) {
+        return;
+      }
+
+      setApplications((current) => applyRemoteChange(current, event));
+    },
+    [originId],
+  );
+
   return {
     columns,
     categories,
@@ -250,7 +231,6 @@ export function useBoard(accessToken: string | null): UseBoardResult {
     gamification,
     status,
     feedback,
-    realtimeStatus,
     isOnline,
     celebratedLevel,
     dismissFeedback: useCallback(() => setFeedback(null), []),
@@ -260,5 +240,6 @@ export function useBoard(accessToken: string | null): UseBoardResult {
     updateApplication,
     moveApplication,
     deleteApplication,
+    applyRemoteEvent,
   };
 }

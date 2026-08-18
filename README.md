@@ -8,10 +8,15 @@ la informacion sincronizada entre la computadora y el telefono.
 ## Que incluye
 
 - **Tablero kanban** con seis estados y arrastre de tarjetas entre columnas.
+- **Areas del tablero** con nombre libre (desarrollo, marketing, lo que
+  necesites) y un selector para ver una a la vez.
+- **Mural de notas adhesivas** con arrastre libre, cinco colores y posicion que
+  se conserva entre dispositivos.
 - **Captura manual** de empresa, puesto, ubicacion, modalidad, prioridad,
   expectativa salarial, enlace, notas y fechas de postulacion y entrevista.
 - **Capa de juego**: experiencia, niveles con rango, racha diaria y ocho logros.
-- **Ocho temas visuales** y **dos paquetes de iconos** SVG intercambiables.
+- **Ocho temas visuales** y **dos paquetes de iconos** SVG intercambiables, con
+  una capa de profundidad propia por tema (superficies hundidas, sombras y fondo).
 - **Sincronizacion en vivo** por WebSockets entre todos los dispositivos de la
   misma cuenta.
 - **Tutorial guiado** la primera vez, que atenua la pantalla y destaca donde
@@ -124,6 +129,10 @@ SUPABASE_URL=https://<proyecto>.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=<clave de servicio>
 ```
 
+El esquema se puede volver a ejecutar entero sobre un proyecto que ya existe:
+tipos, tablas, indices y politicas se crean solo si faltan, y las columnas
+anadidas despues se aplican al final con `alter table ... add column if not exists`.
+
 La API verifica los tokens con las claves publicas del proyecto (`SUPABASE_URL`),
 asi que no hace falta ningun secreto de firma. Solo los proyectos que aun usan el
 esquema heredado HS256 necesitan ademas `SUPABASE_JWT_SECRET`.
@@ -148,13 +157,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 
 ## Pruebas
 
-241 casos, todos en verde y sin dependencias de red externas:
+314 casos, todos en verde y sin dependencias de red externas:
 
 | Paquete | Herramienta | Casos |
 | --- | --- | --- |
-| `contracts` | Vitest | 44 |
-| `api` | Jest y Supertest | 58 |
-| `web` | Vitest y Testing Library | 139 |
+| `contracts` | Vitest | 74 |
+| `api` | Jest y Supertest | 81 |
+| `web` | Vitest y Testing Library | 159 |
 
 Cubren las restricciones del plan: ausencia de conexion, valores nulos, datos
 corruptos y sincronizacion entre dispositivos. Las pruebas de tiempo real

@@ -38,7 +38,8 @@ export function replaceApplication(
 /**
  * Decide si un evento remoto debe ignorarse por provenir de este mismo
  * dispositivo, evitando renderizados redundantes tras un cambio optimista.
+ * Sirve para cualquier evento del canal, sea del tablero o del mural.
  */
-export function isOwnEcho(event: BoardChangeEvent, originId: string): boolean {
+export function isOwnEcho(event: { readonly originId: string | null }, originId: string): boolean {
   return event.originId !== null && event.originId === originId;
 }

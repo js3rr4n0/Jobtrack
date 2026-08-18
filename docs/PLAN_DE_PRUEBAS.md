@@ -26,29 +26,35 @@ npm test --workspace @jobtrack/web
 | --- | --- | --- | --- |
 | contracts | `src/gamification.spec.ts` | Unitaria | 17 |
 | contracts | `src/analytics.spec.ts` | Unitaria | 15 |
-| contracts | `src/board.spec.ts` | Unitaria | 12 |
+| contracts | `src/board.spec.ts` | Unitaria | 20 |
+| contracts | `src/sticky-note.spec.ts` | Unitaria | 22 |
 | api | `src/config/environment.spec.ts` | Unitaria | 6 |
 | api | `src/auth/token-verifier.service.spec.ts` | Unitaria | 14 |
 | api | `src/applications/job-applications.service.spec.ts` | Unitaria | 18 |
+| api | `src/notes/sticky-notes.service.spec.ts` | Unitaria | 13 |
 | api | `test/applications.e2e-spec.ts` | Integracion | 15 |
+| api | `test/notes.e2e-spec.ts` | Integracion | 10 |
 | api | `test/realtime.e2e-spec.ts` | Integracion | 5 |
 | web | `src/lib/application-form.test.ts` | Unitaria | 19 |
 | web | `src/lib/api-client.test.ts` | Unitaria | 14 |
 | web | `src/lib/board-state.test.ts` | Unitaria | 9 |
+| web | `src/lib/note-state.test.ts` | Unitaria | 7 |
 | web | `src/lib/auth-form.test.ts` | Unitaria | 11 |
 | web | `src/lib/auth-providers.test.ts` | Unitaria | 5 |
 | web | `src/lib/user-profile.test.ts` | Unitaria | 6 |
 | web | `src/lib/auth-callback.test.ts` | Unitaria | 12 |
 | web | `src/lib/drag-and-drop.test.ts` | Unitaria | 8 |
 | web | `src/lib/preferences.test.ts` | Unitaria | 8 |
-| web | `src/lib/guided-tour.test.ts` | Unitaria | 11 |
+| web | `src/lib/guided-tour.test.ts` | Unitaria | 10 |
 | web | `src/lib/ambient-music.test.ts` | Unitaria | 12 |
+| web | `src/components/notes/note-geometry.test.ts` | Unitaria | 4 |
 | web | `src/components/board/ApplicationForm.test.tsx` | Componente | 6 |
+| web | `src/components/board/CategoryTabs.test.tsx` | Componente | 5 |
 | web | `src/components/icons/Icon.test.tsx` | Componente | 5 |
 | web | `src/components/gamification/LevelMeter.test.tsx` | Componente | 4 |
-| web | `tests/integration/board-workspace.test.tsx` | Integracion | 10 |
+| web | `tests/integration/board-workspace.test.tsx` | Integracion | 14 |
 
-**Total: 241 casos.**
+**Total: 314 casos.**
 
 ---
 
@@ -126,6 +132,19 @@ almacenamiento del navegador bloqueado y catalogos vacios.
 | Reordenar con indice fuera de rango | Indice 50 y -5 | Se acota al final o al inicio | `board.spec.ts` |
 | Mover tarjeta inexistente | Identificador desconocido | El tablero se devuelve intacto | `board.spec.ts` |
 | Movimiento entre columnas | Cambio de estado | Ambas columnas quedan numeradas sin huecos y no se pierde ninguna tarjeta | `board.spec.ts` |
+| Tablero sin areas | Ninguna postulacion clasificada | No se propone ningun area; el selector no aparece | `board.spec.ts`, `CategoryTabs.test.tsx` |
+| Areas con espacios sobrantes | `"Diseno"` y `"  Diseno  "` | Se cuentan como una sola area | `board.spec.ts` |
+| Area en blanco | `"   "` | Se descarta como area y la postulacion cuenta como sin clasificar | `board.spec.ts` |
+| Area inexistente | Filtro por un area sin postulaciones | Tablero vacio, sin excepcion | `board.spec.ts` |
+| Suplantacion de las vistas especiales | Area escrita igual que "Todas" o "Sin area" | Los identificadores empiezan por espacio y las areas se recortan, asi que no colisionan | `board.spec.ts` |
+| Posicion de nota corrupta | `null`, `NaN`, `Infinity`, texto | Se convierte al origen del mural en lugar de romper el dibujado | `sticky-note.spec.ts` |
+| Posicion de nota fuera del mural | -40 y 180 | Se acota entre 0 y 100 | `sticky-note.spec.ts` |
+| Texto de nota en blanco | `"   "`, `null`, `undefined` | Se descarta; nunca se guarda una nota vacia | `sticky-note.spec.ts` |
+| Texto de nota sobre el limite | 330 caracteres | Se recorta al maximo permitido | `sticky-note.spec.ts` |
+| Color de nota desconocido | `"turquesa"` | Se rechaza; al leer de la base se sustituye por el color por defecto | `sticky-note.spec.ts` |
+| Orden del mural | Notas con la misma fecha de creacion | Desempate por identificador, igual en todos los dispositivos | `sticky-note.spec.ts` |
+| Mover una nota inexistente | Identificador desconocido | El mural se devuelve intacto | `sticky-note.spec.ts` |
+| Mural aun sin tamano | Recorrido de 0 pixeles | La nota conserva su posicion en lugar de saltar al origen | `sticky-note.spec.ts`, `note-geometry.test.ts` |
 | Entorno mal configurado | Puerto no numerico, URL invalida, credenciales ausentes | El arranque falla con un mensaje que enumera cada problema | `environment.spec.ts` |
 | Preferencias corruptas | Tema inexistente en `localStorage` | Se descarta y se usa el valor por defecto | `preferences.test.ts` |
 | Almacenamiento bloqueado | `localStorage` que lanza | Lectura y escritura toleran el fallo sin romper la app | `preferences.test.ts` |
@@ -140,6 +159,18 @@ almacenamiento del navegador bloqueado y catalogos vacios.
 | Acceso cruzado entre cuentas | `NotFoundException` al leer, actualizar o eliminar lo ajeno | `job-applications.service.spec.ts` |
 | Reordenamiento | La columna queda numerada 0, 1, 2 sin huecos | `job-applications.service.spec.ts` |
 | Publicacion de eventos | Cada alta, cambio, movimiento y baja emite su evento con el dispositivo de origen | `job-applications.service.spec.ts` |
+
+### 3.6 Servicio del mural de notas
+
+| Caso | Resultado esperado | Donde |
+| --- | --- | --- |
+| Alta sin posicion | La nota se escalona respecto a las existentes y no queda tapada | `sticky-notes.service.spec.ts` |
+| Alta sin color | Toma el color por defecto | `sticky-notes.service.spec.ts` |
+| Posicion fuera del mural | Se acota entre 0 y 100 antes de guardarse | `sticky-notes.service.spec.ts` |
+| Edicion parcial | Los campos no enviados conservan su valor | `sticky-notes.service.spec.ts` |
+| Distincion de eventos | Un cambio que solo toca la posicion se anuncia como `moved`; el resto, como `updated` | `sticky-notes.service.spec.ts` |
+| Acceso cruzado entre cuentas | `NotFoundException` al editar o eliminar notas ajenas | `sticky-notes.service.spec.ts` |
+| Orden de lectura | De la mas antigua a la mas reciente, solo las propias | `sticky-notes.service.spec.ts` |
 
 ---
 
@@ -169,6 +200,9 @@ canal de tiempo real interceptado y la sesion de Supabase sustituida.
 | Rechazo del servidor | El detalle "La empresa es obligatoria." se muestra al usuario y la app sigue operativa |
 | Movimiento de columna | La tarjeta cambia de region y se envia `PATCH /:id/move` |
 | Eliminacion | Tras confirmar el dialogo se envia `DELETE` y la tarjeta desaparece |
+| Alta de nota | La peticion `POST /notes` viaja con el texto y la nota aparece en el mural |
+| Nota vacia | El formulario avisa y **no se emite ninguna peticion** |
+| Baja de nota | Al eliminarla desde su editor desaparece del mural |
 
 ### 4.2 Sincronizacion en tiempo real
 
@@ -176,6 +210,7 @@ canal de tiempo real interceptado y la sesion de Supabase sustituida.
 | --- | --- | --- |
 | Alta en otro dispositivo | La tarjeta aparece en la columna correcta sin recargar | `board-workspace.test.tsx` |
 | Baja en otro dispositivo | La tarjeta desaparece del tablero local | `board-workspace.test.tsx` |
+| Nota creada en otro dispositivo | La nota aparece en el mural local sin recargar | `board-workspace.test.tsx` |
 | Alta replicada por WebSocket | El segundo dispositivo recibe el evento con la postulacion completa y el dispositivo de origen | `realtime.e2e-spec.ts` |
 | Movimiento replicado | El segundo dispositivo recibe el nuevo estado de la tarjeta | `realtime.e2e-spec.ts` |
 | Aislamiento entre cuentas | Un dispositivo de otra cuenta no recibe ningun evento | `realtime.e2e-spec.ts` |
@@ -199,6 +234,12 @@ retraso de red se reporta como tal y no como un cuelgue silencioso.
 | Normalizacion de entrada | Los espacios se recortan y las cadenas vacias se guardan como `null` | `applications.e2e-spec.ts` |
 | Aislamiento entre cuentas | 404 al leer, actualizar o eliminar datos ajenos | `applications.e2e-spec.ts` |
 | Coherencia del perfil | `/gamification/profile` y el tablero reportan la misma experiencia | `applications.e2e-spec.ts` |
+| Mural sin token | 401 | `notes.e2e-spec.ts` |
+| Ciclo de vida de una nota | Alta, listado, movimiento y baja encadenados | `notes.e2e-spec.ts` |
+| Nota vacia, demasiado larga o de color inexistente | 400 con detalle legible | `notes.e2e-spec.ts` |
+| Posicion fuera del mural | 400 antes de tocar la base | `notes.e2e-spec.ts` |
+| Aislamiento entre cuentas | Las notas ajenas no se listan y devuelven 404 al editarlas | `notes.e2e-spec.ts` |
+| Identificador de nota no UUID | 400 | `notes.e2e-spec.ts` |
 
 ---
 
@@ -222,7 +263,7 @@ La entrega se considera correcta cuando:
 3. `npm run build` compila el paquete compartido, la API y la web.
 4. Ninguna prueba deja procesos abiertos ni depende de servicios externos.
 
-Estado actual: **241 casos, todos en verde**, sin dependencias de red externas.
+Estado actual: **314 casos, todos en verde**, sin dependencias de red externas.
 
 ## 7. Verificacion manual complementaria
 
@@ -231,6 +272,8 @@ Aspectos que conviene revisar a mano antes de publicar una version:
 - Recorrer los ocho temas comprobando contraste de texto sobre fondo y
   visibilidad del anillo de foco.
 - Arrastrar una tarjeta con el raton, con el dedo y con el teclado.
+- Arrastrar una nota del mural de las tres formas y confirmar que se queda dentro
+  del mural al soltarla junto a un borde.
 - Abrir la aplicacion en dos dispositivos con la misma cuenta y confirmar que un
   movimiento en uno se refleja en el otro sin recargar.
 - Activar el modo avion a mitad de una edicion y comprobar que el aviso aparece

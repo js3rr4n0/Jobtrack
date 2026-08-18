@@ -10,12 +10,14 @@ empleo en una partida con niveles, rachas y logros.
 3. [Registrar una oferta de empleo](#3-registrar-una-oferta-de-empleo)
 4. [Actualizar el estado de una postulacion](#4-actualizar-el-estado-de-una-postulacion)
 5. [Editar y eliminar postulaciones](#5-editar-y-eliminar-postulaciones)
-6. [Entender la capa de juego](#6-entender-la-capa-de-juego)
-7. [Personalizar la apariencia](#7-personalizar-la-apariencia)
-8. [Usar Jobtrack en el telefono](#8-usar-jobtrack-en-el-telefono)
-9. [Sincronizacion entre dispositivos](#9-sincronizacion-entre-dispositivos)
-10. [Que pasa si te quedas sin conexion](#10-que-pasa-si-te-quedas-sin-conexion)
-11. [Preguntas frecuentes](#11-preguntas-frecuentes)
+6. [Separar el tablero por areas](#6-separar-el-tablero-por-areas)
+7. [El mural de notas](#7-el-mural-de-notas)
+8. [Entender la capa de juego](#8-entender-la-capa-de-juego)
+9. [Personalizar la apariencia](#9-personalizar-la-apariencia)
+10. [Usar Jobtrack en el telefono](#10-usar-jobtrack-en-el-telefono)
+11. [Sincronizacion entre dispositivos](#11-sincronizacion-entre-dispositivos)
+12. [Que pasa si te quedas sin conexion](#12-que-pasa-si-te-quedas-sin-conexion)
+13. [Preguntas frecuentes](#13-preguntas-frecuentes)
 
 ---
 
@@ -68,6 +70,9 @@ Al entrar veras el tablero dividido en dos zonas.
 
 Cada columna muestra un contador con el numero de tarjetas que contiene.
 
+Debajo del tablero esta el **mural de notas**, para recordatorios sueltos que no
+pertenecen a ninguna vacante concreta.
+
 **El panel lateral** reune tu progreso: nivel actual, racha, resumen numerico y
 logros. En pantallas pequenas aparece arriba del tablero.
 
@@ -100,6 +105,7 @@ Debajo del titulo "Tu tablero" hay un indicador de conexion con tres estados:
    | Enlace de la vacante | Direccion completa, por ejemplo `https://empresa.com/vacante`. |
    | Fecha de postulacion | Dia en que enviaste la candidatura. |
    | Fecha de entrevista | Dia y hora de la entrevista agendada. |
+   | Area del tablero | El campo al que pertenece la vacante, por ejemplo *Desarrollo* o *Marketing* (hasta 60 caracteres). |
    | Notas | Contactos, preguntas o siguientes pasos (hasta 4000 caracteres). |
 
 3. Pulsa **Guardar postulacion**.
@@ -151,7 +157,57 @@ volver atras. La eliminacion no se puede deshacer.
 
 ---
 
-## 6. Entender la capa de juego
+## 6. Separar el tablero por areas
+
+Si buscas en mas de un campo a la vez, puedes separar el tablero por **areas**.
+Un area es simplemente un nombre que tu eliges: *Desarrollo de software*,
+*Marketing*, *Diseno*, lo que necesites.
+
+1. Al registrar o editar una postulacion, escribe el area en **Area del tablero**.
+   El campo sugiere las areas que ya usaste, para que no acabes con *Marketing* y
+   *marketing* como si fueran distintas.
+2. En cuanto exista al menos un area, aparece una fila de pestanas sobre el
+   tablero: **Todas**, una por cada area y **Sin area** si aun te queda alguna
+   postulacion sin clasificar. Cada pestana muestra cuantas postulaciones tiene.
+3. Pulsa una pestana para que el tablero muestre solo esa area.
+
+El filtro cambia lo que ves en el tablero, **no** tu progreso: el nivel, la racha
+y los logros siempre cuentan toda tu busqueda, porque el nivel es tuyo y no de un
+area.
+
+---
+
+## 7. El mural de notas
+
+Debajo del tablero hay un mural para lo que no cabe en una tarjeta: *preparar el
+portafolio*, *llamar el martes*, *pedir carta de recomendacion*.
+
+**Crear una nota**
+
+1. Pulsa **Nueva nota**.
+2. Escribe el texto (hasta 280 caracteres) y elige uno de los cinco colores.
+3. Pulsa **Crear nota**.
+
+La nota aparece en el mural, ligeramente desplazada respecto a las anteriores
+para que nunca quede una escondida debajo de otra.
+
+**Mover una nota**
+
+Arrastrala por el icono de agarre de su esquina superior izquierda. Tambien
+funciona con el teclado: pulsa `Tab` hasta llegar a ese icono, luego la barra
+espaciadora y muevela con las flechas.
+
+La posicion se guarda como una proporcion del mural, asi que una nota que dejaste
+arriba a la derecha en la computadora sigue arriba a la derecha en el telefono.
+
+**Editar o eliminar**
+
+Pulsa el icono del lapiz de la nota. Se abre el mismo editor, donde puedes
+cambiar el texto, cambiar el color o pulsar **Eliminar**.
+
+---
+
+## 8. Entender la capa de juego
 
 **Experiencia**. Cada accion suma puntos:
 
@@ -182,7 +238,7 @@ bonificacion que otorga al desbloquearse.
 
 ---
 
-## 6.1 El tutorial de bienvenida
+## 8.1 El tutorial de bienvenida
 
 La primera vez que entras, y mientras no tengas ninguna postulacion, aparece un
 recorrido de cuatro pasos. La pantalla se atenua y se desenfoca salvo el
@@ -194,7 +250,7 @@ elemento del que se habla, que queda nitido y enmarcado.
 Una vez completado o saltado no vuelve a mostrarse, y tampoco aparece si ya
 tienes postulaciones registradas.
 
-## 7. Personalizar la apariencia
+## 9. Personalizar la apariencia
 
 Pulsa el boton de **tu cuenta** en la cabecera, el que muestra tu foto y tu nombre.
 
@@ -227,7 +283,7 @@ suyo: es una preferencia por dispositivo, no por cuenta.
 
 ---
 
-## 8. Usar Jobtrack en el telefono
+## 10. Usar Jobtrack en el telefono
 
 La interfaz se adapta sola:
 
@@ -241,14 +297,16 @@ suele ser mas comodo que el arrastre.
 
 ---
 
-## 9. Sincronizacion entre dispositivos
+## 11. Sincronizacion entre dispositivos
 
 Tus postulaciones viven en la nube, asociadas a tu cuenta. Al iniciar sesion en
 otro dispositivo veras exactamente el mismo tablero.
 
 Mientras el indicador diga **Sincronizado**, los cambios que hagas en un
 dispositivo aparecen en el otro en cuestion de segundos, sin recargar: si mueves
-una tarjeta en la computadora, la veras moverse en el telefono.
+una tarjeta en la computadora, la veras moverse en el telefono. El mural de notas
+viaja por el mismo canal, asi que una nota que arrastras en un sitio se recoloca
+en el otro.
 
 Si el indicador dice **Reconectando**, la aplicacion sigue funcionando y
 restablece el canal por su cuenta. Puedes pulsar **Actualizar** en cualquier
@@ -256,7 +314,7 @@ momento para pedir el tablero completo.
 
 ---
 
-## 10. Que pasa si te quedas sin conexion
+## 12. Que pasa si te quedas sin conexion
 
 Jobtrack detecta la perdida de red y muestra un aviso amarillo:
 "Estas sin conexion. Puedes seguir consultando el tablero, pero los cambios no se
@@ -276,7 +334,7 @@ Al recuperar la senal, la aplicacion vuelve a pedir el tablero automaticamente.
 
 ---
 
-## 11. Preguntas frecuentes
+## 13. Preguntas frecuentes
 
 **Puedo ver las postulaciones de otra persona.**
 No. Cada cuenta solo alcanza sus propios datos, tanto en la interfaz como en la

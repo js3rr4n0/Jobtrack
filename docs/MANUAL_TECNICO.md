@@ -19,7 +19,7 @@ responsabilidades:
          v                                               v
 +-------------------------------------------------------------------+
 |                          Supabase                                  |
-|   auth.users            public.job_applications (RLS activo)       |
+|   auth.users     public.job_applications, public.sticky_notes (RLS)  |
 +-------------------------------------------------------------------+
                      ^
                      |
@@ -49,7 +49,8 @@ Jobtrack/
 
   packages/contracts/src/
     job-application.ts         Estados, catalogo, modelo y entradas
-    board.ts                   Agrupacion en columnas y reordenamiento puro
+    board.ts                   Columnas, reordenamiento y areas del tablero
+    sticky-note.ts             Modelo, posiciones y arrastre de las notas
     gamification.ts            Experiencia, niveles y definiciones de logros
     analytics.ts               Estadisticas, rachas y perfil de juego
     realtime.ts                Contrato de los eventos de tiempo real
@@ -62,6 +63,7 @@ Jobtrack/
     config/                    Validacion del entorno y proveedor global
     auth/                      Estrategia JWT, guard, decorador y verificador
     applications/              Controlador, servicio, DTO y repositorios
+    notes/                     Mural de notas: controlador, servicio y puertos
     gamification/             Perfil de juego derivado del tablero
     realtime/                  Puerto de publicacion y gateway WebSocket
     common/filters/            Normalizacion de errores HTTP
@@ -76,9 +78,10 @@ Jobtrack/
       gamification/            Nivel, resumen, logros y aviso de ascenso
       icons/                   Catalogo, dos paquetes SVG y licencias
       landing/                 Bloques de la pagina de bienvenida
+      notes/                   Mural, nota arrastrable y editor de notas
       theme/                   Proveedor de preferencias y selector
       ui/                      Boton, campos, dialogo y avisos
-    hooks/                     Sesion, tablero y estado de red
+    hooks/                     Sesion, cliente, tablero, mural, canal y red
     lib/                       Cliente HTTP, tiempo real, formularios, temas
 ```
 
@@ -91,10 +94,11 @@ probarlo de forma aislada.
 | Modulo | Responsabilidad |
 | --- | --- |
 | `job-application.ts` | Union `ApplicationStatus`, `STATUS_CATALOG` con etiqueta, descripcion, orden y peso de progreso, y el modelo `JobApplication`. |
-| `board.ts` | `groupIntoColumns`, `reorderBoard` y `diffBoardPositions`. |
+| `board.ts` | `groupIntoColumns`, `reorderBoard`, `diffBoardPositions` y las areas del tablero (`listCategories`, `filterByCategory`). |
+| `sticky-note.ts` | Modelo `StickyNote`, saneado de texto y color, `clampNotePosition`, `applyNoteMove` y `translateNotePosition`. |
 | `gamification.ts` | Tabla de recompensas, curva de niveles, titulos y catalogo de logros. |
 | `analytics.ts` | `buildPlayerStats`, `calculateStreaks`, `calculateBaseExperience` y `buildGamificationProfile`. |
-| `realtime.ts` | Nombre del evento y forma de `BoardChangeEvent`. |
+| `realtime.ts` | Nombres de los eventos y forma de `BoardChangeEvent` y `NoteChangeEvent`. |
 
 **Por que compartir el reordenamiento.** La interfaz aplica el movimiento de
 forma optimista antes de que responda el servidor. Si el algoritmo estuviera
@@ -182,7 +186,34 @@ servicio.
 - Al mover, delega el calculo en `reorderBoard`, persiste unicamente las filas
   que cambiaron segun `diffBoardPositions` y publica el evento correspondiente.
 
-### 4.4 Endpoints
+**Areas del tablero.** `category` es texto libre de hasta 60 caracteres. No hay
+catalogo de areas: se derivan de las propias postulaciones con `listCategories`,
+asi que no existe una tabla que pueda quedar desincronizada con los datos ni un
+area huerfana que limpiar. Los identificadores de las vistas *Todas* y *Sin area*
+empiezan por un espacio y las areas se recortan antes de guardarse, de modo que
+ningun area escrita por una persona puede suplantarlas.
+
+### 4.4 Modulo del mural de notas
+
+`notes/` reproduce la misma estructura de puertos y adaptadores:
+`StickyNotesRepository` como contrato, con adaptador de Supabase y adaptador en
+memoria, y `sticky-note.mapper.ts` como unico punto de traduccion entre el
+dominio y las columnas `position_x` y `position_y`.
+
+`StickyNotesService` decide dos cosas propias del mural:
+
+- Al crear sin posicion, escalona la nota con `nextNotePosition` para que no
+  quede exactamente debajo de otra.
+- Distingue el evento `moved` del evento `updated` segun si el parche toca solo
+  la posicion, de modo que la interfaz puede reaccionar al arrastre sin
+  confundirlo con una edicion de texto.
+
+La posicion se guarda en **porcentaje**, no en pixeles: una nota colocada en el
+telefono aparece en el mismo lugar relativo en la computadora. El mapeador sanea
+color y posicion al leer, asi que una fila corrupta o de una version anterior del
+esquema no rompe el renderizado.
+
+### 4.5 Endpoints
 
 | Metodo | Ruta | Descripcion |
 | --- | --- | --- |
@@ -194,13 +225,17 @@ servicio.
 | `PATCH` | `/api/applications/:id` | Actualiza campos parciales. |
 | `PATCH` | `/api/applications/:id/move` | Cambia estado y posicion. |
 | `DELETE` | `/api/applications/:id` | Elimina una postulacion. |
+| `GET` | `/api/notes` | Notas del mural del usuario. |
+| `POST` | `/api/notes` | Crea una nota. |
+| `PATCH` | `/api/notes/:id` | Cambia texto, color o posicion. |
+| `DELETE` | `/api/notes/:id` | Elimina una nota. |
 | `GET` | `/api/gamification/profile` | Perfil de juego del usuario. |
 
 Todas las rutas salvo `/health` exigen JWT. El `ValidationPipe` global aplica
 `whitelist` y `forbidNonWhitelisted`, asi que un cuerpo con propiedades
 desconocidas se rechaza con 400.
 
-### 4.5 Errores
+### 4.6 Errores
 
 `HttpExceptionFilter` normaliza cualquier fallo en un cuerpo unico:
 
@@ -217,15 +252,17 @@ desconocidas se rechaza con 400.
 Los errores 5xx se registran con traza en el servidor pero devuelven un mensaje
 generico al cliente, sin filtrar detalles internos.
 
-### 4.6 Tiempo real
+### 4.7 Tiempo real
 
 `BoardGateway` expone el namespace `/realtime`. En la conexion valida el token y
 une al cliente a la sala `user:<id>`; si el token falta o es invalido, emite
 `connection:rejected` y cierra el socket.
 
-`BoardEventPublisher` es el puerto que usa el servicio; `BoardGateway` es su
-implementacion. Gracias a esa indireccion, el servicio se prueba con un
-publicador que solo registra los eventos.
+`BoardEventPublisher` es el puerto que usan los servicios; `BoardGateway` es su
+implementacion. Publica `board:changed` para el tablero y `note:changed` para el
+mural sobre la **misma** sala, asi que un dispositivo mantiene una sola conexion.
+Gracias a esa indireccion, los servicios se prueban con `RecordingEventPublisher`,
+un doble que solo registra lo publicado.
 
 Cada evento incluye `originId`, con el que el dispositivo emisor descarta su
 propio eco y evita renderizados redundantes.
@@ -244,20 +281,33 @@ propio eco y evita renderizados redundantes.
 `layout.tsx` inyecta un script de arranque que aplica el tema guardado **antes**
 de pintar, de modo que no hay parpadeo de colores al cargar.
 
-### 5.2 Estado del tablero
+### 5.2 Estado de la pantalla principal
 
-`useBoard(accessToken)` es el nucleo de la pantalla principal. Responsabilidades:
+La pantalla se compone de cuatro hooks con responsabilidades separadas:
 
-1. Cargar el tablero al montar y exponer `status` (`loading`, `ready`, `error`).
-2. Derivar columnas y perfil de juego con `useMemo` a partir de una **unica**
-   lista plana de postulaciones.
-3. Ejecutar mutaciones y traducir los fallos a `BoardFeedback` legible.
-4. Aplicar los movimientos de forma optimista y revertirlos si la peticion falla.
-5. Suscribirse al canal de tiempo real y aplicar los cambios ajenos.
-6. Recargar automaticamente cuando vuelve la conexion tras un error.
+| Hook | Responsabilidad |
+| --- | --- |
+| `useApiClient(accessToken)` | Crea el **unico** `ApiClient` de la pantalla y fija el `originId` del dispositivo para toda la sesion. |
+| `useBoard(client, originId)` | Estado del tablero: carga, columnas, area activa, mutaciones optimistas y perfil de juego. |
+| `useNotes(client, originId)` | Estado del mural con el mismo patron de mutaciones optimistas. |
+| `useRealtimeChannel(...)` | Abre **una** conexion y reparte los eventos entre tablero y mural. |
 
-La logica pura vive fuera del hook, en `lib/board-state.ts` (`applyRemoteChange`,
-`replaceApplication`, `isOwnEcho`), lo que permite probarla sin renderizar.
+Compartir cliente y `originId` es lo que permite que ninguno de los dos reaccione
+a su propio eco, y que un dispositivo no abra dos sockets para la misma sesion.
+
+`useBoard` ademas:
+
+1. Expone `status` (`loading`, `ready`, `error`) y traduce los fallos a
+   `BoardFeedback` legible.
+2. Deriva columnas, areas y perfil de juego con `useMemo` a partir de una
+   **unica** lista plana de postulaciones. El filtro por area afecta al tablero,
+   nunca a la capa de juego: el nivel es de la persona, no de un area.
+3. Aplica los movimientos de forma optimista y los revierte si la peticion falla.
+4. Recarga automaticamente cuando vuelve la conexion tras un error.
+
+La logica pura vive fuera de los hooks, en `lib/board-state.ts`
+(`applyRemoteChange`, `replaceApplication`, `isOwnEcho`) y `lib/note-state.ts`
+(`applyRemoteNoteChange`, `replaceNote`), lo que permite probarla sin renderizar.
 
 ### 5.3 Cliente HTTP
 
@@ -285,6 +335,14 @@ destino coincide con el origen, evitando peticiones inutiles.
 Como alternativa accesible, cada tarjeta incluye un selector de estado que
 produce el mismo movimiento. Es la via preferente en pantallas tactiles.
 
+El mural usa el mismo motor pero con arrastre **libre**: `NoteWall` monta su
+propio `DndContext` con `useDraggable`, mide el mural al soltar y convierte el
+desplazamiento en pixeles a porcentaje con `translateNotePosition`. La medida que
+se pasa es el *recorrido util* (el mural menos el tamano de la nota, calculado en
+`note-geometry.ts`), de modo que el cien por ciento deja la nota pegada al borde
+y nunca fuera. El arrastre por teclado funciona igual, porque dnd-kit entrega el
+mismo desplazamiento en ambos casos.
+
 ### 5.5 Temas e iconos
 
 Los ocho temas se declaran en `app/globals.css` como bloques `[data-theme='...']`
@@ -292,6 +350,14 @@ que redefinen el **mismo** conjunto de variables CSS (colores en canales RGB,
 radios, sombras, tipografia). `tailwind.config.ts` mapea esas variables a nombres
 semanticos (`bg-raised`, `text-primary`, `border-subtle`, `bg-interview`), asi
 que agregar un tema no exige tocar ningun componente.
+
+Las variables incluyen la **capa de profundidad**: `--color-sunken` para las
+superficies hundidas, `--shadow-lifted` y `--shadow-sunken` para las sombras y
+`--page-backdrop` para el fondo de la pagina. Cada tema define su propia version,
+de modo que un tema pixel usa sombras solidas desplazadas y uno claro, sombras
+difusas. Los colores del mural son la excepcion deliberada: son fijos en todos
+los temas y llevan tinta oscura, para que el contraste de una nota no dependa del
+tema elegido.
 
 Los iconos son SVG en linea, sin emojis ni imagenes de mapa de bits. El catalogo
 `icon-names.ts` declara los nombres disponibles y cada paquete los implementa
@@ -308,9 +374,13 @@ al acceder al almacenamiento.
 `supabase/schema.sql` crea:
 
 - Los tipos enumerados `application_status`, `work_mode` y `application_priority`.
-- La tabla `public.job_applications` con restricciones de longitud y de rango.
-- Indices por `(user_id, status, board_order)` para el tablero y por
-  `(user_id, interview_at)` para las entrevistas agendadas.
+- La tabla `public.job_applications` con restricciones de longitud y de rango,
+  incluida el area libre `category`.
+- La tabla `public.sticky_notes`, con el color restringido al catalogo y la
+  posicion acotada entre 0 y 100.
+- Indices por `(user_id, status, board_order)` para el tablero, por
+  `(user_id, category)` para el filtro de areas, por `(user_id, interview_at)`
+  para las entrevistas agendadas y por `(user_id, created_at)` para el mural.
 - El disparador `touch_updated_at`, que mantiene `updated_at` coherente sin
   depender de la capa de aplicacion.
 - Politicas de **Row Level Security** que restringen cada operacion a
@@ -323,7 +393,7 @@ base rechazaria por su cuenta cualquier acceso cruzado.
 
 | Paquete | Herramienta | Alcance |
 | --- | --- | --- |
-| `contracts` | Vitest | Reglas de dominio puras: niveles, logros, rachas, reordenamiento. |
+| `contracts` | Vitest | Reglas de dominio puras: niveles, logros, rachas, reordenamiento, areas y posiciones del mural. |
 | `api` | Jest y Supertest | Servicio con repositorio en memoria, ciclo HTTP completo y sincronizacion por WebSocket. |
 | `web` | Vitest y Testing Library | Utilidades puras, componentes y flujo completo del tablero con API simulada. |
 
