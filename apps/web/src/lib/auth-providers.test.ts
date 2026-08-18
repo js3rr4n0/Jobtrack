@@ -3,11 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { OAUTH_PROVIDERS, findProvider } from './auth-providers';
 
 describe('OAUTH_PROVIDERS', () => {
-  it('ofrece al menos Google y LinkedIn', () => {
-    const ids = OAUTH_PROVIDERS.map((provider) => provider.id);
-
-    expect(ids).toContain('google');
-    expect(ids).toContain('linkedin_oidc');
+  it('ofrece el acceso con Google', () => {
+    expect(OAUTH_PROVIDERS.map((provider) => provider.id)).toContain('google');
   });
 
   it('describe cada proveedor con etiqueta y explicacion', () => {
@@ -22,9 +19,8 @@ describe('OAUTH_PROVIDERS', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it('usa el identificador OIDC de LinkedIn, no el heredado', () => {
-    expect(findProvider('linkedin_oidc')).toBeDefined();
-    expect(findProvider('linkedin')).toBeUndefined();
+  it('no ofrece proveedores sin configurar', () => {
+    expect(findProvider('linkedin_oidc')).toBeUndefined();
   });
 
   it('devuelve indefinido para un proveedor desconocido', () => {

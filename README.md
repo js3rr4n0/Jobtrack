@@ -107,7 +107,7 @@ El detalle de cada modulo esta en [`docs/MANUAL_TECNICO.md`](docs/MANUAL_TECNICO
 | Interfaz | Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS 3 |
 | Arrastre | dnd-kit (puntero y teclado) |
 | API | NestJS 10, class-validator, Socket.IO, Helmet |
-| Autenticacion | Supabase Auth: Google, LinkedIn y correo con contrasena; JWT verificado en la API |
+| Autenticacion | Supabase Auth: Google y correo con contrasena; JWT verificado en la API |
 | Base de datos | PostgreSQL 15 gestionado por Supabase, con Row Level Security |
 | Pruebas | Vitest y Testing Library en la web, Jest y Supertest en la API |
 
@@ -224,7 +224,6 @@ redireccion autorizado es `https://<proyecto>.supabase.co/auth/v1/callback`.
 | Proveedor de Supabase | Donde se crea la aplicacion |
 | --- | --- |
 | Google | Google Cloud, apartado de credenciales OAuth |
-| LinkedIn (OIDC) | LinkedIn Developers, producto *Sign In with LinkedIn using OpenID Connect* |
 
 El servicio de correo integrado de Supabase esta pensado para desarrollo y
 limita los envios por hora. Un despliegue real que use registro por correo

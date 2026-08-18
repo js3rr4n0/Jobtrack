@@ -17,11 +17,6 @@ export const OAUTH_PROVIDERS: readonly OAuthProviderOption[] = [
     label: 'Continuar con Google',
     hint: 'Sin contrasena ni correo de confirmacion.',
   },
-  {
-    id: 'linkedin_oidc',
-    label: 'Continuar con LinkedIn',
-    hint: 'La red donde ya sigues tus oportunidades laborales.',
-  },
 ];
 
 export function findProvider(id: string): OAuthProviderOption | undefined {
