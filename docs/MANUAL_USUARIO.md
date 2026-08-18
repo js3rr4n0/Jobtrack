@@ -75,8 +75,8 @@ En la cabecera encontraras:
 
 - **Nueva postulacion**: abre el formulario de registro.
 - **Actualizar**: vuelve a pedir el tablero al servidor.
-- **Apariencia**: temas visuales y estilo de iconos.
-- **Salir**: cierra la sesion.
+- **Tu cuenta**: el boton con tu foto y tu nombre. Reune los temas visuales, el
+  estilo de iconos, la musica de fondo y el cierre de sesion.
 
 Debajo del titulo "Tu tablero" hay un indicador de conexion con tres estados:
 **Sincronizado**, **Reconectando** y **Sin conexion**.
@@ -196,7 +196,7 @@ tienes postulaciones registradas.
 
 ## 7. Personalizar la apariencia
 
-Pulsa **Apariencia** en la cabecera.
+Pulsa el boton de **tu cuenta** en la cabecera, el que muestra tu foto y tu nombre.
 
 **Temas** agrupados en tres familias:
 

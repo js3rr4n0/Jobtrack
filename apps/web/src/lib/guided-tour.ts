@@ -29,11 +29,11 @@ export const TOUR_STEPS: readonly TourStep[] = [
       'Registrar, agendar entrevistas y avanzar de etapa te dan puntos, suben tu nivel y mantienen viva tu racha.',
   },
   {
-    id: 'appearance',
-    target: 'apariencia',
-    title: 'Ajusta la apariencia',
+    id: 'account',
+    target: 'cuenta',
+    title: 'Tu cuenta y la apariencia',
     description:
-      'Ocho temas visuales, dos estilos de iconos y musica de fondo opcional, distinta segun el tema.',
+      'Aqui ves con que cuenta entraste y eliges entre ocho temas, dos estilos de iconos y la musica de fondo.',
   },
 ];
 

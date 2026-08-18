@@ -70,6 +70,7 @@ Jobtrack/
   apps/web/src/
     app/                       Rutas del App Router y hoja de estilos global
     components/
+      account/                 Menu de cuenta con perfil, apariencia y salida
       auth/                    Formulario de acceso y registro
       board/                   Tablero, columnas, tarjetas y formulario
       gamification/            Nivel, resumen, logros y aviso de ascenso

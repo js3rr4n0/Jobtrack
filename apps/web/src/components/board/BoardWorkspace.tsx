@@ -17,7 +17,7 @@ import { LevelMeter } from '@/components/gamification/LevelMeter';
 import { LevelUpNotice } from '@/components/gamification/LevelUpNotice';
 import { StatsSummary } from '@/components/gamification/StatsSummary';
 import { Icon } from '@/components/icons';
-import { AppearanceMenu } from '@/components/theme/AppearanceMenu';
+import { UserMenu } from '@/components/account/UserMenu';
 import { usePreferences } from '@/components/theme/PreferencesProvider';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
@@ -26,6 +26,7 @@ import { useAmbientMusic } from '@/hooks/use-ambient-music';
 import { useBoard } from '@/hooks/use-board';
 import { useSession } from '@/hooks/use-session';
 import { fromApplication } from '@/lib/application-form';
+import { readUserProfile } from '@/lib/user-profile';
 import { readTourCompleted, shouldShowTour, writeTourCompleted } from '@/lib/guided-tour';
 import { MISSING_SUPABASE_MESSAGE, getSupabaseClient } from '@/lib/supabase/browser-client';
 
@@ -41,6 +42,7 @@ export function BoardWorkspace() {
   const { session, status: sessionStatus } = useSession();
 
   const accessToken = session?.access_token ?? null;
+  const profile = readUserProfile(session?.user ?? null);
   const board = useBoard(accessToken);
 
   const [editor, setEditor] = useState<EditorState>({ mode: 'closed' });
@@ -152,11 +154,7 @@ export function BoardWorkspace() {
             <Icon name="refresh" pack={iconPack} size={16} />
             <span className="hidden sm:inline">Actualizar</span>
           </Button>
-          <AppearanceMenu />
-          <Button variant="ghost" onClick={() => void signOut()}>
-            <Icon name="logout" pack={iconPack} size={16} />
-            <span className="hidden sm:inline">Salir</span>
-          </Button>
+          <UserMenu profile={profile} onSignOut={() => void signOut()} />
         </div>
       </header>
 
