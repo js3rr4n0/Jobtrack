@@ -148,13 +148,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 
 ## Pruebas
 
-222 casos, todos en verde y sin dependencias de red externas:
+225 casos, todos en verde y sin dependencias de red externas:
 
 | Paquete | Herramienta | Casos |
 | --- | --- | --- |
 | `contracts` | Vitest | 44 |
 | `api` | Jest y Supertest | 58 |
-| `web` | Vitest y Testing Library | 120 |
+| `web` | Vitest y Testing Library | 123 |
 
 Cubren las restricciones del plan: ausencia de conexion, valores nulos, datos
 corruptos y sincronizacion entre dispositivos. Las pruebas de tiempo real

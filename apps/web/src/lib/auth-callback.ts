@@ -24,6 +24,17 @@ export function readCallbackParams(url: string): CallbackParams {
   };
 }
 
+/**
+ * Indica si la URL trae el resultado de una confirmacion por correo. Supabase
+ * respeta `emailRedirectTo` solo si la direccion figura en su lista de
+ * redirecciones permitidas; si no, cae al Site URL del proyecto y el codigo
+ * aterriza en la raiz. Detectarlo permite reencaminarlo sin perder la sesion.
+ */
+export function hasAuthResult(url: string): boolean {
+  const { code, errorCode } = readCallbackParams(url);
+  return code !== null || errorCode !== null;
+}
+
 const CALLBACK_MESSAGES: ReadonlyArray<{ pattern: RegExp; message: string }> = [
   {
     pattern: /otp_expired|expired/i,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { describeCallbackError, readCallbackParams } from './auth-callback';
+import { describeCallbackError, hasAuthResult, readCallbackParams } from './auth-callback';
 
 const BASE = 'https://jobtrack.test/auth/callback';
 
@@ -33,6 +33,21 @@ describe('readCallbackParams', () => {
       errorCode: null,
       errorDescription: null,
     });
+  });
+});
+
+describe('hasAuthResult', () => {
+  it('reconoce un codigo en la raiz, como cuando Supabase cae al Site URL', () => {
+    expect(hasAuthResult('https://jobtrack.test/?code=abc123')).toBe(true);
+  });
+
+  it('reconoce un error en el fragmento', () => {
+    expect(hasAuthResult('https://jobtrack.test/#error_code=otp_expired')).toBe(true);
+  });
+
+  it('no confunde una visita normal con una confirmacion', () => {
+    expect(hasAuthResult('https://jobtrack.test/')).toBe(false);
+    expect(hasAuthResult('https://jobtrack.test/?utm_source=correo')).toBe(false);
   });
 });
 

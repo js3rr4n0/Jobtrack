@@ -1,11 +1,13 @@
 import Link from 'next/link';
 
+import { AuthResultForwarder } from '@/components/auth/AuthResultForwarder';
 import { LandingHighlights } from '@/components/landing/LandingHighlights';
 import { AppearanceMenu } from '@/components/theme/AppearanceMenu';
 
 export default function HomePage() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-10 px-4 py-8 sm:px-6 sm:py-12">
+      <AuthResultForwarder />
       <header className="flex items-center justify-between gap-4">
         <p className="font-display text-lg font-semibold tracking-tight text-primary">Jobtrack</p>
         <AppearanceMenu />
