@@ -44,6 +44,16 @@ describe('describeAuthError', () => {
     expect(describeAuthError('Failed to fetch')).toMatch(/No hay conexion/);
   });
 
+  it('explica que el proveedor de Google no esta habilitado', () => {
+    expect(describeAuthError('Unsupported provider: provider is not enabled')).toMatch(
+      /no esta habilitado/,
+    );
+  });
+
+  it('sugiere Google cuando el correo alcanza su limite de envios', () => {
+    expect(describeAuthError('email rate limit exceeded')).toMatch(/Entra con Google/);
+  });
+
   it('usa un mensaje generico ante errores desconocidos o ausentes', () => {
     expect(describeAuthError(null)).toMatch(/No fue posible completar la operacion/);
     expect(describeAuthError('algo raro paso')).toMatch(/No fue posible completar la operacion/);

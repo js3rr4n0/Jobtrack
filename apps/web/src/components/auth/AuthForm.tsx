@@ -54,10 +54,49 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
   const [formError, setFormError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const updateField = (field: keyof CredentialsValues, value: string) => {
     setValues((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [field]: undefined }));
+  };
+
+  /**
+   * Google ya verifica el correo, de modo que esta via evita por completo el
+   * envio de mensajes de confirmacion y sus limites de tasa.
+   */
+  const handleGoogle = async () => {
+    setFormError(null);
+    setNotice(null);
+
+    if (!isOnline) {
+      setFormError(OFFLINE_MESSAGE);
+      return;
+    }
+
+    const client = getSupabaseClient();
+
+    if (!client) {
+      setFormError(MISSING_SUPABASE_MESSAGE);
+      return;
+    }
+
+    setIsRedirecting(true);
+
+    try {
+      const { error } = await client.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: `${window.location.origin}/auth/callback` },
+      });
+
+      if (error) {
+        setFormError(describeAuthError(error.message));
+        setIsRedirecting(false);
+      }
+    } catch (error) {
+      setFormError(describeAuthError(error instanceof Error ? error.message : null));
+      setIsRedirecting(false);
+    }
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -147,7 +186,25 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
           </div>
         ) : null}
 
-        <form onSubmit={handleSubmit} noValidate className="mt-5 flex flex-col gap-4">
+        <div className="mt-5">
+          <Button
+            type="button"
+            variant="secondary"
+            className="w-full"
+            disabled={isRedirecting}
+            onClick={() => void handleGoogle()}
+          >
+            {isRedirecting ? 'Abriendo Google...' : 'Continuar con Google'}
+          </Button>
+        </div>
+
+        <div className="my-5 flex items-center gap-3" aria-hidden="true">
+          <span className="h-px flex-1 bg-subtle" />
+          <span className="text-xs uppercase tracking-wide text-secondary">o con tu correo</span>
+          <span className="h-px flex-1 bg-subtle" />
+        </div>
+
+        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
           <TextField
             id="email"
             label="Correo electronico"

@@ -46,6 +46,16 @@ const AUTH_MESSAGES: ReadonlyArray<{ pattern: RegExp; message: string }> = [
     message: `La contrasena no cumple los requisitos minimos de ${MINIMUM_PASSWORD_LENGTH} caracteres.`,
   },
   {
+    pattern: /provider is not enabled|unsupported provider/i,
+    message:
+      'El acceso con Google no esta habilitado en este proyecto. Actívalo en Supabase, en Authentication y Providers.',
+  },
+  {
+    pattern: /email rate limit|over_email_send/i,
+    message:
+      'El servicio de correo alcanzo su limite de envios. Entra con Google o intentalo mas tarde.',
+  },
+  {
     pattern: /rate limit|too many/i,
     message: 'Demasiados intentos seguidos. Espera un momento antes de reintentar.',
   },

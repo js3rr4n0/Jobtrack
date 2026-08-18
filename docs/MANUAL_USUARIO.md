@@ -21,6 +21,12 @@ empleo en una partida con niveles, rachas y logros.
 
 ## 1. Crear tu cuenta
 
+Hay dos formas de entrar. La mas rapida es **Continuar con Google**: un solo
+clic, sin contrasena que recordar y sin correo de confirmacion, porque Google ya
+verifico tu direccion.
+
+Si prefieres correo y contrasena:
+
 1. Abre Jobtrack. La pagina de bienvenida describe el tablero y ofrece dos
    botones: **Crear una cuenta** y **Ya tengo cuenta**.
 2. Pulsa **Crear una cuenta**.
