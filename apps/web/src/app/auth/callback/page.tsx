@@ -10,17 +10,25 @@ import { MISSING_SUPABASE_MESSAGE, getSupabaseClient } from '@/lib/supabase/brow
 
 type CallbackState = { status: 'working' } | { status: 'failed'; message: string };
 
+/** Margen para que el cliente termine de canjear el codigo por una sesion. */
+const SESSION_TIMEOUT_MS = 15_000;
+
+const TIMEOUT_MESSAGE =
+  'No se pudo completar el inicio de sesion. Vuelve a intentarlo desde la pantalla de acceso.';
+
 /**
- * Recibe el enlace de confirmacion de correo. Supabase usa el flujo PKCE, en el
- * que el enlace entrega un codigo que hay que canjear por una sesion desde el
- * mismo navegador que inicio el registro.
+ * Cierra el flujo de acceso externo y de confirmacion por correo.
+ *
+ * El cliente de Supabase canjea por su cuenta el codigo que viene en la URL, de
+ * modo que aqui solo se espera a que aparezca la sesion. Hacer el canje a mano
+ * ademas del automatico consumia el codigo dos veces y la segunda fallaba.
  */
 export default function AuthCallbackPage() {
   const router = useRouter();
   const [state, setState] = useState<CallbackState>({ status: 'working' });
 
   useEffect(() => {
-    const { code, errorCode, errorDescription } = readCallbackParams(window.location.href);
+    const { errorCode, errorDescription } = readCallbackParams(window.location.href);
 
     if (errorCode) {
       setState({ status: 'failed', message: describeCallbackError(errorDescription ?? errorCode) });
@@ -34,26 +42,38 @@ export default function AuthCallbackPage() {
       return;
     }
 
-    if (!code) {
-      router.replace('/acceso');
-      return;
-    }
+    let settled = false;
 
-    client.auth
-      .exchangeCodeForSession(code)
-      .then(({ error }) => {
-        if (error) {
-          setState({ status: 'failed', message: describeCallbackError(error.message) });
-          return;
-        }
+    const enterBoard = () => {
+      if (!settled) {
+        settled = true;
         router.replace('/tablero');
-      })
-      .catch((error: unknown) => {
-        setState({
-          status: 'failed',
-          message: describeCallbackError(error instanceof Error ? error.message : null),
-        });
-      });
+      }
+    };
+
+    const { data } = client.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        enterBoard();
+      }
+    });
+
+    void client.auth.getSession().then(({ data: current }) => {
+      if (current.session) {
+        enterBoard();
+      }
+    });
+
+    const timer = setTimeout(() => {
+      if (!settled) {
+        settled = true;
+        setState({ status: 'failed', message: TIMEOUT_MESSAGE });
+      }
+    }, SESSION_TIMEOUT_MS);
+
+    return () => {
+      data.subscription.unsubscribe();
+      clearTimeout(timer);
+    };
   }, [router]);
 
   return (
@@ -61,7 +81,7 @@ export default function AuthCallbackPage() {
       <h1 className="font-display text-xl font-semibold text-primary">Confirmando tu cuenta</h1>
 
       {state.status === 'working' ? (
-        <p className="text-sm text-secondary">Validando el enlace del correo...</p>
+        <p className="text-sm text-secondary">Validando tu acceso...</p>
       ) : (
         <>
           <StatusBanner tone="error" message={state.message} />
