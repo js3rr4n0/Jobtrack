@@ -48,6 +48,12 @@ create table if not exists public.job_applications (
   updated_at timestamptz not null default now()
 );
 
+-- Migracion para proyectos creados antes de las areas de tablero. La tabla de
+-- arriba no se recrea si ya existe, asi que una columna nueva necesita este paso
+-- explicito, y debe ir antes del indice que la usa.
+alter table public.job_applications
+  add column if not exists category text check (char_length(category) <= 60);
+
 -- El tablero siempre se consulta por usuario, estado y posicion.
 create index if not exists job_applications_board_idx
   on public.job_applications (user_id, status, board_order);
@@ -165,9 +171,3 @@ create trigger user_preferences_touch_updated_at
   before update on public.user_preferences
   for each row
   execute function public.touch_updated_at();
-
--- Migraciones para proyectos creados antes de estas funciones. Las tablas
--- nuevas ya se crean arriba con `if not exists`; una columna anadida a una tabla
--- que ya existe necesita este paso explicito.
-alter table public.job_applications
-  add column if not exists category text check (char_length(category) <= 60);
