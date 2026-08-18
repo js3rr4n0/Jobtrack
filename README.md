@@ -39,6 +39,15 @@ tema redefine el mismo conjunto de variables CSS.
 | --- | --- |
 | ![Tema pixel rosa](docs/capturas/tablero-pixel-rosa.jpg) | ![Tema gaming](docs/capturas/tablero-gaming.jpg) |
 
+### Areas y mural de notas
+
+Sobre el tablero, una pestana por area (con nombre libre) filtra lo que se ve sin
+tocar el progreso. Debajo, el mural recoge los recordatorios sueltos: se
+arrastran con el raton, con el dedo o con el teclado, y su posicion se guarda en
+proporcion al mural, asi que se conserva al cambiar de dispositivo.
+
+![Mural de notas adhesivas bajo el tablero, en tema anime](docs/capturas/mural.jpg)
+
 ### Tutorial de bienvenida
 
 Mientras el tablero este vacio, un recorrido de cuatro pasos desenfoca el resto

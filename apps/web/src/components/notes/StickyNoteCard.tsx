@@ -60,7 +60,10 @@ export function StickyNoteCard({ note, onEdit }: StickyNoteCardProps) {
         </button>
       </div>
 
-      <p className="overflow-hidden text-sm leading-snug">{note.text}</p>
+      {/* La nota tiene un tamano fijo para que el arrastre sea predecible; un
+          texto mas largo se recorta con puntos suspensivos y se lee completo al
+          abrir el editor. */}
+      <p className="line-clamp-4 break-words text-sm leading-snug">{note.text}</p>
     </article>
   );
 }

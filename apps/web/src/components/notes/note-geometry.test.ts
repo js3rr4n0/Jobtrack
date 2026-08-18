@@ -4,8 +4,8 @@ import { NOTE_HEIGHT, NOTE_WIDTH, remToPixels, trackSize } from './note-geometry
 
 describe('remToPixels', () => {
   it('convierte el tamano de una nota a pixeles', () => {
-    expect(remToPixels(NOTE_WIDTH, 16)).toBe(176);
-    expect(remToPixels(NOTE_HEIGHT, 16)).toBe(120);
+    expect(remToPixels(NOTE_WIDTH, 16)).toBe(192);
+    expect(remToPixels(NOTE_HEIGHT, 16)).toBe(136);
   });
 
   it('respeta un tamano base distinto', () => {
@@ -15,10 +15,10 @@ describe('remToPixels', () => {
 
 describe('trackSize', () => {
   it('descuenta el tamano de la nota del mural', () => {
-    expect(trackSize(800, 176)).toBe(624);
+    expect(trackSize(800, 192)).toBe(608);
   });
 
   it('nunca devuelve un recorrido negativo', () => {
-    expect(trackSize(100, 176)).toBe(0);
+    expect(trackSize(100, 192)).toBe(0);
   });
 });

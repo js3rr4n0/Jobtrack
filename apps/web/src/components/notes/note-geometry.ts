@@ -3,8 +3,8 @@
  * nota (para dibujarse) como el mural (para convertir un arrastre en pixeles a
  * la posicion porcentual que se guarda).
  */
-export const NOTE_WIDTH = '11rem';
-export const NOTE_HEIGHT = '7.5rem';
+export const NOTE_WIDTH = '12rem';
+export const NOTE_HEIGHT = '8.5rem';
 
 /** Convierte una medida en `rem` a pixeles usando el tamano base del documento. */
 export function remToPixels(value: string, rootFontSize: number): number {
