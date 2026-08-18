@@ -176,6 +176,18 @@ bonificacion que otorga al desbloquearse.
 
 ---
 
+## 6.1 El tutorial de bienvenida
+
+La primera vez que entras, y mientras no tengas ninguna postulacion, aparece un
+recorrido de cuatro pasos. La pantalla se atenua y se desenfoca salvo el
+elemento del que se habla, que queda nitido y enmarcado.
+
+- **Siguiente** avanza al paso siguiente.
+- **Saltar** cierra el tutorial de inmediato. La tecla **Escape** hace lo mismo.
+
+Una vez completado o saltado no vuelve a mostrarse, y tampoco aparece si ya
+tienes postulaciones registradas.
+
 ## 7. Personalizar la apariencia
 
 Pulsa **Apariencia** en la cabecera.
@@ -189,7 +201,13 @@ Pulsa **Apariencia** en la cabecera.
 **Iconos**: elige entre **Contorno** (trazo fino y neutro) y **Pixel** (bloques
 solidos de estilo retro). La vista previa muestra tres iconos de ejemplo.
 
-Ambas preferencias se guardan en el dispositivo y se aplican al instante, sin
+**Musica de fondo**: al final del panel hay un interruptor para reproducir un
+ambiente suave. El sonido se genera en tu propio navegador, a volumen bajo, y
+cambia con el tema: sereno en los basicos, arpegios retro en los pixel, pulso
+neon en gaming, melodia luminosa en anime y una nebulosa lenta en galaxy.
+Empieza siempre apagada y solo suena si tu la activas.
+
+Estas preferencias se guardan en el dispositivo y se aplican al instante, sin
 recargar la pagina. Si mueves el tema en la computadora, el telefono conserva el
 suyo: es una preferencia por dispositivo, no por cuenta.
 

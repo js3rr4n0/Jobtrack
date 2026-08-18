@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_PREFERENCES,
   ICON_PACK_STORAGE_KEY,
+  MUSIC_STORAGE_KEY,
   THEME_STORAGE_KEY,
   readStoredPreferences,
   writeStoredPreferences,
@@ -53,7 +54,11 @@ describe('readStoredPreferences', () => {
       [ICON_PACK_STORAGE_KEY]: 'pixel',
     });
 
-    expect(readStoredPreferences(storage)).toEqual({ theme: 'galaxy', iconPack: 'pixel' });
+    expect(readStoredPreferences(storage)).toEqual({
+      theme: 'galaxy',
+      iconPack: 'pixel',
+      music: false,
+    });
   });
 
   it('descarta valores corruptos en lugar de propagarlos', () => {
@@ -74,10 +79,18 @@ describe('writeStoredPreferences', () => {
   it('persiste tema y paquete de iconos', () => {
     const storage = createMemoryStorage();
 
-    writeStoredPreferences(storage, { theme: 'anime', iconPack: 'pixel' });
+    writeStoredPreferences(storage, { theme: 'anime', iconPack: 'pixel', music: true });
 
     expect(storage.getItem(THEME_STORAGE_KEY)).toBe('anime');
     expect(storage.getItem(ICON_PACK_STORAGE_KEY)).toBe('pixel');
+    expect(storage.getItem(MUSIC_STORAGE_KEY)).toBe('true');
+  });
+
+  it('la musica queda apagada salvo que se haya activado explicitamente', () => {
+    expect(readStoredPreferences(createMemoryStorage()).music).toBe(false);
+    expect(
+      readStoredPreferences(createMemoryStorage({ [MUSIC_STORAGE_KEY]: 'true' })).music,
+    ).toBe(true);
   });
 
   it('ignora en silencio un almacenamiento bloqueado', () => {

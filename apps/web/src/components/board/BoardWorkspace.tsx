@@ -8,6 +8,7 @@ import type {
   JobApplication,
 } from '@jobtrack/contracts';
 
+import { GuidedTour } from '@/components/onboarding/GuidedTour';
 import { ApplicationForm } from '@/components/board/ApplicationForm';
 import { ConnectionStatus } from '@/components/board/ConnectionStatus';
 import { KanbanBoard } from '@/components/board/KanbanBoard';
@@ -21,9 +22,11 @@ import { usePreferences } from '@/components/theme/PreferencesProvider';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { StatusBanner } from '@/components/ui/StatusBanner';
+import { useAmbientMusic } from '@/hooks/use-ambient-music';
 import { useBoard } from '@/hooks/use-board';
 import { useSession } from '@/hooks/use-session';
 import { fromApplication } from '@/lib/application-form';
+import { readTourCompleted, shouldShowTour, writeTourCompleted } from '@/lib/guided-tour';
 import { MISSING_SUPABASE_MESSAGE, getSupabaseClient } from '@/lib/supabase/browser-client';
 
 type EditorState =
@@ -34,13 +37,14 @@ type EditorState =
 /** Pantalla principal: tablero kanban, capa de juego y edicion de postulaciones. */
 export function BoardWorkspace() {
   const router = useRouter();
-  const { iconPack } = usePreferences();
+  const { iconPack, theme, music } = usePreferences();
   const { session, status: sessionStatus } = useSession();
 
   const accessToken = session?.access_token ?? null;
   const board = useBoard(accessToken);
 
   const [editor, setEditor] = useState<EditorState>({ mode: 'closed' });
+  const [tourCompleted, setTourCompleted] = useState(true);
   const [pendingDeletion, setPendingDeletion] = useState<JobApplication | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -49,6 +53,24 @@ export function BoardWorkspace() {
       router.replace('/acceso');
     }
   }, [sessionStatus, router]);
+
+  // Se lee tras montar para no divergir del HTML renderizado en el servidor.
+  useEffect(() => {
+    setTourCompleted(readTourCompleted(window.localStorage));
+  }, []);
+
+  useAmbientMusic(music, theme);
+
+  const finishTour = useCallback(() => {
+    writeTourCompleted(window.localStorage);
+    setTourCompleted(true);
+  }, []);
+
+  const applicationCount = board.columns.reduce(
+    (total, column) => total + column.applications.length,
+    0,
+  );
+  const isTourVisible = board.status === 'ready' && shouldShowTour(applicationCount, tourCompleted);
 
   const closeEditor = useCallback(() => setEditor({ mode: 'closed' }), []);
 
@@ -122,7 +144,7 @@ export function BoardWorkspace() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <Button onClick={() => setEditor({ mode: 'create' })}>
+          <Button data-tour="nueva-postulacion" onClick={() => setEditor({ mode: 'create' })}>
             <Icon name="plus" pack={iconPack} size={16} />
             Nueva postulacion
           </Button>
@@ -155,7 +177,7 @@ export function BoardWorkspace() {
       ) : null}
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
-        <div className="min-w-0 order-2 lg:order-1">
+        <div data-tour="tablero" className="min-w-0 order-2 lg:order-1">
           {board.status === 'loading' ? (
             <p className="text-sm text-secondary">Cargando tus postulaciones...</p>
           ) : (
@@ -170,10 +192,12 @@ export function BoardWorkspace() {
         </div>
 
         <aside className="order-1 flex flex-col gap-4 lg:order-2">
-          <LevelMeter
-            progress={board.gamification.progress}
-            currentStreakDays={board.gamification.stats.currentStreakDays}
-          />
+          <div data-tour="nivel">
+            <LevelMeter
+              progress={board.gamification.progress}
+              currentStreakDays={board.gamification.stats.currentStreakDays}
+            />
+          </div>
           <StatsSummary stats={board.gamification.stats} />
           <AchievementGrid achievements={board.gamification.achievements} />
         </aside>
@@ -228,6 +252,8 @@ export function BoardWorkspace() {
           </Button>
         </div>
       </Modal>
+
+      {isTourVisible ? <GuidedTour onFinish={finishTour} /> : null}
 
       {board.celebratedLevel !== null ? (
         <LevelUpNotice

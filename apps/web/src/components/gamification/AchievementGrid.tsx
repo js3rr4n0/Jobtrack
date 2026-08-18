@@ -36,7 +36,7 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
         </span>
       </header>
 
-      <ul className="grid gap-2 sm:grid-cols-2">
+      <ul className="grid gap-2">
         {achievements.map((achievement) => {
           const percent = Math.round((achievement.current / achievement.target) * 100);
 
@@ -58,8 +58,8 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
                   />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-primary">{achievement.name}</p>
-                  <p className="text-xs text-secondary">{achievement.description}</p>
+                  <p className="text-sm font-semibold text-primary [overflow-wrap:anywhere]">{achievement.name}</p>
+                  <p className="text-xs text-secondary [overflow-wrap:anywhere]">{achievement.description}</p>
                   <p className="mt-1 text-xs font-medium text-secondary">
                     {achievement.unlocked
                       ? `Desbloqueado. Bonificacion de ${achievement.experienceBonus} puntos.`

@@ -4,15 +4,19 @@ import { DEFAULT_THEME, type ThemeId, isThemeId } from '@/lib/themes';
 export interface Preferences {
   readonly theme: ThemeId;
   readonly iconPack: IconPackId;
+  /** La musica de fondo empieza apagada: nadie espera que una web suene sola. */
+  readonly music: boolean;
 }
 
 export const DEFAULT_PREFERENCES: Preferences = {
   theme: DEFAULT_THEME,
   iconPack: DEFAULT_ICON_PACK,
+  music: false,
 };
 
 export const THEME_STORAGE_KEY = 'jobtrack.theme';
 export const ICON_PACK_STORAGE_KEY = 'jobtrack.iconPack';
+export const MUSIC_STORAGE_KEY = 'jobtrack.music';
 
 /**
  * Lectura tolerante a fallos: el modo privado de algunos navegadores lanza al
@@ -30,6 +34,7 @@ export function readStoredPreferences(storage: Storage | undefined): Preferences
     return {
       theme: isThemeId(theme) ? theme : DEFAULT_PREFERENCES.theme,
       iconPack: isIconPackId(iconPack) ? iconPack : DEFAULT_PREFERENCES.iconPack,
+      music: storage.getItem(MUSIC_STORAGE_KEY) === 'true',
     };
   } catch {
     return DEFAULT_PREFERENCES;
@@ -44,6 +49,7 @@ export function writeStoredPreferences(storage: Storage | undefined, preferences
   try {
     storage.setItem(THEME_STORAGE_KEY, preferences.theme);
     storage.setItem(ICON_PACK_STORAGE_KEY, preferences.iconPack);
+    storage.setItem(MUSIC_STORAGE_KEY, String(preferences.music));
   } catch {
     // Sin almacenamiento persistente la preferencia solo dura la sesion actual.
   }

@@ -14,6 +14,10 @@ la informacion sincronizada entre la computadora y el telefono.
 - **Ocho temas visuales** y **dos paquetes de iconos** SVG intercambiables.
 - **Sincronizacion en vivo** por WebSockets entre todos los dispositivos de la
   misma cuenta.
+- **Tutorial guiado** la primera vez, que atenua la pantalla y destaca donde
+  pulsar.
+- **Musica ambiental opcional**, sintetizada en el navegador y distinta segun el
+  tema.
 
 ## Capturas
 
@@ -30,9 +34,18 @@ tema redefine el mismo conjunto de variables CSS.
 | --- | --- |
 | ![Tema pixel rosa](docs/capturas/tablero-pixel-rosa.jpg) | ![Tema gaming](docs/capturas/tablero-gaming.jpg) |
 
+### Tutorial de bienvenida
+
+Mientras el tablero este vacio, un recorrido de cuatro pasos desenfoca el resto
+de la interfaz y deja nitido solo el elemento que hay que usar. Se puede saltar
+en cualquier momento y no vuelve a aparecer.
+
+![Tutorial guiado destacando el boton de nueva postulacion](docs/capturas/tutorial.jpg)
+
 ### Selector de apariencia
 
-Ocho temas agrupados en familias y dos paquetes de iconos, con vista previa.
+Ocho temas agrupados en familias, dos paquetes de iconos con vista previa y el
+interruptor de musica ambiental.
 
 ![Panel de apariencia con los ocho temas y los dos paquetes de iconos](docs/capturas/temas.jpg)
 
@@ -135,13 +148,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 
 ## Pruebas
 
-199 casos, todos en verde y sin dependencias de red externas:
+211 casos, todos en verde y sin dependencias de red externas:
 
 | Paquete | Herramienta | Casos |
 | --- | --- | --- |
 | `contracts` | Vitest | 44 |
 | `api` | Jest y Supertest | 58 |
-| `web` | Vitest y Testing Library | 97 |
+| `web` | Vitest y Testing Library | 109 |
 
 Cubren las restricciones del plan: ausencia de conexion, valores nulos, datos
 corruptos y sincronizacion entre dispositivos. Las pruebas de tiempo real
