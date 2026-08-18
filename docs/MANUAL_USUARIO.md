@@ -202,9 +202,17 @@ Pulsa **Apariencia** en la cabecera.
 solidos de estilo retro). La vista previa muestra tres iconos de ejemplo.
 
 **Musica de fondo**: al final del panel hay un interruptor para reproducir un
-ambiente suave. El sonido se genera en tu propio navegador, a volumen bajo, y
-cambia con el tema: sereno en los basicos, arpegios retro en los pixel, pulso
-neon en gaming, melodia luminosa en anime y una nebulosa lenta en galaxy.
+una pieza breve que se repite. Cada una tiene melodia y bajo propios, se genera
+en tu navegador a volumen bajo, y cambia con el tema:
+
+| Temas | Pieza |
+| --- | --- |
+| Claro, oscuro, minimalista | Jingle sereno |
+| Pixel rosa y azul | Jingle de arcade |
+| Gaming | Jingle neon |
+| Anime | Jingle luminoso |
+| Galaxy | Jingle estelar |
+
 Empieza siempre apagada y solo suena si tu la activas.
 
 Estas preferencias se guardan en el dispositivo y se aplican al instante, sin

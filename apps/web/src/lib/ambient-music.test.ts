@@ -1,25 +1,31 @@
 import { describe, expect, it } from 'vitest';
 
-import { frequencyForStep, soundscapeForTheme } from './ambient-music';
+import {
+  frequencyForSemitone,
+  loopDurationSeconds,
+  secondsPerBeat,
+  soundscapeForTheme,
+} from './ambient-music';
 import { THEME_IDS } from './themes';
 
-describe('soundscapeForTheme', () => {
-  it('asigna un ambiente a cada tema disponible', () => {
-    for (const theme of THEME_IDS) {
-      const soundscape = soundscapeForTheme(theme);
+const ALL_SOUNDSCAPES = THEME_IDS.map((theme) => soundscapeForTheme(theme));
 
-      expect(soundscape.scale.length).toBeGreaterThan(0);
+describe('soundscapeForTheme', () => {
+  it('asigna una pieza completa a cada tema disponible', () => {
+    for (const soundscape of ALL_SOUNDSCAPES) {
+      expect(soundscape.melody.length).toBeGreaterThan(0);
+      expect(soundscape.bass.length).toBeGreaterThan(0);
+      expect(soundscape.bpm).toBeGreaterThan(0);
       expect(soundscape.rootFrequency).toBeGreaterThan(0);
-      expect(soundscape.tempoMs).toBeGreaterThan(0);
     }
   });
 
-  it('comparte ambiente entre los temas de la misma familia', () => {
+  it('comparte pieza entre los temas de la misma familia', () => {
     expect(soundscapeForTheme('pixel-pink').id).toBe(soundscapeForTheme('pixel-blue').id);
     expect(soundscapeForTheme('light').id).toBe(soundscapeForTheme('dark').id);
   });
 
-  it('diferencia las familias creativas', () => {
+  it('diferencia las cinco familias', () => {
     const ids = new Set(
       (['light', 'pixel-pink', 'gaming', 'anime', 'galaxy'] as const).map(
         (theme) => soundscapeForTheme(theme).id,
@@ -29,8 +35,8 @@ describe('soundscapeForTheme', () => {
     expect(ids.size).toBe(5);
   });
 
-  it('usa timbres retro para los temas pixel', () => {
-    expect(soundscapeForTheme('pixel-blue').waveform).toBe('square');
+  it('usa timbre de consola en los temas pixel', () => {
+    expect(soundscapeForTheme('pixel-blue').leadWaveform).toBe('square');
   });
 
   it('recurre al ambiente sereno ante un tema desconocido', () => {
@@ -38,23 +44,62 @@ describe('soundscapeForTheme', () => {
   });
 });
 
-describe('frequencyForStep', () => {
-  const soundscape = soundscapeForTheme('light');
-
-  it('el primer grado suena en la nota base', () => {
-    expect(frequencyForStep(soundscape, 0)).toBeCloseTo(soundscape.rootFrequency, 5);
-  });
-
-  it('devuelve siempre una frecuencia audible', () => {
-    for (let step = 0; step < 40; step += 1) {
-      const frequency = frequencyForStep(soundscape, step);
-
-      expect(frequency).toBeGreaterThan(20);
-      expect(frequency).toBeLessThan(20000);
+describe('melodias', () => {
+  it('toda nota dura un numero positivo de tiempos', () => {
+    for (const soundscape of ALL_SOUNDSCAPES) {
+      for (const item of [...soundscape.melody, ...soundscape.bass]) {
+        expect(item.beats).toBeGreaterThan(0);
+      }
     }
   });
 
-  it('tolera pasos negativos sin salirse de la escala', () => {
-    expect(Number.isFinite(frequencyForStep(soundscape, -7))).toBe(true);
+  it('melodia y bajo cubren la misma duracion, para que el bucle encaje', () => {
+    for (const soundscape of ALL_SOUNDSCAPES) {
+      const melodyBeats = soundscape.melody.reduce((total, item) => total + item.beats, 0);
+      const bassBeats = soundscape.bass.reduce((total, item) => total + item.beats, 0);
+
+      expect(bassBeats).toBeCloseTo(melodyBeats, 5);
+    }
+  });
+
+  it('el ataque es breve, para que las notas suenen definidas y no como barridos', () => {
+    for (const soundscape of ALL_SOUNDSCAPES) {
+      expect(soundscape.attackSeconds).toBeLessThanOrEqual(0.05);
+      expect(soundscape.sustainRatio).toBeGreaterThan(0.5);
+    }
+  });
+
+  it('mantiene todas las notas dentro del rango audible', () => {
+    for (const soundscape of ALL_SOUNDSCAPES) {
+      for (const item of [...soundscape.melody, ...soundscape.bass]) {
+        if (item.semitone === null) {
+          continue;
+        }
+        const frequency = frequencyForSemitone(soundscape.rootFrequency, item.semitone);
+        expect(frequency).toBeGreaterThan(40);
+        expect(frequency).toBeLessThan(5000);
+      }
+    }
+  });
+
+  it('cada pieza dura lo suficiente para reconocerse y repetirse', () => {
+    for (const soundscape of ALL_SOUNDSCAPES) {
+      const duration = loopDurationSeconds(soundscape);
+      expect(duration).toBeGreaterThan(4);
+      expect(duration).toBeLessThan(60);
+    }
+  });
+});
+
+describe('utilidades de tempo', () => {
+  it('convierte pulsaciones por minuto en segundos por tiempo', () => {
+    expect(secondsPerBeat(120)).toBeCloseTo(0.5, 5);
+    expect(secondsPerBeat(60)).toBeCloseTo(1, 5);
+  });
+
+  it('el semitono cero suena en la nota base y doce la duplican', () => {
+    expect(frequencyForSemitone(440, 0)).toBeCloseTo(440, 5);
+    expect(frequencyForSemitone(440, 12)).toBeCloseTo(880, 5);
+    expect(frequencyForSemitone(440, -12)).toBeCloseTo(220, 5);
   });
 });
