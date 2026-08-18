@@ -21,9 +21,9 @@ empleo en una partida con niveles, rachas y logros.
 
 ## 1. Crear tu cuenta
 
-Hay dos formas de entrar. La mas rapida es **Continuar con Google**: un solo
-clic, sin contrasena que recordar y sin correo de confirmacion, porque Google ya
-verifico tu direccion.
+Hay tres formas de entrar. Las mas rapidas son **Continuar con Google** y
+**Continuar con LinkedIn**: un solo clic, sin contrasena que recordar y sin
+correo de confirmacion, porque el proveedor ya verifico tu direccion.
 
 Si prefieres correo y contrasena:
 

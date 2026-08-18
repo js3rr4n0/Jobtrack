@@ -93,7 +93,7 @@ El detalle de cada modulo esta en [`docs/MANUAL_TECNICO.md`](docs/MANUAL_TECNICO
 | Interfaz | Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS 3 |
 | Arrastre | dnd-kit (puntero y teclado) |
 | API | NestJS 10, class-validator, Socket.IO, Helmet |
-| Autenticacion | Supabase Auth: Google y correo con contrasena, JWT verificado en la API |
+| Autenticacion | Supabase Auth: Google, LinkedIn y correo con contrasena; JWT verificado en la API |
 | Base de datos | PostgreSQL 15 gestionado por Supabase, con Row Level Security |
 | Pruebas | Vitest y Testing Library en la web, Jest y Supertest en la API |
 
@@ -148,13 +148,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 
 ## Pruebas
 
-230 casos, todos en verde y sin dependencias de red externas:
+235 casos, todos en verde y sin dependencias de red externas:
 
 | Paquete | Herramienta | Casos |
 | --- | --- | --- |
 | `contracts` | Vitest | 44 |
 | `api` | Jest y Supertest | 58 |
-| `web` | Vitest y Testing Library | 128 |
+| `web` | Vitest y Testing Library | 133 |
 
 Cubren las restricciones del plan: ausencia de conexion, valores nulos, datos
 corruptos y sincronizacion entre dispositivos. Las pruebas de tiempo real
@@ -199,9 +199,14 @@ En **Authentication -> URL Configuration** del proyecto de Supabase:
 | Site URL | El dominio publico de la web |
 | Redirect URLs | `https://<dominio>/**` |
 
-Para habilitar el acceso con Google, en **Authentication -> Providers -> Google**
-pega el identificador y el secreto de un cliente OAuth de Google Cloud, cuyo URI
-de redireccion autorizado debe ser `https://<proyecto>.supabase.co/auth/v1/callback`.
+Para habilitar los accesos externos, en **Authentication -> Providers** pega el
+identificador y el secreto de cada aplicacion OAuth. En todas ellas el URI de
+redireccion autorizado es `https://<proyecto>.supabase.co/auth/v1/callback`.
+
+| Proveedor de Supabase | Donde se crea la aplicacion |
+| --- | --- |
+| Google | Google Cloud, apartado de credenciales OAuth |
+| LinkedIn (OIDC) | LinkedIn Developers, producto *Sign In with LinkedIn using OpenID Connect* |
 
 El servicio de correo integrado de Supabase esta pensado para desarrollo y
 limita los envios por hora. Un despliegue real que use registro por correo

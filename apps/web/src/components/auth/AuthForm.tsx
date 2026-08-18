@@ -17,6 +17,7 @@ import {
   describeAuthError,
   validateCredentials,
 } from '@/lib/auth-form';
+import { OAUTH_PROVIDERS, type OAuthProviderOption } from '@/lib/auth-providers';
 import { MISSING_SUPABASE_MESSAGE, getSupabaseClient } from '@/lib/supabase/browser-client';
 
 export type AuthMode = 'signIn' | 'signUp';
@@ -54,7 +55,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
   const [formError, setFormError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [redirectingTo, setRedirectingTo] = useState<string | null>(null);
 
   const updateField = (field: keyof CredentialsValues, value: string) => {
     setValues((current) => ({ ...current, [field]: value }));
@@ -62,10 +63,10 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
   };
 
   /**
-   * Google ya verifica el correo, de modo que esta via evita por completo el
-   * envio de mensajes de confirmacion y sus limites de tasa.
+   * Los proveedores externos verifican el correo por su cuenta, de modo que
+   * esta via evita el envio de mensajes de confirmacion y sus limites de tasa.
    */
-  const handleGoogle = async () => {
+  const handleProvider = async (provider: OAuthProviderOption) => {
     setFormError(null);
     setNotice(null);
 
@@ -81,21 +82,21 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
       return;
     }
 
-    setIsRedirecting(true);
+    setRedirectingTo(provider.id);
 
     try {
       const { error } = await client.auth.signInWithOAuth({
-        provider: 'google',
+        provider: provider.id,
         options: { redirectTo: `${window.location.origin}/auth/callback` },
       });
 
       if (error) {
         setFormError(describeAuthError(error.message));
-        setIsRedirecting(false);
+        setRedirectingTo(null);
       }
     } catch (error) {
       setFormError(describeAuthError(error instanceof Error ? error.message : null));
-      setIsRedirecting(false);
+      setRedirectingTo(null);
     }
   };
 
@@ -186,16 +187,19 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
           </div>
         ) : null}
 
-        <div className="mt-5">
-          <Button
-            type="button"
-            variant="secondary"
-            className="w-full"
-            disabled={isRedirecting}
-            onClick={() => void handleGoogle()}
-          >
-            {isRedirecting ? 'Abriendo Google...' : 'Continuar con Google'}
-          </Button>
+        <div className="mt-5 flex flex-col gap-2">
+          {OAUTH_PROVIDERS.map((provider) => (
+            <Button
+              key={provider.id}
+              type="button"
+              variant="secondary"
+              className="w-full"
+              disabled={redirectingTo !== null}
+              onClick={() => void handleProvider(provider)}
+            >
+              {redirectingTo === provider.id ? 'Abriendo...' : provider.label}
+            </Button>
+          ))}
         </div>
 
         <div className="my-5 flex items-center gap-3" aria-hidden="true">
