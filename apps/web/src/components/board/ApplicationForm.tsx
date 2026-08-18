@@ -39,6 +39,8 @@ const WORK_MODE_OPTIONS = [
 
 export interface ApplicationFormProps {
   initialValues?: ApplicationFormValues;
+  /** Areas ya usadas, ofrecidas como sugerencias al escribir. */
+  knownCategories?: readonly string[];
   submitLabel: string;
   isSubmitting: boolean;
   onSubmit: (input: CreateJobApplicationInput) => void;
@@ -48,6 +50,7 @@ export interface ApplicationFormProps {
 /** Formulario de captura manual de una oferta de empleo. */
 export function ApplicationForm({
   initialValues = EMPTY_FORM_VALUES,
+  knownCategories = [],
   submitLabel,
   isSubmitting,
   onSubmit,
@@ -77,6 +80,12 @@ export function ApplicationForm({
 
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+      <datalist id="areas-conocidas">
+        {knownCategories.map((category) => (
+          <option key={category} value={category} />
+        ))}
+      </datalist>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField
           id="company"
@@ -112,6 +121,15 @@ export function ApplicationForm({
           onChange={(event) =>
             updateField('priority', event.target.value as ApplicationFormValues['priority'])
           }
+        />
+        <TextField
+          id="category"
+          label="Area del tablero"
+          list="areas-conocidas"
+          value={values.category}
+          error={errors.category}
+          hint="Por ejemplo: Desarrollo, Marketing, Diseno."
+          onChange={(event) => updateField('category', event.target.value)}
         />
         <TextField
           id="location"

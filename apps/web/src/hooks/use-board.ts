@@ -7,7 +7,15 @@ import type {
   JobApplication,
   UpdateJobApplicationInput,
 } from '@jobtrack/contracts';
-import { buildGamificationProfile, groupIntoColumns, reorderBoard } from '@jobtrack/contracts';
+import {
+  ALL_CATEGORIES,
+  buildGamificationProfile,
+  countUncategorized,
+  filterByCategory,
+  groupIntoColumns,
+  listCategories,
+  reorderBoard,
+} from '@jobtrack/contracts';
 
 import { useNetworkStatus } from '@/hooks/use-network-status';
 import { ApiClient, ApiError } from '@/lib/api-client';
@@ -25,6 +33,11 @@ export interface BoardFeedback {
 
 export interface UseBoardResult {
   readonly columns: ReturnType<typeof groupIntoColumns>;
+  readonly categories: ReturnType<typeof listCategories>;
+  readonly uncategorized: number;
+  readonly totalApplications: number;
+  readonly activeCategory: string;
+  readonly selectCategory: (category: string) => void;
   readonly gamification: ReturnType<typeof buildGamificationProfile>;
   readonly status: BoardStatus;
   readonly feedback: BoardFeedback | null;
@@ -65,6 +78,7 @@ export function useBoard(accessToken: string | null): UseBoardResult {
   const [feedback, setFeedback] = useState<BoardFeedback | null>(null);
   const [realtimeStatus, setRealtimeStatus] = useState<RealtimeStatus>('disconnected');
   const [celebratedLevel, setCelebratedLevel] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>(ALL_CATEGORIES);
 
   const isOnline = useNetworkStatus();
   const originId = useRef(createOriginId()).current;
@@ -79,7 +93,17 @@ export function useBoard(accessToken: string | null): UseBoardResult {
   );
 
   const gamification = useMemo(() => buildGamificationProfile(applications), [applications]);
-  const columns = useMemo(() => groupIntoColumns(applications), [applications]);
+  const categories = useMemo(() => listCategories(applications), [applications]);
+  const uncategorized = useMemo(() => countUncategorized(applications), [applications]);
+
+  // El tablero muestra solo el area elegida; la capa de juego sigue midiendo
+  // todo el progreso, porque el nivel es de la persona, no de un area.
+  const visible = useMemo(
+    () => filterByCategory(applications, activeCategory),
+    [applications, activeCategory],
+  );
+
+  const columns = useMemo(() => groupIntoColumns(visible), [visible]);
 
   const reload = useCallback(async () => {
     if (!client) {
@@ -218,6 +242,11 @@ export function useBoard(accessToken: string | null): UseBoardResult {
 
   return {
     columns,
+    categories,
+    uncategorized,
+    totalApplications: applications.length,
+    activeCategory,
+    selectCategory: setActiveCategory,
     gamification,
     status,
     feedback,

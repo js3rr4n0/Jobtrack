@@ -22,7 +22,7 @@ export function StatsSummary({ stats }: StatsSummaryProps) {
       </h3>
       <dl className="grid grid-cols-2 gap-3">
         {entries.map((entry) => (
-          <div key={entry.label} className="rounded-control border border-subtle bg-base p-3">
+          <div key={entry.label} className="rounded-control border border-subtle bg-sunken p-3 shadow-sunken">
             <dt className="text-xs text-secondary [overflow-wrap:anywhere]">{entry.label}</dt>
             <dd className="font-display text-xl font-semibold text-primary">{entry.value}</dd>
           </div>

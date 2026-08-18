@@ -78,6 +78,7 @@ export class JobApplicationsService {
       salaryExpectation: payload.salaryExpectation ?? null,
       sourceUrl: payload.sourceUrl ?? null,
       notes: payload.notes ?? null,
+      category: payload.category ?? null,
       interviewAt: payload.interviewAt ?? null,
       appliedAt: payload.appliedAt ?? this.defaultAppliedAt(status),
       boardOrder,
@@ -190,6 +191,7 @@ function buildPatch(payload: UpdateJobApplicationDto): JobApplicationPatch {
   assignIfPresent('salaryExpectation');
   assignIfPresent('sourceUrl');
   assignIfPresent('notes');
+  assignIfPresent('category');
   assignIfPresent('interviewAt');
   assignIfPresent('appliedAt');
   assignIfPresent('boardOrder');

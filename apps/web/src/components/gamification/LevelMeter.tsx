@@ -44,7 +44,7 @@ export function LevelMeter({ progress, currentStreakDays }: LevelMeterProps) {
           aria-valuemax={progress.experienceForNextLevel}
           aria-valuenow={progress.experienceIntoLevel}
           aria-label={`Experiencia hacia el nivel ${progress.level + 1}`}
-          className="h-3 w-full overflow-hidden rounded-control border border-subtle bg-base"
+          className="h-3 w-full overflow-hidden rounded-control border border-subtle bg-sunken shadow-sunken"
         >
           <div
             className="h-full bg-accent transition-[width] duration-500"

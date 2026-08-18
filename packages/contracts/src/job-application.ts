@@ -114,6 +114,8 @@ export interface JobApplication {
   readonly salaryExpectation: number | null;
   readonly sourceUrl: string | null;
   readonly notes: string | null;
+  /** Area a la que pertenece la vacante, definida libremente por el usuario. */
+  readonly category: string | null;
   /** Fecha ISO 8601 de la entrevista agendada, si existe. */
   readonly interviewAt: string | null;
   readonly appliedAt: string | null;
@@ -133,6 +135,7 @@ export interface CreateJobApplicationInput {
   salaryExpectation?: number | null;
   sourceUrl?: string | null;
   notes?: string | null;
+  category?: string | null;
   interviewAt?: string | null;
   appliedAt?: string | null;
 }

@@ -78,6 +78,13 @@ export class CreateJobApplicationDto {
   notes?: string | null;
 
   @IsOptional()
+  @Transform(trimmed)
+  @Transform(emptyToNull)
+  @IsString({ message: 'El area debe ser texto.' })
+  @MaxLength(60, { message: 'El area admite hasta 60 caracteres.' })
+  category?: string | null;
+
+  @IsOptional()
   @Transform(emptyToNull)
   @IsISO8601({}, { message: 'La fecha de entrevista debe tener formato ISO 8601.' })
   interviewAt?: string | null;

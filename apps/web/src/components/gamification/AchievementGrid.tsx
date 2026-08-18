@@ -44,7 +44,7 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
             <li
               key={achievement.id}
               className={`rounded-control border p-3 ${
-                achievement.unlocked ? 'border-accent bg-accent-soft' : 'border-subtle bg-base'
+                achievement.unlocked ? 'border-accent bg-accent-soft shadow-card' : 'border-subtle bg-sunken'
               }`}
             >
               <div className="flex items-start gap-2">

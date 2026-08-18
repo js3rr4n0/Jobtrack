@@ -15,6 +15,7 @@ export interface JobApplicationRow {
   salary_expectation: number | null;
   source_url: string | null;
   notes: string | null;
+  category: string | null;
   interview_at: string | null;
   applied_at: string | null;
   board_order: number;
@@ -35,6 +36,7 @@ export function toDomain(row: JobApplicationRow): JobApplication {
     salaryExpectation: row.salary_expectation,
     sourceUrl: row.source_url,
     notes: row.notes,
+    category: row.category,
     interviewAt: row.interview_at,
     appliedAt: row.applied_at,
     boardOrder: row.board_order,
@@ -58,6 +60,7 @@ export function toInsertRow(record: NewJobApplicationRecord): Omit<
     salary_expectation: record.salaryExpectation,
     source_url: record.sourceUrl,
     notes: record.notes,
+    category: record.category,
     interview_at: record.interviewAt,
     applied_at: record.appliedAt,
     board_order: record.boardOrder,
@@ -74,6 +77,7 @@ const PATCH_COLUMN_BY_FIELD: Readonly<Record<string, keyof JobApplicationRow>> =
   salaryExpectation: 'salary_expectation',
   sourceUrl: 'source_url',
   notes: 'notes',
+  category: 'category',
   interviewAt: 'interview_at',
   appliedAt: 'applied_at',
   boardOrder: 'board_order',

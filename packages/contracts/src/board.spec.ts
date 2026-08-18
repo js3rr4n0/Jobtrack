@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest';
 
-import { diffBoardPositions, groupIntoColumns, reorderBoard } from './board';
+import {
+  ALL_CATEGORIES,
+  countUncategorized,
+  diffBoardPositions,
+  filterByCategory,
+  groupIntoColumns,
+  listCategories,
+  reorderBoard,
+  UNCATEGORIZED_CATEGORY,
+} from './board';
 import { APPLICATION_STATUSES } from './job-application';
 import { buildJobApplication } from './test-factories';
 
@@ -123,5 +132,73 @@ describe('diffBoardPositions', () => {
     const changed = diffBoardPositions(before, after).map((application) => application.id).sort();
 
     expect(changed).toEqual(['a', 'b', 'c']);
+  });
+});
+
+describe('categorias', () => {
+  const withCategory = (id: string, category: string | null) =>
+    buildJobApplication({ id, category });
+
+  it('no encuentra areas en un tablero sin clasificar', () => {
+    expect(listCategories([withCategory('a', null)])).toEqual([]);
+  });
+
+  it('agrupa y cuenta cada area', () => {
+    const categories = listCategories([
+      withCategory('a', 'Desarrollo'),
+      withCategory('b', 'Marketing'),
+      withCategory('c', 'Desarrollo'),
+    ]);
+
+    expect(categories).toEqual([
+      { name: 'Desarrollo', total: 2 },
+      { name: 'Marketing', total: 1 },
+    ]);
+  });
+
+  it('trata los espacios sobrantes como parte del mismo area', () => {
+    expect(listCategories([withCategory('a', 'Diseno'), withCategory('b', '  Diseno  ')])).toEqual([
+      { name: 'Diseno', total: 2 },
+    ]);
+  });
+
+  it('descarta areas en blanco', () => {
+    expect(listCategories([withCategory('a', '   ')])).toEqual([]);
+    expect(countUncategorized([withCategory('a', '   ')])).toBe(1);
+  });
+
+  it('filtra por area y devuelve el tablero completo con todas', () => {
+    const applications = [withCategory('a', 'Marketing'), withCategory('b', 'Desarrollo')];
+
+    expect(filterByCategory(applications, 'Marketing').map((item) => item.id)).toEqual(['a']);
+    expect(filterByCategory(applications, ALL_CATEGORIES)).toHaveLength(2);
+  });
+
+  it('devuelve vacio para un area inexistente', () => {
+    expect(filterByCategory([withCategory('a', 'Marketing')], 'Ventas')).toEqual([]);
+  });
+
+  it('reune lo que no tiene area en su propia vista', () => {
+    const applications = [
+      withCategory('a', 'Marketing'),
+      withCategory('b', null),
+      withCategory('c', '   '),
+    ];
+
+    expect(filterByCategory(applications, UNCATEGORIZED_CATEGORY).map((item) => item.id)).toEqual([
+      'b',
+      'c',
+    ]);
+  });
+
+  it('usa identificadores que ningun area escrita puede suplantar', () => {
+    // Las areas se recortan antes de guardarse, asi que un area no puede
+    // empezar por espacio y colisionar con las vistas especiales.
+    for (const sentinel of [ALL_CATEGORIES, UNCATEGORIZED_CATEGORY]) {
+      expect(sentinel.trim()).not.toBe(sentinel);
+      expect(listCategories([withCategory('a', sentinel)])).toEqual([
+        { name: sentinel.trim(), total: 1 },
+      ]);
+    }
   });
 });

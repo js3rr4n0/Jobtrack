@@ -10,6 +10,7 @@ import type {
 
 import { GuidedTour } from '@/components/onboarding/GuidedTour';
 import { ApplicationForm } from '@/components/board/ApplicationForm';
+import { CategoryTabs } from '@/components/board/CategoryTabs';
 import { ConnectionStatus } from '@/components/board/ConnectionStatus';
 import { KanbanBoard } from '@/components/board/KanbanBoard';
 import { AchievementGrid } from '@/components/gamification/AchievementGrid';
@@ -68,11 +69,9 @@ export function BoardWorkspace() {
     setTourCompleted(true);
   }, []);
 
-  const applicationCount = board.columns.reduce(
-    (total, column) => total + column.applications.length,
-    0,
-  );
-  const isTourVisible = board.status === 'ready' && shouldShowTour(applicationCount, tourCompleted);
+  const isTourVisible =
+    board.status === 'ready' && shouldShowTour(board.totalApplications, tourCompleted);
+  const knownCategories = board.categories.map((category) => category.name);
 
   const closeEditor = useCallback(() => setEditor({ mode: 'closed' }), []);
 
@@ -175,7 +174,15 @@ export function BoardWorkspace() {
       ) : null}
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
-        <div data-tour="tablero" className="min-w-0 order-2 lg:order-1">
+        <div data-tour="tablero" className="order-2 flex min-w-0 flex-col gap-4 lg:order-1">
+          <CategoryTabs
+            categories={board.categories}
+            uncategorized={board.uncategorized}
+            total={board.totalApplications}
+            active={board.activeCategory}
+            onSelect={board.selectCategory}
+          />
+
           {board.status === 'loading' ? (
             <p className="text-sm text-secondary">Cargando tus postulaciones...</p>
           ) : (
@@ -208,6 +215,7 @@ export function BoardWorkspace() {
         onClose={closeEditor}
       >
         <ApplicationForm
+          knownCategories={knownCategories}
           submitLabel="Guardar postulacion"
           isSubmitting={isSubmitting}
           onSubmit={(input) => void handleCreate(input)}
@@ -224,6 +232,7 @@ export function BoardWorkspace() {
         {editor.mode === 'edit' ? (
           <ApplicationForm
             initialValues={fromApplication(editor.application)}
+            knownCategories={knownCategories}
             submitLabel="Guardar cambios"
             isSubmitting={isSubmitting}
             onSubmit={(input) => void handleUpdate(editor.application, input)}

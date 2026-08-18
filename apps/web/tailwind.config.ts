@@ -13,6 +13,7 @@ const config: Config = {
     extend: {
       colors: {
         base: withOpacity('--color-base'),
+        sunken: withOpacity('--color-sunken'),
         raised: withOpacity('--color-raised'),
         overlay: withOpacity('--color-overlay'),
         subtle: withOpacity('--color-border-subtle'),
@@ -44,6 +45,8 @@ const config: Config = {
       boxShadow: {
         card: 'var(--shadow-card)',
         raised: 'var(--shadow-raised)',
+        lifted: 'var(--shadow-lifted)',
+        sunken: 'var(--shadow-sunken)',
       },
       keyframes: {
         'level-pulse': {

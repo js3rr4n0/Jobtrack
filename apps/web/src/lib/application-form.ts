@@ -16,6 +16,7 @@ export interface ApplicationFormValues {
   salaryExpectation: string;
   sourceUrl: string;
   notes: string;
+  category: string;
   interviewAt: string;
   appliedAt: string;
 }
@@ -30,6 +31,7 @@ export const EMPTY_FORM_VALUES: ApplicationFormValues = {
   salaryExpectation: '',
   sourceUrl: '',
   notes: '',
+  category: '',
   interviewAt: '',
   appliedAt: '',
 };
@@ -39,6 +41,7 @@ export type FormErrors = Partial<Record<keyof ApplicationFormValues, string>>;
 const MAX_TEXT_LENGTH = 120;
 const MAX_NOTES_LENGTH = 4000;
 const MAX_SALARY = 100_000_000;
+const MAX_CATEGORY_LENGTH = 60;
 
 function isBlank(value: string): boolean {
   return value.trim().length === 0;
@@ -90,6 +93,10 @@ export function validateApplicationForm(values: ApplicationFormValues): FormErro
 
   if (!isBlank(values.sourceUrl) && !isValidUrl(values.sourceUrl.trim())) {
     errors.sourceUrl = 'Incluye una direccion completa, por ejemplo https://empresa.com/vacante.';
+  }
+
+  if (!isBlank(values.category) && values.category.trim().length > MAX_CATEGORY_LENGTH) {
+    errors.category = `El area admite hasta ${MAX_CATEGORY_LENGTH} caracteres.`;
   }
 
   if (values.notes.length > MAX_NOTES_LENGTH) {
@@ -156,6 +163,7 @@ export function toApplicationInput(values: ApplicationFormValues): CreateJobAppl
       : Number(values.salaryExpectation),
     sourceUrl: textOrNull(values.sourceUrl),
     notes: textOrNull(values.notes),
+    category: textOrNull(values.category),
     interviewAt: toIsoDate(values.interviewAt),
     appliedAt: toIsoDate(values.appliedAt),
   };
@@ -174,6 +182,7 @@ export function fromApplication(application: JobApplication): ApplicationFormVal
       application.salaryExpectation === null ? '' : String(application.salaryExpectation),
     sourceUrl: application.sourceUrl ?? '',
     notes: application.notes ?? '',
+    category: application.category ?? '',
     interviewAt: toLocalDateTimeValue(application.interviewAt),
     appliedAt: toLocalDateValue(application.appliedAt),
   };

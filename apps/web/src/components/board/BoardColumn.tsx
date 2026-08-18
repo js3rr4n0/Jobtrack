@@ -50,8 +50,8 @@ export function BoardColumn({ column, onEdit, onDelete, onStatusChange }: BoardC
 
       <div
         ref={setNodeRef}
-        className={`flex min-h-[8rem] flex-1 flex-col gap-3 rounded-card border border-dashed p-2 transition-colors ${
-          isOver ? 'border-accent bg-accent-soft' : 'border-subtle bg-base'
+        className={`flex min-h-[8rem] flex-1 flex-col gap-3 rounded-card border p-2.5 shadow-sunken transition-colors ${
+          isOver ? 'border-accent bg-accent-soft' : 'border-subtle bg-sunken'
         }`}
       >
         <SortableContext items={cardIds} strategy={verticalListSortingStrategy}>

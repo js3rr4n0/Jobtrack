@@ -28,6 +28,7 @@ create table if not exists public.job_applications (
   salary_expectation integer check (salary_expectation >= 0),
   source_url text,
   notes text check (char_length(notes) <= 4000),
+  category text check (char_length(category) <= 60),
   interview_at timestamptz,
   applied_at timestamptz,
   board_order integer not null default 0 check (board_order >= 0),
@@ -38,6 +39,11 @@ create table if not exists public.job_applications (
 -- El tablero siempre se consulta por usuario, estado y posicion.
 create index if not exists job_applications_board_idx
   on public.job_applications (user_id, status, board_order);
+
+-- El tablero se filtra por area con frecuencia.
+create index if not exists job_applications_category_idx
+  on public.job_applications (user_id, category)
+  where category is not null;
 
 create index if not exists job_applications_interview_idx
   on public.job_applications (user_id, interview_at)
@@ -112,3 +118,7 @@ create trigger user_preferences_touch_updated_at
   before update on public.user_preferences
   for each row
   execute function public.touch_updated_at();
+
+-- Migracion para proyectos creados antes de las areas de tablero.
+alter table public.job_applications
+  add column if not exists category text check (char_length(category) <= 60);
