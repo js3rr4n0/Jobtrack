@@ -46,7 +46,7 @@ npm test --workspace @jobtrack/web
 | web | `src/components/gamification/LevelMeter.test.tsx` | Componente | 4 |
 | web | `tests/integration/board-workspace.test.tsx` | Integracion | 10 |
 
-**Total: 229 casos.**
+**Total: 228 casos.**
 
 ---
 
@@ -220,7 +220,7 @@ La entrega se considera correcta cuando:
 3. `npm run build` compila el paquete compartido, la API y la web.
 4. Ninguna prueba deja procesos abiertos ni depende de servicios externos.
 
-Estado actual: **229 casos, todos en verde**, sin dependencias de red externas.
+Estado actual: **228 casos, todos en verde**, sin dependencias de red externas.
 
 ## 7. Verificacion manual complementaria
 
