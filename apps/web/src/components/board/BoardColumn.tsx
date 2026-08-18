@@ -31,7 +31,7 @@ export function BoardColumn({ column, onEdit, onDelete, onStatusChange }: BoardC
   return (
     <section
       aria-label={`Columna ${column.label}`}
-      className="flex w-full shrink-0 flex-col gap-3 sm:w-72"
+      className="flex w-full min-w-0 flex-col gap-3"
     >
       <header className="flex items-center justify-between gap-2 px-1">
         <div className="flex items-center gap-2">

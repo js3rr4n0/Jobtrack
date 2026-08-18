@@ -199,7 +199,7 @@ suyo: es una preferencia por dispositivo, no por cuenta.
 
 La interfaz se adapta sola:
 
-- Las columnas se apilan una debajo de otra y se recorren deslizando.
+- Las columnas se reparten en varias filas y se recorren desplazando la pagina hacia abajo; nunca hay que desplazarse en horizontal.
 - El panel de progreso pasa a la parte superior.
 - Los formularios se abren como hojas a pantalla completa.
 - Los botones de la cabecera muestran solo el icono para ahorrar espacio.

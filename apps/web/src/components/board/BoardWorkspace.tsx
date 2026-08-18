@@ -112,8 +112,8 @@ export function BoardWorkspace() {
   }
 
   return (
-    // Sin tope de ancho: un tablero de seis columnas aprovecha toda la pantalla
-    // en monitores grandes y conserva el desplazamiento horizontal en los chicos.
+    // Sin tope de ancho: el tablero reparte sus seis columnas en todo el
+    // espacio disponible, sin desplazamiento horizontal en ningun tamano.
     <main className="mx-auto flex min-h-screen w-full flex-col gap-6 px-4 py-6 sm:px-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
