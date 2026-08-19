@@ -186,6 +186,11 @@ servicio.
 - Al mover, delega el calculo en `reorderBoard`, persiste unicamente las filas
   que cambiaron según `diffBoardPositions` y publica el evento correspondiente.
 
+**Seguimiento.** `followUpAt` guarda el día en que toca insistir. Que esté
+vencido no se almacena: lo deriva `isFollowUpDue` en el paquete compartido, que
+descarta los procesos ya cerrados y tolera una fecha corrupta. Así la tarjeta,
+el resumen y cualquier consumidor futuro aplican exactamente la misma regla.
+
 **Áreas del tablero.** `category` es texto libre de hasta 60 caracteres. No hay
 catalogo de áreas: se derivan de las propias postulaciones con `listCategories`,
 así que no existe una tabla que pueda quedar desincronizada con los datos ni un

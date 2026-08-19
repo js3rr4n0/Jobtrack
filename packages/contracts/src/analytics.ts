@@ -63,6 +63,27 @@ function hasText(value: string | null | undefined): boolean {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
+/** Estados en los que ya no tiene sentido insistir: el proceso está cerrado. */
+const CLOSED_STATUSES: readonly ApplicationStatus[] = ['hired', 'rejected'];
+
+/**
+ * Decide si a una postulación le toca seguimiento. Solo cuenta si el proceso
+ * sigue vivo y la fecha ya llegó; una fecha ilegible se ignora en lugar de
+ * romper el cálculo, porque puede venir de un dato corrupto.
+ */
+export function isFollowUpDue(
+  application: JobApplication,
+  referenceDate: Date = new Date(),
+): boolean {
+  if (!hasText(application.followUpAt) || CLOSED_STATUSES.includes(application.status)) {
+    return false;
+  }
+
+  const due = new Date(application.followUpAt as string);
+
+  return !Number.isNaN(due.getTime()) && due.getTime() <= referenceDate.getTime();
+}
+
 /** Agrega las postulaciones en estadisticas de jugador. Tolera arreglos vacíos. */
 export function buildPlayerStats(
   applications: readonly JobApplication[],
@@ -79,6 +100,7 @@ export function buildPlayerStats(
 
   let notesWritten = 0;
   let interviewsScheduled = 0;
+  let pendingFollowUps = 0;
   const activityDates: string[] = [];
 
   for (const application of applications) {
@@ -92,6 +114,10 @@ export function buildPlayerStats(
       interviewsScheduled += 1;
     }
 
+    if (isFollowUpDue(application, referenceDate)) {
+      pendingFollowUps += 1;
+    }
+
     activityDates.push(application.createdAt, application.updatedAt);
   }
 
@@ -102,6 +128,7 @@ export function buildPlayerStats(
     byStatus,
     notesWritten,
     interviewsScheduled,
+    pendingFollowUps,
     currentStreakDays,
     longestStreakDays,
   };

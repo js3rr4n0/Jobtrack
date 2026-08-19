@@ -13,7 +13,8 @@ la información sincronizada entre la computadora y el teléfono.
 - **Mural de notas adhesivas** con arrastre libre, cinco colores y posición que
   se conserva entre dispositivos.
 - **Captura manual** de empresa, puesto, ubicación, modalidad, prioridad,
-  expectativa salarial, enlace, notas y fechas de postulación y entrevista.
+  expectativa salarial, enlace, contacto, versión del currículum y de la carta
+  enviadas, notas del proceso y fechas de postulación, entrevista y seguimiento.
 - **Capa de juego**: experiencia, niveles con rango, racha diaria y ocho logros.
 - **Doce temas visuales** nacidos de paletas propias y **dos paquetes de iconos**
   SVG intercambiables, cada uno con su capa de profundidad (superficies
@@ -167,13 +168,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 
 ## Pruebas
 
-400 casos, todos en verde y sin dependencias de red externas:
+420 casos, todos en verde y sin dependencias de red externas:
 
 | Paquete | Herramienta | Casos |
 | --- | --- | --- |
-| `contracts` | Vitest | 74 |
-| `api` | Jest y Supertest | 81 |
-| `web` | Vitest y Testing Library | 245 |
+| `contracts` | Vitest | 82 |
+| `api` | Jest y Supertest | 87 |
+| `web` | Vitest y Testing Library | 251 |
 
 Cubren las restricciones del plan: ausencia de conexión, valores nulos, datos
 corruptos y sincronización entre dispositivos. Las pruebas de tiempo real

@@ -9,6 +9,7 @@ import {
   PRIORITY_LABELS,
   STATUS_CATALOG,
   WORK_MODE_LABELS,
+  isFollowUpDue,
 } from '@jobtrack/contracts';
 
 import { Icon } from '@/components/icons';
@@ -98,6 +99,40 @@ export function ApplicationCard({
             <dt className="visually-hidden">Entrevista</dt>
             <Icon name="calendar" pack={iconPack} size={14} />
             <dd>{formatDateTime(application.interviewAt)}</dd>
+          </div>
+        ) : null}
+
+        {/*
+          El seguimiento vencido se marca en color de aviso: es lo unico de la
+          tarjeta que pide una accion hoy, y sin resaltarlo pasaria inadvertido
+          entre las demas fechas.
+        */}
+        {application.followUpAt ? (
+          <div
+            className={`flex items-center gap-1.5 ${isFollowUpDue(application) ? 'font-semibold text-warning' : ''}`}
+          >
+            <dt className="visually-hidden">Fecha de seguimiento</dt>
+            <Icon name="flag" pack={iconPack} size={14} />
+            <dd>
+              {isFollowUpDue(application) ? 'Toca seguimiento: ' : 'Seguimiento el '}
+              {formatDate(application.followUpAt)}
+            </dd>
+          </div>
+        ) : null}
+
+        {application.contact ? (
+          <div className="flex items-center gap-1.5">
+            <dt className="visually-hidden">Contacto</dt>
+            <Icon name="mic" pack={iconPack} size={14} />
+            <dd className="truncate">{application.contact}</dd>
+          </div>
+        ) : null}
+
+        {application.resumeVersion ? (
+          <div className="flex items-center gap-1.5">
+            <dt className="visually-hidden">Versión del currículum</dt>
+            <Icon name="notebook" pack={iconPack} size={14} />
+            <dd className="truncate">{application.resumeVersion}</dd>
           </div>
         ) : null}
 

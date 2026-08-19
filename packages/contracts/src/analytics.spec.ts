@@ -5,8 +5,10 @@ import {
   buildPlayerStats,
   calculateBaseExperience,
   calculateStreaks,
+  isFollowUpDue,
 } from './analytics';
 import { EXPERIENCE_REWARDS } from './gamification';
+import type { JobApplication } from './job-application';
 import { buildJobApplication } from './test-factories';
 
 const REFERENCE_DATE = new Date('2026-02-10T09:00:00.000Z');
@@ -169,5 +171,60 @@ describe('buildGamificationProfile', () => {
 
     expect(profile.bonusExperience).toBe(unlockedBonus);
     expect(profile.progress.experience).toBe(profile.baseExperience + profile.bonusExperience);
+  });
+});
+
+describe('isFollowUpDue', () => {
+  const hoy = new Date('2026-03-10T12:00:00.000Z');
+  const conSeguimiento = (followUpAt: string | null, status: JobApplication['status'] = 'applied') =>
+    buildJobApplication({ followUpAt, status });
+
+  it('reclama el seguimiento cuando la fecha ya pasó', () => {
+    expect(isFollowUpDue(conSeguimiento('2026-03-01T00:00:00.000Z'), hoy)).toBe(true);
+  });
+
+  it('reclama el seguimiento el mismo día', () => {
+    expect(isFollowUpDue(conSeguimiento('2026-03-10T09:00:00.000Z'), hoy)).toBe(true);
+  });
+
+  it('no reclama nada si la fecha aún no llega', () => {
+    expect(isFollowUpDue(conSeguimiento('2026-03-20T00:00:00.000Z'), hoy)).toBe(false);
+  });
+
+  it('no reclama nada sin fecha de seguimiento', () => {
+    expect(isFollowUpDue(conSeguimiento(null), hoy)).toBe(false);
+  });
+
+  it('deja en paz los procesos ya cerrados', () => {
+    expect(isFollowUpDue(conSeguimiento('2026-03-01T00:00:00.000Z', 'hired'), hoy)).toBe(false);
+    expect(isFollowUpDue(conSeguimiento('2026-03-01T00:00:00.000Z', 'rejected'), hoy)).toBe(false);
+  });
+
+  it('ignora una fecha ilegible en lugar de fallar', () => {
+    expect(isFollowUpDue(conSeguimiento('no-es-una-fecha'), hoy)).toBe(false);
+    expect(isFollowUpDue(conSeguimiento('   '), hoy)).toBe(false);
+  });
+});
+
+describe('seguimientos pendientes en las estadísticas', () => {
+  const hoy = new Date('2026-03-10T12:00:00.000Z');
+
+  it('cuenta solo los vencidos de procesos vivos', () => {
+    const stats = buildPlayerStats(
+      [
+        buildJobApplication({ id: 'a', followUpAt: '2026-03-01T00:00:00.000Z', status: 'applied' }),
+        buildJobApplication({ id: 'b', followUpAt: '2026-03-02T00:00:00.000Z', status: 'interview' }),
+        buildJobApplication({ id: 'c', followUpAt: '2026-03-30T00:00:00.000Z', status: 'applied' }),
+        buildJobApplication({ id: 'd', followUpAt: '2026-03-01T00:00:00.000Z', status: 'rejected' }),
+        buildJobApplication({ id: 'e', followUpAt: null, status: 'applied' }),
+      ],
+      hoy,
+    );
+
+    expect(stats.pendingFollowUps).toBe(2);
+  });
+
+  it('un tablero vacío no tiene seguimientos pendientes', () => {
+    expect(buildPlayerStats([], hoy).pendingFollowUps).toBe(0);
   });
 });

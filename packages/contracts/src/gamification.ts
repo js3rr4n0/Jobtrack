@@ -123,6 +123,8 @@ export interface PlayerStats {
   readonly byStatus: Readonly<Record<ApplicationStatus, number>>;
   readonly notesWritten: number;
   readonly interviewsScheduled: number;
+  /** Procesos vivos cuya fecha de seguimiento ya llegó o pasó. */
+  readonly pendingFollowUps: number;
   readonly currentStreakDays: number;
   readonly longestStreakDays: number;
 }
@@ -139,6 +141,7 @@ export const EMPTY_STATS: PlayerStats = {
   },
   notesWritten: 0,
   interviewsScheduled: 0,
+  pendingFollowUps: 0,
   currentStreakDays: 0,
   longestStreakDays: 0,
 };

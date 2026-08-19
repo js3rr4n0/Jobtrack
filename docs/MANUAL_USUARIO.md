@@ -74,7 +74,9 @@ Debajo del tablero esta el **mural de notas**, para recordatorios sueltos que no
 pertenecen a ninguna vacante concreta.
 
 **El panel lateral** reúne tu progreso: nivel actual, racha, resumen numérico y
-logros. En pantallas pequeñas aparece arriba del tablero.
+logros. En el resumen, **Seguimientos** cuenta los procesos vivos a los que ya
+les tocaba respuesta, y se pone en color de aviso mientras quede alguno. En
+pantallas pequeñas este panel aparece arriba del tablero.
 
 En la cabecera encontraras:
 
@@ -106,7 +108,11 @@ Debajo del título "Tu tablero" hay un indicador de conexión con tres estados:
    | Fecha de postulación | Día en que enviaste la candidatura. |
    | Fecha de entrevista | Día y hora de la entrevista agendada. |
    | Área del tablero | El campo al que pertenece la vacante, por ejemplo *Desarrollo* o *Marketing* (hasta 60 caracteres). |
-   | Notas | Contactos, preguntas o siguientes pasos (hasta 4000 caracteres). |
+   | Contacto | Quién lleva el proceso dentro de la empresa, con su correo o teléfono. |
+   | Versión del currículum | Cuál de tus CV enviaste, por ejemplo *CV backend v3*. Así sabes cuál defender en la entrevista. |
+   | Versión de la carta | Igual, para la carta de presentación, si enviaste alguna. |
+   | Fecha de seguimiento | El día que toca volver a escribir si no hay respuesta. |
+   | Notas | Preguntas de la entrevista, impresiones y siguientes pasos (hasta 4000 caracteres). |
 
 3. Pulsa **Guardar postulación**.
 

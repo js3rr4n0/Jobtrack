@@ -41,18 +41,34 @@ create table if not exists public.job_applications (
   source_url text,
   notes text check (char_length(notes) <= 4000),
   category text check (char_length(category) <= 60),
+  contact text check (char_length(contact) <= 160),
+  resume_version text check (char_length(resume_version) <= 80),
+  cover_letter_version text check (char_length(cover_letter_version) <= 80),
   interview_at timestamptz,
+  follow_up_at timestamptz,
   applied_at timestamptz,
   board_order integer not null default 0 check (board_order >= 0),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
--- Migracion para proyectos creados antes de las areas de tablero. La tabla de
--- arriba no se recrea si ya existe, asi que una columna nueva necesita este paso
--- explicito, y debe ir antes del indice que la usa.
+-- Migraciones para proyectos ya existentes. La tabla de arriba no se recrea si
+-- ya existe, asi que cada columna nueva necesita este paso explicito, y debe ir
+-- antes de los indices que la usan.
 alter table public.job_applications
   add column if not exists category text check (char_length(category) <= 60);
+
+alter table public.job_applications
+  add column if not exists contact text check (char_length(contact) <= 160);
+
+alter table public.job_applications
+  add column if not exists resume_version text check (char_length(resume_version) <= 80);
+
+alter table public.job_applications
+  add column if not exists cover_letter_version text check (char_length(cover_letter_version) <= 80);
+
+alter table public.job_applications
+  add column if not exists follow_up_at timestamptz;
 
 -- El tablero siempre se consulta por usuario, estado y posicion.
 create index if not exists job_applications_board_idx
@@ -66,6 +82,11 @@ create index if not exists job_applications_category_idx
 create index if not exists job_applications_interview_idx
   on public.job_applications (user_id, interview_at)
   where interview_at is not null;
+
+-- Los seguimientos se consultan por fecha para saber a quien toca escribir.
+create index if not exists job_applications_follow_up_idx
+  on public.job_applications (user_id, follow_up_at)
+  where follow_up_at is not null;
 
 -- Mantiene updated_at coherente sin depender de la capa de aplicacion.
 create or replace function public.touch_updated_at()

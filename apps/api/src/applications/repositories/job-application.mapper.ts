@@ -16,7 +16,11 @@ export interface JobApplicationRow {
   source_url: string | null;
   notes: string | null;
   category: string | null;
+  contact: string | null;
+  resume_version: string | null;
+  cover_letter_version: string | null;
   interview_at: string | null;
+  follow_up_at: string | null;
   applied_at: string | null;
   board_order: number;
   created_at: string;
@@ -37,7 +41,11 @@ export function toDomain(row: JobApplicationRow): JobApplication {
     sourceUrl: row.source_url,
     notes: row.notes,
     category: row.category,
+    contact: row.contact,
+    resumeVersion: row.resume_version,
+    coverLetterVersion: row.cover_letter_version,
     interviewAt: row.interview_at,
+    followUpAt: row.follow_up_at,
     appliedAt: row.applied_at,
     boardOrder: row.board_order,
     createdAt: row.created_at,
@@ -61,7 +69,11 @@ export function toInsertRow(record: NewJobApplicationRecord): Omit<
     source_url: record.sourceUrl,
     notes: record.notes,
     category: record.category,
+    contact: record.contact,
+    resume_version: record.resumeVersion,
+    cover_letter_version: record.coverLetterVersion,
     interview_at: record.interviewAt,
+    follow_up_at: record.followUpAt,
     applied_at: record.appliedAt,
     board_order: record.boardOrder,
   };
@@ -78,7 +90,11 @@ const PATCH_COLUMN_BY_FIELD: Readonly<Record<string, keyof JobApplicationRow>> =
   sourceUrl: 'source_url',
   notes: 'notes',
   category: 'category',
+  contact: 'contact',
+  resumeVersion: 'resume_version',
+  coverLetterVersion: 'cover_letter_version',
   interviewAt: 'interview_at',
+  followUpAt: 'follow_up_at',
   appliedAt: 'applied_at',
   boardOrder: 'board_order',
   updatedAt: 'updated_at',

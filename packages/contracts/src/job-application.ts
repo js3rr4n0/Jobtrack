@@ -113,11 +113,20 @@ export interface JobApplication {
   readonly priority: Priority;
   readonly salaryExpectation: number | null;
   readonly sourceUrl: string | null;
+  /** Notas del proceso: preguntas de la entrevista, impresiones, siguientes pasos. */
   readonly notes: string | null;
   /** Área a la que pertenece la vacante, definida libremente por el usuario. */
   readonly category: string | null;
+  /** Persona de contacto dentro de la empresa, con su correo o teléfono. */
+  readonly contact: string | null;
+  /** Versión del currículum enviada, para saber cuál defender en la entrevista. */
+  readonly resumeVersion: string | null;
+  /** Versión de la carta de presentación enviada, si se envió alguna. */
+  readonly coverLetterVersion: string | null;
   /** Fecha ISO 8601 de la entrevista agendada, si existe. */
   readonly interviewAt: string | null;
+  /** Día en que toca volver a escribir si no hay respuesta. */
+  readonly followUpAt: string | null;
   readonly appliedAt: string | null;
   /** Posición vertical dentro de su columna kanban. */
   readonly boardOrder: number;
@@ -136,7 +145,11 @@ export interface CreateJobApplicationInput {
   sourceUrl?: string | null;
   notes?: string | null;
   category?: string | null;
+  contact?: string | null;
+  resumeVersion?: string | null;
+  coverLetterVersion?: string | null;
   interviewAt?: string | null;
+  followUpAt?: string | null;
   appliedAt?: string | null;
 }
 

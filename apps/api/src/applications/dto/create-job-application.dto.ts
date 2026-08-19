@@ -85,9 +85,35 @@ export class CreateJobApplicationDto {
   category?: string | null;
 
   @IsOptional()
+  @Transform(trimmed)
+  @Transform(emptyToNull)
+  @IsString({ message: 'El contacto debe ser texto.' })
+  @MaxLength(160, { message: 'El contacto admite hasta 160 caracteres.' })
+  contact?: string | null;
+
+  @IsOptional()
+  @Transform(trimmed)
+  @Transform(emptyToNull)
+  @IsString({ message: 'La versión del currículum debe ser texto.' })
+  @MaxLength(80, { message: 'La versión del currículum admite hasta 80 caracteres.' })
+  resumeVersion?: string | null;
+
+  @IsOptional()
+  @Transform(trimmed)
+  @Transform(emptyToNull)
+  @IsString({ message: 'La versión de la carta debe ser texto.' })
+  @MaxLength(80, { message: 'La versión de la carta admite hasta 80 caracteres.' })
+  coverLetterVersion?: string | null;
+
+  @IsOptional()
   @Transform(emptyToNull)
   @IsISO8601({}, { message: 'La fecha de entrevista debe tener formato ISO 8601.' })
   interviewAt?: string | null;
+
+  @IsOptional()
+  @Transform(emptyToNull)
+  @IsISO8601({}, { message: 'La fecha de seguimiento debe tener formato ISO 8601.' })
+  followUpAt?: string | null;
 
   @IsOptional()
   @Transform(emptyToNull)

@@ -143,3 +143,86 @@ describe('fromApplication', () => {
     expect(values.priority).toBe('high');
   });
 });
+
+describe('seguimiento, contacto y documentos', () => {
+  it('envía los campos nuevos ya recortados', () => {
+    const input = toApplicationInput({
+      ...EMPTY_FORM_VALUES,
+      company: 'Nube Andina',
+      position: 'Ingeniero de Datos',
+      contact: '  Marta Ruiz  ',
+      resumeVersion: '  CV backend v3  ',
+      coverLetterVersion: 'Carta v2',
+    });
+
+    expect(input.contact).toBe('Marta Ruiz');
+    expect(input.resumeVersion).toBe('CV backend v3');
+    expect(input.coverLetterVersion).toBe('Carta v2');
+  });
+
+  it('convierte en nulo lo que se deja en blanco', () => {
+    const input = toApplicationInput({
+      ...EMPTY_FORM_VALUES,
+      company: 'Marca Viva',
+      position: 'SEO',
+      contact: '   ',
+      resumeVersion: '',
+      followUpAt: '',
+    });
+
+    expect(input.contact).toBeNull();
+    expect(input.resumeVersion).toBeNull();
+    expect(input.followUpAt).toBeNull();
+  });
+
+  it('rechaza un contacto más largo que el máximo', () => {
+    const errors = validateApplicationForm({
+      ...EMPTY_FORM_VALUES,
+      company: 'Faro',
+      position: 'Analista',
+      contact: 'a'.repeat(161),
+    });
+
+    expect(errors.contact).toMatch(/160/);
+  });
+
+  it('rechaza versiones de documento demasiado largas', () => {
+    const errors = validateApplicationForm({
+      ...EMPTY_FORM_VALUES,
+      company: 'Faro',
+      position: 'Analista',
+      resumeVersion: 'a'.repeat(81),
+      coverLetterVersion: 'a'.repeat(81),
+    });
+
+    expect(errors.resumeVersion).toMatch(/80/);
+    expect(errors.coverLetterVersion).toMatch(/80/);
+  });
+
+  it('avisa de una fecha de seguimiento ilegible', () => {
+    const errors = validateApplicationForm({
+      ...EMPTY_FORM_VALUES,
+      company: 'Faro',
+      position: 'Analista',
+      followUpAt: '30 de febrero',
+    });
+
+    expect(errors.followUpAt).toBe('Revisa la fecha de seguimiento.');
+  });
+
+  it('la conversión de ida y vuelta conserva los campos nuevos', () => {
+    const application = buildJobApplication({
+      contact: 'Marta Ruiz',
+      resumeVersion: 'CV backend v3',
+      coverLetterVersion: 'Carta v2',
+      followUpAt: '2026-04-01T00:00:00.000Z',
+    });
+
+    const values = fromApplication(application);
+
+    expect(values.contact).toBe('Marta Ruiz');
+    expect(values.resumeVersion).toBe('CV backend v3');
+    expect(values.coverLetterVersion).toBe('Carta v2');
+    expect(values.followUpAt).not.toBe('');
+  });
+});

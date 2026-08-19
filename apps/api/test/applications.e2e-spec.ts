@@ -211,6 +211,85 @@ describe('Postulaciones (integracion)', () => {
     });
   });
 
+  describe('seguimiento y documentos', () => {
+    it('guarda contacto, versiones y fecha de seguimiento', async () => {
+      const created = await createApplication({
+        company: 'Nube Andina',
+        position: 'Ingeniero de Datos',
+        contact: 'Marta Ruiz, marta@nubeandina.com',
+        resumeVersion: 'CV backend v3',
+        coverLetterVersion: 'Carta datos v2',
+        followUpAt: '2026-04-01T00:00:00.000Z',
+      }).expect(201);
+
+      expect(created.body).toMatchObject({
+        contact: 'Marta Ruiz, marta@nubeandina.com',
+        resumeVersion: 'CV backend v3',
+        coverLetterVersion: 'Carta datos v2',
+      });
+      expect(created.body.followUpAt).not.toBeNull();
+    });
+
+    it('deja los campos nuevos en nulo cuando no se envían', async () => {
+      const created = await createApplication({
+        company: 'Marca Viva',
+        position: 'Especialista en SEO',
+      }).expect(201);
+
+      expect(created.body).toMatchObject({
+        contact: null,
+        resumeVersion: null,
+        coverLetterVersion: null,
+        followUpAt: null,
+      });
+    });
+
+    it('recorta los espacios y descarta lo que queda vacío', async () => {
+      const created = await createApplication({
+        company: 'Casa Sonora',
+        position: 'Editor',
+        contact: '  Ana  ',
+        resumeVersion: '   ',
+      }).expect(201);
+
+      expect(created.body.contact).toBe('Ana');
+      expect(created.body.resumeVersion).toBeNull();
+    });
+
+    it('rechaza un contacto más largo que el máximo', async () => {
+      await createApplication({
+        company: 'Faro',
+        position: 'Analista',
+        contact: 'a'.repeat(161),
+      }).expect(400);
+    });
+
+    it('rechaza una fecha de seguimiento ilegible', async () => {
+      await createApplication({
+        company: 'Faro',
+        position: 'Analista',
+        followUpAt: '30 de febrero',
+      }).expect(400);
+    });
+
+    it('actualiza solo el seguimiento sin tocar el resto', async () => {
+      const created = await createApplication({
+        company: 'Puerto Cloud',
+        position: 'DevOps',
+        contact: 'Luis',
+      }).expect(201);
+
+      const updated = await request(app.getHttpServer())
+        .patch(url(`/applications/${created.body.id}`))
+        .set('Authorization', `Bearer ${token}`)
+        .send({ followUpAt: '2026-05-01T00:00:00.000Z' })
+        .expect(200);
+
+      expect(updated.body.contact).toBe('Luis');
+      expect(updated.body.followUpAt).not.toBeNull();
+    });
+  });
+
   describe('tablero y gamificación', () => {
     it('devuelve el tablero con todas las columnas y el perfil del jugador', async () => {
       const response = await request(app.getHttpServer())

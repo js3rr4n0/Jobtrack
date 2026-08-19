@@ -17,7 +17,11 @@ export interface ApplicationFormValues {
   sourceUrl: string;
   notes: string;
   category: string;
+  contact: string;
+  resumeVersion: string;
+  coverLetterVersion: string;
   interviewAt: string;
+  followUpAt: string;
   appliedAt: string;
 }
 
@@ -32,7 +36,11 @@ export const EMPTY_FORM_VALUES: ApplicationFormValues = {
   sourceUrl: '',
   notes: '',
   category: '',
+  contact: '',
+  resumeVersion: '',
+  coverLetterVersion: '',
   interviewAt: '',
+  followUpAt: '',
   appliedAt: '',
 };
 
@@ -42,6 +50,8 @@ const MAX_TEXT_LENGTH = 120;
 const MAX_NOTES_LENGTH = 4000;
 const MAX_SALARY = 100_000_000;
 const MAX_CATEGORY_LENGTH = 60;
+const MAX_CONTACT_LENGTH = 160;
+const MAX_DOCUMENT_LENGTH = 80;
 
 function isBlank(value: string): boolean {
   return value.trim().length === 0;
@@ -99,12 +109,31 @@ export function validateApplicationForm(values: ApplicationFormValues): FormErro
     errors.category = `El área admite hasta ${MAX_CATEGORY_LENGTH} caracteres.`;
   }
 
+  if (!isBlank(values.contact) && values.contact.trim().length > MAX_CONTACT_LENGTH) {
+    errors.contact = `El contacto admite hasta ${MAX_CONTACT_LENGTH} caracteres.`;
+  }
+
+  if (!isBlank(values.resumeVersion) && values.resumeVersion.trim().length > MAX_DOCUMENT_LENGTH) {
+    errors.resumeVersion = `La versión del currículum admite hasta ${MAX_DOCUMENT_LENGTH} caracteres.`;
+  }
+
+  if (
+    !isBlank(values.coverLetterVersion) &&
+    values.coverLetterVersion.trim().length > MAX_DOCUMENT_LENGTH
+  ) {
+    errors.coverLetterVersion = `La versión de la carta admite hasta ${MAX_DOCUMENT_LENGTH} caracteres.`;
+  }
+
   if (values.notes.length > MAX_NOTES_LENGTH) {
     errors.notes = `Las notas admiten hasta ${MAX_NOTES_LENGTH} caracteres.`;
   }
 
   if (!isBlank(values.interviewAt) && Number.isNaN(Date.parse(values.interviewAt))) {
     errors.interviewAt = 'Revisa la fecha y hora de la entrevista.';
+  }
+
+  if (!isBlank(values.followUpAt) && Number.isNaN(Date.parse(values.followUpAt))) {
+    errors.followUpAt = 'Revisa la fecha de seguimiento.';
   }
 
   if (!isBlank(values.appliedAt) && Number.isNaN(Date.parse(values.appliedAt))) {
@@ -164,7 +193,11 @@ export function toApplicationInput(values: ApplicationFormValues): CreateJobAppl
     sourceUrl: textOrNull(values.sourceUrl),
     notes: textOrNull(values.notes),
     category: textOrNull(values.category),
+    contact: textOrNull(values.contact),
+    resumeVersion: textOrNull(values.resumeVersion),
+    coverLetterVersion: textOrNull(values.coverLetterVersion),
     interviewAt: toIsoDate(values.interviewAt),
+    followUpAt: toIsoDate(values.followUpAt),
     appliedAt: toIsoDate(values.appliedAt),
   };
 }
@@ -183,7 +216,11 @@ export function fromApplication(application: JobApplication): ApplicationFormVal
     sourceUrl: application.sourceUrl ?? '',
     notes: application.notes ?? '',
     category: application.category ?? '',
+    contact: application.contact ?? '',
+    resumeVersion: application.resumeVersion ?? '',
+    coverLetterVersion: application.coverLetterVersion ?? '',
     interviewAt: toLocalDateTimeValue(application.interviewAt),
+    followUpAt: toLocalDateValue(application.followUpAt),
     appliedAt: toLocalDateValue(application.appliedAt),
   };
 }

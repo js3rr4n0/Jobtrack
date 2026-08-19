@@ -25,17 +25,17 @@ npm test --workspace @jobtrack/web
 | Paquete | Archivo | Tipo | Casos |
 | --- | --- | --- | --- |
 | contracts | `src/gamification.spec.ts` | Unitaria | 17 |
-| contracts | `src/analytics.spec.ts` | Unitaria | 15 |
+| contracts | `src/analytics.spec.ts` | Unitaria | 23 |
 | contracts | `src/board.spec.ts` | Unitaria | 20 |
 | contracts | `src/sticky-note.spec.ts` | Unitaria | 22 |
 | api | `src/config/environment.spec.ts` | Unitaria | 6 |
 | api | `src/auth/token-verifier.service.spec.ts` | Unitaria | 14 |
 | api | `src/applications/job-applications.service.spec.ts` | Unitaria | 18 |
 | api | `src/notes/sticky-notes.service.spec.ts` | Unitaria | 13 |
-| api | `test/applications.e2e-spec.ts` | Integracion | 15 |
+| api | `test/applications.e2e-spec.ts` | Integracion | 21 |
 | api | `test/notes.e2e-spec.ts` | Integracion | 10 |
 | api | `test/realtime.e2e-spec.ts` | Integracion | 5 |
-| web | `src/lib/application-form.test.ts` | Unitaria | 19 |
+| web | `src/lib/application-form.test.ts` | Unitaria | 25 |
 | web | `src/lib/api-client.test.ts` | Unitaria | 14 |
 | web | `src/lib/board-state.test.ts` | Unitaria | 9 |
 | web | `src/lib/note-state.test.ts` | Unitaria | 7 |
@@ -58,7 +58,7 @@ npm test --workspace @jobtrack/web
 | web | `src/components/gamification/LevelMeter.test.tsx` | Componente | 4 |
 | web | `tests/integration/board-workspace.test.tsx` | Integracion | 14 |
 
-**Total: 400 casos.**
+**Total: 420 casos.**
 
 ---
 
@@ -271,7 +271,7 @@ La entrega se considera correcta cuando:
 3. `npm run build` compila el paquete compartido, la API y la web.
 4. Ninguna prueba deja procesos abiertos ni depende de servicios externos.
 
-Estado actual: **400 casos, todos en verde**, sin dependencias de red externas.
+Estado actual: **420 casos, todos en verde**, sin dependencias de red externas.
 
 ## 7. Verificación manual complementaria
 

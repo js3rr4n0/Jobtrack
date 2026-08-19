@@ -185,6 +185,35 @@ export function ApplicationForm({
           placeholder="https://"
           onChange={(event) => updateField('sourceUrl', event.target.value)}
         />
+        <TextField
+          id="contact"
+          label="Contacto"
+          value={values.contact}
+          error={errors.contact}
+          placeholder="Nombre, correo o teléfono"
+          hint="Quién lleva el proceso dentro de la empresa."
+          onChange={(event) => updateField('contact', event.target.value)}
+        />
+      </FormSection>
+
+      <FormSection title="Qué enviaste">
+        <TextField
+          id="resumeVersion"
+          label="Versión del currículum"
+          value={values.resumeVersion}
+          error={errors.resumeVersion}
+          placeholder="Por ejemplo: CV backend v3"
+          hint="Para saber cuál defender en la entrevista."
+          onChange={(event) => updateField('resumeVersion', event.target.value)}
+        />
+        <TextField
+          id="coverLetterVersion"
+          label="Versión de la carta"
+          value={values.coverLetterVersion}
+          error={errors.coverLetterVersion}
+          placeholder="Por ejemplo: Carta producto v2"
+          onChange={(event) => updateField('coverLetterVersion', event.target.value)}
+        />
       </FormSection>
 
       <FormSection title="Fechas y notas">
@@ -203,6 +232,15 @@ export function ApplicationForm({
           value={values.interviewAt}
           error={errors.interviewAt}
           onChange={(event) => updateField('interviewAt', event.target.value)}
+        />
+        <TextField
+          id="followUpAt"
+          label="Fecha de seguimiento"
+          type="date"
+          value={values.followUpAt}
+          error={errors.followUpAt}
+          hint="El día que toca volver a escribir si no hay respuesta."
+          onChange={(event) => updateField('followUpAt', event.target.value)}
         />
         <div className="sm:col-span-2">
           <TextAreaField
