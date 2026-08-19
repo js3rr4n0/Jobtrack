@@ -37,13 +37,13 @@ describe('StickyNotesService', () => {
       expect({ x: second.x, y: second.y }).not.toEqual({ x: first.x, y: first.y });
     });
 
-    it('respeta la posicion enviada por quien la crea', async () => {
+    it('respeta la posición enviada por quien la crea', async () => {
       const created = await service.create(USER_ID, payload({ x: 42, y: 17 }), ORIGIN_ID);
 
       expect(created).toMatchObject({ x: 42, y: 17 });
     });
 
-    it('anuncia la creacion con el dispositivo de origen', async () => {
+    it('anuncia la creación con el dispositivo de origen', async () => {
       const created = await service.create(USER_ID, payload(), ORIGIN_ID);
 
       expect(publisher.noteEvents).toHaveLength(1);
@@ -55,7 +55,7 @@ describe('StickyNotesService', () => {
   });
 
   describe('update', () => {
-    it('cambia el texto y lo anuncia como edicion', async () => {
+    it('cambia el texto y lo anuncia como edición', async () => {
       const created = await service.create(USER_ID, payload(), ORIGIN_ID);
       const updated = await service.update(USER_ID, created.id, { text: 'Llamar el martes' }, null);
 
@@ -63,7 +63,7 @@ describe('StickyNotesService', () => {
       expect(publisher.noteEvents.at(-1)?.event.kind).toBe('updated');
     });
 
-    it('anuncia como movimiento el cambio que solo toca la posicion', async () => {
+    it('anuncia como movimiento el cambio que solo toca la posición', async () => {
       const created = await service.create(USER_ID, payload(), ORIGIN_ID);
       const moved = await service.update(USER_ID, created.id, { x: 70, y: 30 }, null);
 
@@ -71,7 +71,7 @@ describe('StickyNotesService', () => {
       expect(publisher.noteEvents.at(-1)?.event.kind).toBe('moved');
     });
 
-    it('encierra dentro del mural una posicion fuera de rango', async () => {
+    it('encierra dentro del mural una posición fuera de rango', async () => {
       const created = await service.create(USER_ID, payload(), ORIGIN_ID);
       const moved = await service.update(USER_ID, created.id, { x: 480, y: -20 }, null);
 
@@ -115,7 +115,7 @@ describe('StickyNotesService', () => {
   });
 
   describe('listByUser', () => {
-    it('devuelve solo las notas propias, de la mas antigua a la mas reciente', async () => {
+    it('devuelve solo las notas propias, de la más antigua a la más reciente', async () => {
       const mine = await service.create(USER_ID, payload({ text: 'Primera' }), null);
       await service.create(OTHER_USER_ID, payload({ text: 'De otra persona' }), null);
       const second = await service.create(USER_ID, payload({ text: 'Segunda' }), null);
@@ -123,7 +123,7 @@ describe('StickyNotesService', () => {
       expect((await service.listByUser(USER_ID)).map((note) => note.id)).toEqual([mine.id, second.id]);
     });
 
-    it('devuelve una lista vacia cuando aun no hay notas', async () => {
+    it('devuelve una lista vacía cuando aún no hay notas', async () => {
       expect(await service.listByUser(USER_ID)).toEqual([]);
     });
   });

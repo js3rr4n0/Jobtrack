@@ -11,7 +11,7 @@ const renderForm = (overrides: Partial<Parameters<typeof ApplicationForm>[0]> = 
 
   renderWithPreferences(
     <ApplicationForm
-      submitLabel="Guardar postulacion"
+      submitLabel="Guardar postulación"
       isSubmitting={false}
       onSubmit={onSubmit}
       onCancel={onCancel}
@@ -23,27 +23,27 @@ const renderForm = (overrides: Partial<Parameters<typeof ApplicationForm>[0]> = 
 };
 
 describe('ApplicationForm', () => {
-  it('muestra mensajes de error legibles al enviar campos vacios', async () => {
+  it('muestra mensajes de error legibles al enviar campos vacíos', async () => {
     const user = userEvent.setup();
     const { onSubmit } = renderForm();
 
-    await user.click(screen.getByRole('button', { name: 'Guardar postulacion' }));
+    await user.click(screen.getByRole('button', { name: 'Guardar postulación' }));
 
     expect(await screen.findByText('Escribe el nombre de la empresa.')).toBeInTheDocument();
     expect(screen.getByText('Escribe el puesto al que postulas.')).toBeInTheDocument();
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
-  it('no envia datos corruptos cuando la expectativa salarial no es numerica', async () => {
+  it('no envia datos corruptos cuando la expectativa salarial no es numérica', async () => {
     const user = userEvent.setup();
     const { onSubmit } = renderForm();
 
     await user.type(screen.getByLabelText('Empresa'), 'Estudio Pixel');
     await user.type(screen.getByLabelText('Puesto'), 'Desarrollador');
     await user.type(screen.getByLabelText('Expectativa salarial'), 'mucho');
-    await user.click(screen.getByRole('button', { name: 'Guardar postulacion' }));
+    await user.click(screen.getByRole('button', { name: 'Guardar postulación' }));
 
-    expect(await screen.findByText('Usa solo numeros enteros, sin puntos ni comas.')).toBeInTheDocument();
+    expect(await screen.findByText('Usa solo números enteros, sin puntos ni comas.')).toBeInTheDocument();
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
@@ -54,7 +54,7 @@ describe('ApplicationForm', () => {
     await user.type(screen.getByLabelText('Empresa'), '  Estudio Pixel  ');
     await user.type(screen.getByLabelText('Puesto'), 'Desarrollador Frontend');
     await user.selectOptions(screen.getByLabelText('Estado'), 'applied');
-    await user.click(screen.getByRole('button', { name: 'Guardar postulacion' }));
+    await user.click(screen.getByRole('button', { name: 'Guardar postulación' }));
 
     await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
     expect(onSubmit).toHaveBeenCalledWith(
@@ -72,7 +72,7 @@ describe('ApplicationForm', () => {
     const user = userEvent.setup();
     renderForm();
 
-    await user.click(screen.getByRole('button', { name: 'Guardar postulacion' }));
+    await user.click(screen.getByRole('button', { name: 'Guardar postulación' }));
     expect(await screen.findByText('Escribe el nombre de la empresa.')).toBeInTheDocument();
 
     await user.type(screen.getByLabelText('Empresa'), 'E');
@@ -82,7 +82,7 @@ describe('ApplicationForm', () => {
     );
   });
 
-  it('bloquea el envio mientras la peticion esta en curso', () => {
+  it('bloquea el envío mientras la petición está en curso', () => {
     renderForm({ isSubmitting: true });
 
     expect(screen.getByRole('button', { name: 'Guardando...' })).toBeDisabled();

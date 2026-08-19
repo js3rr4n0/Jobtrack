@@ -34,7 +34,7 @@ export interface UseNotesResult {
   readonly applyRemoteEvent: (event: NoteChangeEvent) => void;
 }
 
-const GENERIC_ERROR = 'No fue posible completar la operacion sobre tus notas.';
+const GENERIC_ERROR = 'No fue posible completar la operación sobre tus notas.';
 
 function describeError(error: unknown): NotesFeedback {
   return error instanceof ApiError
@@ -52,7 +52,7 @@ export function useNotes(client: ApiClient | null, originId: string): UseNotesRe
   const [status, setStatus] = useState<NotesStatus>('loading');
   const [error, setError] = useState<NotesFeedback | null>(null);
 
-  // El arrastre necesita leer el mural mas reciente sin volver a suscribirse.
+  // El arrastre necesita leer el mural más reciente sin volver a suscribirse.
   const latestNotes = useRef<StickyNote[]>(notes);
   latestNotes.current = notes;
 
@@ -124,7 +124,7 @@ export function useNotes(client: ApiClient | null, originId: string): UseNotesRe
 
   /**
    * El arrastre se refleja de inmediato con la misma funcion que aplica el
-   * servidor; si la peticion falla, el mural vuelve a su estado anterior.
+   * servidor; si la petición falla, el mural vuelve a su estado anterior.
    */
   const moveNote = useCallback(
     async (id: string, x: number, y: number) => {

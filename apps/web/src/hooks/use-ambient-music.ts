@@ -6,7 +6,7 @@ import { AmbientMusicPlayer, soundscapeForTheme } from '@/lib/ambient-music';
 import type { ThemeId } from '@/lib/themes';
 
 /**
- * Mantiene la musica de fondo alineada con la preferencia y con el tema activo.
+ * Mantiene la música de fondo alineada con la preferencia y con el tema activo.
  * El reproductor vive en una referencia para que cambiar de tema no reinicie el
  * contexto de audio.
  */

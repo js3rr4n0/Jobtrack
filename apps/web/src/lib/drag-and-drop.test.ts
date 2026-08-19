@@ -22,7 +22,7 @@ describe('resolveDropTarget', () => {
     expect(resolveDropTarget(columns, 'desconocida', 'c')).toBeNull();
   });
 
-  it('coloca la tarjeta en la posicion de la tarjeta destino', () => {
+  it('coloca la tarjeta en la posición de la tarjeta destino', () => {
     expect(resolveDropTarget(columns, 'b', 'a')).toEqual({ status: 'wishlist', boardOrder: 0 });
   });
 
@@ -30,14 +30,14 @@ describe('resolveDropTarget', () => {
     expect(resolveDropTarget(columns, 'a', 'c')).toEqual({ status: 'applied', boardOrder: 0 });
   });
 
-  it('anexa al final al soltar sobre el area vacia de otra columna', () => {
+  it('anexa al final al soltar sobre el área vacía de otra columna', () => {
     expect(resolveDropTarget(columns, 'a', columnDroppableId('interview'))).toEqual({
       status: 'interview',
       boardOrder: 0,
     });
   });
 
-  it('no genera movimiento al soltar en la propia columna sin cambiar de posicion', () => {
+  it('no genera movimiento al soltar en la propia columna sin cambiar de posición', () => {
     expect(resolveDropTarget(columns, 'b', columnDroppableId('wishlist'))).toBeNull();
   });
 

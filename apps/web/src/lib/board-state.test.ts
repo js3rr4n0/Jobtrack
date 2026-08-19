@@ -14,24 +14,24 @@ const event = (overrides: Partial<BoardChangeEvent>): BoardChangeEvent => ({
 });
 
 describe('applyRemoteChange', () => {
-  it('agrega una postulacion creada en otro dispositivo', () => {
+  it('agrega una postulación creada en otro dispositivo', () => {
     const result = applyRemoteChange([], event({}));
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe('nueva');
   });
 
-  it('reemplaza la version local cuando la postulacion ya existe', () => {
-    const existing = buildJobApplication({ id: 'nueva', company: 'Version antigua' });
-    const incoming = buildJobApplication({ id: 'nueva', company: 'Version nueva' });
+  it('reemplaza la versión local cuando la postulación ya existe', () => {
+    const existing = buildJobApplication({ id: 'nueva', company: 'Versión antigua' });
+    const incoming = buildJobApplication({ id: 'nueva', company: 'Versión nueva' });
 
     const result = applyRemoteChange([existing], event({ kind: 'updated', application: incoming }));
 
     expect(result).toHaveLength(1);
-    expect(result[0].company).toBe('Version nueva');
+    expect(result[0].company).toBe('Versión nueva');
   });
 
-  it('elimina la postulacion borrada en otro dispositivo', () => {
+  it('elimina la postulación borrada en otro dispositivo', () => {
     const existing = buildJobApplication({ id: 'nueva' });
 
     const result = applyRemoteChange(
@@ -60,16 +60,16 @@ describe('applyRemoteChange', () => {
 });
 
 describe('replaceApplication', () => {
-  it('sustituye la postulacion conservando el orden', () => {
+  it('sustituye la postulación conservando el orden', () => {
     const applications = [
       buildJobApplication({ id: 'a' }),
       buildJobApplication({ id: 'b', company: 'Antes' }),
     ];
 
-    const result = replaceApplication(applications, buildJobApplication({ id: 'b', company: 'Despues' }));
+    const result = replaceApplication(applications, buildJobApplication({ id: 'b', company: 'Después' }));
 
     expect(result.map((application) => application.id)).toEqual(['a', 'b']);
-    expect(result[1].company).toBe('Despues');
+    expect(result[1].company).toBe('Después');
   });
 });
 

@@ -23,7 +23,7 @@ function readString(metadata: Record<string, unknown>, keys: readonly string[]):
   return null;
 }
 
-/** Solo se aceptan fotos servidas por HTTPS, para no degradar la pagina. */
+/** Solo se aceptan fotos servidas por HTTPS, para no degradar la página. */
 function sanitizeAvatar(url: string | null): string | null {
   if (!url) {
     return null;
@@ -37,9 +37,9 @@ function sanitizeAvatar(url: string | null): string | null {
 }
 
 /**
- * Extrae los datos de presentacion del usuario. Cada proveedor los publica bajo
- * claves distintas, y quien entra con correo y contrasena no aporta ninguna, de
- * modo que siempre hay que poder recurrir a la direccion de correo.
+ * Extrae los datos de presentación del usuario. Cada proveedor los publica bajo
+ * claves distintas, y quien entra con correo y contraseña no aporta ninguna, de
+ * modo que siempre hay que poder recurrir a la dirección de correo.
  */
 export function readUserProfile(user: Pick<User, 'email' | 'user_metadata'> | null): UserProfile {
   const metadata = (user?.user_metadata ?? {}) as Record<string, unknown>;

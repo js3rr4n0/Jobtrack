@@ -26,7 +26,7 @@ describe('calculateStreaks', () => {
     expect(streaks.longestStreakDays).toBe(0);
   });
 
-  it('cuenta dias consecutivos una sola vez por dia', () => {
+  it('cuenta días consecutivos una sola vez por día', () => {
     const streaks = calculateStreaks(
       [
         '2026-02-08T08:00:00.000Z',
@@ -41,7 +41,7 @@ describe('calculateStreaks', () => {
     expect(streaks.longestStreakDays).toBe(3);
   });
 
-  it('mantiene la racha viva si la ultima actividad fue ayer', () => {
+  it('mantiene la racha viva si la última actividad fue ayer', () => {
     const streaks = calculateStreaks(
       ['2026-02-08T08:00:00.000Z', '2026-02-09T08:00:00.000Z'],
       REFERENCE_DATE,
@@ -50,7 +50,7 @@ describe('calculateStreaks', () => {
     expect(streaks.currentStreakDays).toBe(2);
   });
 
-  it('rompe la racha actual tras mas de un dia sin actividad', () => {
+  it('rompe la racha actual tras más de un día sin actividad', () => {
     const streaks = calculateStreaks(
       ['2026-02-01T08:00:00.000Z', '2026-02-02T08:00:00.000Z'],
       REFERENCE_DATE,
@@ -62,7 +62,7 @@ describe('calculateStreaks', () => {
 });
 
 describe('buildPlayerStats', () => {
-  it('devuelve estadisticas vacias sin postulaciones', () => {
+  it('devuelve estadisticas vacías sin postulaciones', () => {
     const stats = buildPlayerStats([], REFERENCE_DATE);
 
     expect(stats.totalApplications).toBe(0);
@@ -115,7 +115,7 @@ describe('calculateBaseExperience', () => {
     expect(calculateBaseExperience([])).toBe(0);
   });
 
-  it('otorga la recompensa de creacion a una postulacion recien guardada', () => {
+  it('otorga la recompensa de creación a una postulación recien guardada', () => {
     const experience = calculateBaseExperience([buildJobApplication({ status: 'wishlist' })]);
 
     expect(experience).toBe(EXPERIENCE_REWARDS.application_created);
@@ -148,7 +148,7 @@ describe('calculateBaseExperience', () => {
 });
 
 describe('buildGamificationProfile', () => {
-  it('produce un perfil consistente para un tablero vacio', () => {
+  it('produce un perfil consistente para un tablero vacío', () => {
     const profile = buildGamificationProfile([], REFERENCE_DATE);
 
     expect(profile.progress.level).toBe(1);

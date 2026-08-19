@@ -9,7 +9,7 @@ export interface HealthResponse {
   checkedAt: string;
 }
 
-/** Endpoint publico usado por la web para detectar perdida de conexion. */
+/** Endpoint público usado por la web para detectar pérdida de conexión. */
 @Controller('health')
 export class HealthController {
   constructor(@Inject(CONFIG_TOKEN) private readonly config: ApplicationConfig) {}

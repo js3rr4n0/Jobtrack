@@ -28,7 +28,7 @@ export class StickyNotesService {
   }
 
   /**
-   * Crea una nota. Si no se indica posicion, se escalona respecto a las
+   * Crea una nota. Si no se indica posición, se escalona respecto a las
    * existentes para que nunca quede oculta bajo otra.
    */
   async create(

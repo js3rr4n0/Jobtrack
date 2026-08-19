@@ -25,7 +25,7 @@ const ROOT_FONT_SIZE = 16;
 /**
  * Mural de notas adhesivas con arrastre libre por puntero y por teclado. El
  * gesto se mide en pixeles y se guarda en porcentaje, de modo que la misma nota
- * ocupa el mismo lugar relativo en la computadora y en el telefono.
+ * ocupa el mismo lugar relativo en la computadora y en el teléfono.
  */
 export function NoteWall({ notes, onMove, onEdit }: NoteWallProps) {
   const mural = useRef<HTMLDivElement | null>(null);

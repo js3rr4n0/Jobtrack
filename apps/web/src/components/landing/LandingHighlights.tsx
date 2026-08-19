@@ -9,26 +9,35 @@ interface Highlight {
   readonly description: string;
 }
 
+/**
+ * Cada tarjeta nombra primero lo que la persona consigue y solo despues como
+ * lo consigue. Todas describen algo que la aplicación hace de verdad: la fecha
+ * en la tarjeta, las seis etapas, el resumen numerico y el canal en vivo.
+ */
 const HIGHLIGHTS: readonly Highlight[] = [
   {
+    icon: 'calendar',
+    title: 'No se te pasa ninguna entrevista',
+    description:
+      'Cada tarjeta lleva la fecha de su entrevista y las notas de ese proceso, a la vista en el tablero.',
+  },
+  {
     icon: 'layers',
-    title: 'Tablero kanban',
-    description: 'Seis columnas de seguimiento y arrastre para mover cada oferta de etapa.',
+    title: 'Ves dónde se atascan tus procesos',
+    description:
+      'Seis etapas, de «me interesa» a «contratado», y cada tarjeta recuerda desde cuándo está ahí.',
   },
   {
     icon: 'trophy',
-    title: 'Progreso jugable',
-    description: 'Cada avance suma experiencia, sube tu nivel y desbloquea logros.',
+    title: 'Mides lo que de verdad avanza',
+    description:
+      'Cuántas postulaciones enviaste, cuántas entrevistas conseguiste y cuántas ofertas siguen vivas. El nivel y los logros solo son el empujón.',
   },
   {
     icon: 'refresh',
-    title: 'Sincronizacion en vivo',
-    description: 'Los cambios llegan al instante a todos tus dispositivos conectados.',
-  },
-  {
-    icon: 'palette',
-    title: 'Ocho temas',
-    description: 'Claro, oscuro, minimalista, pixel, gaming, anime y galaxy.',
+    title: 'El mismo tablero en todas partes',
+    description:
+      'Anotas algo en el teléfono al salir de una entrevista y ya está en la computadora al llegar a casa.',
   },
 ];
 

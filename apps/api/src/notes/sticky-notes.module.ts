@@ -9,7 +9,7 @@ import { SupabaseStickyNotesRepository } from './repositories/supabase-sticky-no
 import { StickyNotesController } from './sticky-notes.controller';
 import { StickyNotesService } from './sticky-notes.service';
 
-/** Selecciona el adaptador de persistencia declarado en la configuracion. */
+/** Selecciona el adaptador de persistencia declarado en la configuración. */
 const repositoryProvider: Provider = {
   provide: StickyNotesRepository,
   inject: [CONFIG_TOKEN],

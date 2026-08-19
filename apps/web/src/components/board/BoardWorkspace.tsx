@@ -40,7 +40,7 @@ type EditorState =
   | { mode: 'create' }
   | { mode: 'edit'; application: JobApplication };
 
-/** Pantalla principal: tablero kanban, capa de juego y edicion de postulaciones. */
+/** Pantalla principal: tablero kanban, capa de juego y edición de postulaciones. */
 export function BoardWorkspace() {
   const router = useRouter();
   const { iconPack, theme, music } = usePreferences();
@@ -50,7 +50,7 @@ export function BoardWorkspace() {
   const profile = readUserProfile(session?.user ?? null);
 
   // Un solo cliente y un solo canal para el tablero y el mural: comparten el
-  // identificador de origen, asi que ninguno reacciona a su propio eco.
+  // identificador de origen, así que ninguno reacciona a su propio eco.
   const { client, originId } = useApiClient(accessToken);
   const board = useBoard(client, originId);
   const notes = useNotes(client, originId);
@@ -143,14 +143,14 @@ export function BoardWorkspace() {
   if (sessionStatus === 'loading' || sessionStatus === 'anonymous') {
     return (
       <main className="mx-auto flex min-h-screen max-w-lg items-center justify-center px-4">
-        <p className="text-sm text-secondary">Cargando tu sesion...</p>
+        <p className="text-sm text-secondary">Cargando tu sesión...</p>
       </main>
     );
   }
 
   return (
     // Sin tope de ancho: el tablero reparte sus seis columnas en todo el
-    // espacio disponible, sin desplazamiento horizontal en ningun tamano.
+    // espacio disponible, sin desplazamiento horizontal en ningún tamaño.
     <main className="mx-auto flex min-h-screen w-full flex-col gap-6 px-4 py-6 sm:px-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
@@ -161,7 +161,7 @@ export function BoardWorkspace() {
         <div className="flex flex-wrap items-center gap-2">
           <Button data-tour="nueva-postulacion" onClick={() => setEditor({ mode: 'create' })}>
             <Icon name="plus" pack={iconPack} size={16} />
-            Nueva postulacion
+            Nueva postulación
           </Button>
           <Button variant="secondary" onClick={() => void board.reload()}>
             <Icon name="refresh" pack={iconPack} size={16} />
@@ -174,7 +174,7 @@ export function BoardWorkspace() {
       {!board.isOnline ? (
         <StatusBanner
           tone="warning"
-          message="Estas sin conexion. Puedes seguir consultando el tablero, pero los cambios no se guardaran hasta que vuelva la senal."
+          message="Estas sin conexión. Puedes seguir consultando el tablero, pero los cambios no se guardarán hasta que vuelva la señal."
         />
       ) : null}
 
@@ -230,13 +230,13 @@ export function BoardWorkspace() {
 
       <Modal
         isOpen={editor.mode === 'create'}
-        title="Nueva postulacion"
-        description="Registra la oferta con los datos que ya tengas. Podras completarla despues."
+        title="Nueva postulación"
+        description="Registra la oferta con los datos que ya tengas. Podrás completarla después."
         onClose={closeEditor}
       >
         <ApplicationForm
           knownCategories={knownCategories}
-          submitLabel="Guardar postulacion"
+          submitLabel="Guardar postulación"
           isSubmitting={isSubmitting}
           onSubmit={(input) => void handleCreate(input)}
           onCancel={closeEditor}
@@ -245,7 +245,7 @@ export function BoardWorkspace() {
 
       <Modal
         isOpen={editor.mode === 'edit'}
-        title="Editar postulacion"
+        title="Editar postulación"
         description="Actualiza notas, fechas o el estado del proceso."
         onClose={closeEditor}
       >
@@ -263,8 +263,8 @@ export function BoardWorkspace() {
 
       <Modal
         isOpen={pendingDeletion !== null}
-        title="Eliminar postulacion"
-        description="Esta accion no se puede deshacer."
+        title="Eliminar postulación"
+        description="Esta acción no se puede deshacer."
         onClose={() => setPendingDeletion(null)}
       >
         <p className="text-sm text-secondary">

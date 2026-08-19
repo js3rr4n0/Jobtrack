@@ -12,7 +12,7 @@ export const TOUR_STEPS: readonly TourStep[] = [
     target: 'nueva-postulacion',
     title: 'Registra tu primera oferta',
     description:
-      'Pulsa aqui para guardar una vacante. Solo la empresa y el puesto son obligatorios; lo demas lo puedes completar despues.',
+      'Pulsa aquí para guardar una vacante. Solo la empresa y el puesto son obligatorios; lo demás lo puedes completar después.',
   },
   {
     id: 'board',
@@ -33,14 +33,14 @@ export const TOUR_STEPS: readonly TourStep[] = [
     target: 'cuenta',
     title: 'Tu cuenta y la apariencia',
     description:
-      'Aqui ves con que cuenta entraste y eliges entre ocho temas, dos estilos de iconos y la musica de fondo.',
+      'Aquí ves con qué cuenta entraste y eliges entre ocho temas, dos estilos de iconos y la música de fondo.',
   },
 ];
 
 export const TOUR_STORAGE_KEY = 'jobtrack.tourCompletado';
 
 /**
- * El tutorial solo aparece la primera vez y mientras el tablero este vacio:
+ * El tutorial solo aparece la primera vez y mientras el tablero esté vacío:
  * quien ya tiene postulaciones no necesita que le expliquen la pantalla.
  */
 export function shouldShowTour(applicationCount: number, wasCompleted: boolean): boolean {
@@ -63,7 +63,7 @@ export function writeTourCompleted(storage: Storage | undefined): void {
   try {
     storage?.setItem(TOUR_STORAGE_KEY, 'true');
   } catch {
-    // Sin almacenamiento el tutorial reaparecera; es preferible a fallar.
+    // Sin almacenamiento el tutorial reaparecerá; es preferible a fallar.
   }
 }
 

@@ -16,7 +16,7 @@ function reportPublicConfiguration() {
 
   if (missing.length > 0) {
     console.warn(
-      `[jobtrack] Faltan ${missing.join(' y ')}. La aplicacion se publicara sin inicio de sesion.`,
+      `[jobtrack] Faltan ${missing.join(' y ')}. La aplicación se publicará sin inicio de sesión.`,
     );
   }
 }

@@ -24,7 +24,7 @@ describe('CategoryTabs', () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it('lista todas las areas con su recuento', () => {
+  it('lista todas las áreas con su recuento', () => {
     render(
       <CategoryTabs
         categories={categories}
@@ -37,10 +37,10 @@ describe('CategoryTabs', () => {
 
     expect(screen.getByRole('button', { name: /Todas/ })).toHaveTextContent('6');
     expect(screen.getByRole('button', { name: /Desarrollo/ })).toHaveTextContent('3');
-    expect(screen.getByRole('button', { name: /Sin area/ })).toHaveTextContent('2');
+    expect(screen.getByRole('button', { name: /Sin área/ })).toHaveTextContent('2');
   });
 
-  it('oculta la vista sin area cuando todo esta clasificado', () => {
+  it('oculta la vista sin área cuando todo está clasificado', () => {
     render(
       <CategoryTabs
         categories={categories}
@@ -51,10 +51,10 @@ describe('CategoryTabs', () => {
       />,
     );
 
-    expect(screen.queryByRole('button', { name: /Sin area/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Sin área/ })).not.toBeInTheDocument();
   });
 
-  it('avisa del area elegida usando su identificador', () => {
+  it('avisa del área elegida usando su identificador', () => {
     const onSelect = vi.fn();
     render(
       <CategoryTabs
@@ -67,13 +67,13 @@ describe('CategoryTabs', () => {
     );
 
     fireEvent.click(screen.getByRole('button', { name: /Marketing/ }));
-    fireEvent.click(screen.getByRole('button', { name: /Sin area/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Sin área/ }));
 
     expect(onSelect).toHaveBeenNthCalledWith(1, 'Marketing');
     expect(onSelect).toHaveBeenNthCalledWith(2, UNCATEGORIZED_CATEGORY);
   });
 
-  it('marca el area activa para los lectores de pantalla', () => {
+  it('marca el área activa para los lectores de pantalla', () => {
     render(
       <CategoryTabs
         categories={categories}

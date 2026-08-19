@@ -9,7 +9,7 @@ import { InMemoryJobApplicationsRepository } from './repositories/in-memory-job-
 import { JobApplicationsRepository } from './repositories/job-applications.repository';
 import { SupabaseJobApplicationsRepository } from './repositories/supabase-job-applications.repository';
 
-/** Selecciona el adaptador de persistencia declarado en la configuracion. */
+/** Selecciona el adaptador de persistencia declarado en la configuración. */
 const repositoryProvider: Provider = {
   provide: JobApplicationsRepository,
   inject: [CONFIG_TOKEN],

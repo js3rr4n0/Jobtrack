@@ -1,6 +1,6 @@
 # Manual de usuario
 
-Guia paso a paso para usar Jobtrack, el tablero que convierte tu busqueda de
+Guia paso a paso para usar Jobtrack, el tablero que convierte tu búsqueda de
 empleo en una partida con niveles, rachas y logros.
 
 ## Indice
@@ -8,37 +8,37 @@ empleo en una partida con niveles, rachas y logros.
 1. [Crear tu cuenta](#1-crear-tu-cuenta)
 2. [Conocer la pantalla principal](#2-conocer-la-pantalla-principal)
 3. [Registrar una oferta de empleo](#3-registrar-una-oferta-de-empleo)
-4. [Actualizar el estado de una postulacion](#4-actualizar-el-estado-de-una-postulacion)
+4. [Actualizar el estado de una postulación](#4-actualizar-el-estado-de-una-postulación)
 5. [Editar y eliminar postulaciones](#5-editar-y-eliminar-postulaciones)
-6. [Separar el tablero por areas](#6-separar-el-tablero-por-areas)
+6. [Separar el tablero por áreas](#6-separar-el-tablero-por-áreas)
 7. [El mural de notas](#7-el-mural-de-notas)
 8. [Entender la capa de juego](#8-entender-la-capa-de-juego)
 9. [Personalizar la apariencia](#9-personalizar-la-apariencia)
-10. [Usar Jobtrack en el telefono](#10-usar-jobtrack-en-el-telefono)
-11. [Sincronizacion entre dispositivos](#11-sincronizacion-entre-dispositivos)
-12. [Que pasa si te quedas sin conexion](#12-que-pasa-si-te-quedas-sin-conexion)
+10. [Usar Jobtrack en el teléfono](#10-usar-jobtrack-en-el-teléfono)
+11. [Sincronización entre dispositivos](#11-sincronización-entre-dispositivos)
+12. [Que pasa si te quedas sin conexión](#12-que-pasa-si-te-quedas-sin-conexión)
 13. [Preguntas frecuentes](#13-preguntas-frecuentes)
 
 ---
 
 ## 1. Crear tu cuenta
 
-Hay dos formas de entrar. La mas rapida es **Continuar con Google**: un solo
-clic, sin contrasena que recordar y sin correo de confirmacion, porque el
-proveedor ya verifico tu direccion.
+Hay dos formas de entrar. La más rápida es **Continuar con Google**: un solo
+clic, sin contraseña que recordar y sin correo de confirmación, porque el
+proveedor ya verifico tu dirección.
 
-Si prefieres correo y contrasena:
+Si prefieres correo y contraseña:
 
-1. Abre Jobtrack. La pagina de bienvenida describe el tablero y ofrece dos
+1. Abre Jobtrack. La página de bienvenida describe el tablero y ofrece dos
    botones: **Crear una cuenta** y **Ya tengo cuenta**.
 2. Pulsa **Crear una cuenta**.
-3. Escribe tu correo electronico y una contrasena de al menos **8 caracteres**.
+3. Escribe tu correo electronico y una contraseña de al menos **8 caracteres**.
 4. Pulsa **Registrarme**.
-   - Si el proyecto pide confirmacion por correo, veras el aviso
-     "Cuenta creada. Revisa tu correo para confirmarla y despues inicia sesion".
-     Abre el enlace que recibiste y vuelve a la pagina de acceso.
-   - Si la confirmacion no es obligatoria, entraras directo al tablero.
-5. Para volver mas tarde, usa **Ya tengo cuenta**, escribe tus credenciales y
+   - Si el proyecto pide confirmación por correo, verás el aviso
+     "Cuenta creada. Revisa tu correo para confirmarla y después inicia sesión".
+     Abre el enlace que recibiste y vuelve a la página de acceso.
+   - Si la confirmación no es obligatoria, entraras directo al tablero.
+5. Para volver más tarde, usa **Ya tengo cuenta**, escribe tus credenciales y
    pulsa **Entrar**.
 
 **Errores comunes y que significan**
@@ -46,16 +46,16 @@ Si prefieres correo y contrasena:
 | Mensaje | Que hacer |
 | --- | --- |
 | El correo no tiene un formato valido. | Revisa que incluya `@` y un dominio. |
-| La contrasena necesita al menos 8 caracteres. | Alarga la contrasena. |
-| El correo o la contrasena no coinciden. | Verifica ambos datos. |
+| La contraseña necesita al menos 8 caracteres. | Alarga la contraseña. |
+| El correo o la contraseña no coinciden. | Verifica ambos datos. |
 | Ese correo ya tiene una cuenta. | Usa **Ya tengo una cuenta** para entrar. |
-| No hay conexion con el servicio de autenticacion. | Revisa tu red y reintenta. |
+| No hay conexión con el servicio de autenticación. | Revisa tu red y reintenta. |
 
 ---
 
 ## 2. Conocer la pantalla principal
 
-Al entrar veras el tablero dividido en dos zonas.
+Al entrar verás el tablero dividido en dos zonas.
 
 **El tablero kanban** ocupa la mayor parte de la pantalla y tiene seis columnas:
 
@@ -65,50 +65,50 @@ Al entrar veras el tablero dividido en dos zonas.
 | **Postulado** | Ya enviaste tu candidatura y esperas respuesta. |
 | **Entrevista** | Tienes al menos un proceso de entrevista en curso. |
 | **Oferta** | Recibiste una propuesta formal de contratacion. |
-| **Contratado** | Aceptaste la oferta y cerraste el proceso con exito. |
+| **Contratado** | Aceptaste la oferta y cerraste el proceso con éxito. |
 | **Descartado** | El proceso termino sin oferta. |
 
-Cada columna muestra un contador con el numero de tarjetas que contiene.
+Cada columna muestra un contador con el número de tarjetas que contiene.
 
 Debajo del tablero esta el **mural de notas**, para recordatorios sueltos que no
 pertenecen a ninguna vacante concreta.
 
-**El panel lateral** reune tu progreso: nivel actual, racha, resumen numerico y
-logros. En pantallas pequenas aparece arriba del tablero.
+**El panel lateral** reúne tu progreso: nivel actual, racha, resumen numérico y
+logros. En pantallas pequeñas aparece arriba del tablero.
 
 En la cabecera encontraras:
 
-- **Nueva postulacion**: abre el formulario de registro.
+- **Nueva postulación**: abre el formulario de registro.
 - **Actualizar**: vuelve a pedir el tablero al servidor.
-- **Tu cuenta**: el boton con tu foto y tu nombre. Reune los temas visuales, el
-  estilo de iconos, la musica de fondo y el cierre de sesion.
+- **Tu cuenta**: el boton con tu foto y tu nombre. Reúne los temas visuales, el
+  estilo de iconos, la música de fondo y el cierre de sesión.
 
-Debajo del titulo "Tu tablero" hay un indicador de conexion con tres estados:
-**Sincronizado**, **Reconectando** y **Sin conexion**.
+Debajo del título "Tu tablero" hay un indicador de conexión con tres estados:
+**Sincronizado**, **Reconectando** y **Sin conexión**.
 
 ---
 
 ## 3. Registrar una oferta de empleo
 
-1. Pulsa **Nueva postulacion**.
+1. Pulsa **Nueva postulación**.
 2. Completa el formulario. Solo **Empresa** y **Puesto** son obligatorios:
 
    | Campo | Para que sirve |
    | --- | --- |
-   | Empresa | Nombre de la organizacion (hasta 120 caracteres). |
-   | Puesto | Titulo de la vacante (hasta 120 caracteres). |
+   | Empresa | Nombre de la organización (hasta 120 caracteres). |
+   | Puesto | Título de la vacante (hasta 120 caracteres). |
    | Estado | Columna donde nacera la tarjeta. Por defecto **Interesa**. |
    | Prioridad | Baja, Media o Alta. Se muestra en la esquina de la tarjeta. |
-   | Ubicacion | Ciudad o pais. |
+   | Ubicación | Ciudad o pais. |
    | Modalidad | Presencial, Hibrido o Remoto. |
-   | Expectativa salarial | Solo numeros enteros, sin puntos ni comas. |
-   | Enlace de la vacante | Direccion completa, por ejemplo `https://empresa.com/vacante`. |
-   | Fecha de postulacion | Dia en que enviaste la candidatura. |
-   | Fecha de entrevista | Dia y hora de la entrevista agendada. |
-   | Area del tablero | El campo al que pertenece la vacante, por ejemplo *Desarrollo* o *Marketing* (hasta 60 caracteres). |
+   | Expectativa salarial | Solo números enteros, sin puntos ni comas. |
+   | Enlace de la vacante | Dirección completa, por ejemplo `https://empresa.com/vacante`. |
+   | Fecha de postulación | Día en que enviaste la candidatura. |
+   | Fecha de entrevista | Día y hora de la entrevista agendada. |
+   | Área del tablero | El campo al que pertenece la vacante, por ejemplo *Desarrollo* o *Marketing* (hasta 60 caracteres). |
    | Notas | Contactos, preguntas o siguientes pasos (hasta 4000 caracteres). |
 
-3. Pulsa **Guardar postulacion**.
+3. Pulsa **Guardar postulación**.
 
 La tarjeta aparece al final de la columna elegida y el panel lateral suma la
 experiencia ganada.
@@ -118,7 +118,7 @@ concreta; corrige el dato y vuelve a enviar. El formulario nunca se pierde.
 
 ---
 
-## 4. Actualizar el estado de una postulacion
+## 4. Actualizar el estado de una postulación
 
 Hay tres formas de mover una tarjeta, todas con el mismo efecto.
 
@@ -139,8 +139,8 @@ Hay tres formas de mover una tarjeta, todas con el mismo efecto.
 **C. Con el selector de estado**
 
 En la parte inferior de cada tarjeta hay una lista desplegable con los seis
-estados. Elige el nuevo estado y la tarjeta viaja sola a esa columna. Es la via
-mas comoda en telefonos.
+estados. Elige el nuevo estado y la tarjeta viaja sola a esa columna. Es la vía
+más comoda en telefonos.
 
 ---
 
@@ -148,32 +148,32 @@ mas comoda en telefonos.
 
 **Editar**: pulsa el icono de lapiz de la tarjeta. Se abre el formulario con los
 datos ya cargados; cambia lo que necesites y pulsa **Guardar cambios**. Es el
-lugar habitual para agregar notas despues de una llamada o registrar la fecha de
+lugar habitual para agregar notas después de una llamada o registrar la fecha de
 una entrevista recien agendada.
 
-**Eliminar**: pulsa el icono de papelera. Aparece un dialogo de confirmacion que
-nombra la postulacion. Pulsa **Eliminar** para borrarla o **Conservar** para
+**Eliminar**: pulsa el icono de papelera. Aparece un dialogo de confirmación que
+nombra la postulación. Pulsa **Eliminar** para borrarla o **Conservar** para
 volver atras. La eliminacion no se puede deshacer.
 
 ---
 
-## 6. Separar el tablero por areas
+## 6. Separar el tablero por áreas
 
-Si buscas en mas de un campo a la vez, puedes separar el tablero por **areas**.
-Un area es simplemente un nombre que tu eliges: *Desarrollo de software*,
-*Marketing*, *Diseno*, lo que necesites.
+Si buscas en más de un campo a la vez, puedes separar el tablero por **áreas**.
+Un área es simplemente un nombre que tu eliges: *Desarrollo de software*,
+*Marketing*, *Diseño*, lo que necesites.
 
-1. Al registrar o editar una postulacion, escribe el area en **Area del tablero**.
-   El campo sugiere las areas que ya usaste, para que no acabes con *Marketing* y
+1. Al registrar o editar una postulación, escribe el área en **Área del tablero**.
+   El campo sugiere las áreas que ya usaste, para que no acabes con *Marketing* y
    *marketing* como si fueran distintas.
-2. En cuanto exista al menos un area, aparece una fila de pestanas sobre el
-   tablero: **Todas**, una por cada area y **Sin area** si aun te queda alguna
-   postulacion sin clasificar. Cada pestana muestra cuantas postulaciones tiene.
-3. Pulsa una pestana para que el tablero muestre solo esa area.
+2. En cuanto exista al menos un área, aparece una fila de pestañas sobre el
+   tablero: **Todas**, una por cada área y **Sin área** si aun te queda alguna
+   postulación sin clasificar. Cada pestaña muestra cuántas postulaciones tiene.
+3. Pulsa una pestaña para que el tablero muestre solo esa área.
 
 El filtro cambia lo que ves en el tablero, **no** tu progreso: el nivel, la racha
-y los logros siempre cuentan toda tu busqueda, porque el nivel es tuyo y no de un
-area.
+y los logros siempre cuentan toda tu búsqueda, porque el nivel es tuyo y no de un
+área.
 
 ---
 
@@ -193,12 +193,12 @@ para que nunca quede una escondida debajo de otra.
 
 **Mover una nota**
 
-Arrastrala por el icono de agarre de su esquina superior izquierda. Tambien
+Arrastrala por el icono de agarre de su esquina superior izquierda. También
 funciona con el teclado: pulsa `Tab` hasta llegar a ese icono, luego la barra
 espaciadora y muevela con las flechas.
 
-La posicion se guarda como una proporcion del mural, asi que una nota que dejaste
-arriba a la derecha en la computadora sigue arriba a la derecha en el telefono.
+La posición se guarda como una proporcion del mural, así que una nota que dejaste
+arriba a la derecha en la computadora sigue arriba a la derecha en el teléfono.
 
 **Editar o eliminar**
 
@@ -209,14 +209,14 @@ cambiar el texto, cambiar el color o pulsar **Eliminar**.
 
 ## 8. Entender la capa de juego
 
-**Experiencia**. Cada accion suma puntos:
+**Experiencia**. Cada acción suma puntos:
 
-| Accion | Puntos |
+| Acción | Puntos |
 | --- | --- |
-| Registrar una postulacion | 10 |
-| Escribir notas en una postulacion | 5 |
+| Registrar una postulación | 10 |
+| Escribir notas en una postulación | 5 |
 | Agendar una entrevista | 20 |
-| Avanzar de etapa | 15 mas 10 por cada escalon ganado |
+| Avanzar de etapa | 15 más 10 por cada escalon ganado |
 | Recibir una oferta | 60 |
 | Cerrar como contratado | 150 |
 | Registrar un descarte | 8 |
@@ -228,10 +228,10 @@ acumulado, no el resultado.
 Cada nivel otorga un rango, de **Aspirante** a **Leyenda del empleo**. Al subir
 aparece un aviso de felicitacion que puedes cerrar con **Continuar**.
 
-**Racha**. Cuenta los dias consecutivos con actividad en el tablero. Se mantiene
-viva si tu ultimo movimiento fue hoy o ayer.
+**Racha**. Cuenta los días consecutivos con actividad en el tablero. Se mantiene
+viva si tu último movimiento fue hoy o ayer.
 
-**Logros**. Son ocho metas concretas (primera postulacion, primera entrevista,
+**Logros**. Son ocho metas concretas (primera postulación, primera entrevista,
 primera oferta, contrato firmado, resiliencia, memoria de acero, constancia
 semanal y sembrando oportunidades). Cada tarjeta muestra su progreso actual y la
 bonificacion que otorga al desbloquearse.
@@ -240,7 +240,7 @@ bonificacion que otorga al desbloquearse.
 
 ## 8.1 El tutorial de bienvenida
 
-La primera vez que entras, y mientras no tengas ninguna postulacion, aparece un
+La primera vez que entras, y mientras no tengas ninguna postulación, aparece un
 recorrido de cuatro pasos. La pantalla se atenua y se desenfoca salvo el
 elemento del que se habla, que queda nitido y enmarcado.
 
@@ -256,14 +256,14 @@ Pulsa el boton de **tu cuenta** en la cabecera, el que muestra tu foto y tu nomb
 
 **Temas** agrupados en tres familias:
 
-- *Basicos*: Claro, Oscuro, Minimalista.
-- *Pixel*: Pixel rosa, Pixel azul (bordes duros y tipografia monoespaciada).
+- *Básicos*: Claro, Oscuro, Minimalista.
+- *Pixel*: Pixel rosa, Pixel azul (bordes duros y tipografía monoespaciada).
 - *Creativos*: Gaming, Anime, Galaxy.
 
 **Iconos**: elige entre **Contorno** (trazo fino y neutro) y **Pixel** (bloques
 solidos de estilo retro). La vista previa muestra tres iconos de ejemplo.
 
-**Musica de fondo**: al final del panel hay un interruptor para reproducir un
+**Música de fondo**: al final del panel hay un interruptor para reproducir un
 una pieza breve que se repite. Cada una tiene melodia y bajo propios, se genera
 en tu navegador a volumen bajo, y cambia con el tema:
 
@@ -278,59 +278,59 @@ en tu navegador a volumen bajo, y cambia con el tema:
 Empieza siempre apagada y solo suena si tu la activas.
 
 Estas preferencias se guardan en el dispositivo y se aplican al instante, sin
-recargar la pagina. Si mueves el tema en la computadora, el telefono conserva el
+recargar la página. Si mueves el tema en la computadora, el teléfono conserva el
 suyo: es una preferencia por dispositivo, no por cuenta.
 
 ---
 
-## 10. Usar Jobtrack en el telefono
+## 10. Usar Jobtrack en el teléfono
 
 La interfaz se adapta sola:
 
-- Las columnas se reparten en varias filas y se recorren desplazando la pagina hacia abajo; nunca hay que desplazarse en horizontal.
+- Las columnas se reparten en varias filas y se recorren desplazando la página hacia abajo; nunca hay que desplazarse en horizontal.
 - El panel de progreso pasa a la parte superior.
 - Los formularios se abren como hojas a pantalla completa.
 - Los botones de la cabecera muestran solo el icono para ahorrar espacio.
 
-Para mover tarjetas en pantallas tactiles, el selector de estado de cada tarjeta
-suele ser mas comodo que el arrastre.
+Para mover tarjetas en pantallas táctiles, el selector de estado de cada tarjeta
+suele ser más comodo que el arrastre.
 
 ---
 
-## 11. Sincronizacion entre dispositivos
+## 11. Sincronización entre dispositivos
 
-Tus postulaciones viven en la nube, asociadas a tu cuenta. Al iniciar sesion en
-otro dispositivo veras exactamente el mismo tablero.
+Tus postulaciones viven en la nube, asociadas a tu cuenta. Al iniciar sesión en
+otro dispositivo verás exactamente el mismo tablero.
 
 Mientras el indicador diga **Sincronizado**, los cambios que hagas en un
 dispositivo aparecen en el otro en cuestion de segundos, sin recargar: si mueves
-una tarjeta en la computadora, la veras moverse en el telefono. El mural de notas
-viaja por el mismo canal, asi que una nota que arrastras en un sitio se recoloca
+una tarjeta en la computadora, la verás moverse en el teléfono. El mural de notas
+viaja por el mismo canal, así que una nota que arrastras en un sitio se recoloca
 en el otro.
 
-Si el indicador dice **Reconectando**, la aplicacion sigue funcionando y
+Si el indicador dice **Reconectando**, la aplicación sigue funcionando y
 restablece el canal por su cuenta. Puedes pulsar **Actualizar** en cualquier
 momento para pedir el tablero completo.
 
 ---
 
-## 12. Que pasa si te quedas sin conexion
+## 12. Que pasa si te quedas sin conexión
 
-Jobtrack detecta la perdida de red y muestra un aviso amarillo:
-"Estas sin conexion. Puedes seguir consultando el tablero, pero los cambios no se
-guardaran hasta que vuelva la senal".
+Jobtrack detecta la pérdida de red y muestra un aviso amarillo:
+"Estas sin conexión. Puedes seguir consultando el tablero, pero los cambios no se
+guardarán hasta que vuelva la señal".
 
 Durante ese tiempo:
 
 - Puedes **consultar** todas las tarjetas ya cargadas.
-- Si intentas guardar algo, veras el mensaje "Sin conexion a internet. Tus
-  cambios no se guardaron; vuelve a intentarlo cuando recuperes la senal". El
+- Si intentas guardar algo, verás el mensaje "Sin conexión a internet. Tus
+  cambios no se guardaron; vuelve a intentarlo cuando recuperes la señal". El
   formulario conserva lo que escribiste.
-- Si arrastras una tarjeta y la peticion falla, la tarjeta **regresa a su
-  posicion original** para que el tablero nunca muestre algo distinto de lo que
+- Si arrastras una tarjeta y la petición falla, la tarjeta **regresa a su
+  posición original** para que el tablero nunca muestre algo distinto de lo que
   esta guardado.
 
-Al recuperar la senal, la aplicacion vuelve a pedir el tablero automaticamente.
+Al recuperar la señal, la aplicación vuelve a pedir el tablero automáticamente.
 
 ---
 
@@ -340,17 +340,17 @@ Al recuperar la senal, la aplicacion vuelve a pedir el tablero automaticamente.
 No. Cada cuenta solo alcanza sus propios datos, tanto en la interfaz como en la
 base de datos.
 
-**Perdi la sesion mientras trabajaba.**
-Veras el aviso "Tu sesion expiro. Inicia sesion de nuevo para continuar". Vuelve
-a entrar; ningun dato se pierde.
+**Perdi la sesión mientras trabajaba.**
+Verás el aviso "Tu sesión expiró. Inicia sesión de nuevo para continuar". Vuelve
+a entrar; ningún dato se pierde.
 
-**Puedo dejar campos vacios.**
-Si, salvo empresa y puesto. Los campos vacios se guardan como "sin dato" y no
+**Puedo dejar campos vacíos.**
+Si, salvo empresa y puesto. Los campos vacíos se guardan como "sin dato" y no
 afectan el calculo de experiencia.
 
 **Que pasa si me descartan de un proceso.**
 Mueve la tarjeta a **Descartado**. Sumas 8 puntos de experiencia y avanzas hacia
-el logro *Resiliencia*. Registrar los descartes tambien mantiene viva tu racha.
+el logro *Resiliencia*. Registrar los descartes también mantiene viva tu racha.
 
-**Como cierro sesion.**
+**Como cierro sesión.**
 Pulsa **Salir** en la cabecera del tablero.

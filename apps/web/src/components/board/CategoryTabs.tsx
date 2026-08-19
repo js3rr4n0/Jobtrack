@@ -21,7 +21,7 @@ interface Tab {
 }
 
 /**
- * Selector de area del tablero. Solo aparece cuando hay al menos un area
+ * Selector de área del tablero. Solo aparece cuando hay al menos un área
  * definida: mientras nadie clasifique sus postulaciones no hay nada que elegir.
  */
 export function CategoryTabs({
@@ -45,11 +45,11 @@ export function CategoryTabs({
   ];
 
   if (uncategorized > 0) {
-    tabs.push({ id: UNCATEGORIZED_CATEGORY, label: 'Sin area', total: uncategorized });
+    tabs.push({ id: UNCATEGORIZED_CATEGORY, label: 'Sin área', total: uncategorized });
   }
 
   return (
-    <nav aria-label="Areas del tablero" className="flex flex-wrap items-center gap-2">
+    <nav aria-label="Áreas del tablero" className="flex flex-wrap items-center gap-2">
       {tabs.map((tab) => {
         const isActive = tab.id === active;
 

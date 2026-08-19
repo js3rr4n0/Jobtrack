@@ -27,7 +27,7 @@ export interface GuidedTourProps {
 
 /**
  * Tutorial de primera vez. En lugar de una capa con recorte, se dibujan cuatro
- * paneles desenfocados alrededor del elemento destacado: asi el area util queda
+ * paneles desenfocados alrededor del elemento destacado: así el área útil queda
  * nitida y sigue siendo visible mientras el resto se atenua.
  */
 export function GuidedTour({ onFinish }: GuidedTourProps) {

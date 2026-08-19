@@ -43,7 +43,7 @@ export class BoardGateway
     const user = await this.tokenVerifier.verify(token);
 
     if (!user) {
-      client.emit('connection:rejected', { reason: 'Token de sesion invalido o ausente.' });
+      client.emit('connection:rejected', { reason: 'Token de sesión invalido o ausente.' });
       client.disconnect(true);
       return;
     }

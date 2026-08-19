@@ -9,12 +9,12 @@ export interface ConnectionStatusProps {
   realtimeStatus: RealtimeStatus;
 }
 
-/** Indica de un vistazo si el tablero esta recibiendo cambios en vivo. */
+/** Indica de un vistazo si el tablero está recibiendo cambios en vivo. */
 export function ConnectionStatus({ isOnline, realtimeStatus }: ConnectionStatusProps) {
   const { iconPack } = usePreferences();
 
   const descriptor = !isOnline
-    ? { label: 'Sin conexion', tone: 'text-danger', icon: 'offline' as const }
+    ? { label: 'Sin conexión', tone: 'text-danger', icon: 'offline' as const }
     : realtimeStatus === 'connected'
       ? { label: 'Sincronizado', tone: 'text-success', icon: 'check' as const }
       : { label: 'Reconectando', tone: 'text-warning', icon: 'refresh' as const };

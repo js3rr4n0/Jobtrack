@@ -20,7 +20,7 @@ import {
   WorkMode,
 } from '@jobtrack/contracts';
 
-/** Convierte cadenas vacias en `null` para no guardar basura en la base de datos. */
+/** Convierte cadenas vacías en `null` para no guardar basura en la base de datos. */
 const emptyToNull = ({ value }: { value: unknown }) =>
   typeof value === 'string' && value.trim().length === 0 ? null : value;
 
@@ -46,8 +46,8 @@ export class CreateJobApplicationDto {
 
   @IsOptional()
   @Transform(emptyToNull)
-  @IsString({ message: 'La ubicacion debe ser texto.' })
-  @MaxLength(120, { message: 'La ubicacion admite hasta 120 caracteres.' })
+  @IsString({ message: 'La ubicación debe ser texto.' })
+  @MaxLength(120, { message: 'La ubicación admite hasta 120 caracteres.' })
   location?: string | null;
 
   @IsOptional()
@@ -61,14 +61,14 @@ export class CreateJobApplicationDto {
 
   @IsOptional()
   @Transform(emptyToNull)
-  @IsInt({ message: 'La expectativa salarial debe ser un numero entero.' })
+  @IsInt({ message: 'La expectativa salarial debe ser un número entero.' })
   @Min(0, { message: 'La expectativa salarial no puede ser negativa.' })
-  @Max(100_000_000, { message: 'La expectativa salarial excede el maximo permitido.' })
+  @Max(100_000_000, { message: 'La expectativa salarial excede el máximo permitido.' })
   salaryExpectation?: number | null;
 
   @IsOptional()
   @Transform(emptyToNull)
-  @IsUrl({ require_protocol: true }, { message: 'El enlace debe ser una URL valida con protocolo.' })
+  @IsUrl({ require_protocol: true }, { message: 'El enlace debe ser una URL válida con protocolo.' })
   sourceUrl?: string | null;
 
   @IsOptional()
@@ -80,8 +80,8 @@ export class CreateJobApplicationDto {
   @IsOptional()
   @Transform(trimmed)
   @Transform(emptyToNull)
-  @IsString({ message: 'El area debe ser texto.' })
-  @MaxLength(60, { message: 'El area admite hasta 60 caracteres.' })
+  @IsString({ message: 'El área debe ser texto.' })
+  @MaxLength(60, { message: 'El área admite hasta 60 caracteres.' })
   category?: string | null;
 
   @IsOptional()
@@ -91,6 +91,6 @@ export class CreateJobApplicationDto {
 
   @IsOptional()
   @Transform(emptyToNull)
-  @IsISO8601({}, { message: 'La fecha de postulacion debe tener formato ISO 8601.' })
+  @IsISO8601({}, { message: 'La fecha de postulación debe tener formato ISO 8601.' })
   appliedAt?: string | null;
 }

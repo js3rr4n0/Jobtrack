@@ -38,7 +38,7 @@ export class JobApplicationsService {
     return this.repository.findAllByUser(userId);
   }
 
-  /** Devuelve el tablero completo junto al perfil de gamificacion derivado. */
+  /** Devuelve el tablero completo junto al perfil de gamificación derivado. */
   async getBoard(userId: string): Promise<BoardSnapshot> {
     const applications = await this.repository.findAllByUser(userId);
 
@@ -53,7 +53,7 @@ export class JobApplicationsService {
     const application = await this.repository.findById(userId, applicationId);
 
     if (!application) {
-      throw new NotFoundException('La postulacion no existe o no te pertenece.');
+      throw new NotFoundException('La postulación no existe o no te pertenece.');
     }
 
     return application;
@@ -98,7 +98,7 @@ export class JobApplicationsService {
     const updated = await this.repository.update(userId, applicationId, patch);
 
     if (!updated) {
-      throw new NotFoundException('La postulacion no existe o no te pertenece.');
+      throw new NotFoundException('La postulación no existe o no te pertenece.');
     }
 
     this.notify(userId, 'updated', updated.id, updated, originId);
@@ -106,7 +106,7 @@ export class JobApplicationsService {
   }
 
   /**
-   * Mueve una tarjeta a una columna y posicion concretas, renumerando las
+   * Mueve una tarjeta a una columna y posición concretas, renumerando las
    * columnas afectadas para que el orden sea identico en todos los dispositivos.
    */
   async move(
@@ -132,7 +132,7 @@ export class JobApplicationsService {
     const moved = await this.repository.findById(userId, applicationId);
 
     if (!moved) {
-      throw new NotFoundException('La postulacion no existe o no te pertenece.');
+      throw new NotFoundException('La postulación no existe o no te pertenece.');
     }
 
     this.notify(userId, 'moved', moved.id, moved, originId);
@@ -143,7 +143,7 @@ export class JobApplicationsService {
     const wasRemoved = await this.repository.remove(userId, applicationId);
 
     if (!wasRemoved) {
-      throw new NotFoundException('La postulacion no existe o no te pertenece.');
+      throw new NotFoundException('La postulación no existe o no te pertenece.');
     }
 
     this.notify(userId, 'deleted', applicationId, null, originId);

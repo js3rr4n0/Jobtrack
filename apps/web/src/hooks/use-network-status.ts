@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Sigue el estado de conectividad del navegador. Se inicializa en linea para
+ * Sigue el estado de conectividad del navegador. Se inicializa en línea para
  * que el HTML renderizado en el servidor coincida con el primer render cliente.
  */
 export function useNetworkStatus(): boolean {

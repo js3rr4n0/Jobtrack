@@ -63,7 +63,7 @@ describe('replaceNote', () => {
     expect(result.map((note) => note.text)).toEqual(['Editado', 'Dos']);
   });
 
-  it('deja el mural intacto si la nota no esta', () => {
+  it('deja el mural intacto si la nota no está', () => {
     const notes = [buildStickyNote({ id: 'a' })];
 
     expect(replaceNote(notes, buildStickyNote({ id: 'z' }))).toEqual(notes);

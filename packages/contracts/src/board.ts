@@ -30,9 +30,9 @@ export function groupIntoColumns(applications: readonly JobApplication[]): Board
 }
 
 /**
- * Identificadores de las dos vistas especiales del selector de areas. Ambos
- * empiezan por un espacio y `normalizeCategory` recorta los extremos, asi que
- * ningun area escrita por una persona puede coincidir con ellos.
+ * Identificadores de las dos vistas especiales del selector de áreas. Ambos
+ * empiezan por un espacio y `normalizeCategory` recorta los extremos, así que
+ * ningún área escrita por una persona puede coincidir con ellos.
  */
 export const ALL_CATEGORIES = ' todas';
 export const UNCATEGORIZED_CATEGORY = ' sin-area';
@@ -48,7 +48,7 @@ function normalizeCategory(value: string | null): string | null {
 }
 
 /**
- * Areas presentes en el tablero, ordenadas alfabeticamente y con su recuento.
+ * Áreas presentes en el tablero, ordenadas alfabeticamente y con su recuento.
  * Se derivan de las propias postulaciones: no hay catalogo que mantener ni que
  * pueda quedar desincronizado con los datos.
  */
@@ -67,14 +67,14 @@ export function listCategories(applications: readonly JobApplication[]): Categor
   );
 }
 
-/** Cuantas postulaciones no tienen area asignada. */
+/** Cuántas postulaciones no tienen área asignada. */
 export function countUncategorized(applications: readonly JobApplication[]): number {
   return applications.filter((application) => normalizeCategory(application.category) === null)
     .length;
 }
 
 /**
- * Filtra por area. `ALL_CATEGORIES` devuelve el tablero completo y
+ * Filtra por área. `ALL_CATEGORIES` devuelve el tablero completo y
  * `UNCATEGORIZED_CATEGORY` solo lo que aun no esta clasificado.
  */
 export function filterByCategory(
@@ -157,7 +157,7 @@ export function reorderBoard(
   return [...untouched, ...renumberedOrigin, ...renumberedDestination];
 }
 
-/** Devuelve solo las postulaciones cuya posicion o estado cambio. */
+/** Devuelve solo las postulaciones cuya posición o estado cambio. */
 export function diffBoardPositions(
   previous: readonly JobApplication[],
   next: readonly JobApplication[],

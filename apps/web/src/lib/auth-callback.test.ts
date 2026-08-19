@@ -5,7 +5,7 @@ import { describeCallbackError, hasAuthResult, readCallbackParams } from './auth
 const BASE = 'https://jobtrack.test/auth/callback';
 
 describe('readCallbackParams', () => {
-  it('lee el codigo desde la cadena de consulta', () => {
+  it('lee el código desde la cadena de consulta', () => {
     expect(readCallbackParams(`${BASE}?code=abc123`).code).toBe('abc123');
   });
 
@@ -27,7 +27,7 @@ describe('readCallbackParams', () => {
     expect(params.errorDescription).toBe('Email link has expired');
   });
 
-  it('devuelve nulos cuando la URL no trae parametros', () => {
+  it('devuelve nulos cuando la URL no trae parámetros', () => {
     expect(readCallbackParams(BASE)).toEqual({
       code: null,
       errorCode: null,
@@ -37,7 +37,7 @@ describe('readCallbackParams', () => {
 });
 
 describe('hasAuthResult', () => {
-  it('reconoce un codigo en la raiz, como cuando Supabase cae al Site URL', () => {
+  it('reconoce un código en la raíz, como cuando Supabase cae al Site URL', () => {
     expect(hasAuthResult('https://jobtrack.test/?code=abc123')).toBe(true);
   });
 
@@ -45,34 +45,34 @@ describe('hasAuthResult', () => {
     expect(hasAuthResult('https://jobtrack.test/#error_code=otp_expired')).toBe(true);
   });
 
-  it('no confunde una visita normal con una confirmacion', () => {
+  it('no confunde una visita normal con una confirmación', () => {
     expect(hasAuthResult('https://jobtrack.test/')).toBe(false);
     expect(hasAuthResult('https://jobtrack.test/?utm_source=correo')).toBe(false);
   });
 });
 
 describe('describeCallbackError', () => {
-  it('explica un enlace vencido y como pedir otro', () => {
+  it('explica un enlace vencido y cómo pedir otro', () => {
     expect(describeCallbackError('Email link is invalid or has expired')).toMatch(
       /vencio o se abrio antes/,
     );
   });
 
-  it('reconoce el codigo otp_expired', () => {
+  it('reconoce el código otp_expired', () => {
     expect(describeCallbackError('otp_expired')).toMatch(/vencio/);
   });
 
   it('explica el acceso denegado', () => {
-    expect(describeCallbackError('access_denied')).toMatch(/no es valido/);
+    expect(describeCallbackError('access_denied')).toMatch(/no es válido/);
   });
 
-  it('advierte que el enlace esta ligado al navegador de origen', () => {
+  it('advierte que el enlace está ligado al navegador de origen', () => {
     expect(describeCallbackError('code verifier should be non-empty')).toMatch(
       /mismo navegador/,
     );
   });
 
-  it('usa un mensaje generico ante motivos desconocidos o ausentes', () => {
+  it('usa un mensaje genérico ante motivos desconocidos o ausentes', () => {
     expect(describeCallbackError(null)).toMatch(/No fue posible confirmar tu correo/);
     expect(describeCallbackError('algo inesperado')).toMatch(/No fue posible confirmar tu correo/);
   });

@@ -58,7 +58,7 @@ export interface UseBoardResult {
   readonly applyRemoteEvent: (event: BoardChangeEvent) => void;
 }
 
-const GENERIC_ERROR = 'No fue posible completar la operacion. Intentalo de nuevo.';
+const GENERIC_ERROR = 'No fue posible completar la operación. Intentalo de nuevo.';
 
 function describeError(error: unknown): BoardFeedback {
   if (error instanceof ApiError) {
@@ -69,8 +69,8 @@ function describeError(error: unknown): BoardFeedback {
 }
 
 /**
- * Estado del tablero: carga inicial, mutaciones optimistas, sincronizacion en
- * tiempo real y traduccion de fallos a mensajes legibles.
+ * Estado del tablero: carga inicial, mutaciones optimistas, sincronización en
+ * tiempo real y traducción de fallos a mensajes legibles.
  */
 export function useBoard(client: ApiClient | null, originId: string): UseBoardResult {
   const [applications, setApplications] = useState<JobApplication[]>([]);
@@ -86,8 +86,8 @@ export function useBoard(client: ApiClient | null, originId: string): UseBoardRe
   const categories = useMemo(() => listCategories(applications), [applications]);
   const uncategorized = useMemo(() => countUncategorized(applications), [applications]);
 
-  // El tablero muestra solo el area elegida; la capa de juego sigue midiendo
-  // todo el progreso, porque el nivel es de la persona, no de un area.
+  // El tablero muestra solo el área elegida; la capa de juego sigue midiendo
+  // todo el progreso, porque el nivel es de la persona, no de un área.
   const visible = useMemo(
     () => filterByCategory(applications, activeCategory),
     [applications, activeCategory],
@@ -117,7 +117,7 @@ export function useBoard(client: ApiClient | null, originId: string): UseBoardRe
     void reload();
   }, [reload]);
 
-  // Celebra el ascenso de nivel una unica vez por cambio.
+  // Celebra el ascenso de nivel una única vez por cambio.
   useEffect(() => {
     if (status !== 'ready') {
       return;
@@ -132,7 +132,7 @@ export function useBoard(client: ApiClient | null, originId: string): UseBoardRe
     lastLevel.current = currentLevel;
   }, [gamification.progress.level, status]);
 
-  // Al recuperar la conexion, el tablero se recarga para descartar divergencias.
+  // Al recuperar la conexión, el tablero se recarga para descartar divergencias.
   useEffect(() => {
     if (isOnline && status === 'error') {
       void reload();
@@ -162,7 +162,7 @@ export function useBoard(client: ApiClient | null, originId: string): UseBoardRe
       runMutation(async () => {
         const created = await client!.createApplication(input);
         setApplications((current) => [...current, created]);
-      }, 'Postulacion registrada.'),
+      }, 'Postulación registrada.'),
     [client, runMutation],
   );
 
@@ -180,13 +180,13 @@ export function useBoard(client: ApiClient | null, originId: string): UseBoardRe
       runMutation(async () => {
         await client!.deleteApplication(id);
         setApplications((current) => current.filter((application) => application.id !== id));
-      }, 'Postulacion eliminada.'),
+      }, 'Postulación eliminada.'),
     [client, runMutation],
   );
 
   /**
    * El movimiento se refleja de inmediato con el mismo algoritmo que usa el
-   * servidor; si la peticion falla, se restaura el tablero anterior.
+   * servidor; si la petición falla, se restaura el tablero anterior.
    */
   const moveApplication = useCallback(
     async (id: string, targetStatus: ApplicationStatus, boardOrder: number) => {

@@ -32,7 +32,7 @@ describe('Postulaciones (integracion)', () => {
       .set('Authorization', `Bearer ${authToken}`)
       .send(payload);
 
-  describe('autenticacion', () => {
+  describe('autenticación', () => {
     it('rechaza el acceso sin token', async () => {
       await request(app.getHttpServer()).get(url('/applications')).expect(401);
     });
@@ -53,14 +53,14 @@ describe('Postulaciones (integracion)', () => {
         .expect(401);
     });
 
-    it('deja pasar el endpoint publico de salud', async () => {
+    it('deja pasar el endpoint público de salud', async () => {
       const response = await request(app.getHttpServer()).get(url('/health')).expect(200);
 
       expect(response.body.status).toBe('ok');
     });
   });
 
-  describe('validacion de entrada', () => {
+  describe('validación de entrada', () => {
     it('exige empresa y puesto con mensajes legibles', async () => {
       const response = await createApplication({}).expect(400);
 
@@ -111,7 +111,7 @@ describe('Postulaciones (integracion)', () => {
       }).expect(400);
     });
 
-    it('normaliza cadenas vacias a valores nulos', async () => {
+    it('normaliza cadenas vacías a valores nulos', async () => {
       const response = await createApplication({
         company: '  Empresa con espacios  ',
         position: 'Puesto',
@@ -133,14 +133,14 @@ describe('Postulaciones (integracion)', () => {
   });
 
   describe('ciclo de vida completo', () => {
-    it('registra, consulta, actualiza, mueve y elimina una postulacion', async () => {
+    it('registra, consulta, actualiza, mueve y elimina una postulación', async () => {
       const created = await createApplication({
         company: 'Estudio Pixel',
         position: 'Ingeniero de Software',
         status: 'applied',
         priority: 'high',
         workMode: 'remote',
-        notes: 'Postulacion enviada por el portal oficial.',
+        notes: 'Postulación enviada por el portal oficial.',
       }).expect(201);
 
       const applicationId = created.body.id as string;
@@ -211,7 +211,7 @@ describe('Postulaciones (integracion)', () => {
     });
   });
 
-  describe('tablero y gamificacion', () => {
+  describe('tablero y gamificación', () => {
     it('devuelve el tablero con todas las columnas y el perfil del jugador', async () => {
       const response = await request(app.getHttpServer())
         .get(url('/applications/board'))
@@ -223,7 +223,7 @@ describe('Postulaciones (integracion)', () => {
       expect(response.body.gamification.achievements.length).toBeGreaterThan(0);
     });
 
-    it('mantiene el perfil de gamificacion sincronizado con el tablero', async () => {
+    it('mantiene el perfil de gamificación sincronizado con el tablero', async () => {
       const gamificationToken = await context.issueToken('33333333-3333-4333-8333-333333333333');
 
       await request(app.getHttpServer())

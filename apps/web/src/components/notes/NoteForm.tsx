@@ -36,7 +36,7 @@ const COLOR_LABELS: Record<NoteColor, string> = {
   lila: 'Lila',
 };
 
-/** Formulario de una nota: texto y color, con validacion antes de enviar. */
+/** Formulario de una nota: texto y color, con validación antes de enviar. */
 export function NoteForm({
   initialValues,
   submitLabel,

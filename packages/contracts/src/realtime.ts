@@ -10,7 +10,7 @@ export type BoardChangeKind = (typeof BOARD_CHANGE_KINDS)[number];
 export interface BoardChangeEvent {
   readonly kind: BoardChangeKind;
   readonly applicationId: string;
-  /** Ausente cuando la postulacion fue eliminada. */
+  /** Ausente cuando la postulación fue eliminada. */
   readonly application: JobApplication | null;
   readonly emittedAt: string;
   /**

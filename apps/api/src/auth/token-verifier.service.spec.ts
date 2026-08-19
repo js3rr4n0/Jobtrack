@@ -21,7 +21,7 @@ const signHs256 = (payload: Record<string, unknown>, expiration = '1h') =>
 
 describe('TokenVerifierService', () => {
   const unusedFactory: KeySetFactory = () => {
-    throw new Error('No deberia consultarse el JWKS para un token HS256.');
+    throw new Error('No debería consultarse el JWKS para un token HS256.');
   };
 
   describe('esquema heredado HS256', () => {
@@ -60,7 +60,7 @@ describe('TokenVerifierService', () => {
     });
   });
 
-  describe('esquema asimetrico con JWKS', () => {
+  describe('esquema asimétrico con JWKS', () => {
     it('acepta un token ES256 validado contra las claves publicas del proyecto', async () => {
       const { publicKey, privateKey } = await generateKeyPair('ES256');
       const publicJwk = { ...(await exportJWK(publicKey)), kid: 'clave-actual', alg: 'ES256' };
@@ -102,7 +102,7 @@ describe('TokenVerifierService', () => {
       expect(await verifier.verify(token)).toBeNull();
     });
 
-    it('construye la ruta estandar del JWKS a partir de la URL del proyecto', async () => {
+    it('construye la ruta estándar del JWKS a partir de la URL del proyecto', async () => {
       const requestedUrls: string[] = [];
       const { publicKey, privateKey } = await generateKeyPair('ES256');
       const publicJwk = { ...(await exportJWK(publicKey)), kid: 'k', alg: 'ES256' };
@@ -128,7 +128,7 @@ describe('TokenVerifierService', () => {
       expect(requestedUrls).toEqual(['https://proyecto.supabase.co/auth/v1/.well-known/jwks.json']);
     });
 
-    it('rechaza un token asimetrico si el proyecto no esta configurado', async () => {
+    it('rechaza un token asimétrico si el proyecto no está configurado', async () => {
       const { privateKey } = await generateKeyPair('ES256');
       const verifier = new TokenVerifierService(configWith({ supabaseUrl: '' }), unusedFactory);
 

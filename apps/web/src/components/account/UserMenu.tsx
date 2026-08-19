@@ -45,8 +45,8 @@ function Avatar({ profile, size }: { profile: UserProfile; size: number }) {
 }
 
 /**
- * Punto unico de la cuenta: identifica quien esta dentro, reune los ajustes de
- * apariencia y permite cerrar sesion, en lugar de repartirlo en varios botones.
+ * Punto único de la cuenta: identifica quién está dentro, reúne los ajustes de
+ * apariencia y permite cerrar sesión, en lugar de repartirlo en varios botones.
  */
 export function UserMenu({ profile, onSignOut }: UserMenuProps) {
   const { iconPack } = usePreferences();
@@ -58,7 +58,7 @@ export function UserMenu({ profile, onSignOut }: UserMenuProps) {
         type="button"
         data-tour="cuenta"
         onClick={() => setIsOpen(true)}
-        aria-label={`Cuenta de ${profile.name}, apariencia y cierre de sesion`}
+        aria-label={`Cuenta de ${profile.name}, apariencia y cierre de sesión`}
         className="focus-ring flex items-center gap-2 rounded-control border border-subtle bg-raised py-1.5 pl-1.5 pr-3 text-sm text-primary hover:border-strong"
       >
         <Avatar profile={profile} size={28} />
@@ -88,7 +88,7 @@ export function UserMenu({ profile, onSignOut }: UserMenuProps) {
 
           <Button variant="danger" className="w-full" onClick={onSignOut}>
             <Icon name="logout" pack={iconPack} size={16} />
-            Cerrar sesion
+            Cerrar sesión
           </Button>
         </div>
       </Modal>

@@ -54,11 +54,11 @@ const REQUEST_TIMEOUT_MS = 15_000;
 const COLD_START_TIMEOUT_MS = 60_000;
 
 const OFFLINE_MESSAGE =
-  'Sin conexion a internet. Tus cambios no se guardaron; vuelve a intentarlo cuando recuperes la senal.';
+  'Sin conexión a internet. Tus cambios no se guardaron; vuelve a intentarlo cuando recuperes la señal.';
 const UNREACHABLE_MESSAGE =
-  'No se pudo contactar con el servidor de Jobtrack. Revisa que la API este desplegada y que NEXT_PUBLIC_API_URL apunte a ella.';
+  'No se pudo contactar con el servidor de Jobtrack. Revisa que la API esté desplegada y que NEXT_PUBLIC_API_URL apunte a ella.';
 const TIMEOUT_MESSAGE =
-  'El servidor tardo demasiado en responder. Si esta alojado en un plan gratuito puede estar despertando; vuelve a intentarlo en un minuto.';
+  'El servidor tardó demasiado en responder. Si está alojado en un plan gratuito puede estar despertando; vuelve a intentarlo en un minuto.';
 
 export interface ApiClientOptions {
   readonly baseUrl: string;
@@ -202,7 +202,7 @@ export class ApiClient {
     if (response.status === 401 || response.status === 403) {
       return new ApiError(
         'unauthorized',
-        'Tu sesion expiro. Inicia sesion de nuevo para continuar.',
+        'Tu sesión expiró. Inicia sesión de nuevo para continuar.',
         details,
         response.status,
       );
@@ -219,7 +219,7 @@ export class ApiClient {
 
     return new ApiError(
       'server',
-      message ?? 'El servidor no pudo completar la operacion. Intentalo de nuevo.',
+      message ?? 'El servidor no pudo completar la operación. Intentalo de nuevo.',
       details,
       response.status,
     );
@@ -235,7 +235,7 @@ export class ApiClient {
     }
 
     // Con red disponible, un fallo de transporte significa que el servidor no
-    // responde, no que el dispositivo este sin conexion.
+    // responde, no que el dispositivo esté sin conexión.
     return this.isOnline()
       ? new ApiError('unreachable', UNREACHABLE_MESSAGE)
       : new ApiError('offline', OFFLINE_MESSAGE);

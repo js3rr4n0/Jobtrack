@@ -6,9 +6,9 @@ const GRID = 16;
 const CELL = 24 / GRID;
 
 /**
- * Cada icono se dibuja sobre una reticula de 16x16 descrita con texto: `#`
- * pinta y `.` deja vacio. Trabajar sobre la reticula mantiene las siluetas
- * reconocibles y hace evidente en el codigo que forma tiene cada icono.
+ * Cada icono se dibuja sobre una retícula de 16x16 descrita con texto: `#`
+ * pinta y `.` deja vacío. Trabajar sobre la retícula mantiene las siluetas
+ * reconocibles y hace evidente en el código que forma tiene cada icono.
  *
  * Las celdas contiguas de una fila se agrupan en un solo rectangulo para no
  * emitir un nodo por pixel.

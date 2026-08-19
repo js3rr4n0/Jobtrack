@@ -32,7 +32,7 @@ export function LevelMeter({ progress, currentStreakDays }: LevelMeterProps) {
         <div className="flex items-center gap-1.5 text-sm font-semibold text-warning">
           <Icon name="flame" pack={iconPack} size={18} />
           <span>
-            {currentStreakDays} {currentStreakDays === 1 ? 'dia' : 'dias'}
+            {currentStreakDays} {currentStreakDays === 1 ? 'día' : 'días'}
           </span>
         </div>
       </div>

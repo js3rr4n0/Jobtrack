@@ -24,14 +24,14 @@ describe('groupIntoColumns', () => {
     expect(columns.every((column) => column.applications.length === 0)).toBe(true);
   });
 
-  it('ordena cada columna por su posicion en el tablero', () => {
+  it('ordena cada columna por su posición en el tablero', () => {
     const columns = groupIntoColumns([wishlistCard('c', 2), wishlistCard('a', 0), wishlistCard('b', 1)]);
     const wishlist = columns.find((column) => column.status === 'wishlist');
 
     expect(wishlist?.applications.map((application) => application.id)).toEqual(['a', 'b', 'c']);
   });
 
-  it('desempata posiciones iguales por fecha de creacion', () => {
+  it('desempata posiciones iguales por fecha de creación', () => {
     const columns = groupIntoColumns([
       buildJobApplication({ id: 'nueva', boardOrder: 0, createdAt: '2026-02-02T00:00:00.000Z' }),
       buildJobApplication({ id: 'antigua', boardOrder: 0, createdAt: '2026-01-01T00:00:00.000Z' }),
@@ -62,7 +62,7 @@ describe('reorderBoard', () => {
     expect(wishlist.applications.map((application) => application.boardOrder)).toEqual([0, 1, 2]);
   });
 
-  it('renumera tambien la columna de origen al cambiar de estado', () => {
+  it('renumera también la columna de origen al cambiar de estado', () => {
     const applications = [wishlistCard('a', 0), wishlistCard('b', 1), wishlistCard('c', 2)];
 
     const result = reorderBoard(applications, 'a', 'applied', 0);
@@ -106,7 +106,7 @@ describe('reorderBoard', () => {
     expect(result.map((application) => application.id).sort()).toEqual(['a', 'x', 'y']);
   });
 
-  it('es idempotente al mover una tarjeta a su posicion actual', () => {
+  it('es idempotente al mover una tarjeta a su posición actual', () => {
     const applications = [wishlistCard('a', 0), wishlistCard('b', 1)];
 
     const result = reorderBoard(applications, 'a', 'wishlist', 0);
@@ -125,7 +125,7 @@ describe('diffBoardPositions', () => {
     expect(diffBoardPositions(applications, applications)).toHaveLength(0);
   });
 
-  it('reporta unicamente las tarjetas cuya posicion o estado cambio', () => {
+  it('reporta unicamente las tarjetas cuya posición o estado cambio', () => {
     const before = [wishlistCard('a', 0), wishlistCard('b', 1), wishlistCard('c', 2)];
     const after = reorderBoard(before, 'c', 'wishlist', 0);
 
@@ -135,15 +135,15 @@ describe('diffBoardPositions', () => {
   });
 });
 
-describe('categorias', () => {
+describe('categorías', () => {
   const withCategory = (id: string, category: string | null) =>
     buildJobApplication({ id, category });
 
-  it('no encuentra areas en un tablero sin clasificar', () => {
+  it('no encuentra áreas en un tablero sin clasificar', () => {
     expect(listCategories([withCategory('a', null)])).toEqual([]);
   });
 
-  it('agrupa y cuenta cada area', () => {
+  it('agrupa y cuenta cada área', () => {
     const categories = listCategories([
       withCategory('a', 'Desarrollo'),
       withCategory('b', 'Marketing'),
@@ -156,29 +156,29 @@ describe('categorias', () => {
     ]);
   });
 
-  it('trata los espacios sobrantes como parte del mismo area', () => {
-    expect(listCategories([withCategory('a', 'Diseno'), withCategory('b', '  Diseno  ')])).toEqual([
-      { name: 'Diseno', total: 2 },
+  it('trata los espacios sobrantes como parte del mismo área', () => {
+    expect(listCategories([withCategory('a', 'Diseño'), withCategory('b', '  Diseño  ')])).toEqual([
+      { name: 'Diseño', total: 2 },
     ]);
   });
 
-  it('descarta areas en blanco', () => {
+  it('descarta áreas en blanco', () => {
     expect(listCategories([withCategory('a', '   ')])).toEqual([]);
     expect(countUncategorized([withCategory('a', '   ')])).toBe(1);
   });
 
-  it('filtra por area y devuelve el tablero completo con todas', () => {
+  it('filtra por área y devuelve el tablero completo con todas', () => {
     const applications = [withCategory('a', 'Marketing'), withCategory('b', 'Desarrollo')];
 
     expect(filterByCategory(applications, 'Marketing').map((item) => item.id)).toEqual(['a']);
     expect(filterByCategory(applications, ALL_CATEGORIES)).toHaveLength(2);
   });
 
-  it('devuelve vacio para un area inexistente', () => {
+  it('devuelve vacío para un área inexistente', () => {
     expect(filterByCategory([withCategory('a', 'Marketing')], 'Ventas')).toEqual([]);
   });
 
-  it('reune lo que no tiene area en su propia vista', () => {
+  it('reúne lo que no tiene área en su propia vista', () => {
     const applications = [
       withCategory('a', 'Marketing'),
       withCategory('b', null),
@@ -191,8 +191,8 @@ describe('categorias', () => {
     ]);
   });
 
-  it('usa identificadores que ningun area escrita puede suplantar', () => {
-    // Las areas se recortan antes de guardarse, asi que un area no puede
+  it('usa identificadores que ningún área escrita puede suplantar', () => {
+    // Las áreas se recortan antes de guardarse, así que un área no puede
     // empezar por espacio y colisionar con las vistas especiales.
     for (const sentinel of [ALL_CATEGORIES, UNCATEGORIZED_CATEGORY]) {
       expect(sentinel.trim()).not.toBe(sentinel);

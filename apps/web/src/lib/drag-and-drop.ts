@@ -23,9 +23,9 @@ function statusFromDroppableId(droppableId: string): ApplicationStatus | null {
 }
 
 /**
- * Traduce el resultado de un arrastre a la columna y posicion de destino.
+ * Traduce el resultado de un arrastre a la columna y posición de destino.
  * Devuelve `null` cuando la tarjeta se suelta fuera del tablero o cuando el
- * destino coincide con la posicion actual, evitando peticiones inutiles.
+ * destino coincide con la posición actual, evitando peticiones inutiles.
  */
 export function resolveDropTarget(
   columns: readonly BoardColumn[],

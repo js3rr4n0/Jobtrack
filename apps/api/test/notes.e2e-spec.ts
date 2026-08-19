@@ -50,13 +50,13 @@ describe('Notas del mural (integracion)', () => {
     expect(listed.body.map((note: { id: string }) => note.id)).toContain(created.body.id);
   });
 
-  it('rechaza una nota vacia con un mensaje legible', async () => {
+  it('rechaza una nota vacía con un mensaje legible', async () => {
     const response = await createNote({ text: '   ' }).expect(400);
 
-    expect(response.body.details.join(' ')).toContain('vacia');
+    expect(response.body.details.join(' ')).toContain('vacía');
   });
 
-  it('rechaza un texto mas largo que el maximo', async () => {
+  it('rechaza un texto más largo que el máximo', async () => {
     await createNote({ text: 'a'.repeat(MAX_NOTE_LENGTH + 1) }).expect(400);
   });
 
@@ -64,7 +64,7 @@ describe('Notas del mural (integracion)', () => {
     await createNote({ text: 'Nota', color: 'turquesa' }).expect(400);
   });
 
-  it('rechaza una posicion fuera del mural', async () => {
+  it('rechaza una posición fuera del mural', async () => {
     await createNote({ text: 'Nota', x: 140, y: 10 }).expect(400);
   });
 

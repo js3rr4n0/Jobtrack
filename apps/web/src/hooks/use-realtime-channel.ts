@@ -13,9 +13,9 @@ export interface RealtimeChannelOptions {
 }
 
 /**
- * Abre una unica conexion de tiempo real para toda la pantalla y reparte los
+ * Abre una única conexión de tiempo real para toda la pantalla y reparte los
  * eventos entre el tablero y el mural. Un solo canal evita que un dispositivo
- * abra dos sockets para la misma sesion.
+ * abra dos sockets para la misma sesión.
  */
 export function useRealtimeChannel({
   accessToken,

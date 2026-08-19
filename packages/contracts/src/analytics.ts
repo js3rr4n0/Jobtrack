@@ -27,8 +27,8 @@ function daysBetween(earlierDayKey: string, laterDayKey: string): number {
 }
 
 /**
- * Calcula la racha actual y la mas larga a partir de los dias con actividad.
- * La racha actual solo cuenta si la ultima actividad fue hoy o ayer.
+ * Calcula la racha actual y la más larga a partir de los días con actividad.
+ * La racha actual solo cuenta si la última actividad fue hoy o ayer.
  */
 export function calculateStreaks(
   activityDates: readonly string[],
@@ -63,7 +63,7 @@ function hasText(value: string | null | undefined): boolean {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
-/** Agrega las postulaciones en estadisticas de jugador. Tolera arreglos vacios. */
+/** Agrega las postulaciones en estadisticas de jugador. Tolera arreglos vacíos. */
 export function buildPlayerStats(
   applications: readonly JobApplication[],
   referenceDate: Date = new Date(),
@@ -129,7 +129,7 @@ export function calculateBaseExperience(applications: readonly JobApplication[])
   }, 0);
 }
 
-/** Construye el perfil completo de gamificacion listo para la interfaz. */
+/** Construye el perfil completo de gamificación listo para la interfaz. */
 export function buildGamificationProfile(
   applications: readonly JobApplication[],
   referenceDate: Date = new Date(),

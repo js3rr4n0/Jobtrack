@@ -5,6 +5,8 @@ import {
   ICON_PACK_STORAGE_KEY,
   MUSIC_STORAGE_KEY,
   THEME_STORAGE_KEY,
+  THEME_BOOTSTRAP_SCRIPT,
+  prefersDarkScheme,
   readStoredPreferences,
   writeStoredPreferences,
 } from './preferences';
@@ -26,7 +28,7 @@ function createMemoryStorage(initial: Record<string, string> = {}): Storage {
 
 function createFailingStorage(): Storage {
   const fail = () => {
-    throw new Error('El almacenamiento no esta disponible.');
+    throw new Error('El almacenamiento no está disponible.');
   };
 
   return {
@@ -73,6 +75,97 @@ describe('readStoredPreferences', () => {
   it('no falla si el navegador bloquea el almacenamiento', () => {
     expect(readStoredPreferences(createFailingStorage())).toEqual(DEFAULT_PREFERENCES);
   });
+
+  it('adopta el tema oscuro del sistema mientras nadie haya elegido uno', () => {
+    expect(readStoredPreferences(createMemoryStorage(), true).theme).toBe('dark');
+    expect(readStoredPreferences(undefined, true).theme).toBe('dark');
+  });
+
+  it('recurre al sistema tambien cuando el almacenamiento esta bloqueado', () => {
+    expect(readStoredPreferences(createFailingStorage(), true).theme).toBe('dark');
+  });
+
+  it('la eleccion guardada pesa mas que la preferencia del sistema', () => {
+    const storage = createMemoryStorage({ [THEME_STORAGE_KEY]: 'light' });
+
+    expect(readStoredPreferences(storage, true).theme).toBe('light');
+  });
+
+  it('descarta un tema corrupto y cae en el del sistema, no en el claro', () => {
+    const storage = createMemoryStorage({ [THEME_STORAGE_KEY]: 'tema-inexistente' });
+
+    expect(readStoredPreferences(storage, true).theme).toBe('dark');
+  });
+});
+
+describe('prefersDarkScheme', () => {
+  const viewWith = (matches: boolean) =>
+    ({ matchMedia: () => ({ matches }) }) as unknown as Window;
+
+  it('reconoce un sistema en modo oscuro', () => {
+    expect(prefersDarkScheme(viewWith(true))).toBe(true);
+    expect(prefersDarkScheme(viewWith(false))).toBe(false);
+  });
+
+  it('devuelve falso donde no existe matchMedia, como en el servidor', () => {
+    expect(prefersDarkScheme(undefined)).toBe(false);
+    expect(prefersDarkScheme({} as Window)).toBe(false);
+  });
+
+  it('no propaga el fallo de un entorno que restringe matchMedia', () => {
+    const view = {
+      matchMedia: () => {
+        throw new Error('Consulta no permitida en este contexto.');
+      },
+    } as unknown as Window;
+
+    expect(() => prefersDarkScheme(view)).not.toThrow();
+    expect(prefersDarkScheme(view)).toBe(false);
+  });
+});
+
+describe('THEME_BOOTSTRAP_SCRIPT', () => {
+  /** Ejecuta el script de arranque sobre un entorno simulado. */
+  const run = (options: { stored?: string | null; prefersDark?: boolean; throws?: boolean }) => {
+    const root = { dataset: {} as Record<string, string> };
+    const view = {
+      matchMedia: (query: string) => ({ matches: Boolean(options.prefersDark) && query.includes('dark') }),
+      localStorage: {
+        getItem: () => {
+          if (options.throws) {
+            throw new Error('El almacenamiento no está disponible.');
+          }
+          return options.stored ?? null;
+        },
+      },
+    };
+
+    new Function('window', 'document', THEME_BOOTSTRAP_SCRIPT)(view, { documentElement: root });
+    return root.dataset.theme;
+  };
+
+  it('aplica el tema guardado', () => {
+    expect(run({ stored: 'galaxy' })).toBe('galaxy');
+  });
+
+  it('cae en el tema del sistema cuando no hay nada guardado', () => {
+    expect(run({ stored: null, prefersDark: true })).toBe('dark');
+    expect(run({ stored: null, prefersDark: false })).toBe('light');
+  });
+
+  it('conserva la preferencia del sistema aunque el almacenamiento falle', () => {
+    expect(run({ throws: true, prefersDark: true })).toBe('dark');
+  });
+
+  it('ignora un tema que no pertenece al catalogo', () => {
+    expect(run({ stored: 'tema-inexistente' })).toBe('light');
+  });
+
+  it('resuelve igual que readStoredPreferences, para no cambiar tras hidratar', () => {
+    expect(run({ stored: null, prefersDark: true })).toBe(
+      readStoredPreferences(createMemoryStorage(), true).theme,
+    );
+  });
 });
 
 describe('writeStoredPreferences', () => {
@@ -86,7 +179,7 @@ describe('writeStoredPreferences', () => {
     expect(storage.getItem(MUSIC_STORAGE_KEY)).toBe('true');
   });
 
-  it('la musica queda apagada salvo que se haya activado explicitamente', () => {
+  it('la música queda apagada salvo que se haya activado explicitamente', () => {
     expect(readStoredPreferences(createMemoryStorage()).music).toBe(false);
     expect(
       readStoredPreferences(createMemoryStorage({ [MUSIC_STORAGE_KEY]: 'true' })).music,

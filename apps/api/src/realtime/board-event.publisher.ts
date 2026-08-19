@@ -1,7 +1,7 @@
 import { BoardChangeEvent, NoteChangeEvent } from '@jobtrack/contracts';
 
 /**
- * Puerto de notificacion en tiempo real. La capa de aplicacion publica cambios
+ * Puerto de notificación en tiempo real. La capa de aplicación publica cambios
  * sin conocer el transporte concreto (WebSockets, colas u otro).
  */
 export abstract class BoardEventPublisher {
@@ -9,7 +9,7 @@ export abstract class BoardEventPublisher {
   abstract publishNote(userId: string, event: NoteChangeEvent): void;
 }
 
-/** Implementacion nula para escenarios donde el tiempo real esta deshabilitado. */
+/** Implementación nula para escenarios donde el tiempo real está deshabilitado. */
 export class NoopBoardEventPublisher extends BoardEventPublisher {
   publish(): void {
     // Sin transporte configurado no hay nada que emitir.

@@ -6,13 +6,13 @@ export interface StatsSummaryProps {
   stats: PlayerStats;
 }
 
-/** Resumen numerico del avance real detras de la capa de juego. */
+/** Resumen numérico del avance real detras de la capa de juego. */
 export function StatsSummary({ stats }: StatsSummaryProps) {
   const entries = [
     { label: 'Postulaciones', value: stats.totalApplications },
     { label: STATUS_CATALOG.interview.label, value: stats.byStatus.interview },
     { label: STATUS_CATALOG.offer.label, value: stats.byStatus.offer },
-    { label: 'Racha mas larga', value: `${stats.longestStreakDays} d` },
+    { label: 'Racha más larga', value: `${stats.longestStreakDays} d` },
   ];
 
   return (

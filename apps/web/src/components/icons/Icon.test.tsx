@@ -22,7 +22,7 @@ describe('Icon', () => {
     expect(container.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
   });
 
-  it('se expone a los lectores de pantalla cuando recibe titulo', () => {
+  it('se expone a los lectores de pantalla cuando recibe título', () => {
     render(<Icon name="trophy" title="Logro obtenido" />);
 
     expect(screen.getByRole('img', { name: 'Logro obtenido' })).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe('Icon', () => {
     expect(pixel.container.querySelector('svg')).toHaveAttribute('fill', 'currentColor');
   });
 
-  it('respeta el tamano solicitado', () => {
+  it('respeta el tamaño solicitado', () => {
     const { container } = render(<Icon name="plus" size={32} />);
 
     expect(container.querySelector('svg')).toHaveAttribute('width', '32');

@@ -7,7 +7,7 @@ import { ApplicationConfig } from './config/environment';
 export const API_PREFIX = 'api';
 
 /**
- * Configuracion transversal de la aplicacion. Vive aparte del arranque para que
+ * Configuración transversal de la aplicación. Vive aparte del arranque para que
  * las pruebas de integracion ejerciten exactamente la misma cadena de middleware.
  */
 export function configureApplication(app: INestApplication, config: ApplicationConfig): void {

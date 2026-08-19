@@ -33,7 +33,7 @@ describe('ApiClient', () => {
     expect(headers['X-Jobtrack-Origin']).toBe('dispositivo-prueba');
   });
 
-  it('no llama a la red cuando el dispositivo esta sin conexion', async () => {
+  it('no llama a la red cuando el dispositivo está sin conexión', async () => {
     const fetchMock = vi.fn();
     const client = buildClient(fetchMock, { isOnline: () => false });
 
@@ -41,13 +41,13 @@ describe('ApiClient', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('describe el fallo de conexion con un mensaje accionable', async () => {
+  it('describe el fallo de conexión con un mensaje accionable', async () => {
     const client = buildClient(vi.fn(), { isOnline: () => false });
 
-    await expect(client.getBoard()).rejects.toThrow(/Sin conexion a internet/);
+    await expect(client.getBoard()).rejects.toThrow(/Sin conexión a internet/);
   });
 
-  it('traduce un 401 en una sesion expirada', async () => {
+  it('traduce un 401 en una sesión expirada', async () => {
     const client = buildClient(vi.fn().mockResolvedValue(jsonResponse(401, { message: 'Unauthorized' })));
 
     await expect(client.getBoard()).rejects.toMatchObject({
@@ -83,13 +83,13 @@ describe('ApiClient', () => {
     await expect(client.getBoard()).rejects.toMatchObject({ kind: 'server' });
   });
 
-  it('interpreta una respuesta 204 como operacion sin contenido', async () => {
+  it('interpreta una respuesta 204 como operación sin contenido', async () => {
     const client = buildClient(vi.fn().mockResolvedValue(new Response(null, { status: 204 })));
 
     await expect(client.deleteApplication('id-1')).resolves.toBeUndefined();
   });
 
-  it('distingue un servidor inalcanzable de la falta de conexion', async () => {
+  it('distingue un servidor inalcanzable de la falta de conexión', async () => {
     const client = buildClient(vi.fn().mockRejectedValue(new TypeError('Failed to fetch')));
 
     const failure = await client.getBoard().catch((error: unknown) => error);
@@ -99,7 +99,7 @@ describe('ApiClient', () => {
     expect((failure as ApiError).message).toMatch(/No se pudo contactar con el servidor/);
   });
 
-  it('reporta falta de conexion cuando el dispositivo esta sin red', async () => {
+  it('reporta falta de conexión cuando el dispositivo está sin red', async () => {
     const client = buildClient(vi.fn().mockRejectedValue(new TypeError('Failed to fetch')), {
       isOnline: () => false,
     });
@@ -109,7 +109,7 @@ describe('ApiClient', () => {
     expect((failure as ApiError).kind).toBe('offline');
   });
 
-  it('reporta un tiempo de espera agotado cuando la peticion se aborta', async () => {
+  it('reporta un tiempo de espera agotado cuando la petición se aborta', async () => {
     const client = buildClient(
       vi.fn().mockRejectedValue(new DOMException('Abortada', 'AbortError')),
     );
@@ -127,7 +127,7 @@ describe('ApiClient', () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
-  it('no reintenta una escritura que expira, para no duplicar la operacion', async () => {
+  it('no reintenta una escritura que expira, para no duplicar la operación', async () => {
     const fetchMock = vi.fn().mockRejectedValue(new DOMException('Abortada', 'AbortError'));
 
     await expect(

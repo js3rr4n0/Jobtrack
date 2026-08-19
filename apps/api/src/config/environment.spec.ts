@@ -18,9 +18,9 @@ describe('loadConfiguration', () => {
     expect(config.corsOrigins).toEqual(['https://jobtrack.app', 'https://www.jobtrack.app']);
   });
 
-  it('rechaza un puerto no numerico con un mensaje legible', () => {
+  it('rechaza un puerto no numérico con un mensaje legible', () => {
     expect(() => loadConfiguration({ PORT: 'ocho mil' } as NodeJS.ProcessEnv)).toThrow(
-      /Configuracion de entorno invalida/,
+      /Configuración de entorno invalida/,
     );
   });
 
@@ -30,7 +30,7 @@ describe('loadConfiguration', () => {
     );
   });
 
-  it('acepta el driver supabase cuando las credenciales estan completas', () => {
+  it('acepta el driver supabase cuando las credenciales están completas', () => {
     const config = loadConfiguration({
       DATA_DRIVER: 'supabase',
       SUPABASE_URL: 'https://proyecto.supabase.co',

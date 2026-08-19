@@ -8,7 +8,7 @@ import {
   StickyNotesRepository,
 } from './sticky-notes.repository';
 
-/** Almacen en memoria para desarrollo local y pruebas de integracion. */
+/** Almacén en memoria para desarrollo local y pruebas de integracion. */
 @Injectable()
 export class InMemoryStickyNotesRepository extends StickyNotesRepository {
   private readonly notes = new Map<string, StickyNote>();
@@ -54,16 +54,16 @@ export class InMemoryStickyNotesRepository extends StickyNotesRepository {
     return true;
   }
 
-  /** Utilidad para pruebas: vacia el almacenamiento entre casos. */
+  /** Utilidad para pruebas: vacía el almacenamiento entre casos. */
   clear(): void {
     this.notes.clear();
   }
 
   /**
    * Marca de tiempo estrictamente creciente. PostgreSQL distingue inserciones
-   * consecutivas por su reloj de microsegundos; este almacen solo dispone de
-   * milisegundos, asi que avanza el suyo para no repetir el mismo instante y
-   * conservar el orden de creacion.
+   * consecutivas por su reloj de microsegundos; este almacén solo dispone de
+   * milisegundos, así que avanza el suyo para no repetir el mismo instante y
+   * conservar el orden de creación.
    */
   private nextTimestamp(): string {
     this.lastTimestamp = Math.max(Date.now(), this.lastTimestamp + 1);

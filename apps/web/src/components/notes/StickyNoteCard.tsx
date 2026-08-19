@@ -14,8 +14,8 @@ export interface StickyNoteCardProps {
 }
 
 /**
- * Nota arrastrable. La posicion se expresa en porcentaje del recorrido util
- * (el mural menos la propia nota), asi que la nota nunca sobresale por ningun
+ * Nota arrastrable. La posición se expresa en porcentaje del recorrido útil
+ * (el mural menos la propia nota), así que la nota nunca sobresale por ningún
  * borde por estrecha que sea la pantalla.
  */
 export function StickyNoteCard({ note, onEdit }: StickyNoteCardProps) {
@@ -60,8 +60,8 @@ export function StickyNoteCard({ note, onEdit }: StickyNoteCardProps) {
         </button>
       </div>
 
-      {/* La nota tiene un tamano fijo para que el arrastre sea predecible; un
-          texto mas largo se recorta con puntos suspensivos y se lee completo al
+      {/* La nota tiene un tamaño fijo para que el arrastre sea predecible; un
+          texto más largo se recorta con puntos suspensivos y se lee completo al
           abrir el editor. */}
       <p className="line-clamp-4 break-words text-sm leading-snug">{note.text}</p>
     </article>

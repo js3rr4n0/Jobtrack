@@ -37,12 +37,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Paquete "Pixel" (`pixel-pack.tsx`)
 
-Set original creado para este proyecto sobre una reticula de 24 unidades y
+Set original creado para este proyecto sobre una retícula de 24 unidades y
 distribuido bajo la misma licencia MIT del repositorio. No deriva de assets de
 terceros.
 
 ## Como agregar un icono
 
-1. Anade el nombre en `icon-names.ts`.
+1. Añade el nombre en `icon-names.ts`.
 2. Declara su forma en **ambos** paquetes; el tipo `Record<IconName, ReactNode>`
    obliga a cubrir el catalogo completo y el proyecto no compilara si falta uno.

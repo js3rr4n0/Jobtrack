@@ -1,5 +1,5 @@
 /**
- * Catalogo unico de iconos. Cada paquete visual debe cubrir todos estos
+ * Catalogo único de iconos. Cada paquete visual debe cubrir todos estos
  * nombres, de modo que cambiar de paquete nunca deje huecos en la interfaz.
  */
 export const ICON_NAMES = [

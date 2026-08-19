@@ -45,7 +45,7 @@ describe('soundscapeForTheme', () => {
 });
 
 describe('melodias', () => {
-  it('toda nota dura un numero positivo de tiempos', () => {
+  it('toda nota dura un número positivo de tiempos', () => {
     for (const soundscape of ALL_SOUNDSCAPES) {
       for (const item of [...soundscape.melody, ...soundscape.bass]) {
         expect(item.beats).toBeGreaterThan(0);

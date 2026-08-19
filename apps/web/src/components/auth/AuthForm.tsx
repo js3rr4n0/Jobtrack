@@ -24,7 +24,7 @@ export type AuthMode = 'signIn' | 'signUp';
 
 const COPY: Record<AuthMode, { title: string; subtitle: string; submit: string; alternateHref: string; alternateLabel: string }> = {
   signIn: {
-    title: 'Inicia sesion',
+    title: 'Inicia sesión',
     subtitle: 'Recupera tu tablero y continua donde lo dejaste.',
     submit: 'Entrar',
     alternateHref: '/registro',
@@ -40,10 +40,10 @@ const COPY: Record<AuthMode, { title: string; subtitle: string; submit: string; 
 };
 
 const OFFLINE_MESSAGE =
-  'Sin conexion a internet. Conectate a una red para iniciar sesion o registrarte.';
+  'Sin conexión a internet. Conectate a una red para iniciar sesión o registrarte.';
 
 const CONFIRMATION_MESSAGE =
-  'Cuenta creada. Revisa tu correo para confirmarla y despues inicia sesion.';
+  'Cuenta creada. Revisa tu correo para confirmarla y después inicia sesión.';
 
 export function AuthForm({ mode }: { mode: AuthMode }) {
   const router = useRouter();
@@ -64,7 +64,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
 
   /**
    * Los proveedores externos verifican el correo por su cuenta, de modo que
-   * esta via evita el envio de mensajes de confirmacion y sus limites de tasa.
+   * esta vía evita el envío de mensajes de confirmación y sus límites de tasa.
    */
   const handleProvider = async (provider: OAuthProviderOption) => {
     setFormError(null);
@@ -133,7 +133,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
           ? await client.auth.signInWithPassword(credentials)
           : await client.auth.signUp({
               ...credentials,
-              // El enlace del correo debe volver a esta misma aplicacion, no al
+              // El enlace del correo debe volver a esta misma aplicación, no al
               // dominio configurado por defecto en el proyecto de Supabase.
               options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
             });
@@ -220,12 +220,12 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
           />
           <TextField
             id="password"
-            label="Contrasena"
+            label="Contraseña"
             type="password"
             autoComplete={mode === 'signIn' ? 'current-password' : 'new-password'}
             value={values.password}
             error={errors.password}
-            hint={mode === 'signUp' ? `Minimo ${MINIMUM_PASSWORD_LENGTH} caracteres.` : undefined}
+            hint={mode === 'signUp' ? `Mínimo ${MINIMUM_PASSWORD_LENGTH} caracteres.` : undefined}
             onChange={(event) => updateField('password', event.target.value)}
           />
 

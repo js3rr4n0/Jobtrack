@@ -20,8 +20,8 @@ export interface StickyNoteRow {
 }
 
 /**
- * Traduce una fila al modelo de dominio. Sanea color y posicion porque la fila
- * puede venir de una version anterior del esquema o de una edicion manual.
+ * Traduce una fila al modelo de dominio. Sanea color y posición porque la fila
+ * puede venir de una versión anterior del esquema o de una edición manual.
  */
 export function toDomain(row: StickyNoteRow): StickyNote {
   const position = clampNotePosition(row.position_x, row.position_y);

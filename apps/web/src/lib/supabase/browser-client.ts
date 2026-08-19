@@ -7,7 +7,7 @@ export interface SupabaseSettings {
 }
 
 /**
- * Lee la configuracion publica de Supabase. Devuelve `null` cuando falta, de
+ * Lee la configuración pública de Supabase. Devuelve `null` cuando falta, de
  * modo que la interfaz puede mostrar un aviso claro en lugar de fallar.
  */
 export function readSupabaseSettings(): SupabaseSettings | null {
@@ -19,7 +19,7 @@ export function readSupabaseSettings(): SupabaseSettings | null {
 
 let cachedClient: SupabaseClient | null = null;
 
-/** Cliente de navegador reutilizado entre componentes para una sola sesion activa. */
+/** Cliente de navegador reutilizado entre componentes para una sola sesión activa. */
 export function getSupabaseClient(): SupabaseClient | null {
   if (cachedClient) {
     return cachedClient;
@@ -36,4 +36,4 @@ export function getSupabaseClient(): SupabaseClient | null {
 }
 
 export const MISSING_SUPABASE_MESSAGE =
-  'Falta configurar NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY para habilitar el inicio de sesion.';
+  'Falta configurar NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY para habilitar el inicio de sesión.';

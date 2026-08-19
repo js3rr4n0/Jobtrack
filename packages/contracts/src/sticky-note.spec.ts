@@ -30,7 +30,7 @@ describe('clampNotePosition', () => {
     });
   });
 
-  it('acepta numeros en texto, como los que llegan de un formulario', () => {
+  it('acepta números en texto, como los que llegan de un formulario', () => {
     expect(clampNotePosition('30', '45.678')).toEqual({ x: 30, y: 45.68 });
   });
 });
@@ -40,13 +40,13 @@ describe('normalizeNoteText', () => {
     expect(normalizeNoteText('  llamar el martes  ')).toBe('llamar el martes');
   });
 
-  it('descarta el texto vacio o ausente', () => {
+  it('descarta el texto vacío o ausente', () => {
     expect(normalizeNoteText('   ')).toBeNull();
     expect(normalizeNoteText(null)).toBeNull();
     expect(normalizeNoteText(undefined)).toBeNull();
   });
 
-  it('nunca devuelve mas del maximo permitido', () => {
+  it('nunca devuelve más del máximo permitido', () => {
     expect(normalizeNoteText('a'.repeat(MAX_NOTE_LENGTH + 50))).toHaveLength(MAX_NOTE_LENGTH);
   });
 });
@@ -64,7 +64,7 @@ describe('isNoteColor', () => {
 });
 
 describe('sortNotes', () => {
-  it('ordena de la mas antigua a la mas reciente', () => {
+  it('ordena de la más antigua a la más reciente', () => {
     const notes = [
       buildStickyNote({ id: 'b', createdAt: '2026-02-01T00:00:00.000Z' }),
       buildStickyNote({ id: 'a', createdAt: '2026-01-01T00:00:00.000Z' }),
@@ -161,13 +161,13 @@ describe('translateNotePosition', () => {
     expect(moved).toEqual({ x: 20, y: 20 });
   });
 
-  it('mantiene la nota dentro del mural al arrastrar mas alla del borde', () => {
+  it('mantiene la nota dentro del mural al arrastrar más alla del borde', () => {
     const moved = translateNotePosition({ x: 90, y: 90 }, 900, 900, track.width, track.height);
 
     expect(moved).toEqual({ x: 100, y: 100 });
   });
 
-  it('conserva la posicion cuando el mural aun no tiene tamano', () => {
+  it('conserva la posición cuando el mural aun no tiene tamaño', () => {
     expect(translateNotePosition({ x: 30, y: 40 }, 100, 100, 0, 0)).toEqual({ x: 30, y: 40 });
   });
 });

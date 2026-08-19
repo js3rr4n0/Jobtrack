@@ -50,7 +50,7 @@ const CALM: Soundscape = {
   sustainRatio: 0.9,
 };
 
-/** Chiptune saltarin de ocho bits, con bajo alterno como en las consolas. */
+/** Chiptune saltarín de ocho bits, con bajo alterno como en las consolas. */
 const CHIPTUNE: Soundscape = {
   id: 'chiptune',
   label: 'Jingle de arcade',
@@ -172,7 +172,7 @@ export function frequencyForSemitone(rootFrequency: number, semitone: number): n
   return rootFrequency * Math.pow(2, semitone / 12);
 }
 
-/** Volumen deliberadamente bajo: la musica acompana, no compite con la interfaz. */
+/** Volumen deliberadamente bajo: la música acompaña, no compite con la interfaz. */
 const MASTER_GAIN = 0.06;
 const BASS_GAIN = 0.5;
 /** Margen con el que se encola la vuelta siguiente para que no se oiga la costura. */
@@ -190,11 +190,11 @@ function resolveAudioContext(): AudioContextConstructor | null {
 
 /**
  * Reproductor de fondo. Debe iniciarse desde una interaccion del usuario: los
- * navegadores bloquean el audio automatico, y ademas es lo correcto para algo
+ * navegadores bloquean el audio automático, y además es lo correcto para algo
  * que suena sin que nadie lo pida.
  *
  * Cada vuelta se encola completa en el reloj de audio, no con temporizadores de
- * interfaz, de modo que el ritmo no se desajusta aunque la pestana este ocupada.
+ * interfaz, de modo que el ritmo no se desajusta aunque la pestaña esté ocupada.
  */
 export class AmbientMusicPlayer {
   private context: AudioContext | null = null;

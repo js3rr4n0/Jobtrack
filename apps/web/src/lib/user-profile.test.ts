@@ -32,7 +32,7 @@ describe('readUserProfile', () => {
     expect(readUserProfile(user('jserrano@gmail.com')).name).toBe('jserrano');
   });
 
-  it('descarta nombres vacios o en blanco', () => {
+  it('descarta nombres vacíos o en blanco', () => {
     expect(readUserProfile(user('persona@ejemplo.com', { full_name: '   ' })).name).toBe('persona');
   });
 
@@ -41,7 +41,7 @@ describe('readUserProfile', () => {
     expect(readUserProfile(user('a@b.com', { avatar_url: 'no-es-una-url' })).avatarUrl).toBeNull();
   });
 
-  it('sobrevive a una sesion ausente', () => {
+  it('sobrevive a una sesión ausente', () => {
     const profile = readUserProfile(null);
 
     expect(profile.name).toBe('Tu cuenta');

@@ -7,7 +7,7 @@ import { THEMES, THEME_FAMILIES } from '@/lib/themes';
 
 /**
  * Controles de apariencia. Viven aparte del contenedor que los muestra para
- * que el menu publico y el de cuenta ofrezcan exactamente las mismas opciones.
+ * que el menú público y el de cuenta ofrezcan exactamente las mismas opciones.
  */
 export function AppearanceSettings() {
   const { theme, iconPack, music, setTheme, setIconPack, setMusic } = usePreferences();
@@ -92,7 +92,7 @@ export function AppearanceSettings() {
 
     <fieldset>
       <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-secondary">
-        Musica de fondo
+        Música de fondo
       </legend>
       <label className="flex cursor-pointer items-start gap-3 rounded-control border border-subtle p-3 focus-within:ring-2 focus-within:ring-accent-strong">
         <input
@@ -106,7 +106,7 @@ export function AppearanceSettings() {
             Reproducir un ambiente suave
           </span>
           <span className="block text-xs text-secondary">
-            Se sintetiza en tu navegador, a volumen bajo y sin descargar ningun archivo.
+            Se sintetiza en tu navegador, a volumen bajo y sin descargar ningún archivo.
             Con el tema actual suena: {soundscapeForTheme(theme).label}.
           </span>
         </span>

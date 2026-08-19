@@ -58,7 +58,7 @@ describe('calculateLevelProgress', () => {
     expect(progress.percentToNextLevel).toBe(50);
   });
 
-  it('trata valores nulos, negativos o no numericos como cero sin fallar', () => {
+  it('trata valores nulos, negativos o no numéricos como cero sin fallar', () => {
     const invalidValues = [Number.NaN, Number.POSITIVE_INFINITY, -120, undefined as unknown as number];
 
     for (const value of invalidValues) {
@@ -68,7 +68,7 @@ describe('calculateLevelProgress', () => {
     }
   });
 
-  it('asigna un titulo dentro del catalogo para cualquier nivel', () => {
+  it('asigna un título dentro del catalogo para cualquier nivel', () => {
     expect(titleForLevel(1)).toBe('Aspirante');
     expect(titleForLevel(999)).toBe('Leyenda del empleo');
     expect(titleForLevel(-3)).toBe('Aspirante');
@@ -113,7 +113,7 @@ describe('evaluateAchievements', () => {
     expect(achievements.every((achievement) => achievement.current === 0)).toBe(true);
   });
 
-  it('desbloquea el primer paso con una sola postulacion', () => {
+  it('desbloquea el primer paso con una sola postulación', () => {
     const achievements = evaluateAchievements(statsWith({ totalApplications: 1 }));
     const firstStep = achievements.find((achievement) => achievement.id === 'first_step');
 

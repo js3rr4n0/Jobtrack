@@ -29,8 +29,8 @@ export interface ApplicationCardProps {
 }
 
 /**
- * Tarjeta arrastrable. Ademas del arrastre, ofrece un selector de estado para
- * que el tablero siga siendo usable con teclado y en pantallas tactiles.
+ * Tarjeta arrastrable. Además del arrastre, ofrece un selector de estado para
+ * que el tablero siga siendo usable con teclado y en pantallas táctiles.
  */
 export function ApplicationCard({
   application,
@@ -84,7 +84,7 @@ export function ApplicationCard({
       <dl className="mt-3 space-y-1 text-xs text-secondary">
         {application.location ? (
           <div className="flex items-center gap-1.5">
-            <dt className="visually-hidden">Ubicacion</dt>
+            <dt className="visually-hidden">Ubicación</dt>
             <Icon name="location" pack={iconPack} size={14} />
             <dd className="truncate">
               {application.location}
@@ -103,7 +103,7 @@ export function ApplicationCard({
 
         {application.appliedAt ? (
           <div className="flex items-center gap-1.5">
-            <dt className="visually-hidden">Fecha de postulacion</dt>
+            <dt className="visually-hidden">Fecha de postulación</dt>
             <Icon name="briefcase" pack={iconPack} size={14} />
             <dd>Postulado el {formatDate(application.appliedAt)}</dd>
           </div>
@@ -120,7 +120,7 @@ export function ApplicationCard({
                 rel="noreferrer noopener"
                 className="focus-ring underline decoration-dotted underline-offset-2 hover:text-primary"
               >
-                Ver publicacion
+                Ver publicación
               </a>
             </dd>
           </div>

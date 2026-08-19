@@ -200,16 +200,16 @@ describe('BoardWorkspace (integracion)', () => {
     expect(screen.getByText(/Nivel \d+/)).toBeInTheDocument();
   });
 
-  it('registra una nueva postulacion y la muestra en su columna', async () => {
+  it('registra una nueva postulación y la muestra en su columna', async () => {
     const user = userEvent.setup();
     renderWithPreferences(<BoardWorkspace />);
 
     await screen.findByText('Desarrollador Frontend');
-    await user.click(screen.getByRole('button', { name: /Nueva postulacion/ }));
+    await user.click(screen.getByRole('button', { name: /Nueva postulación/ }));
 
     await user.type(screen.getByLabelText('Empresa'), 'Galaxy Labs');
     await user.type(screen.getByLabelText('Puesto'), 'Ingeniero de Datos');
-    await user.click(screen.getByRole('button', { name: 'Guardar postulacion' }));
+    await user.click(screen.getByRole('button', { name: 'Guardar postulación' }));
 
     expect(await screen.findByText('Ingeniero de Datos')).toBeInTheDocument();
     expect(
@@ -217,35 +217,35 @@ describe('BoardWorkspace (integracion)', () => {
     ).toBe(true);
   });
 
-  it('muestra el detalle de validacion cuando el servidor rechaza los datos', async () => {
+  it('muestra el detalle de validación cuando el servidor rechaza los datos', async () => {
     const user = userEvent.setup();
     renderWithPreferences(<BoardWorkspace />);
 
     await screen.findByText('Desarrollador Frontend');
     failNextMutation = true;
 
-    await user.click(screen.getByRole('button', { name: /Nueva postulacion/ }));
+    await user.click(screen.getByRole('button', { name: /Nueva postulación/ }));
     await user.type(screen.getByLabelText('Empresa'), 'Empresa');
     await user.type(screen.getByLabelText('Puesto'), 'Puesto');
-    await user.click(screen.getByRole('button', { name: 'Guardar postulacion' }));
+    await user.click(screen.getByRole('button', { name: 'Guardar postulación' }));
 
     expect(await screen.findByText('La empresa es obligatoria.')).toBeInTheDocument();
   });
 
-  it('avisa sin bloquear la aplicacion cuando no hay conexion', async () => {
+  it('avisa sin bloquear la aplicación cuando no hay conexión', async () => {
     const user = userEvent.setup();
     vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false);
 
     renderWithPreferences(<BoardWorkspace />);
 
-    expect(await screen.findByText(/Estas sin conexion/)).toBeInTheDocument();
+    expect(await screen.findByText(/Estas sin conexión/)).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: /Nueva postulacion/ }));
+    await user.click(screen.getByRole('button', { name: /Nueva postulación/ }));
     await user.type(screen.getByLabelText('Empresa'), 'Empresa Sin Red');
     await user.type(screen.getByLabelText('Puesto'), 'Puesto');
-    await user.click(screen.getByRole('button', { name: 'Guardar postulacion' }));
+    await user.click(screen.getByRole('button', { name: 'Guardar postulación' }));
 
-    expect(await screen.findByText(/Sin conexion a internet/)).toBeInTheDocument();
+    expect(await screen.findByText(/Sin conexión a internet/)).toBeInTheDocument();
     expect(requests.some((request) => request.method === 'POST')).toBe(false);
   });
 
@@ -266,7 +266,7 @@ describe('BoardWorkspace (integracion)', () => {
     );
   });
 
-  it('no guarda una nota vacia', async () => {
+  it('no guarda una nota vacía', async () => {
     const user = userEvent.setup();
     renderWithPreferences(<BoardWorkspace />);
 
@@ -341,7 +341,7 @@ describe('BoardWorkspace (integracion)', () => {
     expect(await within(interviewColumn).findByText('Analista de Datos')).toBeInTheDocument();
   });
 
-  it('retira en vivo una postulacion eliminada en otro dispositivo', async () => {
+  it('retira en vivo una postulación eliminada en otro dispositivo', async () => {
     renderWithPreferences(<BoardWorkspace />);
 
     await screen.findByText('Desarrollador Frontend');
@@ -377,7 +377,7 @@ describe('BoardWorkspace (integracion)', () => {
     expect(requests.some((request) => request.url.includes('/move'))).toBe(true);
   });
 
-  it('elimina una postulacion tras confirmar el dialogo', async () => {
+  it('elimina una postulación tras confirmar el dialogo', async () => {
     const user = userEvent.setup();
     renderWithPreferences(<BoardWorkspace />);
 

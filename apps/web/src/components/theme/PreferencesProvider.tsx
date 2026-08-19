@@ -7,6 +7,7 @@ import type { IconPackId } from '@/components/icons';
 import {
   DEFAULT_PREFERENCES,
   type Preferences,
+  prefersDarkScheme,
   readStoredPreferences,
   writeStoredPreferences,
 } from '@/lib/preferences';
@@ -26,7 +27,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
   // El estado inicial se lee tras montar para que el HTML del servidor y el del
   // cliente coincidan; el parpadeo lo evita el script de arranque del layout.
   useEffect(() => {
-    setPreferences(readStoredPreferences(window.localStorage));
+    setPreferences(readStoredPreferences(window.localStorage, prefersDarkScheme(window)));
   }, []);
 
   useEffect(() => {

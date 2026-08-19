@@ -39,7 +39,7 @@ function connect(baseUrl: string, token: string | null): Promise<Socket> {
 
     const timer = setTimeout(() => {
       socket.close();
-      reject(new Error('La conexion de tiempo real no se establecio a tiempo.'));
+      reject(new Error('La conexión de tiempo real no se establecio a tiempo.'));
     }, EVENT_TIMEOUT_MS);
 
     socket.on('connection:ready', () => {
@@ -60,7 +60,7 @@ function connect(baseUrl: string, token: string | null): Promise<Socket> {
   });
 }
 
-describe('Sincronizacion en tiempo real (integracion)', () => {
+describe('Sincronización en tiempo real (integracion)', () => {
   let context: TestContext;
   let app: INestApplication;
   let baseUrl: string;
@@ -93,17 +93,17 @@ describe('Sincronizacion en tiempo real (integracion)', () => {
     return socket;
   };
 
-  it('rechaza la conexion sin token de sesion', async () => {
-    await expect(connect(baseUrl, null)).rejects.toThrow(/Token de sesion invalido o ausente/);
+  it('rechaza la conexión sin token de sesión', async () => {
+    await expect(connect(baseUrl, null)).rejects.toThrow(/Token de sesión invalido o ausente/);
   });
 
-  it('rechaza la conexion con un token manipulado', async () => {
+  it('rechaza la conexión con un token manipulado', async () => {
     await expect(connect(baseUrl, 'token.falsificado')).rejects.toThrow(
-      /Token de sesion invalido o ausente/,
+      /Token de sesión invalido o ausente/,
     );
   });
 
-  it('replica en un segundo dispositivo la postulacion creada en el primero', async () => {
+  it('replica en un segundo dispositivo la postulación creada en el primero', async () => {
     const secondDevice = await openSocket(token);
     const incomingEvent = waitForBoardEvent(secondDevice);
 
@@ -129,7 +129,7 @@ describe('Sincronizacion en tiempo real (integracion)', () => {
     const created = await request(app.getHttpServer())
       .post(`/${API_PREFIX}/applications`)
       .set('Authorization', `Bearer ${token}`)
-      .send({ company: 'Empresa Movil', position: 'Ingeniero Android' })
+      .send({ company: 'Empresa Móvil', position: 'Ingeniero Android' })
       .expect(201);
 
     await creationEvent;

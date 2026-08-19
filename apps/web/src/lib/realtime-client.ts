@@ -21,7 +21,7 @@ export interface RealtimeOptions {
 }
 
 /**
- * Abre el canal de tiempo real del usuario. La reconexion automatica de
+ * Abre el canal de tiempo real del usuario. La reconexion automática de
  * socket.io cubre los cortes de red pasajeros; al recuperarse, la interfaz
  * vuelve a pedir el tablero para no quedar desincronizada.
  */

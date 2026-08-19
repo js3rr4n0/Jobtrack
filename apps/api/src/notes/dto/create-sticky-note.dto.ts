@@ -8,7 +8,7 @@ const trimmed = ({ value }: { value: unknown }) =>
 export class CreateStickyNoteDto {
   @Transform(trimmed)
   @IsString({ message: 'La nota debe ser texto.' })
-  @MinLength(1, { message: 'La nota no puede estar vacia.' })
+  @MinLength(1, { message: 'La nota no puede estar vacía.' })
   @MaxLength(MAX_NOTE_LENGTH, {
     message: `La nota admite hasta ${MAX_NOTE_LENGTH} caracteres.`,
   })
@@ -19,14 +19,14 @@ export class CreateStickyNoteDto {
   color?: NoteColor;
 
   @IsOptional()
-  @IsNumber({}, { message: 'La posicion horizontal debe ser numerica.' })
-  @Min(0, { message: 'La posicion horizontal esta fuera del mural.' })
-  @Max(100, { message: 'La posicion horizontal esta fuera del mural.' })
+  @IsNumber({}, { message: 'La posición horizontal debe ser numérica.' })
+  @Min(0, { message: 'La posición horizontal está fuera del mural.' })
+  @Max(100, { message: 'La posición horizontal está fuera del mural.' })
   x?: number;
 
   @IsOptional()
-  @IsNumber({}, { message: 'La posicion vertical debe ser numerica.' })
-  @Min(0, { message: 'La posicion vertical esta fuera del mural.' })
-  @Max(100, { message: 'La posicion vertical esta fuera del mural.' })
+  @IsNumber({}, { message: 'La posición vertical debe ser numérica.' })
+  @Min(0, { message: 'La posición vertical está fuera del mural.' })
+  @Max(100, { message: 'La posición vertical está fuera del mural.' })
   y?: number;
 }

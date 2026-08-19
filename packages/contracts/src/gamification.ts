@@ -85,7 +85,7 @@ export function calculateLevelProgress(experience: number): LevelProgress {
 }
 
 /**
- * Experiencia otorgada al cambiar el estado de una postulacion.
+ * Experiencia otorgada al cambiar el estado de una postulación.
  * Retroceder o quedarse en el mismo estado no otorga puntos.
  */
 export function experienceForStatusChange(
@@ -162,7 +162,7 @@ export const ACHIEVEMENTS: readonly AchievementDefinition[] = [
   {
     id: 'first_step',
     name: 'Primer paso',
-    description: 'Registra tu primera postulacion.',
+    description: 'Registra tu primera postulación.',
     iconId: 'flag',
     experienceBonus: 20,
     isUnlocked: (stats) => stats.totalApplications >= 1,
@@ -180,7 +180,7 @@ export const ACHIEVEMENTS: readonly AchievementDefinition[] = [
   {
     id: 'first_interview',
     name: 'Sala de entrevistas',
-    description: 'Lleva una postulacion hasta la etapa de entrevista.',
+    description: 'Lleva una postulación hasta la etapa de entrevista.',
     iconId: 'mic',
     experienceBonus: 40,
     isUnlocked: (stats) => stats.byStatus.interview + stats.byStatus.offer + stats.byStatus.hired >= 1,
@@ -226,7 +226,7 @@ export const ACHIEVEMENTS: readonly AchievementDefinition[] = [
   {
     id: 'streak_seven',
     name: 'Constancia semanal',
-    description: 'Manten una racha de siete dias con actividad.',
+    description: 'Manten una racha de siete días con actividad.',
     iconId: 'flame',
     experienceBonus: 70,
     isUnlocked: (stats) => stats.longestStreakDays >= 7,

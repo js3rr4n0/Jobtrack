@@ -18,12 +18,12 @@ export const KEY_SET_FACTORY = 'JWKS_KEY_SET_FACTORY';
 const BEARER_PREFIX = 'Bearer ';
 
 /**
- * Verifica los tokens de sesion emitidos por Supabase Auth.
+ * Verifica los tokens de sesión emitidos por Supabase Auth.
  *
  * Supabase firma con claves asimetricas (ES256 o RS256) publicadas en el JWKS
  * del proyecto, y mantiene el secreto compartido HS256 heredado durante la
- * migracion. Esta clase resuelve el metodo a partir del encabezado del propio
- * token, de modo que ambos esquemas conviven sin configuracion adicional.
+ * migración. Esta clase resuelve el método a partir del encabezado del propio
+ * token, de modo que ambos esquemas conviven sin configuración adicional.
  */
 @Injectable()
 export class TokenVerifierService {

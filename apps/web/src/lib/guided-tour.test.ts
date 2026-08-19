@@ -24,7 +24,7 @@ function memoryStorage(initial: Record<string, string> = {}): Storage {
 }
 
 describe('TOUR_STEPS', () => {
-  it('define pasos con destino, titulo y descripcion', () => {
+  it('define pasos con destino, título y descripción', () => {
     expect(TOUR_STEPS.length).toBeGreaterThan(0);
     for (const step of TOUR_STEPS) {
       expect(step.target.length).toBeGreaterThan(0);

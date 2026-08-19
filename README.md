@@ -1,27 +1,27 @@
 # Jobtrack
 
 Tablero gamificado para registrar ofertas de empleo, seguir su avance y mantener
-la informacion sincronizada entre la computadora y el telefono.
+la información sincronizada entre la computadora y el teléfono.
 
 ![Tablero kanban de Jobtrack en tema claro](docs/capturas/tablero-claro.jpg)
 
 ## Que incluye
 
 - **Tablero kanban** con seis estados y arrastre de tarjetas entre columnas.
-- **Areas del tablero** con nombre libre (desarrollo, marketing, lo que
+- **Áreas del tablero** con nombre libre (desarrollo, marketing, lo que
   necesites) y un selector para ver una a la vez.
-- **Mural de notas adhesivas** con arrastre libre, cinco colores y posicion que
+- **Mural de notas adhesivas** con arrastre libre, cinco colores y posición que
   se conserva entre dispositivos.
-- **Captura manual** de empresa, puesto, ubicacion, modalidad, prioridad,
-  expectativa salarial, enlace, notas y fechas de postulacion y entrevista.
+- **Captura manual** de empresa, puesto, ubicación, modalidad, prioridad,
+  expectativa salarial, enlace, notas y fechas de postulación y entrevista.
 - **Capa de juego**: experiencia, niveles con rango, racha diaria y ocho logros.
 - **Ocho temas visuales** y **dos paquetes de iconos** SVG intercambiables, con
   una capa de profundidad propia por tema (superficies hundidas, sombras y fondo).
-- **Sincronizacion en vivo** por WebSockets entre todos los dispositivos de la
+- **Sincronización en vivo** por WebSockets entre todos los dispositivos de la
   misma cuenta.
 - **Tutorial guiado** la primera vez, que atenua la pantalla y destaca donde
   pulsar.
-- **Musica ambiental opcional**, sintetizada en el navegador y distinta segun el
+- **Música ambiental opcional**, sintetizada en el navegador y distinta según el
   tema.
 
 ## Capturas
@@ -39,42 +39,42 @@ tema redefine el mismo conjunto de variables CSS.
 | --- | --- |
 | ![Tema pixel rosa](docs/capturas/tablero-pixel-rosa.jpg) | ![Tema gaming](docs/capturas/tablero-gaming.jpg) |
 
-### Areas y mural de notas
+### Áreas y mural de notas
 
-Sobre el tablero, una pestana por area (con nombre libre) filtra lo que se ve sin
+Sobre el tablero, una pestaña por área (con nombre libre) filtra lo que se ve sin
 tocar el progreso. Debajo, el mural recoge los recordatorios sueltos: se
-arrastran con el raton, con el dedo o con el teclado, y su posicion se guarda en
-proporcion al mural, asi que se conserva al cambiar de dispositivo.
+arrastran con el raton, con el dedo o con el teclado, y su posición se guarda en
+proporcion al mural, así que se conserva al cambiar de dispositivo.
 
 ![Mural de notas adhesivas bajo el tablero, en tema anime](docs/capturas/mural.jpg)
 
 ### Tutorial de bienvenida
 
-Mientras el tablero este vacio, un recorrido de cuatro pasos desenfoca el resto
+Mientras el tablero este vacío, un recorrido de cuatro pasos desenfoca el resto
 de la interfaz y deja nitido solo el elemento que hay que usar. Se puede saltar
 en cualquier momento y no vuelve a aparecer.
 
-![Tutorial guiado destacando el boton de nueva postulacion](docs/capturas/tutorial.jpg)
+![Tutorial guiado destacando el boton de nueva postulación](docs/capturas/tutorial.jpg)
 
 ### Selector de apariencia
 
 Ocho temas agrupados en familias, dos paquetes de iconos con vista previa y el
-interruptor de musica ambiental.
+interruptor de música ambiental.
 
 ![Panel de apariencia con los ocho temas y los dos paquetes de iconos](docs/capturas/temas.jpg)
 
-### Movil
+### Móvil
 
-En pantallas pequenas las columnas se apilan y el panel de progreso sube al
+En pantallas pequeñas las columnas se apilan y el panel de progreso sube al
 inicio. El selector de estado de cada tarjeta sustituye al arrastre.
 
-<img src="docs/capturas/movil-tablero.jpg" alt="Tablero en un telefono con tema anime" width="360">
+<img src="docs/capturas/móvil-tablero.jpg" alt="Tablero en un teléfono con tema anime" width="360">
 
 ### Bienvenida y acceso
 
-| Pagina de inicio | Inicio de sesion |
+| Página de inicio | Inicio de sesión |
 | --- | --- |
-| ![Pagina de bienvenida](docs/capturas/inicio.jpg) | ![Formulario de acceso](docs/capturas/acceso.jpg) |
+| ![Página de bienvenida](docs/capturas/inicio.jpg) | ![Formulario de acceso](docs/capturas/acceso.jpg) |
 
 ## Arquitectura
 
@@ -89,16 +89,16 @@ Jobtrack/
     schema.sql           Esquema PostgreSQL con RLS
   docs/
     MANUAL_USUARIO.md    Guia paso a paso
-    MANUAL_TECNICO.md    Arquitectura, modulos y convenciones
+    MANUAL_TECNICO.md    Arquitectura, módulos y convenciones
     PLAN_DE_PRUEBAS.md   Casos, restricciones y resultados esperados
     capturas/            Imagenes de este README
 ```
 
 Las reglas de dominio viven en `packages/contracts` y las consumen tanto la API
 como la web. Gracias a eso el reordenamiento optimista del navegador y el que
-persiste el servidor invocan la **misma** funcion, asi que no pueden divergir.
+persiste el servidor invocan la **misma** funcion, así que no pueden divergir.
 
-El detalle de cada modulo esta en [`docs/MANUAL_TECNICO.md`](docs/MANUAL_TECNICO.md).
+El detalle de cada módulo esta en [`docs/MANUAL_TECNICO.md`](docs/MANUAL_TECNICO.md).
 
 ## Stack
 
@@ -107,7 +107,7 @@ El detalle de cada modulo esta en [`docs/MANUAL_TECNICO.md`](docs/MANUAL_TECNICO
 | Interfaz | Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS 3 |
 | Arrastre | dnd-kit (puntero y teclado) |
 | API | NestJS 10, class-validator, Socket.IO, Helmet |
-| Autenticacion | Supabase Auth: Google y correo con contrasena; JWT verificado en la API |
+| Autenticación | Supabase Auth: Google y correo con contraseña; JWT verificado en la API |
 | Base de datos | PostgreSQL 15 gestionado por Supabase, con Row Level Security |
 | Pruebas | Vitest y Testing Library en la web, Jest y Supertest en la API |
 
@@ -128,7 +128,7 @@ npm run dev:api    # http://localhost:4000/api
 npm run dev:web    # http://localhost:3000
 ```
 
-Con la configuracion de ejemplo la API usa el driver `memory`, asi que arranca
+Con la configuración de ejemplo la API usa el driver `memory`, así que arranca
 sin credenciales externas. Para persistir en PostgreSQL, ejecuta
 `supabase/schema.sql` en tu proyecto de Supabase y completa en `apps/api/.env`:
 
@@ -140,11 +140,11 @@ SUPABASE_SERVICE_ROLE_KEY=<clave de servicio>
 
 El esquema se puede volver a ejecutar entero sobre un proyecto que ya existe:
 tipos, tablas, indices y politicas se crean solo si faltan, y las columnas
-anadidas despues se aplican al final con `alter table ... add column if not exists`.
+añadidas después se aplican al final con `alter table ... add column if not exists`.
 
 La API verifica los tokens con las claves publicas del proyecto (`SUPABASE_URL`),
-asi que no hace falta ningun secreto de firma. Solo los proyectos que aun usan el
-esquema heredado HS256 necesitan ademas `SUPABASE_JWT_SECRET`.
+así que no hace falta ningún secreto de firma. Solo los proyectos que aun usan el
+esquema heredado HS256 necesitan además `SUPABASE_JWT_SECRET`.
 
 Y en `apps/web/.env.local`:
 
@@ -162,20 +162,20 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 | `npm test` | Ejecuta las suites de los tres paquetes |
 | `npm run test:unit` | Solo pruebas unitarias |
 | `npm run test:integration` | Solo pruebas de integracion |
-| `npm run lint` | Analisis estatico de la API y la web |
+| `npm run lint` | Análisis estático de la API y la web |
 
 ## Pruebas
 
-314 casos, todos en verde y sin dependencias de red externas:
+326 casos, todos en verde y sin dependencias de red externas:
 
 | Paquete | Herramienta | Casos |
 | --- | --- | --- |
 | `contracts` | Vitest | 74 |
 | `api` | Jest y Supertest | 81 |
-| `web` | Vitest y Testing Library | 159 |
+| `web` | Vitest y Testing Library | 171 |
 
-Cubren las restricciones del plan: ausencia de conexion, valores nulos, datos
-corruptos y sincronizacion entre dispositivos. Las pruebas de tiempo real
+Cubren las restricciones del plan: ausencia de conexión, valores nulos, datos
+corruptos y sincronización entre dispositivos. Las pruebas de tiempo real
 levantan la API en un puerto real y usan clientes `socket.io` autenticos. El
 desglose completo esta en [`docs/PLAN_DE_PRUEBAS.md`](docs/PLAN_DE_PRUEBAS.md).
 
@@ -192,8 +192,8 @@ Al importar el repositorio, en **Settings -> General**:
 | Framework Preset | Next.js (se detecta solo) |
 | Build Command | por defecto (`npm run build`) |
 
-El **Root Directory debe apuntar a `apps/web`**, no a la raiz: Vercel busca la
-dependencia `next` en el `package.json` de ese directorio, y el de la raiz solo
+El **Root Directory debe apuntar a `apps/web`**, no a la raíz: Vercel busca la
+dependencia `next` en el `package.json` de ese directorio, y el de la raíz solo
 declara los workspaces. La casilla de archivos externos es obligatoria porque la
 web compila `packages/contracts` antes de construirse.
 
@@ -205,10 +205,10 @@ NEXT_PUBLIC_SUPABASE_URL=https://<proyecto>.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 ```
 
-Sin ellas la aplicacion despliega igual y muestra un aviso explicando que falta
-configurar Supabase, pero no permite iniciar sesion.
+Sin ellas la aplicación despliega igual y muestra un aviso explicando que falta
+configurar Supabase, pero no permite iniciar sesión.
 
-### Autenticacion en produccion
+### Autenticación en producción
 
 En **Authentication -> URL Configuration** del proyecto de Supabase:
 
@@ -218,25 +218,25 @@ En **Authentication -> URL Configuration** del proyecto de Supabase:
 | Redirect URLs | `https://<dominio>/**` |
 
 Para habilitar los accesos externos, en **Authentication -> Providers** pega el
-identificador y el secreto de cada aplicacion OAuth. En todas ellas el URI de
+identificador y el secreto de cada aplicación OAuth. En todas ellas el URI de
 redireccion autorizado es `https://<proyecto>.supabase.co/auth/v1/callback`.
 
-| Proveedor de Supabase | Donde se crea la aplicacion |
+| Proveedor de Supabase | Donde se crea la aplicación |
 | --- | --- |
 | Google | Google Cloud, apartado de credenciales OAuth |
 
 El servicio de correo integrado de Supabase esta pensado para desarrollo y
-limita los envios por hora. Un despliegue real que use registro por correo
+limita los envíos por hora. Un despliegue real que use registro por correo
 necesita un **SMTP propio** configurado en *Project Settings -> Authentication*.
 
 ### API en Render
 
-El repositorio incluye `render.yaml`, asi que basta con **New -> Blueprint** y
-seleccionar el repositorio. Render pedira tres valores al crear el servicio:
+El repositorio incluye `render.yaml`, así que basta con **New -> Blueprint** y
+seleccionar el repositorio. Render pedirá tres valores al crear el servicio:
 `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` y `CORS_ORIGINS` (el dominio publico
 de la web).
 
-La API es un proceso persistente con WebSockets, asi que no encaja en las
+La API es un proceso persistente con WebSockets, así que no encaja en las
 funciones serverless de Vercel: necesita un servicio con proceso continuo.
 
 Para cualquier otro proveedor, los comandos son:
@@ -249,10 +249,10 @@ npm run start:prod --workspace @jobtrack/api
 
 La sonda de disponibilidad es `GET /api/health`.
 
-## Convenciones de codigo
+## Convenciones de código
 
 - TypeScript estricto en los tres paquetes.
-- Sin emojis en el codigo ni en la interfaz; la iconografia es SVG vectorial
+- Sin emojis en el código ni en la interfaz; la iconografia es SVG vectorial
   (ver [`apps/web/src/components/icons/ICONS_LICENSE.md`](apps/web/src/components/icons/ICONS_LICENSE.md)).
 - Una sola fuente por regla: si una logica se necesita en la API y en la web,
   vive en `@jobtrack/contracts`.

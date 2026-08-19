@@ -12,7 +12,7 @@ const environmentSchema = z
     PORT: z.coerce.number().int().positive().default(4000),
     /** Origenes permitidos por CORS, separados por coma. */
     CORS_ORIGINS: z.string().default('http://localhost:3000'),
-    /** Secreto HS256 con el que Supabase firma los JWT de sesion. */
+    /** Secreto HS256 con el que Supabase firma los JWT de sesión. */
     SUPABASE_JWT_SECRET: z.string().min(1).optional(),
     SUPABASE_URL: z.string().url().optional(),
     SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
@@ -55,7 +55,7 @@ export interface ApplicationConfig {
 const DEVELOPMENT_JWT_SECRET = 'jobtrack-local-development-secret';
 
 /**
- * Valida el entorno una sola vez al arrancar. Un fallo aqui detiene el proceso
+ * Valida el entorno una sola vez al arrancar. Un fallo aquí detiene el proceso
  * con un mensaje legible en lugar de producir errores difusos en runtime.
  */
 export function loadConfiguration(source: NodeJS.ProcessEnv = process.env): ApplicationConfig {
@@ -65,7 +65,7 @@ export function loadConfiguration(source: NodeJS.ProcessEnv = process.env): Appl
     const details = parsed.error.issues
       .map((issue) => `  - ${issue.path.join('.') || 'entorno'}: ${issue.message}`)
       .join('\n');
-    throw new Error(`Configuracion de entorno invalida:\n${details}`);
+    throw new Error(`Configuración de entorno invalida:\n${details}`);
   }
 
   const environment = parsed.data;

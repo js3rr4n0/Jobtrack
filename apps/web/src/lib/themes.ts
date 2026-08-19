@@ -16,7 +16,7 @@ export interface ThemeDefinition {
   readonly label: string;
   readonly description: string;
   /** Agrupa los temas en el selector para facilitar la eleccion. */
-  readonly family: 'Basicos' | 'Pixel' | 'Creativos';
+  readonly family: 'Básicos' | 'Pixel' | 'Creativos';
   /** Muestras usadas en la vista previa del selector. */
   readonly swatches: readonly [string, string, string];
 }
@@ -25,28 +25,28 @@ export const THEMES: readonly ThemeDefinition[] = [
   {
     id: 'light',
     label: 'Claro',
-    description: 'Fondo luminoso y alto contraste para trabajar de dia.',
-    family: 'Basicos',
+    description: 'Fondo luminoso y alto contraste para trabajar de día.',
+    family: 'Básicos',
     swatches: ['#f8fafc', '#2563eb', '#0f172a'],
   },
   {
     id: 'dark',
     label: 'Oscuro',
     description: 'Superficies profundas que reducen el cansancio visual.',
-    family: 'Basicos',
+    family: 'Básicos',
     swatches: ['#0f172a', '#60a5fa', '#f1f5f9'],
   },
   {
     id: 'minimal',
     label: 'Minimalista',
-    description: 'Blanco, negro y nada mas: sin sombras ni distracciones.',
-    family: 'Basicos',
+    description: 'Blanco, negro y nada más: sin sombras ni distracciones.',
+    family: 'Básicos',
     swatches: ['#ffffff', '#171717', '#525252'],
   },
   {
     id: 'pixel-pink',
     label: 'Pixel rosa',
-    description: 'Bordes duros y tipografia monoespaciada en tonos rosa.',
+    description: 'Bordes duros y tipografía monoespaciada en tonos rosa.',
     family: 'Pixel',
     swatches: ['#2a0c22', '#ff85c3', '#ffebf7'],
   },
@@ -82,7 +82,7 @@ export const THEMES: readonly ThemeDefinition[] = [
 
 export const DEFAULT_THEME: ThemeId = 'light';
 
-export const THEME_FAMILIES = ['Basicos', 'Pixel', 'Creativos'] as const;
+export const THEME_FAMILIES = ['Básicos', 'Pixel', 'Creativos'] as const;
 
 export function isThemeId(value: unknown): value is ThemeId {
   return typeof value === 'string' && (THEME_IDS as readonly string[]).includes(value);

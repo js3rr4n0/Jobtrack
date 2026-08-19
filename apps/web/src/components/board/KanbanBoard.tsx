@@ -52,7 +52,7 @@ export function KanbanBoard({
   return (
     <DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
       {/* Rejilla en lugar de fila desplazable: las seis columnas siempre caben
-          en pantalla y solo cambia cuantas entran por fila segun el ancho. */}
+          en pantalla y solo cambia cuántas entran por fila según el ancho. */}
       <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6">
         {columns.map((column) => (
           <BoardColumn

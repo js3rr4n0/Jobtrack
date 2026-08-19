@@ -7,7 +7,7 @@ import { ApplicationConfig, CONFIG_TOKEN } from './config/environment';
 
 /**
  * Las plataformas gestionadas enrutan el trafico hacia la interfaz IPv4 del
- * contenedor, asi que el enlace se declara de forma explicita en lugar de dejar
+ * contenedor, así que el enlace se declara de forma explicita en lugar de dejar
  * que Node elija `::`.
  */
 const BIND_ADDRESS = '0.0.0.0';

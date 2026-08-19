@@ -9,8 +9,8 @@ import {
 } from './job-applications.repository';
 
 /**
- * Implementacion en memoria usada en desarrollo local y en las pruebas de
- * integracion. Mantiene la misma semantica que el adaptador de Supabase.
+ * Implementación en memoria usada en desarrollo local y en las pruebas de
+ * integracion. Mantiene la misma semántica que el adaptador de Supabase.
  */
 @Injectable()
 export class InMemoryJobApplicationsRepository extends JobApplicationsRepository {
@@ -72,7 +72,7 @@ export class InMemoryJobApplicationsRepository extends JobApplicationsRepository
     return this.snapshotOf(userId).filter((application) => application.status === status).length;
   }
 
-  /** Utilidad para pruebas: vacia el almacenamiento entre casos. */
+  /** Utilidad para pruebas: vacía el almacenamiento entre casos. */
   clear(): void {
     this.applications.clear();
   }

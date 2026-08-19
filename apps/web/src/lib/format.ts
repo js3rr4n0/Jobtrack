@@ -1,6 +1,6 @@
 const LOCALE = 'es-ES';
 
-/** Formatea una fecha ISO en texto corto; devuelve una cadena vacia si es invalida. */
+/** Formatea una fecha ISO en texto corto; devuelve una cadena vacía si es invalida. */
 export function formatDate(isoDate: string | null): string {
   if (!isoDate) {
     return '';

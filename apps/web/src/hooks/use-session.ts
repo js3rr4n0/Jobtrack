@@ -12,7 +12,7 @@ export interface SessionState {
   readonly status: SessionStatus;
 }
 
-/** Observa la sesion de Supabase y la mantiene sincronizada entre pestanas. */
+/** Observa la sesión de Supabase y la mantiene sincronizada entre pestañas. */
 export function useSession(): SessionState {
   const [state, setState] = useState<SessionState>({ session: null, status: 'loading' });
 

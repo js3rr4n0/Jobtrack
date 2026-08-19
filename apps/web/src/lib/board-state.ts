@@ -25,7 +25,7 @@ export function applyRemoteChange(
     : [...applications, incoming];
 }
 
-/** Reemplaza una postulacion existente conservando el orden del arreglo. */
+/** Reemplaza una postulación existente conservando el orden del arreglo. */
 export function replaceApplication(
   applications: readonly JobApplication[],
   updated: JobApplication,

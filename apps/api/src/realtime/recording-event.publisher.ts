@@ -4,7 +4,7 @@ import { BoardEventPublisher } from './board-event.publisher';
 
 /**
  * Doble de pruebas que guarda lo publicado en lugar de emitirlo. Vive junto al
- * puerto para que cualquier modulo que lo use comparta la misma version.
+ * puerto para que cualquier módulo que lo use comparta la misma versión.
  */
 export class RecordingEventPublisher extends BoardEventPublisher {
   readonly events: Array<{ userId: string; event: BoardChangeEvent }> = [];

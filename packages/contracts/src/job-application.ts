@@ -1,5 +1,5 @@
 /**
- * Estados por los que atraviesa una postulacion. El orden del arreglo define
+ * Estados por los que atraviesa una postulación. El orden del arreglo define
  * el orden de las columnas del tablero kanban.
  */
 export const APPLICATION_STATUSES = [
@@ -17,11 +17,11 @@ export interface StatusDefinition {
   readonly id: ApplicationStatus;
   readonly label: string;
   readonly description: string;
-  /** Posicion de la columna en el tablero, empezando en cero. */
+  /** Posición de la columna en el tablero, empezando en cero. */
   readonly order: number;
-  /** Peso usado por las reglas de experiencia: avanzar a etapas altas da mas puntos. */
+  /** Peso usado por las reglas de experiencia: avanzar a etapas altas da más puntos. */
   readonly progressWeight: number;
-  /** Indica si el estado cierra el ciclo de vida de la postulacion. */
+  /** Indica si el estado cierra el ciclo de vida de la postulación. */
   readonly isTerminal: boolean;
 }
 
@@ -61,7 +61,7 @@ export const STATUS_CATALOG: Readonly<Record<ApplicationStatus, StatusDefinition
   hired: {
     id: 'hired',
     label: 'Contratado',
-    description: 'Aceptaste la oferta y cerraste el proceso con exito.',
+    description: 'Aceptaste la oferta y cerraste el proceso con éxito.',
     order: 4,
     progressWeight: 4,
     isTerminal: true,
@@ -114,12 +114,12 @@ export interface JobApplication {
   readonly salaryExpectation: number | null;
   readonly sourceUrl: string | null;
   readonly notes: string | null;
-  /** Area a la que pertenece la vacante, definida libremente por el usuario. */
+  /** Área a la que pertenece la vacante, definida libremente por el usuario. */
   readonly category: string | null;
   /** Fecha ISO 8601 de la entrevista agendada, si existe. */
   readonly interviewAt: string | null;
   readonly appliedAt: string | null;
-  /** Posicion vertical dentro de su columna kanban. */
+  /** Posición vertical dentro de su columna kanban. */
   readonly boardOrder: number;
   readonly createdAt: string;
   readonly updatedAt: string;

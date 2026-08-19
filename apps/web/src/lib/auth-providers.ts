@@ -9,13 +9,13 @@ export interface OAuthProviderOption {
 
 /**
  * Proveedores de acceso externo. Todos verifican el correo por su cuenta, de
- * modo que evitan el envio de mensajes de confirmacion y sus limites de tasa.
+ * modo que evitan el envío de mensajes de confirmación y sus límites de tasa.
  */
 export const OAUTH_PROVIDERS: readonly OAuthProviderOption[] = [
   {
     id: 'google',
     label: 'Continuar con Google',
-    hint: 'Sin contrasena ni correo de confirmacion.',
+    hint: 'Sin contraseña ni correo de confirmación.',
   },
 ];
 

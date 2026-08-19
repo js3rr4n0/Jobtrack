@@ -14,7 +14,7 @@ export interface TestContext {
 }
 
 /**
- * Levanta la aplicacion completa con el driver de datos en memoria, de modo que
+ * Levanta la aplicación completa con el driver de datos en memoria, de modo que
  * las pruebas de integracion no dependen de una base de datos externa.
  */
 export async function createTestApplication(): Promise<TestContext> {

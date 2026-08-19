@@ -58,7 +58,7 @@ function isValidUrl(value: string): boolean {
 
 /**
  * Valida el formulario antes de tocar la red. Devuelve un mensaje por campo en
- * lenguaje claro; un objeto vacio significa que los datos son correctos.
+ * lenguaje claro; un objeto vacío significa que los datos son correctos.
  */
 export function validateApplicationForm(values: ApplicationFormValues): FormErrors {
   const errors: FormErrors = {};
@@ -76,14 +76,14 @@ export function validateApplicationForm(values: ApplicationFormValues): FormErro
   }
 
   if (!isBlank(values.location) && values.location.trim().length > MAX_TEXT_LENGTH) {
-    errors.location = `La ubicacion admite hasta ${MAX_TEXT_LENGTH} caracteres.`;
+    errors.location = `La ubicación admite hasta ${MAX_TEXT_LENGTH} caracteres.`;
   }
 
   if (!isBlank(values.salaryExpectation)) {
     const parsed = Number(values.salaryExpectation);
 
     if (!Number.isFinite(parsed) || !Number.isInteger(parsed)) {
-      errors.salaryExpectation = 'Usa solo numeros enteros, sin puntos ni comas.';
+      errors.salaryExpectation = 'Usa solo números enteros, sin puntos ni comas.';
     } else if (parsed < 0) {
       errors.salaryExpectation = 'La expectativa salarial no puede ser negativa.';
     } else if (parsed > MAX_SALARY) {
@@ -92,11 +92,11 @@ export function validateApplicationForm(values: ApplicationFormValues): FormErro
   }
 
   if (!isBlank(values.sourceUrl) && !isValidUrl(values.sourceUrl.trim())) {
-    errors.sourceUrl = 'Incluye una direccion completa, por ejemplo https://empresa.com/vacante.';
+    errors.sourceUrl = 'Incluye una dirección completa, por ejemplo https://empresa.com/vacante.';
   }
 
   if (!isBlank(values.category) && values.category.trim().length > MAX_CATEGORY_LENGTH) {
-    errors.category = `El area admite hasta ${MAX_CATEGORY_LENGTH} caracteres.`;
+    errors.category = `El área admite hasta ${MAX_CATEGORY_LENGTH} caracteres.`;
   }
 
   if (values.notes.length > MAX_NOTES_LENGTH) {
@@ -108,7 +108,7 @@ export function validateApplicationForm(values: ApplicationFormValues): FormErro
   }
 
   if (!isBlank(values.appliedAt) && Number.isNaN(Date.parse(values.appliedAt))) {
-    errors.appliedAt = 'Revisa la fecha de postulacion.';
+    errors.appliedAt = 'Revisa la fecha de postulación.';
   }
 
   return errors;
@@ -169,7 +169,7 @@ export function toApplicationInput(values: ApplicationFormValues): CreateJobAppl
   };
 }
 
-/** Rellena el formulario a partir de una postulacion existente. */
+/** Rellena el formulario a partir de una postulación existente. */
 export function fromApplication(application: JobApplication): ApplicationFormValues {
   return {
     company: application.company,

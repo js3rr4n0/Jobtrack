@@ -1,6 +1,6 @@
 import { JobApplication } from '@jobtrack/contracts';
 
-/** Datos persistibles de una postulacion, sin campos calculados por la capa de dominio. */
+/** Datos persistibles de una postulación, sin campos calculados por la capa de dominio. */
 export type JobApplicationRecord = Omit<JobApplication, 'createdAt' | 'updatedAt'> & {
   createdAt: string;
   updatedAt: string;

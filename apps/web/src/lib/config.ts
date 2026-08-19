@@ -6,7 +6,7 @@ export function getApiBaseUrl(): string {
 }
 
 /**
- * Identificador efimero del dispositivo. Viaja en cada peticion para que el
+ * Identificador efimero del dispositivo. Viaja en cada petición para que el
  * canal de tiempo real pueda descartar el eco de los cambios propios.
  */
 export function createOriginId(): string {

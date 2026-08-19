@@ -1,6 +1,6 @@
 /**
- * Supabase devuelve el resultado de la confirmacion por correo en la cadena de
- * consulta o en el fragmento de la URL, segun el flujo. Estas utilidades
+ * Supabase devuelve el resultado de la confirmación por correo en la cadena de
+ * consulta o en el fragmento de la URL, según el flujo. Estas utilidades
  * normalizan ambos casos para que la pantalla solo tenga que mostrar el mensaje.
  */
 export interface CallbackParams {
@@ -9,7 +9,7 @@ export interface CallbackParams {
   readonly errorDescription: string | null;
 }
 
-/** Une los parametros de la consulta y del fragmento en una sola lectura. */
+/** Une los parámetros de la consulta y del fragmento en una sola lectura. */
 export function readCallbackParams(url: string): CallbackParams {
   const parsed = new URL(url);
   const fromQuery = parsed.searchParams;
@@ -25,10 +25,10 @@ export function readCallbackParams(url: string): CallbackParams {
 }
 
 /**
- * Indica si la URL trae el resultado de una confirmacion por correo. Supabase
- * respeta `emailRedirectTo` solo si la direccion figura en su lista de
- * redirecciones permitidas; si no, cae al Site URL del proyecto y el codigo
- * aterriza en la raiz. Detectarlo permite reencaminarlo sin perder la sesion.
+ * Indica si la URL trae el resultado de una confirmación por correo. Supabase
+ * respeta `emailRedirectTo` solo si la dirección figura en su lista de
+ * redirecciones permitidas; si no, cae al Site URL del proyecto y el código
+ * aterriza en la raíz. Detectarlo permite reencaminarlo sin perder la sesión.
  */
 export function hasAuthResult(url: string): boolean {
   const { code, errorCode } = readCallbackParams(url);
@@ -39,16 +39,16 @@ const CALLBACK_MESSAGES: ReadonlyArray<{ pattern: RegExp; message: string }> = [
   {
     pattern: /otp_expired|expired/i,
     message:
-      'El enlace de confirmacion ya vencio o se abrio antes. Solicita uno nuevo iniciando sesion con tu correo.',
+      'El enlace de confirmación ya vencio o se abrio antes. Solicita uno nuevo iniciando sesión con tu correo.',
   },
   {
     pattern: /access_denied/i,
-    message: 'El enlace de confirmacion no es valido. Pide uno nuevo desde la pantalla de acceso.',
+    message: 'El enlace de confirmación no es válido. Pide uno nuevo desde la pantalla de acceso.',
   },
   {
     pattern: /pkce|code.?verifier/i,
     message:
-      'Abre el enlace de confirmacion en el mismo navegador donde creaste la cuenta; el enlace queda ligado a ese dispositivo.',
+      'Abre el enlace de confirmación en el mismo navegador donde creaste la cuenta; el enlace queda ligado a ese dispositivo.',
   },
 ];
 

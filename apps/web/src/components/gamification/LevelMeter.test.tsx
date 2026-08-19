@@ -26,12 +26,12 @@ describe('LevelMeter', () => {
     expect(bar).toHaveAttribute('aria-valuemax', '100');
   });
 
-  it('usa el singular cuando la racha es de un solo dia', () => {
+  it('usa el singular cuando la racha es de un solo día', () => {
     renderWithPreferences(
       <LevelMeter progress={calculateLevelProgress(10)} currentStreakDays={1} />,
     );
 
-    expect(screen.getByText('1 dia')).toBeInTheDocument();
+    expect(screen.getByText('1 día')).toBeInTheDocument();
   });
 
   it('usa el plural para rachas mayores', () => {
@@ -39,6 +39,6 @@ describe('LevelMeter', () => {
       <LevelMeter progress={calculateLevelProgress(10)} currentStreakDays={5} />,
     );
 
-    expect(screen.getByText('5 dias')).toBeInTheDocument();
+    expect(screen.getByText('5 días')).toBeInTheDocument();
   });
 });

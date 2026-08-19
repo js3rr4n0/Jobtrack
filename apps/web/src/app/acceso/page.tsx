@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { AuthForm } from '@/components/auth/AuthForm';
 
 export const metadata: Metadata = {
-  title: 'Iniciar sesion - Jobtrack',
+  title: 'Iniciar sesión - Jobtrack',
 };
 
 export default function SignInPage() {

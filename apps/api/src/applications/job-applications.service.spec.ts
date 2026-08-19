@@ -38,13 +38,13 @@ describe('JobApplicationsService', () => {
       expect(created.interviewAt).toBeNull();
     });
 
-    it('no fija fecha de postulacion para vacantes que solo son de interes', async () => {
+    it('no fija fecha de postulación para vacantes que solo son de interes', async () => {
       const created = await service.create(USER_ID, payload({ status: 'wishlist' }), null);
 
       expect(created.appliedAt).toBeNull();
     });
 
-    it('fija la fecha de postulacion al registrar una vacante ya enviada', async () => {
+    it('fija la fecha de postulación al registrar una vacante ya enviada', async () => {
       const created = await service.create(USER_ID, payload({ status: 'applied' }), null);
 
       expect(created.appliedAt).not.toBeNull();
@@ -57,7 +57,7 @@ describe('JobApplicationsService', () => {
       expect(second.boardOrder).toBe(1);
     });
 
-    it('publica un evento de creacion con el dispositivo de origen', async () => {
+    it('publica un evento de creación con el dispositivo de origen', async () => {
       const created = await service.create(USER_ID, payload(), ORIGIN_ID);
 
       expect(publisher.events).toHaveLength(1);
@@ -69,7 +69,7 @@ describe('JobApplicationsService', () => {
   });
 
   describe('getBoard', () => {
-    it('devuelve todas las columnas aunque el tablero este vacio', async () => {
+    it('devuelve todas las columnas aunque el tablero esté vacío', async () => {
       const board = await service.getBoard(USER_ID);
 
       expect(board.columns).toHaveLength(6);
@@ -77,7 +77,7 @@ describe('JobApplicationsService', () => {
       expect(board.gamification.progress.level).toBe(1);
     });
 
-    it('coloca cada postulacion en la columna de su estado', async () => {
+    it('coloca cada postulación en la columna de su estado', async () => {
       await service.create(USER_ID, payload({ status: 'interview' }), null);
 
       const board = await service.getBoard(USER_ID);
@@ -106,7 +106,7 @@ describe('JobApplicationsService', () => {
       expect(updated.company).toBe(created.company);
     });
 
-    it('rechaza actualizar una postulacion de otro usuario', async () => {
+    it('rechaza actualizar una postulación de otro usuario', async () => {
       const created = await service.create(OTHER_USER_ID, payload(), null);
 
       await expect(service.update(USER_ID, created.id, { notes: 'x' }, null)).rejects.toBeInstanceOf(
@@ -114,10 +114,10 @@ describe('JobApplicationsService', () => {
       );
     });
 
-    it('informa con claridad cuando la postulacion no existe', async () => {
+    it('informa con claridad cuando la postulación no existe', async () => {
       await expect(
         service.update(USER_ID, '00000000-0000-4000-8000-000000000009', {}, null),
-      ).rejects.toThrow('La postulacion no existe o no te pertenece.');
+      ).rejects.toThrow('La postulación no existe o no te pertenece.');
     });
   });
 
@@ -190,7 +190,7 @@ describe('JobApplicationsService', () => {
   });
 
   describe('remove', () => {
-    it('elimina la postulacion y avisa a los demas dispositivos', async () => {
+    it('elimina la postulación y avisa a los demás dispositivos', async () => {
       const created = await service.create(USER_ID, payload(), null);
       publisher.events.length = 0;
 
@@ -201,7 +201,7 @@ describe('JobApplicationsService', () => {
       expect(publisher.events[0].event.application).toBeNull();
     });
 
-    it('rechaza eliminar una postulacion ajena', async () => {
+    it('rechaza eliminar una postulación ajena', async () => {
       const created = await service.create(OTHER_USER_ID, payload(), null);
 
       await expect(service.remove(USER_ID, created.id, null)).rejects.toBeInstanceOf(

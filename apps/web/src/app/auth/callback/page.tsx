@@ -10,18 +10,18 @@ import { MISSING_SUPABASE_MESSAGE, getSupabaseClient } from '@/lib/supabase/brow
 
 type CallbackState = { status: 'working' } | { status: 'failed'; message: string };
 
-/** Margen para que el cliente termine de canjear el codigo por una sesion. */
+/** Margen para que el cliente termine de canjear el código por una sesión. */
 const SESSION_TIMEOUT_MS = 15_000;
 
 const TIMEOUT_MESSAGE =
-  'No se pudo completar el inicio de sesion. Vuelve a intentarlo desde la pantalla de acceso.';
+  'No se pudo completar el inicio de sesión. Vuelve a intentarlo desde la pantalla de acceso.';
 
 /**
- * Cierra el flujo de acceso externo y de confirmacion por correo.
+ * Cierra el flujo de acceso externo y de confirmación por correo.
  *
- * El cliente de Supabase canjea por su cuenta el codigo que viene en la URL, de
- * modo que aqui solo se espera a que aparezca la sesion. Hacer el canje a mano
- * ademas del automatico consumia el codigo dos veces y la segunda fallaba.
+ * El cliente de Supabase canjea por su cuenta el código que viene en la URL, de
+ * modo que aquí solo se espera a que aparezca la sesión. Hacer el canje a mano
+ * además del automático consumia el código dos veces y la segunda fallaba.
  */
 export default function AuthCallbackPage() {
   const router = useRouter();
@@ -89,7 +89,7 @@ export default function AuthCallbackPage() {
             href="/acceso"
             className="focus-ring inline-flex items-center justify-center rounded-control bg-accent px-5 py-2.5 text-sm font-semibold text-inverse hover:bg-accent-strong"
           >
-            Ir a iniciar sesion
+            Ir a iniciar sesión
           </Link>
         </>
       )}

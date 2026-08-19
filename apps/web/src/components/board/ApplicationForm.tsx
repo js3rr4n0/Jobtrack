@@ -39,7 +39,7 @@ const WORK_MODE_OPTIONS = [
 
 export interface ApplicationFormProps {
   initialValues?: ApplicationFormValues;
-  /** Areas ya usadas, ofrecidas como sugerencias al escribir. */
+  /** Áreas ya usadas, ofrecidas como sugerencias al escribir. */
   knownCategories?: readonly string[];
   submitLabel: string;
   isSubmitting: boolean;
@@ -80,7 +80,7 @@ export function ApplicationForm({
 
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
-      <datalist id="areas-conocidas">
+      <datalist id="áreas-conocidas">
         {knownCategories.map((category) => (
           <option key={category} value={category} />
         ))}
@@ -124,16 +124,16 @@ export function ApplicationForm({
         />
         <TextField
           id="category"
-          label="Area del tablero"
-          list="areas-conocidas"
+          label="Área del tablero"
+          list="áreas-conocidas"
           value={values.category}
           error={errors.category}
-          hint="Por ejemplo: Desarrollo, Marketing, Diseno."
+          hint="Por ejemplo: Desarrollo, Marketing, Diseño."
           onChange={(event) => updateField('category', event.target.value)}
         />
         <TextField
           id="location"
-          label="Ubicacion"
+          label="Ubicación"
           value={values.location}
           error={errors.location}
           placeholder="Ciudad o pais"
@@ -154,7 +154,7 @@ export function ApplicationForm({
           inputMode="numeric"
           value={values.salaryExpectation}
           error={errors.salaryExpectation}
-          hint="Opcional. Solo numeros enteros."
+          hint="Opcional. Solo números enteros."
           onChange={(event) => updateField('salaryExpectation', event.target.value)}
         />
         <TextField
@@ -168,7 +168,7 @@ export function ApplicationForm({
         />
         <TextField
           id="appliedAt"
-          label="Fecha de postulacion"
+          label="Fecha de postulación"
           type="date"
           value={values.appliedAt}
           error={errors.appliedAt}

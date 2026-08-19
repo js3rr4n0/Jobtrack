@@ -3,18 +3,18 @@ import { describe, expect, it } from 'vitest';
 import { NOTE_HEIGHT, NOTE_WIDTH, remToPixels, trackSize } from './note-geometry';
 
 describe('remToPixels', () => {
-  it('convierte el tamano de una nota a pixeles', () => {
+  it('convierte el tamaño de una nota a pixeles', () => {
     expect(remToPixels(NOTE_WIDTH, 16)).toBe(192);
     expect(remToPixels(NOTE_HEIGHT, 16)).toBe(136);
   });
 
-  it('respeta un tamano base distinto', () => {
+  it('respeta un tamaño base distinto', () => {
     expect(remToPixels('10rem', 20)).toBe(200);
   });
 });
 
 describe('trackSize', () => {
-  it('descuenta el tamano de la nota del mural', () => {
+  it('descuenta el tamaño de la nota del mural', () => {
     expect(trackSize(800, 192)).toBe(608);
   });
 

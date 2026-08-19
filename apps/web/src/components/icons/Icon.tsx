@@ -16,7 +16,7 @@ export interface IconProps {
   className?: string;
   /**
    * Texto alternativo. Sin el, el icono se marca como decorativo y los lectores
-   * de pantalla lo ignoran, evitando ruido en la navegacion asistida.
+   * de pantalla lo ignoran, evitando ruido en la navegación asistida.
    */
   title?: string;
 }

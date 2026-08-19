@@ -60,8 +60,8 @@ export function NotesPanel({ notes }: NotesPanelProps) {
         </Button>
       </div>
 
-      {/* La falta de conexion ya se anuncia una vez en la cabecera de la
-          pantalla; repetirla aqui solo aniade ruido. */}
+      {/* La falta de conexión ya se anuncia una vez en la cabecera de la
+          pantalla; repetirla aquí solo aniade ruido. */}
       {notes.error && notes.error.kind !== 'offline' ? (
         <StatusBanner tone="error" message={notes.error.message} details={notes.error.details} />
       ) : null}
@@ -75,7 +75,7 @@ export function NotesPanel({ notes }: NotesPanelProps) {
       <Modal
         isOpen={editor.mode !== 'closed'}
         title={editor.mode === 'edit' ? 'Editar nota' : 'Nueva nota'}
-        description="Las notas se sincronizan con tus demas dispositivos."
+        description="Las notas se sincronizan con tus demás dispositivos."
         onClose={closeEditor}
       >
         {editor.mode !== 'closed' ? (

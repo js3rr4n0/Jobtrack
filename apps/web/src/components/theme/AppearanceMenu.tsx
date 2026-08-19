@@ -8,7 +8,7 @@ import { usePreferences } from '@/components/theme/PreferencesProvider';
 import { Modal } from '@/components/ui/Modal';
 import { findTheme } from '@/lib/themes';
 
-/** Acceso a la apariencia en las pantallas donde todavia no hay sesion. */
+/** Acceso a la apariencia en las pantallas donde todavia no hay sesión. */
 export function AppearanceMenu() {
   const { theme, iconPack } = usePreferences();
   const [isOpen, setIsOpen] = useState(false);

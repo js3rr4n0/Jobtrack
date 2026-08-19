@@ -49,7 +49,7 @@ export class SupabaseJobApplicationsRepository extends JobApplicationsRepository
       return null;
     }
 
-    this.failOnError(error, 'No fue posible leer la postulacion solicitada.');
+    this.failOnError(error, 'No fue posible leer la postulación solicitada.');
     return data ? toDomain(data as JobApplicationRow) : null;
   }
 
@@ -60,7 +60,7 @@ export class SupabaseJobApplicationsRepository extends JobApplicationsRepository
       .select('*')
       .single();
 
-    this.failOnError(error, 'No fue posible guardar la postulacion.');
+    this.failOnError(error, 'No fue posible guardar la postulación.');
     return toDomain(data as JobApplicationRow);
   }
 
@@ -81,7 +81,7 @@ export class SupabaseJobApplicationsRepository extends JobApplicationsRepository
       return null;
     }
 
-    this.failOnError(error, 'No fue posible actualizar la postulacion.');
+    this.failOnError(error, 'No fue posible actualizar la postulación.');
     return data ? toDomain(data as JobApplicationRow) : null;
   }
 
@@ -93,7 +93,7 @@ export class SupabaseJobApplicationsRepository extends JobApplicationsRepository
       .eq('id', applicationId)
       .select('id');
 
-    this.failOnError(error, 'No fue posible eliminar la postulacion.');
+    this.failOnError(error, 'No fue posible eliminar la postulación.');
     return (data?.length ?? 0) > 0;
   }
 
