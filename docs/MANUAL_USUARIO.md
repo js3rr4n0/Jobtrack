@@ -340,6 +340,19 @@ Al recuperar la señal, la aplicación vuelve a pedir el tablero automáticament
 
 ---
 
+## 12.1 El panel de administración
+
+Si eres quien administra el proyecto, `/admin` resume cómo se está usando
+Jobtrack en conjunto: cuánta gente lo usa, en qué etapa está todo, qué empresas
+reciben más postulaciones, cuáles contratan y cuáles descartan más, y cuántos
+procesos llevan un mes parados.
+
+El acceso lo decide la variable `ADMIN_EMAIL` de la API, y solo esa cuenta
+entra. El informe está hecho **solo de recuentos**: no muestra las notas, los
+contactos ni la identidad de nadie.
+
+---
+
 ## 13. Preguntas frecuentes
 
 **Puedo ver las postulaciones de otra persona.**

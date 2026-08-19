@@ -77,6 +77,14 @@ export class InMemoryJobApplicationsRepository extends JobApplicationsRepository
     this.applications.clear();
   }
 
+  /**
+   * Lectura sin filtrar por usuario. La usa solo el panel de administración
+   * para sus recuentos agregados; el resto del código pasa por `findAllByUser`.
+   */
+  async findAllAcrossUsers(): Promise<JobApplication[]> {
+    return Array.from(this.applications.values());
+  }
+
   private snapshotOf(userId: string): JobApplication[] {
     return Array.from(this.applications.values()).filter(
       (application) => application.userId === userId,

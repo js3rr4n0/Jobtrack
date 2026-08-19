@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 
+import { AdminModule } from './admin/admin.module';
 import { JobApplicationsModule } from './applications/job-applications.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from './config/config.module';
@@ -16,6 +17,7 @@ import { RealtimeModule } from './realtime/realtime.module';
     JobApplicationsModule,
     StickyNotesModule,
     GamificationModule,
+    AdminModule,
     HealthModule,
   ],
 })

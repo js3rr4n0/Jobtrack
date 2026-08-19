@@ -1,4 +1,5 @@
 import type {
+  AdminOverview,
   CreateJobApplicationInput,
   CreateStickyNoteInput,
   GamificationProfile,
@@ -60,6 +61,10 @@ const UNREACHABLE_MESSAGE =
 const TIMEOUT_MESSAGE =
   'El servidor tardó demasiado en responder. Si está alojado en un plan gratuito puede estar despertando; vuelve a intentarlo en un minuto.';
 
+export interface AdminOverviewResponse extends AdminOverview {
+  generatedAt: string;
+}
+
 export interface ApiClientOptions {
   readonly baseUrl: string;
   readonly accessToken: string | null;
@@ -117,6 +122,11 @@ export class ApiClient {
 
   async deleteApplication(id: string): Promise<void> {
     await this.request<null>({ method: 'DELETE', path: `/applications/${id}` });
+  }
+
+  /** Informe agregado del panel de administración. Responde 403 si no eres tú. */
+  getAdminOverview(): Promise<AdminOverviewResponse> {
+    return this.request<AdminOverviewResponse>({ method: 'GET', path: '/admin/overview' });
   }
 
   getNotes(): Promise<StickyNote[]> {

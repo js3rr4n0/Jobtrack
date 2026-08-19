@@ -39,9 +39,13 @@ export default function HomePage() {
           </Link>
         </div>
 
+        {/*
+          Apoyo del boton principal. Las dos afirmaciones son comprobables en el
+          propio producto: no hay ningun cobro en ninguna parte, y el acceso con
+          Google no manda correo de confirmacion.
+        */}
         <p className="text-sm text-secondary">
-          Sin plantillas que armar ni fórmulas que mantener: las etapas y las cuentas ya vienen
-          hechas.
+          Gratis y sin tarjeta. Con Google entras en un clic, sin correo de confirmación.
         </p>
       </section>
 
@@ -66,6 +70,44 @@ export default function HomePage() {
           Un tablero con nueve postulaciones repartidas en tres áreas.
         </figcaption>
       </figure>
+
+      <ul className="grid gap-3 sm:grid-cols-3">
+        {[
+          { dato: '6', titulo: 'etapas ya definidas', apoyo: 'De «me interesa» a «contratado».' },
+          { dato: '1', titulo: 'sitio para todo', apoyo: 'Fechas, contactos, notas y enlaces.' },
+          { dato: '0', titulo: 'planillas que mantener', apoyo: 'Las cuentas se calculan solas.' },
+        ].map((item) => (
+          <li key={item.titulo} className="rounded-card border border-subtle bg-raised p-4 shadow-card">
+            <p className="font-display text-2xl font-bold text-accent">{item.dato}</p>
+            <p className="text-sm font-semibold text-primary">{item.titulo}</p>
+            <p className="text-xs text-secondary">{item.apoyo}</p>
+          </li>
+        ))}
+      </ul>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="font-display text-xl font-bold text-primary">Qué ganas usando Jobtrack</h2>
+        <ul className="flex flex-col gap-2 text-sm text-secondary">
+          <li>
+            <strong className="text-primary">Dejas de perder el hilo.</strong> Cada oferta guarda su
+            enlace, su contacto, el currículum que enviaste y lo que hablaste, en la misma tarjeta.
+          </li>
+          <li>
+            <strong className="text-primary">Sabes qué te falta hacer hoy.</strong> Marcas el día en
+            que toca insistir y el tablero te avisa cuando llega, sin que tengas que repasar la
+            lista entera.
+          </li>
+          <li>
+            <strong className="text-primary">Ves dónde se te frena la búsqueda.</strong> Si diez
+            postulaciones llevan un mes en la misma columna, el problema no es el volumen y el
+            tablero te lo enseña.
+          </li>
+          <li>
+            <strong className="text-primary">Mides si estás mejorando.</strong> Cuántas entrevistas
+            conseguiste y cuántas ofertas siguen vivas, contadas solas a partir de tu tablero.
+          </li>
+        </ul>
+      </section>
 
       <LandingHighlights />
 

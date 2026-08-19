@@ -27,6 +27,7 @@ npm test --workspace @jobtrack/web
 | contracts | `src/gamification.spec.ts` | Unitaria | 17 |
 | contracts | `src/analytics.spec.ts` | Unitaria | 23 |
 | contracts | `src/board.spec.ts` | Unitaria | 20 |
+| contracts | `src/admin.spec.ts` | Unitaria | 12 |
 | contracts | `src/sticky-note.spec.ts` | Unitaria | 22 |
 | api | `src/config/environment.spec.ts` | Unitaria | 6 |
 | api | `src/auth/token-verifier.service.spec.ts` | Unitaria | 14 |
@@ -34,6 +35,7 @@ npm test --workspace @jobtrack/web
 | api | `src/notes/sticky-notes.service.spec.ts` | Unitaria | 13 |
 | api | `test/applications.e2e-spec.ts` | Integracion | 21 |
 | api | `test/notes.e2e-spec.ts` | Integracion | 10 |
+| api | `test/admin.e2e-spec.ts` | Integracion | 6 |
 | api | `test/realtime.e2e-spec.ts` | Integracion | 5 |
 | web | `src/lib/application-form.test.ts` | Unitaria | 25 |
 | web | `src/lib/api-client.test.ts` | Unitaria | 14 |
@@ -58,7 +60,7 @@ npm test --workspace @jobtrack/web
 | web | `src/components/gamification/LevelMeter.test.tsx` | Componente | 4 |
 | web | `tests/integration/board-workspace.test.tsx` | Integracion | 14 |
 
-**Total: 420 casos.**
+**Total: 438 casos.**
 
 ---
 
@@ -241,6 +243,10 @@ retraso de red se reporta como tal y no como un cuelgue silencioso.
 | Ciclo de vida | Alta, consulta, actualización, movimiento y baja encadenados | `applications.e2e-spec.ts` |
 | Normalizacion de entrada | Los espacios se recortan y las cadenas vacías se guardan como `null` | `applications.e2e-spec.ts` |
 | Aislamiento entre cuentas | 404 al leer, actualizar o eliminar datos ajenos | `applications.e2e-spec.ts` |
+| Panel de administración sin token | 401 | `admin.e2e-spec.ts` |
+| Panel con una cuenta que no es la administradora | 403 | `admin.e2e-spec.ts` |
+| Panel sin `ADMIN_EMAIL` configurado | 403 incluso con sesión válida | `admin.e2e-spec.ts` |
+| Contenido del informe | No aparecen notas, contactos ni identificadores de personas | `admin.e2e-spec.ts` |
 | Coherencia del perfil | `/gamification/profile` y el tablero reportan la misma experiencia | `applications.e2e-spec.ts` |
 | Mural sin token | 401 | `notes.e2e-spec.ts` |
 | Ciclo de vida de una nota | Alta, listado, movimiento y baja encadenados | `notes.e2e-spec.ts` |
@@ -271,7 +277,7 @@ La entrega se considera correcta cuando:
 3. `npm run build` compila el paquete compartido, la API y la web.
 4. Ninguna prueba deja procesos abiertos ni depende de servicios externos.
 
-Estado actual: **420 casos, todos en verde**, sin dependencias de red externas.
+Estado actual: **438 casos, todos en verde**, sin dependencias de red externas.
 
 ## 7. Verificación manual complementaria
 

@@ -64,6 +64,7 @@ Jobtrack/
     auth/                      Estrategia JWT, guard, decorador y verificador
     applications/              Controlador, servicio, DTO y repositorios
     notes/                     Mural de notas: controlador, servicio y puertos
+    admin/                     Informe agregado, con su propia puerta por correo
     gamification/             Perfil de juego derivado del tablero
     realtime/                  Puerto de publicación y gateway WebSocket
     common/filters/            Normalizacion de errores HTTP
@@ -218,7 +219,26 @@ teléfono aparece en el mismo lugar relativo en la computadora. El mapeador sane
 color y posición al leer, así que una fila corrupta o de una versión anterior del
 esquema no rompe el renderizado.
 
-### 4.5 Endpoints
+### 4.5 Panel de administración
+
+`admin/` reúne el informe agregado del producto. Tiene puerta propia:
+`AdminGuard` corre **después** de `JwtAuthGuard` y compara el correo del token
+con `ADMIN_EMAIL`. Si la variable no está definida, el panel responde 403 a
+todo el mundo; un panel que se abre por olvidar una variable no es un panel.
+
+La lectura global vive en un puerto aparte, `AdminRepository`, en lugar de
+añadirse al de postulaciones. Ese filtra siempre por usuario, y meter aquí una
+consulta sin ese filtro haría fácil saltárselo por accidente desde otro punto
+del código.
+
+El cálculo entero está en `buildAdminOverview`, función pura del paquete
+compartido: recibe las postulaciones y la fecha de referencia y devuelve solo
+recuentos. Nada de lo que produce identifica a una persona ni reproduce sus
+notas o contactos, y una prueba de integración lo verifica sobre la respuesta
+real del endpoint. Los porcentajes por empresa exigen un mínimo de muestras,
+porque «100 % de contratación» sobre una sola postulación no dice nada.
+
+### 4.6 Endpoints
 
 | Método | Ruta | Descripción |
 | --- | --- | --- |
@@ -235,12 +255,13 @@ esquema no rompe el renderizado.
 | `PATCH` | `/api/notes/:id` | Cambia texto, color o posición. |
 | `DELETE` | `/api/notes/:id` | Elimina una nota. |
 | `GET` | `/api/gamification/profile` | Perfil de juego del usuario. |
+| `GET` | `/api/admin/overview` | Informe agregado. Solo para `ADMIN_EMAIL`. |
 
 Todas las rutas salvo `/health` exigen JWT. El `ValidationPipe` global aplica
 `whitelist` y `forbidNonWhitelisted`, así que un cuerpo con propiedades
 desconocidas se rechaza con 400.
 
-### 4.6 Errores
+### 4.7 Errores
 
 `HttpExceptionFilter` normaliza cualquier fallo en un cuerpo único:
 
@@ -257,7 +278,7 @@ desconocidas se rechaza con 400.
 Los errores 5xx se registran con traza en el servidor pero devuelven un mensaje
 genérico al cliente, sin filtrar detalles internos.
 
-### 4.7 Tiempo real
+### 4.8 Tiempo real
 
 `BoardGateway` expone el namespace `/realtime`. En la conexión valida el token y
 une al cliente a la sala `user:<id>`; si el token falta o es invalido, emite

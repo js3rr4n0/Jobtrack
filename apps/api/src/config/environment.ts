@@ -21,6 +21,12 @@ const environmentSchema = z
      * y se usa para desarrollo local y para las pruebas de integracion.
      */
     DATA_DRIVER: z.enum(['supabase', 'memory']).default('memory'),
+    /**
+     * Correo de la única cuenta con acceso al panel de administración. Si no se
+     * define, el panel queda cerrado para todo el mundo: es preferible que no
+     * exista a que quede abierto por descuido.
+     */
+    ADMIN_EMAIL: z.string().email().optional(),
   })
   .superRefine((environment, context) => {
     if (environment.DATA_DRIVER !== 'supabase') {
@@ -49,6 +55,8 @@ export interface ApplicationConfig {
   readonly supabaseUrl: string;
   readonly supabaseServiceRoleKey: string;
   readonly dataDriver: RawEnvironment['DATA_DRIVER'];
+  /** Nulo cuando no hay administrador configurado. */
+  readonly adminEmail: string | null;
 }
 
 /** Secreto usado unicamente cuando el driver de datos es `memory`. */
@@ -78,6 +86,7 @@ export function loadConfiguration(source: NodeJS.ProcessEnv = process.env): Appl
     supabaseUrl: environment.SUPABASE_URL ?? '',
     supabaseServiceRoleKey: environment.SUPABASE_SERVICE_ROLE_KEY ?? '',
     dataDriver: environment.DATA_DRIVER,
+    adminEmail: environment.ADMIN_EMAIL?.trim().toLowerCase() ?? null,
   };
 }
 

@@ -138,6 +138,7 @@ sin credenciales externas. Para persistir en PostgreSQL, ejecuta
 DATA_DRIVER=supabase
 SUPABASE_URL=https://<proyecto>.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=<clave de servicio>
+ADMIN_EMAIL=<tu correo>          # opcional: habilita /admin solo para esa cuenta
 ```
 
 El esquema se puede volver a ejecutar entero sobre un proyecto que ya existe:
@@ -168,12 +169,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 
 ## Pruebas
 
-420 casos, todos en verde y sin dependencias de red externas:
+438 casos, todos en verde y sin dependencias de red externas:
 
 | Paquete | Herramienta | Casos |
 | --- | --- | --- |
-| `contracts` | Vitest | 82 |
-| `api` | Jest y Supertest | 87 |
+| `contracts` | Vitest | 94 |
+| `api` | Jest y Supertest | 93 |
 | `web` | Vitest y Testing Library | 251 |
 
 Cubren las restricciones del plan: ausencia de conexión, valores nulos, datos
