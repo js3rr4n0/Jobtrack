@@ -70,7 +70,7 @@ export function NoteWall({ notes, images, onMove, onEdit }: NoteWallProps) {
       >
         {notes.length === 0 ? (
           <p className="absolute inset-0 flex items-center justify-center px-6 text-center text-sm text-secondary">
-            Aun no tienes notas. Crea una para anotar recordatorios sueltos y arrastrala donde
+            Aún no tienes notas. Crea una para anotar recordatorios sueltos y arrástrala donde
             quieras.
           </p>
         ) : (

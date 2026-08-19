@@ -58,7 +58,7 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
                   <p className="text-xs text-secondary [overflow-wrap:anywhere]">{achievement.description}</p>
                   <p className="mt-1 text-xs font-medium text-secondary">
                     {achievement.unlocked
-                      ? `Desbloqueado. Bonificacion de ${achievement.experienceBonus} puntos.`
+                      ? `Desbloqueado. Bonificación de ${achievement.experienceBonus} puntos.`
                       : `Progreso ${achievement.current} de ${achievement.target} (${percent}%)`}
                   </p>
                 </div>

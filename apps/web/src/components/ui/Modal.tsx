@@ -46,7 +46,7 @@ export function Modal({ isOpen, title, description, onClose, children }: ModalPr
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-0 sm:items-center sm:p-4">
       <button
         type="button"
-        aria-label="Cerrar el dialogo"
+        aria-label="Cerrar el diálogo"
         className="absolute inset-0 h-full w-full cursor-default"
         onClick={onClose}
       />

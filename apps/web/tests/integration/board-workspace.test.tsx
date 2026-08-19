@@ -254,7 +254,7 @@ describe('BoardWorkspace (integracion)', () => {
     renderWithPreferences(<BoardWorkspace />);
 
     await screen.findByText('Desarrollador Frontend');
-    expect(screen.getByText(/Aun no tienes notas/)).toBeInTheDocument();
+    expect(screen.getByText(/Aún no tienes notas/)).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: /Nueva nota/ }));
     await user.type(screen.getByLabelText('Nota'), 'Preparar portafolio');

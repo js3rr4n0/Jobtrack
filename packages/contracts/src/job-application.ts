@@ -29,7 +29,7 @@ export const STATUS_CATALOG: Readonly<Record<ApplicationStatus, StatusDefinition
   wishlist: {
     id: 'wishlist',
     label: 'Interesa',
-    description: 'Vacantes guardadas que todavia no has postulado.',
+    description: 'Vacantes guardadas que todavía no has postulado.',
     order: 0,
     progressWeight: 0,
     isTerminal: false,
@@ -53,7 +53,7 @@ export const STATUS_CATALOG: Readonly<Record<ApplicationStatus, StatusDefinition
   offer: {
     id: 'offer',
     label: 'Oferta',
-    description: 'Recibiste una propuesta formal de contratacion.',
+    description: 'Recibiste una propuesta formal de contratación.',
     order: 3,
     progressWeight: 3,
     isTerminal: false,
@@ -69,7 +69,7 @@ export const STATUS_CATALOG: Readonly<Record<ApplicationStatus, StatusDefinition
   rejected: {
     id: 'rejected',
     label: 'Descartado',
-    description: 'El proceso termino sin oferta. Cada intento suma experiencia.',
+    description: 'El proceso terminó sin oferta. Cada intento suma experiencia.',
     order: 5,
     progressWeight: 0,
     isTerminal: true,
@@ -89,7 +89,7 @@ export type WorkMode = (typeof WORK_MODES)[number];
 
 export const WORK_MODE_LABELS: Readonly<Record<WorkMode, string>> = {
   onsite: 'Presencial',
-  hybrid: 'Hibrido',
+  hybrid: 'Híbrido',
   remote: 'Remoto',
 };
 

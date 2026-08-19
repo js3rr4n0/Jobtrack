@@ -28,7 +28,7 @@ const COPY: Record<AuthMode, { title: string; subtitle: string; submit: string; 
     subtitle: 'Recupera tu tablero y continua donde lo dejaste.',
     submit: 'Entrar',
     alternateHref: '/registro',
-    alternateLabel: 'No tengo cuenta todavia',
+    alternateLabel: 'No tengo cuenta todavía',
   },
   signUp: {
     title: 'Crea tu cuenta',
@@ -211,17 +211,21 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
           <TextField
             id="email"
-            label="Correo electronico"
+            name="email"
+            label="Correo electrónico"
             type="email"
             autoComplete="email"
+            required
             value={values.email}
             error={errors.email}
             onChange={(event) => updateField('email', event.target.value)}
           />
           <TextField
             id="password"
+            name="password"
             label="Contraseña"
             type="password"
+            required
             autoComplete={mode === 'signIn' ? 'current-password' : 'new-password'}
             value={values.password}
             error={errors.password}

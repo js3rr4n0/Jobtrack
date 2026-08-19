@@ -14,7 +14,7 @@ export function validateCredentials(values: CredentialsValues): CredentialsError
   const errors: CredentialsErrors = {};
 
   if (values.email.trim().length === 0) {
-    errors.email = 'Escribe tu correo electronico.';
+    errors.email = 'Escribe tu correo electrónico.';
   } else if (!EMAIL_PATTERN.test(values.email.trim())) {
     errors.email = 'El correo no tiene un formato válido.';
   }

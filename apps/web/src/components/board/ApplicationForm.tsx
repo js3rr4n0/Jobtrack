@@ -179,7 +179,7 @@ export function ApplicationForm({
             label="Ubicación"
             value={values.location}
             error={errors.location}
-            placeholder="Ciudad o pais"
+            placeholder="Ciudad o país"
             onChange={(event) => updateField('location', event.target.value)}
           />
           <SelectField

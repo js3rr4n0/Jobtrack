@@ -12,7 +12,7 @@ import {
 import { DocumentPicker } from '@/components/documents/DocumentPicker';
 import { Button } from '@/components/ui/Button';
 import type { UseDocumentsResult } from '@/hooks/use-documents';
-import { TextAreaField } from '@/components/ui/FormField';
+import { CharacterCounter, TextAreaField } from '@/components/ui/FormField';
 
 export interface NoteFormValues {
   readonly text: string;
@@ -33,6 +33,13 @@ export interface NoteFormProps {
 }
 
 const EMPTY_NOTE_MESSAGE = 'Escribe algo antes de guardar la nota.';
+
+/** Aviso cuando el texto se pasa del tope, con lo que sobra ya contado. */
+function tooLongMessage(excess: number): string {
+  return excess === 1
+    ? 'La nota se pasa por un carácter. Quítalo para poder guardarla.'
+    : `La nota se pasa por ${excess} caracteres. Quítalos para poder guardarla.`;
+}
 
 const COLOR_LABELS: Record<NoteColor, string> = {
   amarillo: 'Amarillo',
@@ -57,8 +64,16 @@ export function NoteForm({
   const [imageId, setImageId] = useState(initialValues?.imageId ?? '');
   const [error, setError] = useState<string | null>(null);
 
+  const excess = text.trim().length - MAX_NOTE_LENGTH;
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (excess > 0) {
+      setError(tooLongMessage(excess));
+      return;
+    }
+
     const normalized = normalizeNoteText(text);
 
     if (!normalized) {
@@ -72,15 +87,23 @@ export function NoteForm({
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
+      {/*
+        El campo no recorta al escribir ni al pegar: cortar en silencio un texto
+        pegado hace perder lo que ya no se ve. En su lugar deja pasarse, lo
+        cuenta a la vista y avisa de cuanto sobra antes de guardar.
+      */}
       <TextAreaField
         id="nota-texto"
         label="Nota"
         rows={4}
-        maxLength={MAX_NOTE_LENGTH}
         value={text}
-        error={error ?? undefined}
+        error={error ?? (excess > 0 ? tooLongMessage(excess) : undefined)}
         hint={`Hasta ${MAX_NOTE_LENGTH} caracteres.`}
-        onChange={(event) => setText(event.target.value)}
+        counter={<CharacterCounter length={text.trim().length} limit={MAX_NOTE_LENGTH} />}
+        onChange={(event) => {
+          setText(event.target.value);
+          setError(null);
+        }}
       />
 
       <fieldset className="flex flex-col gap-2">

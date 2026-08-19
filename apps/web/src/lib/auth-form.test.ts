@@ -6,7 +6,7 @@ describe('validateCredentials', () => {
   it('exige correo y contraseña', () => {
     const errors = validateCredentials({ email: '', password: '' });
 
-    expect(errors.email).toBe('Escribe tu correo electronico.');
+    expect(errors.email).toBe('Escribe tu correo electrónico.');
     expect(errors.password).toBe('Escribe tu contraseña.');
   });
 

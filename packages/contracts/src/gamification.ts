@@ -229,7 +229,7 @@ export const ACHIEVEMENTS: readonly AchievementDefinition[] = [
   {
     id: 'streak_seven',
     name: 'Constancia semanal',
-    description: 'Manten una racha de siete días con actividad.',
+    description: 'Mantén una racha de siete días con actividad.',
     iconId: 'flame',
     experienceBonus: 70,
     isUnlocked: (stats) => stats.longestStreakDays >= 7,

@@ -8,15 +8,20 @@ interface FieldShellProps {
   label: string;
   hint?: string;
   error?: string;
+  /** Indicador opcional a la derecha de la etiqueta, como un contador. */
+  counter?: ReactNode;
   children: ReactNode;
 }
 
-function FieldShell({ id, label, hint, error, children }: FieldShellProps) {
+function FieldShell({ id, label, hint, error, counter, children }: FieldShellProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-primary">
-        {label}
-      </label>
+      <div className="flex items-baseline justify-between gap-3">
+        <label htmlFor={id} className="text-sm font-medium text-primary">
+          {label}
+        </label>
+        {counter}
+      </div>
       {children}
       {hint && !error ? (
         <p id={`${id}-hint`} className="text-xs text-secondary">
@@ -29,6 +34,28 @@ function FieldShell({ id, label, hint, error, children }: FieldShellProps) {
         </p>
       ) : null}
     </div>
+  );
+}
+
+export interface CharacterCounterProps {
+  length: number;
+  limit: number;
+}
+
+/**
+ * Cuenta lo escrito frente al limite. Se muestra siempre, no solo al pasarse:
+ * enterarse del tope justo cuando el texto ya se ha cortado llega tarde.
+ */
+export function CharacterCounter({ length, limit }: CharacterCounterProps) {
+  const isOver = length > limit;
+
+  return (
+    <span
+      aria-live="polite"
+      className={`text-xs tabular-nums ${isOver ? 'font-semibold text-danger' : 'text-secondary'}`}
+    >
+      {length} / {limit}
+    </span>
   );
 }
 
@@ -58,11 +85,12 @@ export interface TextAreaFieldProps extends TextareaHTMLAttributes<HTMLTextAreaE
   label: string;
   hint?: string;
   error?: string;
+  counter?: ReactNode;
 }
 
-export function TextAreaField({ id, label, hint, error, ...props }: TextAreaFieldProps) {
+export function TextAreaField({ id, label, hint, error, counter, ...props }: TextAreaFieldProps) {
   return (
-    <FieldShell id={id} label={label} hint={hint} error={error}>
+    <FieldShell id={id} label={label} hint={hint} error={error} counter={counter}>
       <textarea
         id={id}
         rows={3}
