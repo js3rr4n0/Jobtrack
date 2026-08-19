@@ -4,6 +4,7 @@ import { AdminModule } from './admin/admin.module';
 import { JobApplicationsModule } from './applications/job-applications.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from './config/config.module';
+import { DocumentsModule } from './documents/documents.module';
 import { GamificationModule } from './gamification/gamification.module';
 import { HealthModule } from './health/health.module';
 import { StickyNotesModule } from './notes/sticky-notes.module';
@@ -16,6 +17,7 @@ import { RealtimeModule } from './realtime/realtime.module';
     RealtimeModule,
     JobApplicationsModule,
     StickyNotesModule,
+    DocumentsModule,
     GamificationModule,
     AdminModule,
     HealthModule,

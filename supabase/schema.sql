@@ -169,6 +169,81 @@ create policy sticky_notes_manage_own
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
+-- Archivos privados: curriculums, cartas y capturas de notas. La fila guarda
+-- solo los metadatos; el binario vive en Supabase Storage, que es lo que
+-- corresponde a un archivo y no infla las copias de seguridad de la base.
+create table if not exists public.documents (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  kind text not null check (kind in ('resume', 'cover-letter', 'note-image')),
+  label text not null check (char_length(trim(label)) between 1 and 120),
+  -- La ruta es unica: dos filas no pueden apuntar al mismo binario.
+  storage_path text not null unique,
+  mime_type text not null,
+  size_bytes integer not null check (size_bytes > 0 and size_bytes <= 5242880),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists documents_user_kind_idx
+  on public.documents (user_id, kind, created_at desc);
+
+alter table public.documents enable row level security;
+
+drop policy if exists documents_manage_own on public.documents;
+create policy documents_manage_own
+  on public.documents
+  for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- Bucket privado para esos binarios.
+insert into storage.buckets (id, name, public)
+values ('deska-documentos', 'deska-documentos', false)
+on conflict (id) do nothing;
+
+/*
+  Reglas del almacen. La primera carpeta de la ruta es el identificador de su
+  dueno, de modo que "mis archivos" se traduce en "lo que cuelga de mi carpeta".
+  Sin estas politicas el bucket queda cerrado a todo el mundo.
+*/
+drop policy if exists documentos_leer_propios on storage.objects;
+create policy documentos_leer_propios
+  on storage.objects
+  for select
+  using (
+    bucket_id = 'deska-documentos'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+drop policy if exists documentos_subir_propios on storage.objects;
+create policy documentos_subir_propios
+  on storage.objects
+  for insert
+  with check (
+    bucket_id = 'deska-documentos'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+drop policy if exists documentos_borrar_propios on storage.objects;
+create policy documentos_borrar_propios
+  on storage.objects
+  for delete
+  using (
+    bucket_id = 'deska-documentos'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+-- La postulacion referencia los documentos elegidos, sin duplicarlos.
+alter table public.job_applications
+  add column if not exists resume_id uuid references public.documents (id) on delete set null;
+
+alter table public.job_applications
+  add column if not exists cover_letter_id uuid references public.documents (id) on delete set null;
+
+-- Una nota puede llevar una captura.
+alter table public.sticky_notes
+  add column if not exists image_id uuid references public.documents (id) on delete set null;
+
 -- Preferencias de interfaz sincronizadas entre dispositivos.
 create table if not exists public.user_preferences (
   user_id uuid primary key references auth.users (id) on delete cascade,

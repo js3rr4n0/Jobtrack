@@ -2,7 +2,11 @@
 # Importar desde el panel con New -> Blueprint apuntando a este repositorio.
 services:
   - type: web
-    name: deska-api
+    # El nombre del servicio es la identidad del Blueprint en Render: cambiarlo
+    # no renombra el servicio, crea otro y deja huerfano el anterior, con una
+    # URL distinta y sin sus variables de entorno. Se mantiene el original a
+    # proposito, aunque el producto ya se llame Deska.
+    name: jobtrack-api
     runtime: node
     plan: free
     # Render inyecta PORT; la API lo respeta a traves de su configuracion.

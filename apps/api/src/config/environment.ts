@@ -27,6 +27,8 @@ const environmentSchema = z
      * exista a que quede abierto por descuido.
      */
     ADMIN_EMAIL: z.string().email().optional(),
+    /** Bucket de Supabase Storage donde viven los archivos privados. */
+    DOCUMENTS_BUCKET: z.string().min(1).default('deska-documentos'),
   })
   .superRefine((environment, context) => {
     if (environment.DATA_DRIVER !== 'supabase') {
@@ -57,6 +59,7 @@ export interface ApplicationConfig {
   readonly dataDriver: RawEnvironment['DATA_DRIVER'];
   /** Nulo cuando no hay administrador configurado. */
   readonly adminEmail: string | null;
+  readonly documentsBucket: string;
 }
 
 /** Secreto usado unicamente cuando el driver de datos es `memory`. */
@@ -87,6 +90,7 @@ export function loadConfiguration(source: NodeJS.ProcessEnv = process.env): Appl
     supabaseServiceRoleKey: environment.SUPABASE_SERVICE_ROLE_KEY ?? '',
     dataDriver: environment.DATA_DRIVER,
     adminEmail: environment.ADMIN_EMAIL?.trim().toLowerCase() ?? null,
+    documentsBucket: environment.DOCUMENTS_BUCKET,
   };
 }
 
