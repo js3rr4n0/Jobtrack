@@ -3,7 +3,7 @@ import {
   StickyNote,
   clampNotePosition,
   isNoteColor,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 import { NewStickyNoteRecord, StickyNotePatch } from './sticky-notes.repository';
 

@@ -1,4 +1,4 @@
--- Esquema de Jobtrack para PostgreSQL 15 gestionado por Supabase.
+-- Esquema de Deska para PostgreSQL 15 gestionado por Supabase.
 -- Ejecutar desde el editor SQL del proyecto o mediante la CLI de Supabase.
 
 create extension if not exists "pgcrypto";

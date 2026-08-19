@@ -11,12 +11,12 @@ function reportPublicConfiguration() {
   for (const name of required) {
     const value = process.env[name];
     const state = value ? `presente (${value.length} caracteres)` : 'AUSENTE';
-    console.log(`[jobtrack] ${name}: ${state}`);
+    console.log(`[deska] ${name}: ${state}`);
   }
 
   if (missing.length > 0) {
     console.warn(
-      `[jobtrack] Faltan ${missing.join(' y ')}. La aplicación se publicará sin inicio de sesión.`,
+      `[deska] Faltan ${missing.join(' y ')}. La aplicación se publicará sin inicio de sesión.`,
     );
   }
 }

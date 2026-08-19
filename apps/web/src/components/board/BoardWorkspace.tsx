@@ -6,7 +6,7 @@ import type {
   ApplicationStatus,
   CreateJobApplicationInput,
   JobApplication,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 import { GuidedTour } from '@/components/onboarding/GuidedTour';
 import { NotesPanel } from '@/components/notes/NotesPanel';
@@ -24,7 +24,6 @@ import { usePreferences } from '@/components/theme/PreferencesProvider';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { StatusBanner } from '@/components/ui/StatusBanner';
-import { useAmbientMusic } from '@/hooks/use-ambient-music';
 import { useApiClient } from '@/hooks/use-api-client';
 import { useBoard } from '@/hooks/use-board';
 import { useNotes } from '@/hooks/use-notes';
@@ -43,7 +42,7 @@ type EditorState =
 /** Pantalla principal: tablero kanban, capa de juego y edición de postulaciones. */
 export function BoardWorkspace() {
   const router = useRouter();
-  const { iconPack, theme, music } = usePreferences();
+  const { iconPack } = usePreferences();
   const { session, status: sessionStatus } = useSession();
 
   const accessToken = session?.access_token ?? null;
@@ -75,8 +74,6 @@ export function BoardWorkspace() {
   useEffect(() => {
     setTourCompleted(readTourCompleted(window.localStorage));
   }, []);
-
-  useAmbientMusic(music, theme);
 
   const finishTour = useCallback(() => {
     writeTourCompleted(window.localStorage);

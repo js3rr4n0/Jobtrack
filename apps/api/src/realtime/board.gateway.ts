@@ -11,7 +11,7 @@ import {
   BoardChangeEvent,
   NOTE_EVENT,
   NoteChangeEvent,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 import { TokenVerifierService } from '../auth/token-verifier.service';
 import { ApplicationConfig, CONFIG_TOKEN } from '../config/environment';

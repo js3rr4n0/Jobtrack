@@ -7,7 +7,7 @@ import {
   clampNotePosition,
   nextNotePosition,
   normalizeNoteText,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 import { BoardEventPublisher } from '../realtime/board-event.publisher';
 import { CreateStickyNoteDto } from './dto/create-sticky-note.dto';

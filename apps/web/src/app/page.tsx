@@ -10,7 +10,7 @@ export default function HomePage() {
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-10 px-4 py-8 sm:px-6 sm:py-12">
       <AuthResultForwarder />
       <header className="flex items-center justify-between gap-4">
-        <p className="font-display text-lg font-semibold tracking-tight text-primary">Jobtrack</p>
+        <p className="font-display text-lg font-semibold tracking-tight text-primary">Deska</p>
         <AppearanceMenu />
       </header>
 
@@ -59,7 +59,7 @@ export default function HomePage() {
         <div className="overflow-hidden rounded-card border border-subtle bg-raised shadow-lifted">
           <Image
             src="/tablero.jpg"
-            alt="El tablero de Jobtrack con sus seis columnas, las pestañas de área y el panel de nivel, entrevistas y ofertas"
+            alt="El tablero de Deska con sus seis columnas, las pestañas de área y el panel de nivel, entrevistas y ofertas"
             width={1280}
             height={742}
             className="h-auto w-full"
@@ -86,7 +86,7 @@ export default function HomePage() {
       </ul>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-display text-xl font-bold text-primary">Qué ganas usando Jobtrack</h2>
+        <h2 className="font-display text-xl font-bold text-primary">Qué ganas usando Deska</h2>
         <ul className="flex flex-col gap-2 text-sm text-secondary">
           <li>
             <strong className="text-primary">Dejas de perder el hilo.</strong> Cada oferta guarda su
@@ -112,12 +112,12 @@ export default function HomePage() {
       <LandingHighlights />
 
       <p className="text-sm text-secondary">
-        Además: doce temas visuales, dos estilos de iconos, música ambiental opcional y un tutorial
+        Además: doce temas visuales, dos estilos de iconos y un tutorial
         que te guía la primera vez.
       </p>
 
       <footer className="mt-auto border-t border-subtle pt-4 text-xs text-secondary">
-        Jobtrack sincroniza tus postulaciones mediante Supabase y una API propia. Consulta el manual
+        Deska sincroniza tus postulaciones mediante Supabase y una API propia. Consulta el manual
         de usuario en la carpeta docs del repositorio.
       </footer>
     </main>

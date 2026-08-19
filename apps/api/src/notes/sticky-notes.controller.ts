@@ -12,7 +12,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { StickyNote } from '@jobtrack/contracts';
+import { StickyNote } from '@deska/contracts';
 
 import { AuthenticatedUser } from '../auth/authenticated-user';
 import { CurrentUser } from '../auth/current-user.decorator';
@@ -22,7 +22,7 @@ import { UpdateStickyNoteDto } from './dto/update-sticky-note.dto';
 import { StickyNotesService } from './sticky-notes.service';
 
 /** Cabecera opcional que identifica al dispositivo emisor del cambio. */
-const ORIGIN_HEADER = 'x-jobtrack-origin';
+const ORIGIN_HEADER = 'x-deska-origin';
 
 @UseGuards(JwtAuthGuard)
 @Controller('notes')

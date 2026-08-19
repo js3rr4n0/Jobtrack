@@ -1,6 +1,6 @@
 # Plan de pruebas
 
-Estrategia de verificación de Jobtrack. Cada seccion declara el objetivo, las
+Estrategia de verificación de Deska. Cada seccion declara el objetivo, las
 restricciones bajo las que se ejercita el sistema, el resultado esperado y el
 resultado que se considera inaceptable.
 
@@ -15,9 +15,9 @@ npm run test:integration  # solo pruebas de integracion
 Por paquete:
 
 ```bash
-npm test --workspace @jobtrack/contracts
-npm test --workspace @jobtrack/api
-npm test --workspace @jobtrack/web
+npm test --workspace @deska/contracts
+npm test --workspace @deska/api
+npm test --workspace @deska/web
 ```
 
 ## 2. Inventario de suites
@@ -52,15 +52,15 @@ npm test --workspace @jobtrack/web
 | web | `src/components/ui/Accordion.test.tsx` | Componente | 4 |
 | web | `src/components/ui/Popover.test.tsx` | Componente | 5 |
 | web | `src/lib/guided-tour.test.ts` | Unitaria | 10 |
-| web | `src/lib/ambient-music.test.ts` | Unitaria | 12 |
 | web | `src/components/notes/note-geometry.test.ts` | Unitaria | 4 |
-| web | `src/components/board/ApplicationForm.test.tsx` | Componente | 6 |
+| web | `src/components/board/ApplicationForm.test.tsx` | Componente | 8 |
+| web | `src/components/board/StageProgress.test.tsx` | Componente | 5 |
 | web | `src/components/board/CategoryTabs.test.tsx` | Componente | 5 |
 | web | `src/components/icons/Icon.test.tsx` | Componente | 5 |
 | web | `src/components/gamification/LevelMeter.test.tsx` | Componente | 4 |
 | web | `tests/integration/board-workspace.test.tsx` | Integracion | 14 |
 
-**Total: 438 casos.**
+**Total: 434 casos.**
 
 ---
 
@@ -277,7 +277,7 @@ La entrega se considera correcta cuando:
 3. `npm run build` compila el paquete compartido, la API y la web.
 4. Ninguna prueba deja procesos abiertos ni depende de servicios externos.
 
-Estado actual: **438 casos, todos en verde**, sin dependencias de red externas.
+Estado actual: **434 casos, todos en verde**, sin dependencias de red externas.
 
 ## 7. Verificación manual complementaria
 

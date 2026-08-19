@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { AdminOverviewPanel } from '@/components/admin/AdminOverviewPanel';
 
 export const metadata = {
-  title: 'Panel de administración - Jobtrack',
+  title: 'Panel de administración - Deska',
 };
 
 export default function AdminPage() {
@@ -12,7 +12,7 @@ export default function AdminPage() {
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="font-display text-xl font-bold text-primary">Panel de administración</h1>
-          <p className="text-sm text-secondary">Cómo se está usando Jobtrack, en conjunto.</p>
+          <p className="text-sm text-secondary">Cómo se está usando Deska, en conjunto.</p>
         </div>
         <Link
           href="/tablero"

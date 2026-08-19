@@ -11,7 +11,7 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
     // Las pruebas consumen el codigo fuente del paquete compartido para no
     // depender de un paso de compilacion previo.
-    '^@jobtrack/contracts$': '<rootDir>/../../packages/contracts/src/index.ts',
+    '^@deska/contracts$': '<rootDir>/../../packages/contracts/src/index.ts',
   },
   collectCoverageFrom: ['src/**/*.ts', '!src/main.ts', '!src/**/*.module.ts'],
   coverageDirectory: 'coverage',

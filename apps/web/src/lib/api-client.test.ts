@@ -13,7 +13,7 @@ const buildClient = (
   options: { isOnline?: () => boolean } = {},
 ) =>
   new ApiClient({
-    baseUrl: 'https://api.jobtrack.test/api',
+    baseUrl: 'https://api.deska.test/api',
     accessToken: 'token-de-prueba',
     originId: 'dispositivo-prueba',
     fetchImplementation,
@@ -30,7 +30,7 @@ describe('ApiClient', () => {
     const headers = init.headers as Record<string, string>;
 
     expect(headers.Authorization).toBe('Bearer token-de-prueba');
-    expect(headers['X-Jobtrack-Origin']).toBe('dispositivo-prueba');
+    expect(headers['X-Deska-Origin']).toBe('dispositivo-prueba');
   });
 
   it('no llama a la red cuando el dispositivo está sin conexión', async () => {
@@ -147,13 +147,13 @@ describe('ApiClient', () => {
     const fetchMock = vi.fn().mockResolvedValue(jsonResponse(200, {}));
 
     await new ApiClient({
-      baseUrl: 'https://api.jobtrack.test/api/',
+      baseUrl: 'https://api.deska.test/api/',
       accessToken: null,
       originId: 'dispositivo',
       fetchImplementation: fetchMock,
       isOnline: () => true,
     }).getBoard();
 
-    expect(fetchMock.mock.calls[0][0]).toBe('https://api.jobtrack.test/api/applications/board');
+    expect(fetchMock.mock.calls[0][0]).toBe('https://api.deska.test/api/applications/board');
   });
 });

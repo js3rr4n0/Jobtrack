@@ -1,6 +1,6 @@
 import { Inject, Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { PostgrestError, SupabaseClient, createClient } from '@supabase/supabase-js';
-import { StickyNote } from '@jobtrack/contracts';
+import { StickyNote } from '@deska/contracts';
 
 import { ApplicationConfig, CONFIG_TOKEN } from '../../config/environment';
 import { StickyNoteRow, toDomain, toInsertRow, toUpdateRow } from './sticky-note.mapper';

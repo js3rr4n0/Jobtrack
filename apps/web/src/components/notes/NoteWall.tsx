@@ -9,7 +9,7 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { useRef } from 'react';
-import { type StickyNote, translateNotePosition } from '@jobtrack/contracts';
+import { type StickyNote, translateNotePosition } from '@deska/contracts';
 
 import { NOTE_HEIGHT, NOTE_WIDTH, remToPixels, trackSize } from '@/components/notes/note-geometry';
 import { StickyNoteCard } from '@/components/notes/StickyNoteCard';

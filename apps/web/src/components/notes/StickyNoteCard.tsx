@@ -2,7 +2,7 @@
 
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import type { StickyNote } from '@jobtrack/contracts';
+import type { StickyNote } from '@deska/contracts';
 
 import { Icon } from '@/components/icons';
 import { usePreferences } from '@/components/theme/PreferencesProvider';
@@ -28,7 +28,7 @@ export function StickyNoteCard({ note, onEdit }: StickyNoteCardProps) {
     <article
       ref={setNodeRef}
       data-color={note.color}
-      className="sticky-note absolute flex flex-col gap-1 p-3"
+      className="sticky-note layered absolute flex flex-col gap-1 p-3"
       style={{
         width: NOTE_WIDTH,
         height: NOTE_HEIGHT,

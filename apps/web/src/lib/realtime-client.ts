@@ -4,7 +4,7 @@ import {
   NOTE_EVENT,
   type BoardChangeEvent,
   type NoteChangeEvent,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 export type RealtimeStatus = 'connecting' | 'connected' | 'disconnected';
 

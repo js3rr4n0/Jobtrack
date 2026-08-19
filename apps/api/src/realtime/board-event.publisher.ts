@@ -1,4 +1,4 @@
-import { BoardChangeEvent, NoteChangeEvent } from '@jobtrack/contracts';
+import { BoardChangeEvent, NoteChangeEvent } from '@deska/contracts';
 
 /**
  * Puerto de notificación en tiempo real. La capa de aplicación publica cambios

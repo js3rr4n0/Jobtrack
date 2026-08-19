@@ -2,8 +2,6 @@
 
 import { ICON_PACKS, Icon } from '@/components/icons';
 import { usePreferences } from '@/components/theme/PreferencesProvider';
-import { ToggleSwitch } from '@/components/ui/ToggleSwitch';
-import { soundscapeForTheme } from '@/lib/ambient-music';
 import { THEMES, THEME_FAMILIES } from '@/lib/themes';
 
 /**
@@ -11,7 +9,7 @@ import { THEMES, THEME_FAMILIES } from '@/lib/themes';
  * que el menú público y el de cuenta ofrezcan exactamente las mismas opciones.
  */
 export function AppearanceSettings() {
-  const { theme, iconPack, music, setTheme, setIconPack, setMusic } = usePreferences();
+  const { theme, iconPack, setTheme, setIconPack } = usePreferences();
 
   return (
   <div className="flex flex-col gap-6">
@@ -91,17 +89,6 @@ export function AppearanceSettings() {
       </div>
     </fieldset>
 
-    <fieldset>
-      <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-secondary">
-        Música de fondo
-      </legend>
-      <ToggleSwitch
-        checked={music}
-        onChange={setMusic}
-        label="Reproducir un ambiente suave"
-        description={`Se sintetiza en tu navegador, a volumen bajo y sin descargar ningún archivo. Con el tema actual suena: ${soundscapeForTheme(theme).label}.`}
-      />
-    </fieldset>
   </div>
   );
 }

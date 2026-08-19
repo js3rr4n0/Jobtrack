@@ -1,6 +1,6 @@
 # Manual de usuario
 
-Guia paso a paso para usar Jobtrack, el tablero que convierte tu búsqueda de
+Guia paso a paso para usar Deska, el tablero que convierte tu búsqueda de
 empleo en una partida con niveles, rachas y logros.
 
 ## Indice
@@ -14,7 +14,7 @@ empleo en una partida con niveles, rachas y logros.
 7. [El mural de notas](#7-el-mural-de-notas)
 8. [Entender la capa de juego](#8-entender-la-capa-de-juego)
 9. [Personalizar la apariencia](#9-personalizar-la-apariencia)
-10. [Usar Jobtrack en el teléfono](#10-usar-jobtrack-en-el-teléfono)
+10. [Usar Deska en el teléfono](#10-usar-deska-en-el-teléfono)
 11. [Sincronización entre dispositivos](#11-sincronización-entre-dispositivos)
 12. [Que pasa si te quedas sin conexión](#12-que-pasa-si-te-quedas-sin-conexión)
 13. [Preguntas frecuentes](#13-preguntas-frecuentes)
@@ -29,7 +29,7 @@ proveedor ya verifico tu dirección.
 
 Si prefieres correo y contraseña:
 
-1. Abre Jobtrack. La página de bienvenida describe el tablero y ofrece dos
+1. Abre Deska. La página de bienvenida describe el tablero y ofrece dos
    botones: **Crear una cuenta** y **Ya tengo cuenta**.
 2. Pulsa **Crear una cuenta**.
 3. Escribe tu correo electronico y una contraseña de al menos **8 caracteres**.
@@ -289,7 +289,7 @@ suyo: es una preferencia por dispositivo, no por cuenta.
 
 ---
 
-## 10. Usar Jobtrack en el teléfono
+## 10. Usar Deska en el teléfono
 
 La interfaz se adapta sola:
 
@@ -322,7 +322,7 @@ momento para pedir el tablero completo.
 
 ## 12. Que pasa si te quedas sin conexión
 
-Jobtrack detecta la pérdida de red y muestra un aviso amarillo:
+Deska detecta la pérdida de red y muestra un aviso amarillo:
 "Estas sin conexión. Puedes seguir consultando el tablero, pero los cambios no se
 guardarán hasta que vuelva la señal".
 
@@ -343,7 +343,7 @@ Al recuperar la señal, la aplicación vuelve a pedir el tablero automáticament
 ## 12.1 El panel de administración
 
 Si eres quien administra el proyecto, `/admin` resume cómo se está usando
-Jobtrack en conjunto: cuánta gente lo usa, en qué etapa está todo, qué empresas
+Deska en conjunto: cuánta gente lo usa, en qué etapa está todo, qué empresas
 reciben más postulaciones, cuáles contratan y cuáles descartan más, y cuántos
 procesos llevan un mes parados.
 

@@ -1,8 +1,8 @@
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { BoardChangeEvent, NoteChangeEvent, JobApplication, StickyNote } from '@jobtrack/contracts';
-import { buildJobApplication, buildStickyNote, groupIntoColumns } from '@jobtrack/contracts';
+import type { BoardChangeEvent, NoteChangeEvent, JobApplication, StickyNote } from '@deska/contracts';
+import { buildJobApplication, buildStickyNote, groupIntoColumns } from '@deska/contracts';
 
 import { renderWithPreferences } from '../render-helpers';
 
@@ -196,7 +196,7 @@ describe('BoardWorkspace (integracion)', () => {
 
     await screen.findByText('Desarrollador Frontend');
 
-    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(screen.getByRole('progressbar', { name: /Experiencia hacia el nivel/ })).toBeInTheDocument();
     expect(screen.getByText(/Nivel \d+/)).toBeInTheDocument();
   });
 

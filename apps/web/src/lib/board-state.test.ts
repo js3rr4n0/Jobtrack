@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { BoardChangeEvent } from '@jobtrack/contracts';
-import { buildJobApplication } from '@jobtrack/contracts';
+import type { BoardChangeEvent } from '@deska/contracts';
+import { buildJobApplication } from '@deska/contracts';
 
 import { applyRemoteChange, isOwnEcho, replaceApplication } from './board-state';
 

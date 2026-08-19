@@ -1,4 +1,4 @@
-import { JobApplication } from '@jobtrack/contracts';
+import { JobApplication } from '@deska/contracts';
 
 /**
  * Puerto de lectura global. Existe aparte del repositorio de postulaciones a

@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { MAX_NOTE_LENGTH } from '@jobtrack/contracts';
+import { MAX_NOTE_LENGTH } from '@deska/contracts';
 
 import { API_PREFIX } from '../src/bootstrap';
 import { TestContext, createTestApplication } from './test-application';

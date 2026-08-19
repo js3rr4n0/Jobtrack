@@ -18,7 +18,7 @@ import {
   Priority,
   WORK_MODES,
   WorkMode,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 /** Convierte cadenas vacías en `null` para no guardar basura en la base de datos. */
 const emptyToNull = ({ value }: { value: unknown }) =>

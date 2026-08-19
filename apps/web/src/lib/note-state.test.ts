@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildStickyNote, type NoteChangeEvent } from '@jobtrack/contracts';
+import { buildStickyNote, type NoteChangeEvent } from '@deska/contracts';
 
 import { applyRemoteNoteChange, replaceNote } from './note-state';
 

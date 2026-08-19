@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import { STATUS_CATALOG, type ApplicationStatus, type CompanyStat } from '@jobtrack/contracts';
+import { STATUS_CATALOG, type ApplicationStatus, type CompanyStat } from '@deska/contracts';
 
 import { usePreferences } from '@/components/theme/PreferencesProvider';
 import { Button } from '@/components/ui/Button';

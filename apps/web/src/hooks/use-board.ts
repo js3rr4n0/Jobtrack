@@ -7,7 +7,7 @@ import type {
   CreateJobApplicationInput,
   JobApplication,
   UpdateJobApplicationInput,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 import {
   ALL_CATEGORIES,
   buildGamificationProfile,
@@ -16,7 +16,7 @@ import {
   groupIntoColumns,
   listCategories,
   reorderBoard,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 import { useNetworkStatus } from '@/hooks/use-network-status';
 import { ApiClient, ApiError } from '@/lib/api-client';

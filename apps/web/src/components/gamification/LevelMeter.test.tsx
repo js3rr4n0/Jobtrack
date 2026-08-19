@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { calculateLevelProgress } from '@jobtrack/contracts';
+import { calculateLevelProgress } from '@deska/contracts';
 
 import { LevelMeter } from '@/components/gamification/LevelMeter';
 import { renderWithPreferences } from '../../../tests/render-helpers';

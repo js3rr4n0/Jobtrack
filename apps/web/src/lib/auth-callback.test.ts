@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { describeCallbackError, hasAuthResult, readCallbackParams } from './auth-callback';
 
-const BASE = 'https://jobtrack.test/auth/callback';
+const BASE = 'https://deska.test/auth/callback';
 
 describe('readCallbackParams', () => {
   it('lee el código desde la cadena de consulta', () => {
@@ -38,16 +38,16 @@ describe('readCallbackParams', () => {
 
 describe('hasAuthResult', () => {
   it('reconoce un código en la raíz, como cuando Supabase cae al Site URL', () => {
-    expect(hasAuthResult('https://jobtrack.test/?code=abc123')).toBe(true);
+    expect(hasAuthResult('https://deska.test/?code=abc123')).toBe(true);
   });
 
   it('reconoce un error en el fragmento', () => {
-    expect(hasAuthResult('https://jobtrack.test/#error_code=otp_expired')).toBe(true);
+    expect(hasAuthResult('https://deska.test/#error_code=otp_expired')).toBe(true);
   });
 
   it('no confunde una visita normal con una confirmación', () => {
-    expect(hasAuthResult('https://jobtrack.test/')).toBe(false);
-    expect(hasAuthResult('https://jobtrack.test/?utm_source=correo')).toBe(false);
+    expect(hasAuthResult('https://deska.test/')).toBe(false);
+    expect(hasAuthResult('https://deska.test/?utm_source=correo')).toBe(false);
   });
 });
 

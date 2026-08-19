@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_PREFERENCES,
   ICON_PACK_STORAGE_KEY,
-  MUSIC_STORAGE_KEY,
   THEME_STORAGE_KEY,
   THEME_BOOTSTRAP_SCRIPT,
   prefersDarkScheme,
@@ -56,11 +55,7 @@ describe('readStoredPreferences', () => {
       [ICON_PACK_STORAGE_KEY]: 'pixel',
     });
 
-    expect(readStoredPreferences(storage)).toEqual({
-      theme: 'galaxia',
-      iconPack: 'pixel',
-      music: false,
-    });
+    expect(readStoredPreferences(storage)).toEqual({ theme: 'galaxia', iconPack: 'pixel' });
   });
 
   it('descarta valores corruptos en lugar de propagarlos', () => {
@@ -187,23 +182,33 @@ describe('writeStoredPreferences', () => {
   it('persiste tema y paquete de iconos', () => {
     const storage = createMemoryStorage();
 
-    writeStoredPreferences(storage, { theme: 'anime', iconPack: 'pixel', music: true });
+    writeStoredPreferences(storage, { theme: 'anime', iconPack: 'pixel' });
 
     expect(storage.getItem(THEME_STORAGE_KEY)).toBe('anime');
     expect(storage.getItem(ICON_PACK_STORAGE_KEY)).toBe('pixel');
-    expect(storage.getItem(MUSIC_STORAGE_KEY)).toBe('true');
-  });
-
-  it('la música queda apagada salvo que se haya activado explicitamente', () => {
-    expect(readStoredPreferences(createMemoryStorage()).music).toBe(false);
-    expect(
-      readStoredPreferences(createMemoryStorage({ [MUSIC_STORAGE_KEY]: 'true' })).music,
-    ).toBe(true);
   });
 
   it('ignora en silencio un almacenamiento bloqueado', () => {
     expect(() =>
       writeStoredPreferences(createFailingStorage(), DEFAULT_PREFERENCES),
     ).not.toThrow();
+  });
+
+  it('lee las claves anteriores al cambio de nombre, para no perder la elección', () => {
+    const storage = createMemoryStorage({
+      'jobtrack.theme': 'galaxia',
+      'jobtrack.iconPack': 'pixel',
+    });
+
+    expect(readStoredPreferences(storage)).toEqual({ theme: 'galaxia', iconPack: 'pixel' });
+  });
+
+  it('la clave nueva pesa más que la anterior', () => {
+    const storage = createMemoryStorage({
+      'deska.theme': 'anime',
+      'jobtrack.theme': 'galaxia',
+    });
+
+    expect(readStoredPreferences(storage).theme).toBe('anime');
   });
 });

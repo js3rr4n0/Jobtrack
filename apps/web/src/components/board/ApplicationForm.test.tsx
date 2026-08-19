@@ -40,6 +40,7 @@ describe('ApplicationForm', () => {
 
     await user.type(screen.getByLabelText('Empresa'), 'Estudio Pixel');
     await user.type(screen.getByLabelText('Puesto'), 'Desarrollador');
+    await user.click(screen.getByRole('button', { name: /Más detalles/ }));
     await user.type(screen.getByLabelText('Expectativa salarial'), 'mucho');
     await user.click(screen.getByRole('button', { name: 'Guardar postulación' }));
 
@@ -96,5 +97,29 @@ describe('ApplicationForm', () => {
 
     expect(onCancel).toHaveBeenCalledTimes(1);
     expect(onSubmit).not.toHaveBeenCalled();
+  });
+});
+
+describe('ApplicationForm: campos opcionales', () => {
+  it('abre con lo esencial y guarda el resto plegado', () => {
+    renderWithPreferences(
+      <ApplicationForm submitLabel="Guardar" isSubmitting={false} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+    );
+
+    expect(screen.getByLabelText('Empresa')).toBeInTheDocument();
+    expect(screen.getByLabelText('Enlace de la vacante')).toBeInTheDocument();
+    expect(screen.queryByLabelText('Expectativa salarial')).not.toBeInTheDocument();
+  });
+
+  it('despliega los campos opcionales cuando se piden', async () => {
+    const user = userEvent.setup();
+    renderWithPreferences(
+      <ApplicationForm submitLabel="Guardar" isSubmitting={false} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+    );
+
+    await user.click(screen.getByRole('button', { name: /Más detalles/ }));
+
+    expect(screen.getByLabelText('Contacto')).toBeInTheDocument();
+    expect(screen.getByLabelText('Fecha de seguimiento')).toBeInTheDocument();
   });
 });

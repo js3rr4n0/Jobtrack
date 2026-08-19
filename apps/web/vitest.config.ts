@@ -12,7 +12,7 @@ export default defineConfig({
       '@': resolvePath('./src'),
       // Las pruebas consumen el codigo fuente del paquete compartido para no
       // depender de un paso de compilacion previo.
-      '@jobtrack/contracts': resolvePath('../../packages/contracts/src/index.ts'),
+      '@deska/contracts': resolvePath('../../packages/contracts/src/index.ts'),
     },
   },
   test: {

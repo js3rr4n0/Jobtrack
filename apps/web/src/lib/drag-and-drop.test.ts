@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildJobApplication, groupIntoColumns } from '@jobtrack/contracts';
+import { buildJobApplication, groupIntoColumns } from '@deska/contracts';
 
 import { columnDroppableId, resolveDropTarget } from './drag-and-drop';
 

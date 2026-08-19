@@ -2,7 +2,7 @@
 
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import type { ApplicationStatus, BoardColumn as BoardColumnModel, JobApplication } from '@jobtrack/contracts';
+import type { ApplicationStatus, BoardColumn as BoardColumnModel, JobApplication } from '@deska/contracts';
 
 import { ApplicationCard } from '@/components/board/ApplicationCard';
 import { columnDroppableId } from '@/lib/drag-and-drop';

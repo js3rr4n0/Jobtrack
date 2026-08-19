@@ -8,10 +8,10 @@ import { DEFAULT_THEME } from '@/lib/themes';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Jobtrack',
+  title: 'Deska',
   description:
     'Tablero gamificado para registrar tus postulaciones de empleo y seguir su avance desde cualquier dispositivo.',
-  applicationName: 'Jobtrack',
+  applicationName: 'Deska',
 };
 
 export const viewport: Viewport = {

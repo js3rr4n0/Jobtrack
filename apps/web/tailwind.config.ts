@@ -24,6 +24,7 @@ const config: Config = {
         accent: withOpacity('--color-accent'),
         'accent-strong': withOpacity('--color-accent-strong'),
         'accent-soft': withOpacity('--color-accent-soft'),
+        'accent-edge': withOpacity('--color-accent-edge'),
         success: withOpacity('--color-success'),
         warning: withOpacity('--color-warning'),
         danger: withOpacity('--color-danger'),

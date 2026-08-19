@@ -160,7 +160,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
     <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-6 px-4 py-10">
       <div className="flex items-center justify-between">
         <Link href="/" className="focus-ring font-display text-lg font-semibold text-primary">
-          Jobtrack
+          Deska
         </Link>
         <AppearanceMenu />
       </div>

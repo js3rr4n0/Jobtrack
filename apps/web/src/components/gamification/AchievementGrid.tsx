@@ -1,6 +1,6 @@
 'use client';
 
-import type { AchievementState } from '@jobtrack/contracts';
+import type { AchievementState } from '@deska/contracts';
 
 import { Icon, type IconName } from '@/components/icons';
 import { usePreferences } from '@/components/theme/PreferencesProvider';

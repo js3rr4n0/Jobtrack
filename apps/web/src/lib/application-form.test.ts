@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildJobApplication } from '@jobtrack/contracts';
+import { buildJobApplication } from '@deska/contracts';
 
 import {
   EMPTY_FORM_VALUES,

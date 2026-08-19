@@ -1,4 +1,4 @@
-import { StickyNote } from '@jobtrack/contracts';
+import { StickyNote } from '@deska/contracts';
 
 /** Datos persistibles de una nota, sin los sellos de tiempo que pone el almacén. */
 export type NewStickyNoteRecord = Omit<StickyNote, 'id' | 'createdAt' | 'updatedAt'>;

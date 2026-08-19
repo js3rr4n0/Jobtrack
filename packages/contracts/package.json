@@ -1,5 +1,5 @@
 {
-  "name": "@jobtrack/contracts",
+  "name": "@deska/contracts",
   "version": "1.0.0",
   "private": true,
   "description": "Tipos y reglas de dominio compartidos entre la API y la aplicacion web",

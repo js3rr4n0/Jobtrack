@@ -1,6 +1,6 @@
 'use client';
 
-import type { LevelProgress } from '@jobtrack/contracts';
+import type { LevelProgress } from '@deska/contracts';
 
 import { Icon } from '@/components/icons';
 import { usePreferences } from '@/components/theme/PreferencesProvider';

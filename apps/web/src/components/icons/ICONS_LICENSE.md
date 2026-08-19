@@ -1,6 +1,6 @@
 # Licencias de los iconos
 
-Jobtrack no incrusta imagenes de mapa de bits ni emojis: toda la iconografia es
+Deska no incrusta imagenes de mapa de bits ni emojis: toda la iconografia es
 SVG vectorial declarada en este directorio.
 
 ## Paquete "Contorno" (`outline-pack.tsx`)

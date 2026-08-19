@@ -4,19 +4,37 @@ import { DEFAULT_THEME, RENAMED_THEME_ENTRIES, THEME_IDS, type ThemeId, resolveT
 export interface Preferences {
   readonly theme: ThemeId;
   readonly iconPack: IconPackId;
-  /** La música de fondo empieza apagada: nadie espera que una web suene sola. */
-  readonly music: boolean;
 }
 
 export const DEFAULT_PREFERENCES: Preferences = {
   theme: DEFAULT_THEME,
   iconPack: DEFAULT_ICON_PACK,
-  music: false,
 };
 
-export const THEME_STORAGE_KEY = 'jobtrack.theme';
-export const ICON_PACK_STORAGE_KEY = 'jobtrack.iconPack';
-export const MUSIC_STORAGE_KEY = 'jobtrack.music';
+export const THEME_STORAGE_KEY = 'deska.theme';
+export const ICON_PACK_STORAGE_KEY = 'deska.iconPack';
+
+/**
+ * Claves usadas antes de que el producto se llamara Deska. Se leen como
+ * respaldo para que el cambio de nombre no borre las preferencias de quien ya
+ * tenía la aplicación abierta; al guardar se escriben ya con la clave nueva.
+ */
+export const LEGACY_STORAGE_KEYS: Readonly<Record<string, string>> = {
+  [THEME_STORAGE_KEY]: 'jobtrack.theme',
+  [ICON_PACK_STORAGE_KEY]: 'jobtrack.iconPack',
+};
+
+/** Lee una clave y, si no existe, su equivalente anterior. */
+function readWithFallback(storage: Storage, key: string): string | null {
+  const current = storage.getItem(key);
+
+  if (current !== null) {
+    return current;
+  }
+
+  const legacy = LEGACY_STORAGE_KEYS[key];
+  return legacy ? storage.getItem(legacy) : null;
+}
 
 /**
  * Consulta la preferencia de color del sistema. `matchMedia` no existe en el
@@ -51,13 +69,12 @@ export function readStoredPreferences(
   }
 
   try {
-    const theme = resolveThemeId(storage.getItem(THEME_STORAGE_KEY));
-    const iconPack = storage.getItem(ICON_PACK_STORAGE_KEY);
+    const theme = resolveThemeId(readWithFallback(storage, THEME_STORAGE_KEY));
+    const iconPack = readWithFallback(storage, ICON_PACK_STORAGE_KEY);
 
     return {
       theme: theme ?? fallback.theme,
       iconPack: isIconPackId(iconPack) ? iconPack : fallback.iconPack,
-      music: storage.getItem(MUSIC_STORAGE_KEY) === 'true',
     };
   } catch {
     return fallback;
@@ -72,7 +89,6 @@ export function writeStoredPreferences(storage: Storage | undefined, preferences
   try {
     storage.setItem(THEME_STORAGE_KEY, preferences.theme);
     storage.setItem(ICON_PACK_STORAGE_KEY, preferences.iconPack);
-    storage.setItem(MUSIC_STORAGE_KEY, String(preferences.music));
   } catch {
     // Sin almacenamiento persistente la preferencia solo dura la sesión actual.
   }
@@ -102,7 +118,9 @@ export const THEME_BOOTSTRAP_SCRIPT = `
   try {
     var allowed = ${JSON.stringify(THEME_IDS)};
     var renamed = ${JSON.stringify(RENAMED_THEME_ENTRIES)};
-    var stored = window.localStorage.getItem('${THEME_STORAGE_KEY}');
+    var stored =
+      window.localStorage.getItem('${THEME_STORAGE_KEY}') ||
+      window.localStorage.getItem('${LEGACY_STORAGE_KEYS[THEME_STORAGE_KEY]}');
     if (allowed.indexOf(stored) >= 0) {
       theme = stored;
     } else if (renamed[stored]) {

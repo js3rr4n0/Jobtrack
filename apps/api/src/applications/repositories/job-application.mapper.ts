@@ -1,4 +1,4 @@
-import { ApplicationStatus, JobApplication, Priority, WorkMode } from '@jobtrack/contracts';
+import { ApplicationStatus, JobApplication, Priority, WorkMode } from '@deska/contracts';
 
 import { JobApplicationPatch, NewJobApplicationRecord } from './job-applications.repository';
 

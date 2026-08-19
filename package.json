@@ -1,5 +1,5 @@
 {
-  "name": "jobtrack",
+  "name": "deska",
   "version": "1.0.0",
   "private": true,
   "description": "Seguimiento gamificado de ofertas de empleo",
@@ -14,10 +14,10 @@
   },
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
-    "dev:api": "npm run start:dev --workspace @jobtrack/api",
-    "dev:web": "npm run dev --workspace @jobtrack/web",
-    "build": "npm run build --workspace @jobtrack/contracts && npm run build --workspace @jobtrack/api && npm run build --workspace @jobtrack/web",
-    "build:contracts": "npm run build --workspace @jobtrack/contracts",
+    "dev:api": "npm run start:dev --workspace @deska/api",
+    "dev:web": "npm run dev --workspace @deska/web",
+    "build": "npm run build --workspace @deska/contracts && npm run build --workspace @deska/api && npm run build --workspace @deska/web",
+    "build:contracts": "npm run build --workspace @deska/contracts",
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "test:unit": "npm run test:unit --workspaces --if-present",

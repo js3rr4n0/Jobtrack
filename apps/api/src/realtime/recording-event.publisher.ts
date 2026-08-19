@@ -1,4 +1,4 @@
-import { BoardChangeEvent, NoteChangeEvent } from '@jobtrack/contracts';
+import { BoardChangeEvent, NoteChangeEvent } from '@deska/contracts';
 
 import { BoardEventPublisher } from './board-event.publisher';
 

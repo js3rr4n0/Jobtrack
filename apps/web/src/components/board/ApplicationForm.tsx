@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import type { FormEvent, ReactNode } from 'react';
+import { useState } from "react";
+import type { FormEvent, ReactNode } from "react";
 import {
   APPLICATION_STATUSES,
   type CreateJobApplicationInput,
@@ -10,17 +10,22 @@ import {
   STATUS_CATALOG,
   WORK_MODES,
   WORK_MODE_LABELS,
-} from '@jobtrack/contracts';
+} from "@deska/contracts";
 
-import { Button } from '@/components/ui/Button';
-import { SelectField, TextAreaField, TextField } from '@/components/ui/FormField';
+import { Accordion } from "@/components/ui/Accordion";
+import { Button } from "@/components/ui/Button";
+import {
+  SelectField,
+  TextAreaField,
+  TextField,
+} from "@/components/ui/FormField";
 import {
   type ApplicationFormValues,
   EMPTY_FORM_VALUES,
   type FormErrors,
   toApplicationInput,
   validateApplicationForm,
-} from '@/lib/application-form';
+} from "@/lib/application-form";
 
 const STATUS_OPTIONS = APPLICATION_STATUSES.map((status) => ({
   value: status,
@@ -33,7 +38,7 @@ const PRIORITY_OPTIONS = PRIORITIES.map((priority) => ({
 }));
 
 const WORK_MODE_OPTIONS = [
-  { value: '', label: 'Sin especificar' },
+  { value: "", label: "Sin especificar" },
   ...WORK_MODES.map((mode) => ({ value: mode, label: WORK_MODE_LABELS[mode] })),
 ];
 
@@ -53,7 +58,13 @@ export interface ApplicationFormProps {
  * muro; repartidos en tres bloques con nombre, se recorren de un vistazo y se
  * entiende que pide cada parte.
  */
-function FormSection({ title, children }: { title: string; children: ReactNode }) {
+function FormSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
   return (
     <fieldset>
       <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-secondary">
@@ -102,14 +113,14 @@ export function ApplicationForm({
         ))}
       </datalist>
 
-      <FormSection title="La vacante">
+      <FormSection title="Lo esencial">
         <TextField
           id="company"
           label="Empresa"
           required
           value={values.company}
           error={errors.company}
-          onChange={(event) => updateField('company', event.target.value)}
+          onChange={(event) => updateField("company", event.target.value)}
         />
         <TextField
           id="position"
@@ -117,7 +128,7 @@ export function ApplicationForm({
           required
           value={values.position}
           error={errors.position}
-          onChange={(event) => updateField('position', event.target.value)}
+          onChange={(event) => updateField("position", event.target.value)}
         />
         <SelectField
           id="status"
@@ -126,7 +137,10 @@ export function ApplicationForm({
           value={values.status}
           hint={STATUS_CATALOG[values.status].description}
           onChange={(event) =>
-            updateField('status', event.target.value as ApplicationFormValues['status'])
+            updateField(
+              "status",
+              event.target.value as ApplicationFormValues["status"],
+            )
           }
         />
         <SelectField
@@ -135,46 +149,11 @@ export function ApplicationForm({
           options={PRIORITY_OPTIONS}
           value={values.priority}
           onChange={(event) =>
-            updateField('priority', event.target.value as ApplicationFormValues['priority'])
+            updateField(
+              "priority",
+              event.target.value as ApplicationFormValues["priority"],
+            )
           }
-        />
-      </FormSection>
-
-      <FormSection title="Dónde y cuánto">
-        <TextField
-          id="category"
-          label="Área del tablero"
-          list="áreas-conocidas"
-          value={values.category}
-          error={errors.category}
-          hint="Por ejemplo: Desarrollo, Marketing, Diseño."
-          onChange={(event) => updateField('category', event.target.value)}
-        />
-        <TextField
-          id="location"
-          label="Ubicación"
-          value={values.location}
-          error={errors.location}
-          placeholder="Ciudad o pais"
-          onChange={(event) => updateField('location', event.target.value)}
-        />
-        <SelectField
-          id="workMode"
-          label="Modalidad"
-          options={WORK_MODE_OPTIONS}
-          value={values.workMode}
-          onChange={(event) =>
-            updateField('workMode', event.target.value as ApplicationFormValues['workMode'])
-          }
-        />
-        <TextField
-          id="salaryExpectation"
-          label="Expectativa salarial"
-          inputMode="numeric"
-          value={values.salaryExpectation}
-          error={errors.salaryExpectation}
-          hint="Opcional. Solo números enteros."
-          onChange={(event) => updateField('salaryExpectation', event.target.value)}
         />
         <TextField
           id="sourceUrl"
@@ -183,83 +162,137 @@ export function ApplicationForm({
           value={values.sourceUrl}
           error={errors.sourceUrl}
           placeholder="https://"
-          onChange={(event) => updateField('sourceUrl', event.target.value)}
-        />
-        <TextField
-          id="contact"
-          label="Contacto"
-          value={values.contact}
-          error={errors.contact}
-          placeholder="Nombre, correo o teléfono"
-          hint="Quién lleva el proceso dentro de la empresa."
-          onChange={(event) => updateField('contact', event.target.value)}
+          onChange={(event) => updateField("sourceUrl", event.target.value)}
         />
       </FormSection>
 
-      <FormSection title="Qué enviaste">
-        <TextField
-          id="resumeVersion"
-          label="Versión del currículum"
-          value={values.resumeVersion}
-          error={errors.resumeVersion}
-          placeholder="Por ejemplo: CV backend v3"
-          hint="Para saber cuál defender en la entrevista."
-          onChange={(event) => updateField('resumeVersion', event.target.value)}
-        />
-        <TextField
-          id="coverLetterVersion"
-          label="Versión de la carta"
-          value={values.coverLetterVersion}
-          error={errors.coverLetterVersion}
-          placeholder="Por ejemplo: Carta producto v2"
-          onChange={(event) => updateField('coverLetterVersion', event.target.value)}
-        />
-      </FormSection>
-
-      <FormSection title="Fechas y notas">
-        <TextField
-          id="appliedAt"
-          label="Fecha de postulación"
-          type="date"
-          value={values.appliedAt}
-          error={errors.appliedAt}
-          onChange={(event) => updateField('appliedAt', event.target.value)}
-        />
-        <TextField
-          id="interviewAt"
-          label="Fecha de entrevista"
-          type="datetime-local"
-          value={values.interviewAt}
-          error={errors.interviewAt}
-          onChange={(event) => updateField('interviewAt', event.target.value)}
-        />
-        <TextField
-          id="followUpAt"
-          label="Fecha de seguimiento"
-          type="date"
-          value={values.followUpAt}
-          error={errors.followUpAt}
-          hint="El día que toca volver a escribir si no hay respuesta."
-          onChange={(event) => updateField('followUpAt', event.target.value)}
-        />
-        <div className="sm:col-span-2">
-          <TextAreaField
-            id="notes"
-            label="Notas"
-            value={values.notes}
-            error={errors.notes}
-            hint="Contactos, preguntas de la entrevista o siguientes pasos."
-            onChange={(event) => updateField('notes', event.target.value)}
+      {/*
+        Todo lo demas es opcional y casi nunca se rellena al registrar la
+        vacante, asi que empieza plegado: el formulario se abre con cinco
+        campos en lugar de catorce, y quien necesite el detalle lo despliega.
+      */}
+      <Accordion title="Más detalles" badge="Opcional">
+        <FormSection title="Dónde y cuánto">
+          <TextField
+            id="category"
+            label="Área del tablero"
+            list="áreas-conocidas"
+            value={values.category}
+            error={errors.category}
+            hint="Por ejemplo: Desarrollo, Marketing, Diseño."
+            onChange={(event) => updateField("category", event.target.value)}
           />
-        </div>
-      </FormSection>
+          <TextField
+            id="location"
+            label="Ubicación"
+            value={values.location}
+            error={errors.location}
+            placeholder="Ciudad o pais"
+            onChange={(event) => updateField("location", event.target.value)}
+          />
+          <SelectField
+            id="workMode"
+            label="Modalidad"
+            options={WORK_MODE_OPTIONS}
+            value={values.workMode}
+            onChange={(event) =>
+              updateField(
+                "workMode",
+                event.target.value as ApplicationFormValues["workMode"],
+              )
+            }
+          />
+          <TextField
+            id="salaryExpectation"
+            label="Expectativa salarial"
+            inputMode="numeric"
+            value={values.salaryExpectation}
+            error={errors.salaryExpectation}
+            hint="Opcional. Solo números enteros."
+            onChange={(event) =>
+              updateField("salaryExpectation", event.target.value)
+            }
+          />
+          <TextField
+            id="contact"
+            label="Contacto"
+            value={values.contact}
+            error={errors.contact}
+            placeholder="Nombre, correo o teléfono"
+            hint="Quién lleva el proceso dentro de la empresa."
+            onChange={(event) => updateField("contact", event.target.value)}
+          />
+        </FormSection>
+
+        <FormSection title="Qué enviaste">
+          <TextField
+            id="resumeVersion"
+            label="Versión del currículum"
+            value={values.resumeVersion}
+            error={errors.resumeVersion}
+            placeholder="Por ejemplo: CV backend v3"
+            hint="Para saber cuál defender en la entrevista."
+            onChange={(event) =>
+              updateField("resumeVersion", event.target.value)
+            }
+          />
+          <TextField
+            id="coverLetterVersion"
+            label="Versión de la carta"
+            value={values.coverLetterVersion}
+            error={errors.coverLetterVersion}
+            placeholder="Por ejemplo: Carta producto v2"
+            onChange={(event) =>
+              updateField("coverLetterVersion", event.target.value)
+            }
+          />
+        </FormSection>
+
+        <FormSection title="Fechas y notas">
+          <TextField
+            id="appliedAt"
+            label="Fecha de postulación"
+            type="date"
+            value={values.appliedAt}
+            error={errors.appliedAt}
+            onChange={(event) => updateField("appliedAt", event.target.value)}
+          />
+          <TextField
+            id="interviewAt"
+            label="Fecha de entrevista"
+            type="datetime-local"
+            value={values.interviewAt}
+            error={errors.interviewAt}
+            onChange={(event) => updateField("interviewAt", event.target.value)}
+          />
+          <TextField
+            id="followUpAt"
+            label="Fecha de seguimiento"
+            type="date"
+            value={values.followUpAt}
+            error={errors.followUpAt}
+            hint="El día que toca volver a escribir si no hay respuesta."
+            onChange={(event) => updateField("followUpAt", event.target.value)}
+          />
+          <div className="sm:col-span-2">
+            <TextAreaField
+              id="notes"
+              label="Notas"
+              value={values.notes}
+              error={errors.notes}
+              hint="Contactos, preguntas de la entrevista o siguientes pasos."
+              onChange={(event) => updateField("notes", event.target.value)}
+            />
+          </div>
+        </FormSection>
+      </Accordion>
 
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
         <Button type="button" variant="secondary" onClick={onCancel}>
           Cancelar
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Guardando...' : submitLabel}
+          {isSubmitting ? "Guardando..." : submitLabel}
         </Button>
       </div>
     </form>

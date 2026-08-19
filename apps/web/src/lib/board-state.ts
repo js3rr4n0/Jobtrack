@@ -1,4 +1,4 @@
-import type { BoardChangeEvent, JobApplication } from '@jobtrack/contracts';
+import type { BoardChangeEvent, JobApplication } from '@deska/contracts';
 
 /**
  * Aplica al listado local un cambio recibido por el canal de tiempo real.

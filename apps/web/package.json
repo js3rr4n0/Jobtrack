@@ -1,8 +1,8 @@
 {
-  "name": "@jobtrack/web",
+  "name": "@deska/web",
   "version": "1.0.0",
   "private": true,
-  "description": "Interfaz web de Jobtrack construida con Next.js y Tailwind CSS",
+  "description": "Interfaz web de Deska construida con Next.js y Tailwind CSS",
   "license": "MIT",
   "scripts": {
     "build:contracts": "tsc --project ../../packages/contracts/tsconfig.json",
@@ -20,7 +20,7 @@
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
-    "@jobtrack/contracts": "*",
+    "@deska/contracts": "*",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.47.10",
     "next": "^14.2.23",

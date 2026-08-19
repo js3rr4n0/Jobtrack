@@ -4,7 +4,7 @@ import type {
   JobApplication,
   Priority,
   WorkMode,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 export interface ApplicationFormValues {
   company: string;

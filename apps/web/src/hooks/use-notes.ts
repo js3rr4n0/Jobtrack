@@ -6,8 +6,8 @@ import type {
   NoteChangeEvent,
   StickyNote,
   UpdateStickyNoteInput,
-} from '@jobtrack/contracts';
-import { applyNoteMove, sortNotes } from '@jobtrack/contracts';
+} from '@deska/contracts';
+import { applyNoteMove, sortNotes } from '@deska/contracts';
 
 import { ApiClient, ApiError, type ApiErrorKind } from '@/lib/api-client';
 import { isOwnEcho } from '@/lib/board-state';

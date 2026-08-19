@@ -33,11 +33,11 @@ export const TOUR_STEPS: readonly TourStep[] = [
     target: 'cuenta',
     title: 'Tu cuenta y la apariencia',
     description:
-      'Aquí ves con qué cuenta entraste y eliges entre doce temas, dos estilos de iconos y la música de fondo.',
+      'Aquí ves con qué cuenta entraste y eliges entre doce temas y dos estilos de iconos.',
   },
 ];
 
-export const TOUR_STORAGE_KEY = 'jobtrack.tourCompletado';
+export const TOUR_STORAGE_KEY = 'deska.tourCompletado';
 
 /**
  * El tutorial solo aparece la primera vez y mientras el tablero esté vacío:

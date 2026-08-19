@@ -1,6 +1,6 @@
 import { Inject, Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { PostgrestError, SupabaseClient, createClient } from '@supabase/supabase-js';
-import { ApplicationStatus, JobApplication } from '@jobtrack/contracts';
+import { ApplicationStatus, JobApplication } from '@deska/contracts';
 
 import { ApplicationConfig, CONFIG_TOKEN } from '../../config/environment';
 import { JobApplicationRow, toDomain, toInsertRow, toUpdateRow } from './job-application.mapper';

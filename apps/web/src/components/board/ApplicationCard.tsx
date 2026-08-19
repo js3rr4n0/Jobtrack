@@ -10,9 +10,10 @@ import {
   STATUS_CATALOG,
   WORK_MODE_LABELS,
   isFollowUpDue,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 import { Icon } from '@/components/icons';
+import { StageProgress } from '@/components/board/StageProgress';
 import { usePreferences } from '@/components/theme/PreferencesProvider';
 import { formatDate, formatDateTime } from '@/lib/format';
 
@@ -54,7 +55,7 @@ export function ApplicationCard({
     <article
       ref={setNodeRef}
       style={style}
-      className="surface-card animate-card-drop p-3 text-sm transition-shadow hover:shadow-lifted"
+      className="surface-card layered animate-card-drop p-3 text-sm transition-shadow hover:shadow-lifted"
       aria-label={`${application.position} en ${application.company}`}
     >
       <div className="flex items-start gap-2">
@@ -81,6 +82,8 @@ export function ApplicationCard({
           {PRIORITY_LABELS[application.priority]}
         </span>
       </div>
+
+      <StageProgress status={application.status} />
 
       <dl className="mt-3 space-y-1 text-xs text-secondary">
         {application.location ? (

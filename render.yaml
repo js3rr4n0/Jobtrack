@@ -1,15 +1,15 @@
-# Despliegue de la API de Jobtrack en Render.
+# Despliegue de la API de Deska en Render.
 # Importar desde el panel con New -> Blueprint apuntando a este repositorio.
 services:
   - type: web
-    name: jobtrack-api
+    name: deska-api
     runtime: node
     plan: free
     # Render inyecta PORT; la API lo respeta a traves de su configuracion.
     # --include=dev es imprescindible: con NODE_ENV=production npm omitiria las
     # dependencias de desarrollo, entre ellas TypeScript y la CLI de Nest.
-    buildCommand: npm install --include=dev && npm run build --workspace @jobtrack/api
-    startCommand: npm run start:prod --workspace @jobtrack/api
+    buildCommand: npm install --include=dev && npm run build --workspace @deska/api
+    startCommand: npm run start:prod --workspace @deska/api
     healthCheckPath: /api/health
     envVars:
       # Se fija la version de Node: sin esto Render elige la mas reciente que

@@ -8,7 +8,7 @@ import type {
   StickyNote,
   UpdateJobApplicationInput,
   UpdateStickyNoteInput,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 export interface BoardColumnResponse {
   status: JobApplication['status'];
@@ -57,7 +57,7 @@ const COLD_START_TIMEOUT_MS = 60_000;
 const OFFLINE_MESSAGE =
   'Sin conexión a internet. Tus cambios no se guardaron; vuelve a intentarlo cuando recuperes la señal.';
 const UNREACHABLE_MESSAGE =
-  'No se pudo contactar con el servidor de Jobtrack. Revisa que la API esté desplegada y que NEXT_PUBLIC_API_URL apunte a ella.';
+  'No se pudo contactar con el servidor de Deska. Revisa que la API esté desplegada y que NEXT_PUBLIC_API_URL apunte a ella.';
 const TIMEOUT_MESSAGE =
   'El servidor tardó demasiado en responder. Si está alojado en un plan gratuito puede estar despertando; vuelve a intentarlo en un minuto.';
 
@@ -80,7 +80,7 @@ interface RequestOptions {
   body?: unknown;
 }
 
-/** Cliente HTTP de la API de Jobtrack con errores traducidos a lenguaje claro. */
+/** Cliente HTTP de la API de Deska con errores traducidos a lenguaje claro. */
 export class ApiClient {
   private readonly baseUrl: string;
   private readonly accessToken: string | null;
@@ -191,7 +191,7 @@ export class ApiClient {
   }
 
   private buildHeaders(hasBody: boolean): HeadersInit {
-    const headers: Record<string, string> = { 'X-Jobtrack-Origin': this.originId };
+    const headers: Record<string, string> = { 'X-Deska-Origin': this.originId };
 
     if (hasBody) {
       headers['Content-Type'] = 'application/json';

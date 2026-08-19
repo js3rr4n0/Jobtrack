@@ -12,10 +12,10 @@ describe('loadConfiguration', () => {
 
   it('convierte la lista de origenes CORS en un arreglo sin espacios', () => {
     const config = loadConfiguration({
-      CORS_ORIGINS: 'https://jobtrack.app, https://www.jobtrack.app ,',
+      CORS_ORIGINS: 'https://deska.app, https://www.deska.app ,',
     } as NodeJS.ProcessEnv);
 
-    expect(config.corsOrigins).toEqual(['https://jobtrack.app', 'https://www.jobtrack.app']);
+    expect(config.corsOrigins).toEqual(['https://deska.app', 'https://www.deska.app']);
   });
 
   it('rechaza un puerto no numérico con un mensaje legible', () => {

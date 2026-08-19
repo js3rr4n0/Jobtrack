@@ -60,7 +60,7 @@ export interface ApplicationConfig {
 }
 
 /** Secreto usado unicamente cuando el driver de datos es `memory`. */
-const DEVELOPMENT_JWT_SECRET = 'jobtrack-local-development-secret';
+const DEVELOPMENT_JWT_SECRET = 'deska-local-development-secret';
 
 /**
  * Valida el entorno una sola vez al arrancar. Un fallo aquí detiene el proceso

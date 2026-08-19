@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import { ApplicationStatus, JobApplication } from '@jobtrack/contracts';
+import { ApplicationStatus, JobApplication } from '@deska/contracts';
 
 import {
   JobApplicationPatch,

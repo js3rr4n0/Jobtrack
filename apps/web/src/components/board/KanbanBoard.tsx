@@ -10,7 +10,7 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import type { ApplicationStatus, BoardColumn as BoardColumnModel, JobApplication } from '@jobtrack/contracts';
+import type { ApplicationStatus, BoardColumn as BoardColumnModel, JobApplication } from '@deska/contracts';
 
 import { BoardColumn } from '@/components/board/BoardColumn';
 import { resolveDropTarget } from '@/lib/drag-and-drop';

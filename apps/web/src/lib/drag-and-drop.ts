@@ -1,5 +1,5 @@
-import type { ApplicationStatus, BoardColumn } from '@jobtrack/contracts';
-import { isApplicationStatus } from '@jobtrack/contracts';
+import type { ApplicationStatus, BoardColumn } from '@deska/contracts';
+import { isApplicationStatus } from '@deska/contracts';
 
 /** Prefijo que identifica a una columna como zona de destino. */
 export const COLUMN_DROPPABLE_PREFIX = 'columna:';

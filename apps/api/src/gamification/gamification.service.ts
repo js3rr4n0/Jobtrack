@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { GamificationProfile, buildGamificationProfile } from '@jobtrack/contracts';
+import { GamificationProfile, buildGamificationProfile } from '@deska/contracts';
 
 import { JobApplicationsRepository } from '../applications/repositories/job-applications.repository';
 

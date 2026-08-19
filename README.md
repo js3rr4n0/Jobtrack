@@ -1,9 +1,9 @@
-# Jobtrack
+# Deska
 
 Tablero gamificado para registrar ofertas de empleo, seguir su avance y mantener
 la información sincronizada entre la computadora y el teléfono.
 
-![Tablero kanban de Jobtrack en tema claro](docs/capturas/tablero-claro.jpg)
+![Tablero kanban de Deska en tema claro](docs/capturas/tablero-claro.jpg)
 
 ## Que incluye
 
@@ -23,9 +23,7 @@ la información sincronizada entre la computadora y el teléfono.
   misma cuenta.
 - **Tutorial guiado** la primera vez, que atenua la pantalla y destaca donde
   pulsar.
-- **Música ambiental opcional**, sintetizada en el navegador y distinta según el
-  tema.
-
+- 
 ## Capturas
 
 ### Temas
@@ -61,7 +59,7 @@ en cualquier momento y no vuelve a aparecer.
 ### Selector de apariencia
 
 Doce temas agrupados en cuatro familias, dos paquetes de iconos con vista previa
-y el interruptor de música ambiental, todo dentro del panel de la cuenta.
+dentro del panel de la cuenta.
 
 ![Panel de cuenta con los doce temas y los dos paquetes de iconos](docs/capturas/temas.jpg)
 
@@ -81,7 +79,7 @@ inicio. El selector de estado de cada tarjeta sustituye al arrastre.
 ## Arquitectura
 
 ```
-Jobtrack/
+Deska/
   apps/
     api/                 API NestJS 10 (REST + WebSockets)
     web/                 Interfaz Next.js 14 (App Router) + Tailwind CSS 3
@@ -169,13 +167,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 
 ## Pruebas
 
-438 casos, todos en verde y sin dependencias de red externas:
+434 casos, todos en verde y sin dependencias de red externas:
 
 | Paquete | Herramienta | Casos |
 | --- | --- | --- |
 | `contracts` | Vitest | 94 |
 | `api` | Jest y Supertest | 93 |
-| `web` | Vitest y Testing Library | 251 |
+| `web` | Vitest y Testing Library | 247 |
 
 Cubren las restricciones del plan: ausencia de conexión, valores nulos, datos
 corruptos y sincronización entre dispositivos. Las pruebas de tiempo real
@@ -246,8 +244,8 @@ Para cualquier otro proveedor, los comandos son:
 
 ```bash
 npm install --include=dev   # NODE_ENV=production omitiria TypeScript y la CLI de Nest
-npm run build --workspace @jobtrack/api
-npm run start:prod --workspace @jobtrack/api
+npm run build --workspace @deska/api
+npm run start:prod --workspace @deska/api
 ```
 
 La sonda de disponibilidad es `GET /api/health`.
@@ -258,7 +256,7 @@ La sonda de disponibilidad es `GET /api/health`.
 - Sin emojis en el código ni en la interfaz; la iconografia es SVG vectorial
   (ver [`apps/web/src/components/icons/ICONS_LICENSE.md`](apps/web/src/components/icons/ICONS_LICENSE.md)).
 - Una sola fuente por regla: si una logica se necesita en la API y en la web,
-  vive en `@jobtrack/contracts`.
+  vive en `@deska/contracts`.
 
 ## Licencia
 

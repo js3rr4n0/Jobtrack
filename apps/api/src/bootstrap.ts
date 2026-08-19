@@ -16,7 +16,7 @@ export function configureApplication(app: INestApplication, config: ApplicationC
   app.enableCors({
     origin: config.corsOrigins,
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Jobtrack-Origin'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Deska-Origin'],
     credentials: true,
     maxAge: 86_400,
   });

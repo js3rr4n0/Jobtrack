@@ -12,7 +12,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { JobApplication } from '@jobtrack/contracts';
+import { JobApplication } from '@deska/contracts';
 
 import { AuthenticatedUser } from '../auth/authenticated-user';
 import { CurrentUser } from '../auth/current-user.decorator';
@@ -23,7 +23,7 @@ import { UpdateJobApplicationDto } from './dto/update-job-application.dto';
 import { BoardSnapshot, JobApplicationsService } from './job-applications.service';
 
 /** Cabecera opcional que identifica al dispositivo emisor del cambio. */
-const ORIGIN_HEADER = 'x-jobtrack-origin';
+const ORIGIN_HEADER = 'x-deska-origin';
 
 @UseGuards(JwtAuthGuard)
 @Controller('applications')

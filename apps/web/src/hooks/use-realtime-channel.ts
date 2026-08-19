@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { BoardChangeEvent, NoteChangeEvent } from '@jobtrack/contracts';
+import type { BoardChangeEvent, NoteChangeEvent } from '@deska/contracts';
 
 import { getApiBaseUrl } from '@/lib/config';
 import { type RealtimeStatus, subscribeToBoardChanges } from '@/lib/realtime-client';

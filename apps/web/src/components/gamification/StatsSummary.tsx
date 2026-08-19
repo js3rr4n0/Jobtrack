@@ -1,6 +1,6 @@
 'use client';
 
-import { STATUS_CATALOG, type PlayerStats } from '@jobtrack/contracts';
+import { STATUS_CATALOG, type PlayerStats } from '@deska/contracts';
 
 export interface StatsSummaryProps {
   stats: PlayerStats;

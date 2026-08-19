@@ -16,7 +16,6 @@ import type { ThemeId } from '@/lib/themes';
 interface PreferencesContextValue extends Preferences {
   setTheme: (theme: ThemeId) => void;
   setIconPack: (iconPack: IconPackId) => void;
-  setMusic: (music: boolean) => void;
 }
 
 const PreferencesContext = createContext<PreferencesContextValue | null>(null);
@@ -43,13 +42,9 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     setPreferences((current) => ({ ...current, iconPack }));
   }, []);
 
-  const setMusic = useCallback((music: boolean) => {
-    setPreferences((current) => ({ ...current, music }));
-  }, []);
-
   const value = useMemo<PreferencesContextValue>(
-    () => ({ ...preferences, setTheme, setIconPack, setMusic }),
-    [preferences, setTheme, setIconPack, setMusic],
+    () => ({ ...preferences, setTheme, setIconPack }),
+    [preferences, setTheme, setIconPack],
   );
 
   return <PreferencesContext.Provider value={value}>{children}</PreferencesContext.Provider>;

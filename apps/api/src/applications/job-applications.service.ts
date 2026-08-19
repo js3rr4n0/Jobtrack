@@ -10,7 +10,7 @@ import {
   diffBoardPositions,
   groupIntoColumns,
   reorderBoard,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 import { BoardEventPublisher } from '../realtime/board-event.publisher';
 import { CreateJobApplicationDto } from './dto/create-job-application.dto';

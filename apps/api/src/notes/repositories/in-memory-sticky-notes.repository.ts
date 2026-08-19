@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import { StickyNote, sortNotes } from '@jobtrack/contracts';
+import { StickyNote, sortNotes } from '@deska/contracts';
 
 import {
   NewStickyNoteRecord,

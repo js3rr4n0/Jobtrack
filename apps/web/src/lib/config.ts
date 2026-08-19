@@ -1,6 +1,6 @@
 const DEFAULT_API_URL = 'http://localhost:4000/api';
 
-/** URL base de la API de Jobtrack, configurable por entorno de despliegue. */
+/** URL base de la API de Deska, configurable por entorno de despliegue. */
 export function getApiBaseUrl(): string {
   return process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_API_URL;
 }

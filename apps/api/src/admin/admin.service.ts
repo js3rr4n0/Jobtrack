@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AdminOverview, buildAdminOverview } from '@jobtrack/contracts';
+import { AdminOverview, buildAdminOverview } from '@deska/contracts';
 
 import { AdminRepository } from './repositories/admin.repository';
 

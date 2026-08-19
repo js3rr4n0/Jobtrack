@@ -1,4 +1,4 @@
-import { type NoteChangeEvent, type StickyNote, sortNotes } from '@jobtrack/contracts';
+import { type NoteChangeEvent, type StickyNote, sortNotes } from '@deska/contracts';
 
 /**
  * Aplica al mural local un cambio recibido por el canal de tiempo real. Es una

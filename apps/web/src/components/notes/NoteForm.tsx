@@ -7,7 +7,7 @@ import {
   NOTE_COLORS,
   type NoteColor,
   normalizeNoteText,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 import { Button } from '@/components/ui/Button';
 import { TextAreaField } from '@/components/ui/FormField';

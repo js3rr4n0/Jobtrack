@@ -1,5 +1,5 @@
 import { IsIn, IsInt, Min } from 'class-validator';
-import { APPLICATION_STATUSES, ApplicationStatus } from '@jobtrack/contracts';
+import { APPLICATION_STATUSES, ApplicationStatus } from '@deska/contracts';
 
 /** Cuerpo del movimiento de una tarjeta dentro del tablero kanban. */
 export class MoveJobApplicationDto {

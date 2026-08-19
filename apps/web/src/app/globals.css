@@ -46,6 +46,7 @@
     --page-backdrop: radial-gradient(circle at 12% 8%, rgb(37 99 235 / 0.07), transparent 45%),
       radial-gradient(circle at 88% 18%, rgb(126 34 206 / 0.05), transparent 40%);
     --letter-spacing-display: normal;
+    --color-accent-edge: 147 197 253;
 
     /*
      * Colores del mural. Son fijos en todos los temas y llevan tinta oscura,
@@ -97,6 +98,7 @@
     --page-backdrop: radial-gradient(circle at 14% 10%, rgb(96 165 250 / 0.10), transparent 45%),
       radial-gradient(circle at 86% 20%, rgb(192 132 252 / 0.08), transparent 42%);
     --letter-spacing-display: normal;
+    --color-accent-edge: 124 58 237;
   }
 
   [data-theme='minimalista'] {
@@ -135,6 +137,7 @@
     --shadow-sunken: inset 0 1px 3px rgb(0 0 0 / 0.06);
     --page-backdrop: linear-gradient(180deg, rgb(201 162 39 / 0.05), transparent 30%);
     --letter-spacing-display: -0.01em;
+    --color-accent-edge: 201 162 39;
   }
 
   [data-theme='videojuegos'] {
@@ -175,6 +178,7 @@
       radial-gradient(circle at 88% 16%, rgb(0 217 255 / 0.18), transparent 42%),
       radial-gradient(circle at 60% 90%, rgb(255 61 129 / 0.14), transparent 45%);
     --letter-spacing-display: 0.02em;
+    --color-accent-edge: 255 61 129;
   }
 
   [data-theme='pixeles'] {
@@ -215,6 +219,7 @@
     --page-backdrop: linear-gradient(rgb(29 43 83 / 0.06) 1px, transparent 1px),
       linear-gradient(90deg, rgb(29 43 83 / 0.06) 1px, transparent 1px);
     --letter-spacing-display: 0.06em;
+    --color-accent-edge: 255 0 77;
   }
 
   [data-theme='retro'] {
@@ -254,6 +259,7 @@
     --page-backdrop: radial-gradient(circle at 10% 10%, rgb(42 157 143 / 0.16), transparent 45%),
       radial-gradient(circle at 90% 20%, rgb(244 162 97 / 0.14), transparent 42%);
     --letter-spacing-display: 0.03em;
+    --color-accent-edge: 231 111 81;
   }
 
   [data-theme='anime'] {
@@ -293,6 +299,7 @@
     --page-backdrop: radial-gradient(circle at 12% 8%, rgb(255 107 154 / 0.16), transparent 45%),
       radial-gradient(circle at 88% 16%, rgb(255 209 102 / 0.16), transparent 42%);
     --letter-spacing-display: normal;
+    --color-accent-edge: 255 107 154;
   }
 
   [data-theme='anime-urbano'] {
@@ -332,6 +339,7 @@
     --page-backdrop: radial-gradient(circle at 88% 10%, rgb(252 163 17 / 0.18), transparent 42%),
       radial-gradient(circle at 10% 85%, rgb(230 57 70 / 0.14), transparent 45%);
     --letter-spacing-display: 0.02em;
+    --color-accent-edge: 230 57 70;
   }
 
   [data-theme='series'] {
@@ -371,6 +379,7 @@
     --page-backdrop: radial-gradient(circle at 10% 6%, rgb(183 110 121 / 0.12), transparent 45%),
       radial-gradient(circle at 90% 18%, rgb(212 163 115 / 0.14), transparent 42%);
     --letter-spacing-display: 0.01em;
+    --color-accent-edge: 183 110 121;
   }
 
   [data-theme='naturaleza'] {
@@ -410,6 +419,7 @@
     --page-backdrop: radial-gradient(circle at 10% 8%, rgb(167 201 87 / 0.30), transparent 45%),
       radial-gradient(circle at 90% 18%, rgb(106 153 78 / 0.20), transparent 42%);
     --letter-spacing-display: normal;
+    --color-accent-edge: 167 201 87;
   }
 
   [data-theme='naturaleza-nocturna'] {
@@ -449,6 +459,7 @@
     --page-backdrop: radial-gradient(circle at 14% 10%, rgb(91 192 190 / 0.16), transparent 45%),
       radial-gradient(circle at 86% 20%, rgb(58 80 107 / 0.35), transparent 42%);
     --letter-spacing-display: normal;
+    --color-accent-edge: 91 192 190;
   }
 
   [data-theme='galaxia'] {
@@ -489,6 +500,7 @@
       radial-gradient(circle at 85% 18%, rgb(224 170 255 / 0.16), transparent 42%),
       radial-gradient(circle at 50% 95%, rgb(60 9 108 / 0.45), transparent 50%);
     --letter-spacing-display: 0.02em;
+    --color-accent-edge: 224 170 255;
   }
 
   html {
@@ -531,6 +543,32 @@
 @layer components {
   .surface-card {
     @apply rounded-card border border-subtle bg-raised shadow-card;
+  }
+
+  /*
+   * Segunda capa desplazada detrás de una superficie, en un color secundario
+   * de la paleta. Se dibuja con un pseudoelemento para no añadir markup, y va
+   * marcada como decorativa: no aporta información, solo profundidad.
+   */
+  .layered {
+    position: relative;
+  }
+
+  .layered::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: translate(0.4rem, 0.4rem);
+    border-radius: inherit;
+    background-color: rgb(var(--color-accent-edge) / 0.55);
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .layered::before {
+      transform: translate(0.25rem, 0.25rem);
+    }
   }
 
   /* Nota del mural: color solido, tinta oscura y sombra que la despega. */

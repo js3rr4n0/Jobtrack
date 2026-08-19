@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { AddressInfo } from 'node:net';
 import { Socket, io } from 'socket.io-client';
 import request from 'supertest';
-import { BOARD_EVENT, BoardChangeEvent } from '@jobtrack/contracts';
+import { BOARD_EVENT, BoardChangeEvent } from '@deska/contracts';
 
 import { API_PREFIX } from '../src/bootstrap';
 import { TestContext, createTestApplication } from './test-application';
@@ -110,7 +110,7 @@ describe('Sincronización en tiempo real (integracion)', () => {
     const created = await request(app.getHttpServer())
       .post(`/${API_PREFIX}/applications`)
       .set('Authorization', `Bearer ${token}`)
-      .set('X-Jobtrack-Origin', 'dispositivo-escritorio')
+      .set('X-Deska-Origin', 'dispositivo-escritorio')
       .send({ company: 'Estudio Galaxy', position: 'Disenador de Producto' })
       .expect(201);
 

@@ -1,8 +1,8 @@
 {
-  "name": "@jobtrack/api",
+  "name": "@deska/api",
   "version": "1.0.0",
   "private": true,
-  "description": "API modular de Jobtrack construida con NestJS",
+  "description": "API modular de Deska construida con NestJS",
   "license": "MIT",
   "scripts": {
     "build:contracts": "tsc --project ../../packages/contracts/tsconfig.json",
@@ -17,7 +17,7 @@
     "test:cov": "jest --config jest.config.js --coverage"
   },
   "dependencies": {
-    "@jobtrack/contracts": "*",
+    "@deska/contracts": "*",
     "@nestjs/common": "^10.4.15",
     "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^10.4.15",

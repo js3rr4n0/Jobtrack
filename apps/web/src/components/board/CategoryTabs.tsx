@@ -4,7 +4,7 @@ import {
   ALL_CATEGORIES,
   UNCATEGORIZED_CATEGORY,
   type CategorySummary,
-} from '@jobtrack/contracts';
+} from '@deska/contracts';
 
 export interface CategoryTabsProps {
   categories: readonly CategorySummary[];

@@ -1,4 +1,4 @@
-import { JobApplication } from '@jobtrack/contracts';
+import { JobApplication } from '@deska/contracts';
 
 /** Datos persistibles de una postulación, sin campos calculados por la capa de dominio. */
 export type JobApplicationRecord = Omit<JobApplication, 'createdAt' | 'updatedAt'> & {

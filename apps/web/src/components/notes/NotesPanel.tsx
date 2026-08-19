@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { StickyNote } from '@jobtrack/contracts';
+import type { StickyNote } from '@deska/contracts';
 
 import { Icon } from '@/components/icons';
 import { NoteForm, type NoteFormValues } from '@/components/notes/NoteForm';

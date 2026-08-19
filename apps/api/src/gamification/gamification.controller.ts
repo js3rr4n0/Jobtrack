@@ -1,5 +1,5 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { GamificationProfile } from '@jobtrack/contracts';
+import { GamificationProfile } from '@deska/contracts';
 
 import { AuthenticatedUser } from '../auth/authenticated-user';
 import { CurrentUser } from '../auth/current-user.decorator';

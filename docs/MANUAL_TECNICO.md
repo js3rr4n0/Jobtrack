@@ -1,16 +1,16 @@
 # Manual tecnico
 
-Documento de referencia para desarrollar y mantener Jobtrack: arquitectura,
+Documento de referencia para desarrollar y mantener Deska: arquitectura,
 estructura de carpetas, responsabilidad de cada módulo y decisiones de diseño.
 
 ## 1. Vision general
 
-Jobtrack es un monorepo de tres paquetes con una separación estricta de
+Deska es un monorepo de tres paquetes con una separación estricta de
 responsabilidades:
 
 ```
 +-------------------+        HTTPS/REST        +-------------------+
-|  @jobtrack/web    | -----------------------> |  @jobtrack/api    |
+|  @deska/web    | -----------------------> |  @deska/api    |
 |  Next.js 14       | <----------------------- |  NestJS 10        |
 |  (navegador)      |       WebSockets         |                   |
 +-------------------+                          +---------+---------+
@@ -24,7 +24,7 @@ responsabilidades:
                      ^
                      |
           +----------+-----------+
-          |  @jobtrack/contracts |
+          |  @deska/contracts |
           |  tipos y reglas puras|
           +----------------------+
 ```
@@ -33,7 +33,7 @@ responsabilidades:
 
 1. El navegador obtiene un JWT de Supabase Auth al iniciar sesión.
 2. Cada llamada a la API viaja con `Authorization: Bearer <token>` y con la
-   cabecera `X-Jobtrack-Origin`, que identifica al dispositivo emisor.
+   cabecera `X-Deska-Origin`, que identifica al dispositivo emisor.
 3. La API verifica la firma del token, resuelve el `userId` y opera solo sobre
    las filas de esa persona.
 4. Tras cada escritura, la API publica un evento en la sala privada del usuario;
@@ -42,7 +42,7 @@ responsabilidades:
 ## 2. Estructura de carpetas
 
 ```
-Jobtrack/
+Deska/
   package.json                 Workspaces y scripts agregados
   supabase/schema.sql          Tablas, indices, disparadores y politicas RLS
   docs/                        Manuales y plan de pruebas
@@ -86,7 +86,7 @@ Jobtrack/
     lib/                       Cliente HTTP, tiempo real, formularios, temas
 ```
 
-## 3. Paquete compartido `@jobtrack/contracts`
+## 3. Paquete compartido `@deska/contracts`
 
 Es la única fuente de verdad del dominio. No depende de React ni de NestJS: solo
 tipos y funciones puras, lo que permite consumirlo desde los dos extremos y
@@ -117,7 +117,7 @@ de la API y de la web lo compilan antes de arrancar. Las suites de pruebas
 apuntan directamente a `src/` mediante alias, de modo que no requieren
 compilacion previa.
 
-## 4. API (`@jobtrack/api`)
+## 4. API (`@deska/api`)
 
 ### 4.1 Configuración
 
@@ -293,7 +293,7 @@ un doble que solo registra lo publicado.
 Cada evento incluye `originId`, con el que el dispositivo emisor descarta su
 propio eco y evita renderizados redundantes.
 
-## 5. Interfaz (`@jobtrack/web`)
+## 5. Interfaz (`@deska/web`)
 
 ### 5.1 Rutas
 
@@ -454,7 +454,7 @@ resultados esperados esta en [`PLAN_DE_PRUEBAS.md`](PLAN_DE_PRUEBAS.md).
 - **Comentarios que explican el porque**, no el que; el código describe el
   comportamiento por si mismo.
 - **Un solo lugar por regla**: si una logica se necesita en la API y en la web,
-  vive en `@jobtrack/contracts`.
+  vive en `@deska/contracts`.
 
 ## 9. Como extender el sistema
 

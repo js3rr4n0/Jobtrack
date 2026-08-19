@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { JobApplication } from '@jobtrack/contracts';
+import { JobApplication } from '@deska/contracts';
 
 import { InMemoryJobApplicationsRepository } from '../../applications/repositories/in-memory-job-applications.repository';
 import { AdminRepository } from './admin.repository';

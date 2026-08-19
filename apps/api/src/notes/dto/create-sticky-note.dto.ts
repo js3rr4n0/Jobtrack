@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IsIn, IsNumber, IsOptional, IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
-import { MAX_NOTE_LENGTH, NOTE_COLORS, NoteColor } from '@jobtrack/contracts';
+import { MAX_NOTE_LENGTH, NOTE_COLORS, NoteColor } from '@deska/contracts';
 
 const trimmed = ({ value }: { value: unknown }) =>
   typeof value === 'string' ? value.trim() : value;
