@@ -146,12 +146,16 @@ const SPACE: Soundscape = {
 const SOUNDSCAPE_BY_THEME: Readonly<Record<ThemeId, Soundscape>> = {
   light: CALM,
   dark: CALM,
-  minimal: CALM,
-  'pixel-pink': CHIPTUNE,
-  'pixel-blue': CHIPTUNE,
-  gaming: SYNTHWAVE,
+  minimalista: CALM,
+  series: CALM,
+  naturaleza: CALM,
+  pixeles: CHIPTUNE,
+  retro: CHIPTUNE,
+  videojuegos: SYNTHWAVE,
+  'anime-urbano': SYNTHWAVE,
   anime: BRIGHT,
-  galaxy: SPACE,
+  galaxia: SPACE,
+  'naturaleza-nocturna': SPACE,
 };
 
 export function soundscapeForTheme(theme: ThemeId): Soundscape {

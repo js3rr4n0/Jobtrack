@@ -52,12 +52,12 @@ describe('readStoredPreferences', () => {
 
   it('recupera las preferencias guardadas', () => {
     const storage = createMemoryStorage({
-      [THEME_STORAGE_KEY]: 'galaxy',
+      [THEME_STORAGE_KEY]: 'galaxia',
       [ICON_PACK_STORAGE_KEY]: 'pixel',
     });
 
     expect(readStoredPreferences(storage)).toEqual({
-      theme: 'galaxy',
+      theme: 'galaxia',
       iconPack: 'pixel',
       music: false,
     });
@@ -89,6 +89,16 @@ describe('readStoredPreferences', () => {
     const storage = createMemoryStorage({ [THEME_STORAGE_KEY]: 'light' });
 
     expect(readStoredPreferences(storage, true).theme).toBe('light');
+  });
+
+  it('traduce los identificadores de temas anteriores al catálogo de paletas', () => {
+    const stored = (value: string) => createMemoryStorage({ [THEME_STORAGE_KEY]: value });
+
+    expect(readStoredPreferences(stored('galaxy')).theme).toBe('galaxia');
+    expect(readStoredPreferences(stored('minimal')).theme).toBe('minimalista');
+    expect(readStoredPreferences(stored('gaming')).theme).toBe('videojuegos');
+    expect(readStoredPreferences(stored('pixel-pink')).theme).toBe('pixeles');
+    expect(readStoredPreferences(stored('pixel-blue')).theme).toBe('pixeles');
   });
 
   it('descarta un tema corrupto y cae en el del sistema, no en el claro', () => {
@@ -145,7 +155,7 @@ describe('THEME_BOOTSTRAP_SCRIPT', () => {
   };
 
   it('aplica el tema guardado', () => {
-    expect(run({ stored: 'galaxy' })).toBe('galaxy');
+    expect(run({ stored: 'galaxia' })).toBe('galaxia');
   });
 
   it('cae en el tema del sistema cuando no hay nada guardado', () => {
@@ -157,8 +167,13 @@ describe('THEME_BOOTSTRAP_SCRIPT', () => {
     expect(run({ throws: true, prefersDark: true })).toBe('dark');
   });
 
-  it('ignora un tema que no pertenece al catalogo', () => {
+  it('ignora un tema que no pertenece al catálogo', () => {
     expect(run({ stored: 'tema-inexistente' })).toBe('light');
+  });
+
+  it('traduce un identificador anterior antes de pintar, para no perder la elección', () => {
+    expect(run({ stored: 'galaxy' })).toBe('galaxia');
+    expect(run({ stored: 'pixel-blue' })).toBe('pixeles');
   });
 
   it('resuelve igual que readStoredPreferences, para no cambiar tras hidratar', () => {

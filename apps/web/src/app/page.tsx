@@ -70,7 +70,7 @@ export default function HomePage() {
       <LandingHighlights />
 
       <p className="text-sm text-secondary">
-        Además: ocho temas visuales, dos estilos de iconos, música ambiental opcional y un tutorial
+        Además: doce temas visuales, dos estilos de iconos, música ambiental opcional y un tutorial
         que te guía la primera vez.
       </p>
 

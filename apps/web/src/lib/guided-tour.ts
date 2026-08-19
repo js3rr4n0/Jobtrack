@@ -33,7 +33,7 @@ export const TOUR_STEPS: readonly TourStep[] = [
     target: 'cuenta',
     title: 'Tu cuenta y la apariencia',
     description:
-      'Aquí ves con qué cuenta entraste y eliges entre ocho temas, dos estilos de iconos y la música de fondo.',
+      'Aquí ves con qué cuenta entraste y eliges entre doce temas, dos estilos de iconos y la música de fondo.',
   },
 ];
 

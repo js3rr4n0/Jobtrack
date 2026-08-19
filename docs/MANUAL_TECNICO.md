@@ -80,7 +80,7 @@ Jobtrack/
       landing/                 Bloques de la página de bienvenida
       notes/                   Mural, nota arrastrable y editor de notas
       theme/                   Proveedor de preferencias y selector
-      ui/                      Boton, campos, dialogo y avisos
+      ui/                      Botón, campos, diálogo, panel, plegable e interruptor
     hooks/                     Sesión, cliente, tablero, mural, canal y red
     lib/                       Cliente HTTP, tiempo real, formularios, temas
 ```
@@ -345,11 +345,18 @@ mismo desplazamiento en ambos casos.
 
 ### 5.5 Temas e iconos
 
-Los ocho temas se declaran en `app/globals.css` como bloques `[data-theme='...']`
+Los doce temas se declaran en `app/globals.css` como bloques `[data-theme='...']`
 que redefinen el **mismo** conjunto de variables CSS (colores en canales RGB,
 radios, sombras, tipografía). `tailwind.config.ts` mapea esas variables a nombres
 semánticos (`bg-raised`, `text-primary`, `border-subtle`, `bg-interview`), así
 que agregar un tema no exige tocar ningún componente.
+
+Cada tema nace de una paleta de cinco colores, de la que se derivan las
+superficies, los bordes y los estados. `themes.test.ts` lee la hoja de estilos
+publicada y mide cada pareja de texto sobre fondo: una paleta nueva no entra en
+el catálogo si no alcanza los mínimos de contraste de la WCAG. Los
+identificadores anteriores se traducen con `resolveThemeId`, de modo que
+actualizar el catálogo no borra la elección de quien ya tenía un tema guardado.
 
 Las variables incluyen la **capa de profundidad**: `--color-sunken` para las
 superficies hundidas, `--shadow-lifted` y `--shadow-sunken` para las sombras y

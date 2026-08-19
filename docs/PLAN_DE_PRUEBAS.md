@@ -44,7 +44,11 @@ npm test --workspace @jobtrack/web
 | web | `src/lib/user-profile.test.ts` | Unitaria | 6 |
 | web | `src/lib/auth-callback.test.ts` | Unitaria | 12 |
 | web | `src/lib/drag-and-drop.test.ts` | Unitaria | 8 |
-| web | `src/lib/preferences.test.ts` | Unitaria | 20 |
+| web | `src/lib/preferences.test.ts` | Unitaria | 22 |
+| web | `src/lib/themes.test.ts` | Unitaria | 59 |
+| web | `src/components/ui/ToggleSwitch.test.tsx` | Componente | 4 |
+| web | `src/components/ui/Accordion.test.tsx` | Componente | 4 |
+| web | `src/components/ui/Popover.test.tsx` | Componente | 5 |
 | web | `src/lib/guided-tour.test.ts` | Unitaria | 10 |
 | web | `src/lib/ambient-music.test.ts` | Unitaria | 12 |
 | web | `src/components/notes/note-geometry.test.ts` | Unitaria | 4 |
@@ -54,7 +58,7 @@ npm test --workspace @jobtrack/web
 | web | `src/components/gamification/LevelMeter.test.tsx` | Componente | 4 |
 | web | `tests/integration/board-workspace.test.tsx` | Integracion | 14 |
 
-**Total: 326 casos.**
+**Total: 400 casos.**
 
 ---
 
@@ -267,13 +271,13 @@ La entrega se considera correcta cuando:
 3. `npm run build` compila el paquete compartido, la API y la web.
 4. Ninguna prueba deja procesos abiertos ni depende de servicios externos.
 
-Estado actual: **326 casos, todos en verde**, sin dependencias de red externas.
+Estado actual: **400 casos, todos en verde**, sin dependencias de red externas.
 
 ## 7. Verificación manual complementaria
 
 Aspectos que conviene revisar a mano antes de publicar una versión:
 
-- Recorrer los ocho temas comprobando contraste de texto sobre fondo y
+- Recorrer los doce temas comprobando el contraste del texto sobre fondo y la
   visibilidad del anillo de foco.
 - Arrastrar una tarjeta con el raton, con el dedo y con el teclado.
 - Arrastrar una nota del mural de las tres formas y confirmar que se queda dentro

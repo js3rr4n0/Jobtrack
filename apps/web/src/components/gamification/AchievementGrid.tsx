@@ -4,6 +4,7 @@ import type { AchievementState } from '@jobtrack/contracts';
 
 import { Icon, type IconName } from '@/components/icons';
 import { usePreferences } from '@/components/theme/PreferencesProvider';
+import { Accordion } from '@/components/ui/Accordion';
 
 /** Traduce el icono declarado en el dominio a un nombre del catalogo visual. */
 const ICON_BY_ACHIEVEMENT: Record<string, IconName> = {
@@ -26,17 +27,12 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
   const unlockedCount = achievements.filter((achievement) => achievement.unlocked).length;
 
   return (
-    <section className="surface-card p-4" aria-label="Logros">
-      <header className="mb-3 flex items-center justify-between">
-        <h3 className="font-display text-sm font-semibold uppercase tracking-wide text-primary">
-          Logros
-        </h3>
-        <span className="text-xs text-secondary">
-          {unlockedCount} de {achievements.length}
-        </span>
-      </header>
-
-      <ul className="grid gap-2">
+    // Los ocho logros ocupan mucho alto para ser una referencia ocasional, asi
+    // que viven plegados: el recuento del encabezado basta para el vistazo
+    // diario y la lista completa queda a un clic.
+    <section className="surface-card px-3 py-2" aria-label="Logros">
+      <Accordion title="Logros" badge={`${unlockedCount} de ${achievements.length}`}>
+        <ul className="grid gap-2 pb-2">
         {achievements.map((achievement) => {
           const percent = Math.round((achievement.current / achievement.target) * 100);
 
@@ -70,7 +66,8 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
             </li>
           );
         })}
-      </ul>
+        </ul>
+      </Accordion>
     </section>
   );
 }

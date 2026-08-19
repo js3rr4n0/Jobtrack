@@ -63,268 +63,432 @@
   [data-theme='dark'] {
     color-scheme: dark;
 
-    --color-sunken: 12 18 33;
-    --shadow-lifted: 0 2px 4px rgb(2 6 23 / 0.6), 0 16px 40px rgb(2 6 23 / 0.55);
-    --shadow-sunken: inset 0 2px 8px rgb(2 6 23 / 0.6);
-    --page-backdrop: radial-gradient(circle at 14% 10%, rgb(96 165 250 / 0.10), transparent 45%),
-      radial-gradient(circle at 86% 20%, rgb(192 132 252 / 0.08), transparent 42%);
-
     --color-base: 15 23 42;
-    --color-raised: 30 41 59;
-    --color-overlay: 30 41 59;
+    --color-sunken: 12 18 33;
+    --color-raised: 27 36 56;
+    --color-overlay: 27 36 56;
     --color-border-subtle: 51 65 85;
     --color-border-strong: 148 163 184;
     --color-text-primary: 241 245 249;
-    --color-text-secondary: 165 180 199;
+    --color-text-secondary: 182 194 212;
     --color-text-inverse: 15 23 42;
     --color-accent: 96 165 250;
     --color-accent-strong: 147 197 253;
-    --color-accent-soft: 30 58 138;
+    --color-accent-soft: 30 58 95;
     --color-success: 74 222 128;
     --color-warning: 251 191 36;
     --color-danger: 248 113 113;
 
-    --color-status-wishlist: 165 180 199;
+    --color-status-wishlist: 182 194 212;
     --color-status-applied: 96 165 250;
     --color-status-interview: 192 132 252;
-    --color-status-offer: 250 204 21;
+    --color-status-offer: 251 191 36;
     --color-status-hired: 74 222 128;
     --color-status-rejected: 248 113 113;
 
+    --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --radius-card: 0.875rem;
+    --radius-control: 0.625rem;
     --shadow-card: 0 1px 2px rgb(2 6 23 / 0.5), 0 8px 24px rgb(2 6 23 / 0.4);
     --shadow-raised: 0 12px 32px rgb(2 6 23 / 0.6);
+    --shadow-lifted: 0 2px 4px rgb(2 6 23 / 0.6), 0 16px 40px rgb(2 6 23 / 0.55);
+    --shadow-sunken: inset 0 2px 8px rgb(2 6 23 / 0.6);
+    --page-backdrop: radial-gradient(circle at 14% 10%, rgb(96 165 250 / 0.10), transparent 45%),
+      radial-gradient(circle at 86% 20%, rgb(192 132 252 / 0.08), transparent 42%);
+    --letter-spacing-display: normal;
   }
 
-  [data-theme='pixel-pink'] {
-    color-scheme: dark;
+  [data-theme='minimalista'] {
+    color-scheme: light;
 
-    --color-sunken: 31 8 25;
-    --shadow-lifted: 6px 6px 0 rgb(255 133 195 / 0.45);
-    --shadow-sunken: inset 3px 3px 0 rgb(24 6 19);
-    --page-backdrop: linear-gradient(rgb(255 133 195 / 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(255 133 195 / 0.05) 1px, transparent 1px);
+    --color-base: 250 250 250;
+    --color-sunken: 240 240 240;
+    --color-raised: 255 255 255;
+    --color-overlay: 255 255 255;
+    --color-border-subtle: 227 227 227;
+    --color-border-strong: 115 115 115;
+    --color-text-primary: 17 17 17;
+    --color-text-secondary: 91 91 91;
+    --color-text-inverse: 250 250 250;
+    --color-accent: 34 34 34;
+    --color-accent-strong: 0 0 0;
+    --color-accent-soft: 237 237 237;
+    --color-success: 21 128 61;
+    --color-warning: 138 109 11;
+    --color-danger: 179 38 30;
 
-    --color-base: 42 12 34;
-    --color-raised: 61 20 48;
-    --color-overlay: 61 20 48;
-    --color-border-subtle: 118 42 92;
-    --color-border-strong: 255 153 204;
-    --color-text-primary: 255 235 247;
-    --color-text-secondary: 247 183 218;
-    --color-text-inverse: 42 12 34;
-    --color-accent: 255 133 195;
-    --color-accent-strong: 255 173 214;
-    --color-accent-soft: 92 28 71;
-    --color-success: 126 231 135;
-    --color-warning: 255 209 102;
-    --color-danger: 255 138 138;
+    --color-status-wishlist: 91 91 91;
+    --color-status-applied: 34 34 34;
+    --color-status-interview: 75 85 99;
+    --color-status-offer: 138 109 11;
+    --color-status-hired: 21 128 61;
+    --color-status-rejected: 179 38 30;
 
-    --color-status-wishlist: 247 183 218;
-    --color-status-applied: 255 133 195;
-    --color-status-interview: 209 149 255;
-    --color-status-offer: 255 209 102;
-    --color-status-hired: 126 231 135;
-    --color-status-rejected: 255 138 138;
-
-    --background-size: 24px 24px;
-    --font-display: 'Courier New', ui-monospace, monospace;
-    --font-body: 'Courier New', ui-monospace, monospace;
-    --radius-card: 0;
-    --radius-control: 0;
-    --shadow-card: 4px 4px 0 rgb(118 42 92);
-    --shadow-raised: 6px 6px 0 rgb(255 133 195 / 0.6);
-    --letter-spacing-display: 0.06em;
-  }
-
-  [data-theme='pixel-blue'] {
-    color-scheme: dark;
-
-    --color-sunken: 5 14 33;
-    --shadow-lifted: 6px 6px 0 rgb(86 199 250 / 0.45);
-    --shadow-sunken: inset 3px 3px 0 rgb(4 10 26);
-    --page-backdrop: linear-gradient(rgb(86 199 250 / 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(86 199 250 / 0.05) 1px, transparent 1px);
-
-    --color-base: 8 20 46;
-    --color-raised: 16 34 72;
-    --color-overlay: 16 34 72;
-    --color-border-subtle: 30 64 128;
-    --color-border-strong: 125 211 252;
-    --color-text-primary: 226 242 255;
-    --color-text-secondary: 158 202 250;
-    --color-text-inverse: 8 20 46;
-    --color-accent: 86 199 250;
-    --color-accent-strong: 147 220 253;
-    --color-accent-soft: 12 74 110;
-    --color-success: 52 211 153;
-    --color-warning: 250 204 21;
-    --color-danger: 251 113 133;
-
-    --color-status-wishlist: 158 202 250;
-    --color-status-applied: 86 199 250;
-    --color-status-interview: 167 139 250;
-    --color-status-offer: 250 204 21;
-    --color-status-hired: 52 211 153;
-    --color-status-rejected: 251 113 133;
-
-    --background-size: 24px 24px;
-    --font-display: 'Courier New', ui-monospace, monospace;
-    --font-body: 'Courier New', ui-monospace, monospace;
-    --radius-card: 0;
-    --radius-control: 0;
-    --shadow-card: 4px 4px 0 rgb(30 64 128);
-    --shadow-raised: 6px 6px 0 rgb(86 199 250 / 0.6);
-    --letter-spacing-display: 0.06em;
-  }
-
-  [data-theme='gaming'] {
-    color-scheme: dark;
-
-    --color-sunken: 6 6 10;
-    --shadow-lifted: 0 0 26px rgb(0 229 160 / 0.28), 0 14px 36px rgb(0 0 0 / 0.7);
-    --shadow-sunken: inset 0 2px 10px rgb(0 0 0 / 0.75);
-    --page-backdrop: radial-gradient(circle at 18% 12%, rgb(0 229 160 / 0.10), transparent 42%),
-      radial-gradient(circle at 82% 24%, rgb(168 85 247 / 0.08), transparent 40%);
-
-    --color-base: 10 10 16;
-    --color-raised: 21 21 32;
-    --color-overlay: 26 26 40;
-    --color-border-subtle: 45 45 66;
-    --color-border-strong: 0 229 160;
-    --color-text-primary: 236 253 245;
-    --color-text-secondary: 163 191 182;
-    --color-text-inverse: 10 10 16;
-    --color-accent: 0 229 160;
-    --color-accent-strong: 110 255 214;
-    --color-accent-soft: 6 60 45;
-    --color-success: 0 229 160;
-    --color-warning: 255 196 0;
-    --color-danger: 255 99 114;
-
-    --color-status-wishlist: 163 191 182;
-    --color-status-applied: 0 229 160;
-    --color-status-interview: 192 132 252;
-    --color-status-offer: 255 196 0;
-    --color-status-hired: 74 222 128;
-    --color-status-rejected: 255 99 114;
-
-    --font-display: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', monospace;
+    --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
     --radius-card: 0.25rem;
     --radius-control: 0.25rem;
-    --shadow-card: 0 0 0 1px rgb(0 229 160 / 0.18), 0 8px 26px rgb(0 0 0 / 0.6);
-    --shadow-raised: 0 0 24px rgb(0 229 160 / 0.35);
-    --letter-spacing-display: 0.04em;
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.06);
+    --shadow-raised: 0 6px 18px rgb(0 0 0 / 0.10);
+    --shadow-lifted: 0 2px 6px rgb(0 0 0 / 0.10);
+    --shadow-sunken: inset 0 1px 3px rgb(0 0 0 / 0.06);
+    --page-backdrop: linear-gradient(180deg, rgb(201 162 39 / 0.05), transparent 30%);
+    --letter-spacing-display: -0.01em;
+  }
+
+  [data-theme='videojuegos'] {
+    color-scheme: dark;
+
+    --color-base: 17 18 34;
+    --color-sunken: 10 11 22;
+    --color-raised: 27 29 54;
+    --color-overlay: 27 29 54;
+    --color-border-subtle: 46 49 96;
+    --color-border-strong: 139 123 255;
+    --color-text-primary: 245 247 255;
+    --color-text-secondary: 185 190 224;
+    --color-text-inverse: 17 18 34;
+    --color-accent: 0 217 255;
+    --color-accent-strong: 92 231 255;
+    --color-accent-soft: 22 35 74;
+    --color-success: 61 220 151;
+    --color-warning: 255 209 102;
+    --color-danger: 255 107 150;
+
+    --color-status-wishlist: 185 190 224;
+    --color-status-applied: 0 217 255;
+    --color-status-interview: 139 123 255;
+    --color-status-offer: 255 209 102;
+    --color-status-hired: 61 220 151;
+    --color-status-rejected: 255 107 150;
+
+    --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --radius-card: 0.75rem;
+    --radius-control: 0.5rem;
+    --shadow-card: 0 0 0 1px rgb(91 46 255 / 0.35), 0 8px 24px rgb(0 0 0 / 0.55);
+    --shadow-raised: 0 0 28px rgb(0 217 255 / 0.28), 0 14px 36px rgb(0 0 0 / 0.7);
+    --shadow-lifted: 0 0 26px rgb(0 217 255 / 0.30), 0 14px 36px rgb(0 0 0 / 0.7);
+    --shadow-sunken: inset 0 2px 10px rgb(0 0 0 / 0.7);
+    --page-backdrop: radial-gradient(circle at 12% 8%, rgb(91 46 255 / 0.28), transparent 45%),
+      radial-gradient(circle at 88% 16%, rgb(0 217 255 / 0.18), transparent 42%),
+      radial-gradient(circle at 60% 90%, rgb(255 61 129 / 0.14), transparent 45%);
+    --letter-spacing-display: 0.02em;
+  }
+
+  [data-theme='pixeles'] {
+    color-scheme: light;
+
+    --color-base: 255 241 232;
+    --color-sunken: 241 221 207;
+    --color-raised: 255 255 255;
+    --color-overlay: 255 255 255;
+    --color-border-subtle: 224 199 180;
+    --color-border-strong: 29 43 83;
+    --color-text-primary: 29 43 83;
+    --color-text-secondary: 126 37 83;
+    --color-text-inverse: 255 241 232;
+    --color-accent: 196 0 60;
+    --color-accent-strong: 148 0 45;
+    --color-accent-soft: 255 217 226;
+    --color-success: 0 103 64;
+    --color-warning: 138 74 32;
+    --color-danger: 196 0 60;
+
+    --color-status-wishlist: 126 37 83;
+    --color-status-applied: 29 43 83;
+    --color-status-interview: 91 58 158;
+    --color-status-offer: 138 74 32;
+    --color-status-hired: 0 103 64;
+    --color-status-rejected: 196 0 60;
+
+    --background-size: 24px 24px;
+    --font-display: 'Courier New', ui-monospace, monospace;
+    --font-body: 'Courier New', ui-monospace, monospace;
+    --radius-card: 0;
+    --radius-control: 0;
+    --shadow-card: 4px 4px 0 rgb(29 43 83 / 0.25);
+    --shadow-raised: 6px 6px 0 rgb(29 43 83 / 0.35);
+    --shadow-lifted: 6px 6px 0 rgb(255 0 77 / 0.35);
+    --shadow-sunken: inset 3px 3px 0 rgb(29 43 83 / 0.12);
+    --page-backdrop: linear-gradient(rgb(29 43 83 / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(29 43 83 / 0.06) 1px, transparent 1px);
+    --letter-spacing-display: 0.06em;
+  }
+
+  [data-theme='retro'] {
+    color-scheme: dark;
+
+    --color-base: 30 58 70;
+    --color-sunken: 22 44 54;
+    --color-raised: 38 70 83;
+    --color-overlay: 38 70 83;
+    --color-border-subtle: 58 99 115;
+    --color-border-strong: 42 157 143;
+    --color-text-primary: 242 246 245;
+    --color-text-secondary: 175 203 207;
+    --color-text-inverse: 16 38 46;
+    --color-accent: 42 157 143;
+    --color-accent-strong: 63 191 175;
+    --color-accent-soft: 18 51 58;
+    --color-success: 107 214 164;
+    --color-warning: 233 196 106;
+    --color-danger: 255 155 128;
+
+    --color-status-wishlist: 175 203 207;
+    --color-status-applied: 95 211 196;
+    --color-status-interview: 244 162 97;
+    --color-status-offer: 233 196 106;
+    --color-status-hired: 107 214 164;
+    --color-status-rejected: 255 155 128;
+
+    --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --radius-card: 0.5rem;
+    --radius-control: 0.375rem;
+    --shadow-card: 0 2px 0 rgb(0 0 0 / 0.35), 0 8px 20px rgb(0 0 0 / 0.35);
+    --shadow-raised: 0 12px 28px rgb(0 0 0 / 0.5);
+    --shadow-lifted: 0 3px 0 rgb(0 0 0 / 0.4), 0 14px 30px rgb(0 0 0 / 0.45);
+    --shadow-sunken: inset 0 2px 8px rgb(0 0 0 / 0.45);
+    --page-backdrop: radial-gradient(circle at 10% 10%, rgb(42 157 143 / 0.16), transparent 45%),
+      radial-gradient(circle at 90% 20%, rgb(244 162 97 / 0.14), transparent 42%);
+    --letter-spacing-display: 0.03em;
   }
 
   [data-theme='anime'] {
     color-scheme: light;
 
-    --color-sunken: 252 238 245;
-    --shadow-lifted: 0 8px 26px rgb(219 39 119 / 0.20);
-    --shadow-sunken: inset 0 2px 6px rgb(219 39 119 / 0.10);
-    --page-backdrop: radial-gradient(circle at 15% 10%, rgb(219 39 119 / 0.10), transparent 45%),
-      radial-gradient(circle at 85% 22%, rgb(147 197 253 / 0.14), transparent 42%);
-
-    --color-base: 255 247 251;
+    --color-base: 255 244 247;
+    --color-sunken: 251 228 236;
     --color-raised: 255 255 255;
     --color-overlay: 255 255 255;
-    --color-border-subtle: 250 214 228;
-    --color-border-strong: 219 39 119;
-    --color-text-primary: 58 27 47;
-    --color-text-secondary: 122 78 104;
+    --color-border-subtle: 246 211 223;
+    --color-border-strong: 108 99 255;
+    --color-text-primary: 41 36 58;
+    --color-text-secondary: 90 81 112;
     --color-text-inverse: 255 255 255;
-    --color-accent: 219 39 119;
-    --color-accent-strong: 157 23 77;
-    --color-accent-soft: 252 231 243;
-    --color-success: 15 118 110;
-    --color-warning: 161 98 7;
-    --color-danger: 190 18 60;
+    --color-accent: 90 80 232;
+    --color-accent-strong: 70 61 199;
+    --color-accent-soft: 232 230 255;
+    --color-success: 30 122 85;
+    --color-warning: 138 98 16;
+    --color-danger: 196 48 96;
 
-    --color-status-wishlist: 122 78 104;
-    --color-status-applied: 37 99 235;
-    --color-status-interview: 126 34 206;
-    --color-status-offer: 161 98 7;
-    --color-status-hired: 15 118 110;
-    --color-status-rejected: 190 18 60;
+    --color-status-wishlist: 90 81 112;
+    --color-status-applied: 90 80 232;
+    --color-status-interview: 139 47 176;
+    --color-status-offer: 138 98 16;
+    --color-status-hired: 30 122 85;
+    --color-status-rejected: 196 48 96;
 
-    --radius-card: 1.25rem;
-    --radius-control: 999px;
-    --shadow-card: 0 6px 18px rgb(219 39 119 / 0.12);
-    --shadow-raised: 0 16px 36px rgb(219 39 119 / 0.22);
-  }
-
-  [data-theme='minimal'] {
-    color-scheme: light;
-
-    --color-sunken: 247 247 247;
-    --shadow-lifted: 0 8px 20px rgb(0 0 0 / 0.10);
-    --shadow-sunken: inset 0 1px 3px rgb(0 0 0 / 0.06);
-    --page-backdrop: none;
-
-    --color-base: 255 255 255;
-    --color-raised: 255 255 255;
-    --color-overlay: 255 255 255;
-    --color-border-subtle: 229 229 229;
-    --color-border-strong: 23 23 23;
-    --color-text-primary: 23 23 23;
-    --color-text-secondary: 82 82 82;
-    --color-text-inverse: 255 255 255;
-    --color-accent: 23 23 23;
-    --color-accent-strong: 0 0 0;
-    --color-accent-soft: 245 245 245;
-    --color-success: 21 128 61;
-    --color-warning: 161 98 7;
-    --color-danger: 185 28 28;
-
-    --color-status-wishlist: 115 115 115;
-    --color-status-applied: 23 23 23;
-    --color-status-interview: 82 82 82;
-    --color-status-offer: 161 98 7;
-    --color-status-hired: 21 128 61;
-    --color-status-rejected: 185 28 28;
-
-    --radius-card: 0.25rem;
-    --radius-control: 0.25rem;
-    --shadow-card: none;
-    --shadow-raised: 0 6px 18px rgb(0 0 0 / 0.1);
-  }
-
-  [data-theme='galaxy'] {
-    color-scheme: dark;
-
-    --color-sunken: 13 11 33;
-    --shadow-lifted: 0 0 30px rgb(154 140 255 / 0.30), 0 14px 38px rgb(3 2 12 / 0.7);
-    --shadow-sunken: inset 0 2px 10px rgb(3 2 12 / 0.65);
-
-    --color-base: 9 8 24;
-    --color-raised: 22 19 50;
-    --color-overlay: 28 24 62;
-    --color-border-subtle: 51 44 96;
-    --color-border-strong: 167 155 255;
-    --color-text-primary: 234 232 255;
-    --color-text-secondary: 184 178 226;
-    --color-text-inverse: 9 8 24;
-    --color-accent: 154 140 255;
-    --color-accent-strong: 190 180 255;
-    --color-accent-soft: 40 33 92;
-    --color-success: 94 234 212;
-    --color-warning: 253 224 71;
-    --color-danger: 251 113 133;
-
-    --color-status-wishlist: 184 178 226;
-    --color-status-applied: 154 140 255;
-    --color-status-interview: 244 114 182;
-    --color-status-offer: 253 224 71;
-    --color-status-hired: 94 234 212;
-    --color-status-rejected: 251 113 133;
-
+    --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
     --radius-card: 1rem;
     --radius-control: 0.75rem;
-    --shadow-card: 0 8px 28px rgb(3 2 12 / 0.6);
-    --shadow-raised: 0 0 32px rgb(154 140 255 / 0.35);
-    --page-backdrop: radial-gradient(circle at 15% 12%, rgb(154 140 255 / 0.16), transparent 42%),
-      radial-gradient(circle at 82% 24%, rgb(244 114 182 / 0.12), transparent 38%),
-      radial-gradient(circle at 55% 88%, rgb(94 234 212 / 0.1), transparent 45%);
+    --shadow-card: 0 2px 4px rgb(255 107 154 / 0.10), 0 10px 28px rgb(108 99 255 / 0.10);
+    --shadow-raised: 0 14px 34px rgb(108 99 255 / 0.20);
+    --shadow-lifted: 0 4px 8px rgb(255 107 154 / 0.16), 0 18px 40px rgb(108 99 255 / 0.18);
+    --shadow-sunken: inset 0 2px 8px rgb(255 107 154 / 0.12);
+    --page-backdrop: radial-gradient(circle at 12% 8%, rgb(255 107 154 / 0.16), transparent 45%),
+      radial-gradient(circle at 88% 16%, rgb(255 209 102 / 0.16), transparent 42%);
+    --letter-spacing-display: normal;
+  }
+
+  [data-theme='anime-urbano'] {
+    color-scheme: dark;
+
+    --color-base: 20 33 61;
+    --color-sunken: 12 21 40;
+    --color-raised: 30 46 82;
+    --color-overlay: 30 46 82;
+    --color-border-subtle: 46 67 114;
+    --color-border-strong: 252 163 17;
+    --color-text-primary: 229 229 229;
+    --color-text-secondary: 174 186 210;
+    --color-text-inverse: 0 0 0;
+    --color-accent: 252 163 17;
+    --color-accent-strong: 255 188 72;
+    --color-accent-soft: 51 40 13;
+    --color-success: 74 222 128;
+    --color-warning: 252 163 17;
+    --color-danger: 255 120 133;
+
+    --color-status-wishlist: 174 186 210;
+    --color-status-applied: 252 163 17;
+    --color-status-interview: 143 174 255;
+    --color-status-offer: 255 209 102;
+    --color-status-hired: 74 222 128;
+    --color-status-rejected: 255 120 133;
+
+    --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --radius-card: 0.5rem;
+    --radius-control: 0.375rem;
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.6), 0 8px 24px rgb(0 0 0 / 0.5);
+    --shadow-raised: 0 14px 32px rgb(0 0 0 / 0.65);
+    --shadow-lifted: 0 2px 6px rgb(0 0 0 / 0.6), 0 18px 40px rgb(0 0 0 / 0.6);
+    --shadow-sunken: inset 0 2px 10px rgb(0 0 0 / 0.7);
+    --page-backdrop: radial-gradient(circle at 88% 10%, rgb(252 163 17 / 0.18), transparent 42%),
+      radial-gradient(circle at 10% 85%, rgb(230 57 70 / 0.14), transparent 45%);
+    --letter-spacing-display: 0.02em;
+  }
+
+  [data-theme='series'] {
+    color-scheme: light;
+
+    --color-base: 244 241 234;
+    --color-sunken: 232 227 215;
+    --color-raised: 255 255 255;
+    --color-overlay: 255 255 255;
+    --color-border-subtle: 220 213 198;
+    --color-border-strong: 61 64 91;
+    --color-text-primary: 32 33 36;
+    --color-text-secondary: 84 84 95;
+    --color-text-inverse: 244 241 234;
+    --color-accent: 61 64 91;
+    --color-accent-strong: 42 45 69;
+    --color-accent-soft: 227 228 236;
+    --color-success: 47 107 79;
+    --color-warning: 131 83 36;
+    --color-danger: 158 59 72;
+
+    --color-status-wishlist: 84 84 95;
+    --color-status-applied: 61 64 91;
+    --color-status-interview: 107 67 128;
+    --color-status-offer: 131 83 36;
+    --color-status-hired: 47 107 79;
+    --color-status-rejected: 158 59 72;
+
+    --font-display: Georgia, 'Times New Roman', serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --radius-card: 0.75rem;
+    --radius-control: 0.5rem;
+    --shadow-card: 0 1px 2px rgb(32 33 36 / 0.06), 0 8px 22px rgb(32 33 36 / 0.07);
+    --shadow-raised: 0 12px 30px rgb(32 33 36 / 0.14);
+    --shadow-lifted: 0 3px 6px rgb(32 33 36 / 0.10), 0 16px 36px rgb(32 33 36 / 0.14);
+    --shadow-sunken: inset 0 2px 6px rgb(32 33 36 / 0.08);
+    --page-backdrop: radial-gradient(circle at 10% 6%, rgb(183 110 121 / 0.12), transparent 45%),
+      radial-gradient(circle at 90% 18%, rgb(212 163 115 / 0.14), transparent 42%);
+    --letter-spacing-display: 0.01em;
+  }
+
+  [data-theme='naturaleza'] {
+    color-scheme: light;
+
+    --color-base: 242 232 207;
+    --color-sunken: 228 215 180;
+    --color-raised: 255 253 246;
+    --color-overlay: 255 253 246;
+    --color-border-subtle: 217 202 164;
+    --color-border-strong: 56 102 65;
+    --color-text-primary: 40 54 24;
+    --color-text-secondary: 76 91 55;
+    --color-text-inverse: 242 232 207;
+    --color-accent: 56 102 65;
+    --color-accent-strong: 39 73 46;
+    --color-accent-soft: 221 233 200;
+    --color-success: 56 102 65;
+    --color-warning: 122 90 18;
+    --color-danger: 149 41 31;
+
+    --color-status-wishlist: 76 91 55;
+    --color-status-applied: 56 102 65;
+    --color-status-interview: 63 99 48;
+    --color-status-offer: 122 90 18;
+    --color-status-hired: 39 73 46;
+    --color-status-rejected: 149 41 31;
+
+    --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --radius-card: 1rem;
+    --radius-control: 0.75rem;
+    --shadow-card: 0 1px 2px rgb(40 54 24 / 0.08), 0 8px 22px rgb(40 54 24 / 0.08);
+    --shadow-raised: 0 12px 30px rgb(40 54 24 / 0.16);
+    --shadow-lifted: 0 3px 6px rgb(40 54 24 / 0.12), 0 16px 36px rgb(40 54 24 / 0.16);
+    --shadow-sunken: inset 0 2px 8px rgb(40 54 24 / 0.10);
+    --page-backdrop: radial-gradient(circle at 10% 8%, rgb(167 201 87 / 0.30), transparent 45%),
+      radial-gradient(circle at 90% 18%, rgb(106 153 78 / 0.20), transparent 42%);
+    --letter-spacing-display: normal;
+  }
+
+  [data-theme='naturaleza-nocturna'] {
+    color-scheme: dark;
+
+    --color-base: 11 19 43;
+    --color-sunken: 6 11 26;
+    --color-raised: 28 37 65;
+    --color-overlay: 28 37 65;
+    --color-border-subtle: 58 80 107;
+    --color-border-strong: 91 192 190;
+    --color-text-primary: 240 243 189;
+    --color-text-secondary: 169 187 208;
+    --color-text-inverse: 11 19 43;
+    --color-accent: 91 192 190;
+    --color-accent-strong: 127 216 214;
+    --color-accent-soft: 16 48 58;
+    --color-success: 110 231 183;
+    --color-warning: 232 212 106;
+    --color-danger: 248 113 113;
+
+    --color-status-wishlist: 169 187 208;
+    --color-status-applied: 91 192 190;
+    --color-status-interview: 143 169 255;
+    --color-status-offer: 232 212 106;
+    --color-status-hired: 110 231 183;
+    --color-status-rejected: 248 113 113;
+
+    --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --radius-card: 0.875rem;
+    --radius-control: 0.625rem;
+    --shadow-card: 0 1px 2px rgb(3 6 15 / 0.6), 0 8px 24px rgb(3 6 15 / 0.45);
+    --shadow-raised: 0 14px 32px rgb(3 6 15 / 0.6);
+    --shadow-lifted: 0 2px 6px rgb(3 6 15 / 0.6), 0 18px 40px rgb(3 6 15 / 0.55);
+    --shadow-sunken: inset 0 2px 10px rgb(3 6 15 / 0.6);
+    --page-backdrop: radial-gradient(circle at 14% 10%, rgb(91 192 190 / 0.16), transparent 45%),
+      radial-gradient(circle at 86% 20%, rgb(58 80 107 / 0.35), transparent 42%);
+    --letter-spacing-display: normal;
+  }
+
+  [data-theme='galaxia'] {
+    color-scheme: dark;
+
+    --color-base: 16 0 43;
+    --color-sunken: 10 0 24;
+    --color-raised: 36 0 70;
+    --color-overlay: 36 0 70;
+    --color-border-subtle: 60 9 108;
+    --color-border-strong: 176 107 232;
+    --color-text-primary: 243 232 255;
+    --color-text-secondary: 199 155 232;
+    --color-text-inverse: 16 0 43;
+    --color-accent: 176 107 232;
+    --color-accent-strong: 196 143 245;
+    --color-accent-soft: 42 10 74;
+    --color-success: 110 231 183;
+    --color-warning: 255 209 102;
+    --color-danger: 255 122 138;
+
+    --color-status-wishlist: 199 155 232;
+    --color-status-applied: 188 123 240;
+    --color-status-interview: 224 170 255;
+    --color-status-offer: 255 209 102;
+    --color-status-hired: 110 231 183;
+    --color-status-rejected: 255 122 138;
+
+    --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --radius-card: 1rem;
+    --radius-control: 0.75rem;
+    --shadow-card: 0 0 0 1px rgb(60 9 108 / 0.6), 0 10px 28px rgb(0 0 0 / 0.6);
+    --shadow-raised: 0 0 30px rgb(157 78 221 / 0.35), 0 14px 38px rgb(3 2 12 / 0.7);
+    --shadow-lifted: 0 0 30px rgb(157 78 221 / 0.32), 0 14px 38px rgb(3 2 12 / 0.7);
+    --shadow-sunken: inset 0 2px 12px rgb(3 2 12 / 0.75);
+    --page-backdrop: radial-gradient(circle at 15% 10%, rgb(123 44 191 / 0.35), transparent 45%),
+      radial-gradient(circle at 85% 18%, rgb(224 170 255 / 0.16), transparent 42%),
+      radial-gradient(circle at 50% 95%, rgb(60 9 108 / 0.45), transparent 50%);
+    --letter-spacing-display: 0.02em;
   }
 
   html {

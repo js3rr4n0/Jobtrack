@@ -15,8 +15,9 @@ la información sincronizada entre la computadora y el teléfono.
 - **Captura manual** de empresa, puesto, ubicación, modalidad, prioridad,
   expectativa salarial, enlace, notas y fechas de postulación y entrevista.
 - **Capa de juego**: experiencia, niveles con rango, racha diaria y ocho logros.
-- **Ocho temas visuales** y **dos paquetes de iconos** SVG intercambiables, con
-  una capa de profundidad propia por tema (superficies hundidas, sombras y fondo).
+- **Doce temas visuales** nacidos de paletas propias y **dos paquetes de iconos**
+  SVG intercambiables, cada uno con su capa de profundidad (superficies
+  hundidas, sombras y fondo) y con el contraste verificado por pruebas.
 - **Sincronización en vivo** por WebSockets entre todos los dispositivos de la
   misma cuenta.
 - **Tutorial guiado** la primera vez, que atenua la pantalla y destaca donde
@@ -58,10 +59,10 @@ en cualquier momento y no vuelve a aparecer.
 
 ### Selector de apariencia
 
-Ocho temas agrupados en familias, dos paquetes de iconos con vista previa y el
-interruptor de música ambiental.
+Doce temas agrupados en cuatro familias, dos paquetes de iconos con vista previa
+y el interruptor de música ambiental, todo dentro del panel de la cuenta.
 
-![Panel de apariencia con los ocho temas y los dos paquetes de iconos](docs/capturas/temas.jpg)
+![Panel de cuenta con los doce temas y los dos paquetes de iconos](docs/capturas/temas.jpg)
 
 ### Móvil
 
@@ -166,13 +167,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 
 ## Pruebas
 
-326 casos, todos en verde y sin dependencias de red externas:
+400 casos, todos en verde y sin dependencias de red externas:
 
 | Paquete | Herramienta | Casos |
 | --- | --- | --- |
 | `contracts` | Vitest | 74 |
 | `api` | Jest y Supertest | 81 |
-| `web` | Vitest y Testing Library | 171 |
+| `web` | Vitest y Testing Library | 245 |
 
 Cubren las restricciones del plan: ausencia de conexión, valores nulos, datos
 corruptos y sincronización entre dispositivos. Las pruebas de tiempo real

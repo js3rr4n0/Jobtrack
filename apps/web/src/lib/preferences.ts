@@ -1,5 +1,5 @@
 import { DEFAULT_ICON_PACK, type IconPackId, isIconPackId } from '@/components/icons';
-import { DEFAULT_THEME, type ThemeId, isThemeId } from '@/lib/themes';
+import { DEFAULT_THEME, RENAMED_THEME_ENTRIES, THEME_IDS, type ThemeId, resolveThemeId } from '@/lib/themes';
 
 export interface Preferences {
   readonly theme: ThemeId;
@@ -51,11 +51,11 @@ export function readStoredPreferences(
   }
 
   try {
-    const theme = storage.getItem(THEME_STORAGE_KEY);
+    const theme = resolveThemeId(storage.getItem(THEME_STORAGE_KEY));
     const iconPack = storage.getItem(ICON_PACK_STORAGE_KEY);
 
     return {
-      theme: isThemeId(theme) ? theme : fallback.theme,
+      theme: theme ?? fallback.theme,
       iconPack: isIconPackId(iconPack) ? iconPack : fallback.iconPack,
       music: storage.getItem(MUSIC_STORAGE_KEY) === 'true',
     };
@@ -100,10 +100,13 @@ export const THEME_BOOTSTRAP_SCRIPT = `
   }
 
   try {
-    var allowed = ${JSON.stringify(['light', 'dark', 'pixel-pink', 'pixel-blue', 'gaming', 'anime', 'minimal', 'galaxy'])};
+    var allowed = ${JSON.stringify(THEME_IDS)};
+    var renamed = ${JSON.stringify(RENAMED_THEME_ENTRIES)};
     var stored = window.localStorage.getItem('${THEME_STORAGE_KEY}');
     if (allowed.indexOf(stored) >= 0) {
       theme = stored;
+    } else if (renamed[stored]) {
+      theme = renamed[stored];
     }
   } catch (error) {
     // Sin almacenamiento manda la preferencia del sistema resuelta arriba.

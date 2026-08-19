@@ -2,6 +2,7 @@
 
 import { ICON_PACKS, Icon } from '@/components/icons';
 import { usePreferences } from '@/components/theme/PreferencesProvider';
+import { ToggleSwitch } from '@/components/ui/ToggleSwitch';
 import { soundscapeForTheme } from '@/lib/ambient-music';
 import { THEMES, THEME_FAMILIES } from '@/lib/themes';
 
@@ -19,7 +20,7 @@ export function AppearanceSettings() {
         <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-secondary">
           {family}
         </legend>
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div className="grid gap-2">
           {THEMES.filter((definition) => definition.family === family).map((definition) => (
             <label
               key={definition.id}
@@ -94,23 +95,12 @@ export function AppearanceSettings() {
       <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-secondary">
         Música de fondo
       </legend>
-      <label className="flex cursor-pointer items-start gap-3 rounded-control border border-subtle p-3 focus-within:ring-2 focus-within:ring-accent-strong">
-        <input
-          type="checkbox"
-          checked={music}
-          onChange={(event) => setMusic(event.target.checked)}
-          className="mt-1 h-4 w-4 accent-accent"
-        />
-        <span className="min-w-0">
-          <span className="block text-sm font-semibold text-primary">
-            Reproducir un ambiente suave
-          </span>
-          <span className="block text-xs text-secondary">
-            Se sintetiza en tu navegador, a volumen bajo y sin descargar ningún archivo.
-            Con el tema actual suena: {soundscapeForTheme(theme).label}.
-          </span>
-        </span>
-      </label>
+      <ToggleSwitch
+        checked={music}
+        onChange={setMusic}
+        label="Reproducir un ambiente suave"
+        description={`Se sintetiza en tu navegador, a volumen bajo y sin descargar ningún archivo. Con el tema actual suena: ${soundscapeForTheme(theme).label}.`}
+      />
     </fieldset>
   </div>
   );

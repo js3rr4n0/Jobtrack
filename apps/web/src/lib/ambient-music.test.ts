@@ -20,14 +20,15 @@ describe('soundscapeForTheme', () => {
     }
   });
 
-  it('comparte pieza entre los temas de la misma familia', () => {
-    expect(soundscapeForTheme('pixel-pink').id).toBe(soundscapeForTheme('pixel-blue').id);
+  it('comparte pieza entre los temas del mismo carácter', () => {
+    expect(soundscapeForTheme('pixeles').id).toBe(soundscapeForTheme('retro').id);
     expect(soundscapeForTheme('light').id).toBe(soundscapeForTheme('dark').id);
+    expect(soundscapeForTheme('galaxia').id).toBe(soundscapeForTheme('naturaleza-nocturna').id);
   });
 
-  it('diferencia las cinco familias', () => {
+  it('diferencia las cinco piezas', () => {
     const ids = new Set(
-      (['light', 'pixel-pink', 'gaming', 'anime', 'galaxy'] as const).map(
+      (['light', 'pixeles', 'videojuegos', 'anime', 'galaxia'] as const).map(
         (theme) => soundscapeForTheme(theme).id,
       ),
     );
@@ -35,8 +36,8 @@ describe('soundscapeForTheme', () => {
     expect(ids.size).toBe(5);
   });
 
-  it('usa timbre de consola en los temas pixel', () => {
-    expect(soundscapeForTheme('pixel-blue').leadWaveform).toBe('square');
+  it('usa timbre de consola en los temas de juego retro', () => {
+    expect(soundscapeForTheme('pixeles').leadWaveform).toBe('square');
   });
 
   it('recurre al ambiente sereno ante un tema desconocido', () => {

@@ -1,26 +1,38 @@
 export const THEME_IDS = [
   'light',
   'dark',
-  'pixel-pink',
-  'pixel-blue',
-  'gaming',
+  'minimalista',
+  'videojuegos',
+  'pixeles',
+  'retro',
   'anime',
-  'minimal',
-  'galaxy',
+  'anime-urbano',
+  'series',
+  'naturaleza',
+  'naturaleza-nocturna',
+  'galaxia',
 ] as const;
 
 export type ThemeId = (typeof THEME_IDS)[number];
+
+export type ThemeFamily = 'Básicos' | 'Juegos' | 'Historias' | 'Ambientes';
 
 export interface ThemeDefinition {
   readonly id: ThemeId;
   readonly label: string;
   readonly description: string;
-  /** Agrupa los temas en el selector para facilitar la eleccion. */
-  readonly family: 'Básicos' | 'Pixel' | 'Creativos';
-  /** Muestras usadas en la vista previa del selector. */
+  /** Agrupa los temas en el selector para facilitar la elección. */
+  readonly family: ThemeFamily;
+  /** Muestras usadas en la vista previa del selector: fondo, acento y texto. */
   readonly swatches: readonly [string, string, string];
 }
 
+/**
+ * Catálogo de temas. Cada uno nace de una paleta de cinco colores y redefine
+ * el mismo conjunto de variables en `globals.css`, de modo que añadir un tema
+ * no obliga a tocar ningún componente. Todas las combinaciones de texto sobre
+ * fondo cumplen los mínimos de contraste de la WCAG.
+ */
 export const THEMES: readonly ThemeDefinition[] = [
   {
     id: 'light',
@@ -37,55 +49,106 @@ export const THEMES: readonly ThemeDefinition[] = [
     swatches: ['#0f172a', '#60a5fa', '#f1f5f9'],
   },
   {
-    id: 'minimal',
+    id: 'minimalista',
     label: 'Minimalista',
-    description: 'Blanco, negro y nada más: sin sombras ni distracciones.',
+    description: 'Blanco, negro y un dorado que solo aparece donde hace falta.',
     family: 'Básicos',
-    swatches: ['#ffffff', '#171717', '#525252'],
+    swatches: ['#fafafa', '#222222', '#c9a227'],
   },
   {
-    id: 'pixel-pink',
-    label: 'Pixel rosa',
-    description: 'Bordes duros y tipografía monoespaciada en tonos rosa.',
-    family: 'Pixel',
-    swatches: ['#2a0c22', '#ff85c3', '#ffebf7'],
+    id: 'videojuegos',
+    label: 'Videojuegos',
+    description: 'Neón cian y violeta sobre una noche azul, con brillos de arcade.',
+    family: 'Juegos',
+    swatches: ['#111222', '#00d9ff', '#ff3d81'],
   },
   {
-    id: 'pixel-blue',
-    label: 'Pixel azul',
-    description: 'La misma estetica retro en una paleta azul fria.',
-    family: 'Pixel',
-    swatches: ['#08142e', '#56c7fa', '#e2f2ff'],
+    id: 'pixeles',
+    label: 'Píxeles',
+    description: 'Tipografía monoespaciada, esquinas duras y sombras sólidas.',
+    family: 'Juegos',
+    swatches: ['#fff1e8', '#ff004d', '#1d2b53'],
   },
   {
-    id: 'gaming',
-    label: 'Gaming',
-    description: 'Negro profundo con acentos neon de alto contraste.',
-    family: 'Creativos',
-    swatches: ['#0a0a10', '#00e5a0', '#ecfdf5'],
+    id: 'retro',
+    label: 'Videojuego retro',
+    description: 'Verde azulado y arenas cálidas, como una consola de los noventa.',
+    family: 'Juegos',
+    swatches: ['#264653', '#2a9d8f', '#e9c46a'],
   },
   {
     id: 'anime',
     label: 'Anime',
-    description: 'Pasteles suaves, bordes redondeados y acento magenta.',
-    family: 'Creativos',
-    swatches: ['#fff7fb', '#db2777', '#3a1b2f'],
+    description: 'Rosa pastel, índigo y un amarillo suave de fondo luminoso.',
+    family: 'Historias',
+    swatches: ['#fff4f7', '#6c63ff', '#ff6b9a'],
   },
   {
-    id: 'galaxy',
-    label: 'Galaxy',
-    description: 'Cielo nocturno con nebulosas violeta y turquesa.',
-    family: 'Creativos',
-    swatches: ['#090818', '#9a8cff', '#eae8ff'],
+    id: 'anime-urbano',
+    label: 'Anime urbano',
+    description: 'Noche de ciudad en azul marino con letreros ámbar.',
+    family: 'Historias',
+    swatches: ['#14213d', '#fca311', '#e63946'],
+  },
+  {
+    id: 'series',
+    label: 'Series',
+    description: 'Papel cálido y tipografía con serifas, de sobremesa editorial.',
+    family: 'Historias',
+    swatches: ['#f4f1ea', '#3d405b', '#b76e79'],
+  },
+  {
+    id: 'naturaleza',
+    label: 'Naturaleza',
+    description: 'Verdes de bosque sobre un fondo de papel reciclado.',
+    family: 'Ambientes',
+    swatches: ['#f2e8cf', '#386641', '#a7c957'],
+  },
+  {
+    id: 'naturaleza-nocturna',
+    label: 'Naturaleza nocturna',
+    description: 'Azules profundos con turquesa, como un lago de madrugada.',
+    family: 'Ambientes',
+    swatches: ['#0b132b', '#5bc0be', '#f0f3bd'],
+  },
+  {
+    id: 'galaxia',
+    label: 'Galaxia',
+    description: 'Violetas de nebulosa con destellos lavanda.',
+    family: 'Ambientes',
+    swatches: ['#10002b', '#b06be8', '#e0aaff'],
   },
 ];
 
 export const DEFAULT_THEME: ThemeId = 'light';
 
-export const THEME_FAMILIES = ['Básicos', 'Pixel', 'Creativos'] as const;
+/** Orden en que el selector presenta las familias. */
+export const THEME_FAMILIES = ['Básicos', 'Juegos', 'Historias', 'Ambientes'] as const;
 
 export function isThemeId(value: unknown): value is ThemeId {
   return typeof value === 'string' && (THEME_IDS as readonly string[]).includes(value);
+}
+
+/**
+ * Equivalencias de los identificadores anteriores al catálogo de paletas. Sin
+ * esto, quien ya había elegido un tema perdería su elección al actualizar,
+ * porque el valor guardado dejaría de pertenecer al catálogo.
+ */
+export const RENAMED_THEME_ENTRIES: Readonly<Record<string, ThemeId>> = {
+  minimal: 'minimalista',
+  gaming: 'videojuegos',
+  'pixel-pink': 'pixeles',
+  'pixel-blue': 'pixeles',
+  galaxy: 'galaxia',
+};
+
+/** Traduce un identificador guardado al del catálogo actual, si existe. */
+export function resolveThemeId(value: unknown): ThemeId | null {
+  if (isThemeId(value)) {
+    return value;
+  }
+
+  return typeof value === 'string' ? (RENAMED_THEME_ENTRIES[value] ?? null) : null;
 }
 
 export function findTheme(id: ThemeId): ThemeDefinition {

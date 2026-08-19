@@ -6,7 +6,7 @@ import { Icon } from '@/components/icons';
 import { AppearanceSettings } from '@/components/theme/AppearanceSettings';
 import { usePreferences } from '@/components/theme/PreferencesProvider';
 import { Button } from '@/components/ui/Button';
-import { Modal } from '@/components/ui/Modal';
+import { Popover } from '@/components/ui/Popover';
 import type { UserProfile } from '@/lib/user-profile';
 
 export interface UserMenuProps {
@@ -53,11 +53,13 @@ export function UserMenu({ profile, onSignOut }: UserMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
+    // El contenedor relativo es el ancla del panel.
+    <div className="relative">
       <button
         type="button"
         data-tour="cuenta"
-        onClick={() => setIsOpen(true)}
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((current) => !current)}
         aria-label={`Cuenta de ${profile.name}, apariencia y cierre de sesión`}
         className="focus-ring flex items-center gap-2 rounded-control border border-subtle bg-raised py-1.5 pl-1.5 pr-3 text-sm text-primary hover:border-strong"
       >
@@ -66,20 +68,16 @@ export function UserMenu({ profile, onSignOut }: UserMenuProps) {
         <Icon name="chevron" pack={iconPack} size={14} className="shrink-0 text-secondary" />
       </button>
 
-      <Modal
-        isOpen={isOpen}
-        title="Tu cuenta"
-        onClose={() => setIsOpen(false)}
-      >
-        <div className="flex flex-col gap-6">
-          <section className="flex items-center gap-3 rounded-card border border-subtle bg-base p-4">
-            <Avatar profile={profile} size={52} />
+      <Popover isOpen={isOpen} label="Tu cuenta" onClose={() => setIsOpen(false)}>
+        <div className="flex flex-col gap-5">
+          <section className="flex items-center gap-3 rounded-control border border-subtle bg-base p-3">
+            <Avatar profile={profile} size={44} />
             <div className="min-w-0">
-              <p className="truncate font-display text-base font-semibold text-primary">
+              <p className="truncate font-display text-sm font-semibold text-primary">
                 {profile.name}
               </p>
               {profile.email ? (
-                <p className="truncate text-sm text-secondary">{profile.email}</p>
+                <p className="truncate text-xs text-secondary">{profile.email}</p>
               ) : null}
             </div>
           </section>
@@ -91,7 +89,7 @@ export function UserMenu({ profile, onSignOut }: UserMenuProps) {
             Cerrar sesión
           </Button>
         </div>
-      </Modal>
-    </>
+      </Popover>
+    </div>
   );
 }

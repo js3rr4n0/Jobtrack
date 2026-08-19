@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { FormEvent } from 'react';
+import type { FormEvent, ReactNode } from 'react';
 import {
   APPLICATION_STATUSES,
   type CreateJobApplicationInput,
@@ -48,6 +48,22 @@ export interface ApplicationFormProps {
 }
 
 /** Formulario de captura manual de una oferta de empleo. */
+/**
+ * Grupo de campos con su encabezado. Once campos seguidos se leen como un
+ * muro; repartidos en tres bloques con nombre, se recorren de un vistazo y se
+ * entiende que pide cada parte.
+ */
+function FormSection({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <fieldset>
+      <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-secondary">
+        {title}
+      </legend>
+      <div className="grid gap-4 sm:grid-cols-2">{children}</div>
+    </fieldset>
+  );
+}
+
 export function ApplicationForm({
   initialValues = EMPTY_FORM_VALUES,
   knownCategories = [],
@@ -86,7 +102,7 @@ export function ApplicationForm({
         ))}
       </datalist>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <FormSection title="La vacante">
         <TextField
           id="company"
           label="Empresa"
@@ -122,6 +138,9 @@ export function ApplicationForm({
             updateField('priority', event.target.value as ApplicationFormValues['priority'])
           }
         />
+      </FormSection>
+
+      <FormSection title="Dónde y cuánto">
         <TextField
           id="category"
           label="Área del tablero"
@@ -166,6 +185,9 @@ export function ApplicationForm({
           placeholder="https://"
           onChange={(event) => updateField('sourceUrl', event.target.value)}
         />
+      </FormSection>
+
+      <FormSection title="Fechas y notas">
         <TextField
           id="appliedAt"
           label="Fecha de postulación"
@@ -182,16 +204,17 @@ export function ApplicationForm({
           error={errors.interviewAt}
           onChange={(event) => updateField('interviewAt', event.target.value)}
         />
-      </div>
-
-      <TextAreaField
-        id="notes"
-        label="Notas"
-        value={values.notes}
-        error={errors.notes}
-        hint="Contactos, preguntas de la entrevista o siguientes pasos."
-        onChange={(event) => updateField('notes', event.target.value)}
-      />
+        <div className="sm:col-span-2">
+          <TextAreaField
+            id="notes"
+            label="Notas"
+            value={values.notes}
+            error={errors.notes}
+            hint="Contactos, preguntas de la entrevista o siguientes pasos."
+            onChange={(event) => updateField('notes', event.target.value)}
+          />
+        </div>
+      </FormSection>
 
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
         <Button type="button" variant="secondary" onClick={onCancel}>
