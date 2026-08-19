@@ -28,12 +28,13 @@ export class DocumentsController {
   list(
     @CurrentUser() user: AuthenticatedUser,
     @Query('kind') kind?: string,
+    @Query('applicationId') applicationId?: string,
   ): Promise<StoredDocument[]> {
     // Un filtro desconocido devuelve todo, en lugar de fallar: el listado es
     // una lectura y no merece un error por un parametro mal escrito.
     const filter: DocumentKind | undefined = isDocumentKind(kind) ? kind : undefined;
 
-    return this.service.listByUser(user.id, filter);
+    return this.service.listByUser(user.id, filter, applicationId || undefined);
   }
 
   @Post()

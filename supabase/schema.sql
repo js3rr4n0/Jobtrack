@@ -169,13 +169,14 @@ create policy sticky_notes_manage_own
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
--- Archivos privados: curriculums, cartas y capturas de notas. La fila guarda
--- solo los metadatos; el binario vive en Supabase Storage, que es lo que
--- corresponde a un archivo y no infla las copias de seguridad de la base.
+-- Archivos privados: curriculums, cartas, capturas de notas y los adjuntos de
+-- cada vacante. La fila guarda solo los metadatos; el binario vive en Supabase
+-- Storage, que es lo que corresponde a un archivo y no infla las copias de
+-- seguridad de la base.
 create table if not exists public.documents (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users (id) on delete cascade,
-  kind text not null check (kind in ('resume', 'cover-letter', 'note-image')),
+  kind text not null,
   label text not null check (char_length(trim(label)) between 1 and 120),
   -- La ruta es unica: dos filas no pueden apuntar al mismo binario.
   storage_path text not null unique,
@@ -184,8 +185,26 @@ create table if not exists public.documents (
   created_at timestamptz not null default now()
 );
 
+-- Adjuntos de una vacante concreta: capturas del anuncio, correos, pruebas.
+-- Un curriculum se reutiliza en muchas postulaciones y deja la columna nula.
+-- Al borrar la vacante se van con ella, porque fuera de su ficha no significan
+-- nada.
+alter table public.documents
+  add column if not exists application_id uuid
+  references public.job_applications (id) on delete cascade;
+
+-- La clase 'attachment' se anadio despues, asi que la restriccion se recrea en
+-- lugar de declararse en la tabla: la tabla de arriba no vuelve a crearse.
+alter table public.documents drop constraint if exists documents_kind_check;
+alter table public.documents
+  add constraint documents_kind_check
+  check (kind in ('resume', 'cover-letter', 'note-image', 'attachment'));
+
 create index if not exists documents_user_kind_idx
   on public.documents (user_id, kind, created_at desc);
+
+create index if not exists documents_application_idx
+  on public.documents (application_id, created_at desc);
 
 alter table public.documents enable row level security;
 

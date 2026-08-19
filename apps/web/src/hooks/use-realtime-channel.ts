@@ -9,8 +9,13 @@ import { type RealtimeStatus, subscribeToBoardChanges } from '@/lib/realtime-cli
 export interface RealtimeChannelOptions {
   readonly accessToken: string | null;
   readonly onBoardChange: (event: BoardChangeEvent) => void;
-  readonly onNoteChange: (event: NoteChangeEvent) => void;
+  /** Puede omitirse en las pantallas que no muestran el mural de notas. */
+  readonly onNoteChange?: (event: NoteChangeEvent) => void;
 }
+
+/** Constante, no una funcion nueva por renderizado: si cambiara de identidad
+ *  el canal se cerraria y se volveria a abrir en cada pintado. */
+const IGNORE_NOTES = () => undefined;
 
 /**
  * Abre una única conexión de tiempo real para toda la pantalla y reparte los
@@ -20,7 +25,7 @@ export interface RealtimeChannelOptions {
 export function useRealtimeChannel({
   accessToken,
   onBoardChange,
-  onNoteChange,
+  onNoteChange = IGNORE_NOTES,
 }: RealtimeChannelOptions): RealtimeStatus {
   const [status, setStatus] = useState<RealtimeStatus>('disconnected');
 

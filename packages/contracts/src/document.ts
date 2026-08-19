@@ -5,13 +5,14 @@
  * obligaría a triplicar reglas de acceso que deben ser idénticas.
  */
 
-export const DOCUMENT_KINDS = ['resume', 'cover-letter', 'note-image'] as const;
+export const DOCUMENT_KINDS = ['resume', 'cover-letter', 'note-image', 'attachment'] as const;
 export type DocumentKind = (typeof DOCUMENT_KINDS)[number];
 
 export const DOCUMENT_KIND_LABELS: Readonly<Record<DocumentKind, string>> = {
   resume: 'Currículum',
   'cover-letter': 'Carta de presentación',
   'note-image': 'Imagen de nota',
+  attachment: 'Adjunto de la vacante',
 };
 
 /** Tipos aceptados por cada clase de archivo. */
@@ -19,6 +20,9 @@ export const ACCEPTED_MIME_TYPES: Readonly<Record<DocumentKind, readonly string[
   resume: ['application/pdf'],
   'cover-letter': ['application/pdf'],
   'note-image': ['image/png', 'image/jpeg', 'image/webp'],
+  // Lo que se guarda junto a una vacante es de todo: la captura del anuncio,
+  // el correo de respuesta, la prueba tecnica en PDF.
+  attachment: ['image/png', 'image/jpeg', 'image/webp', 'application/pdf'],
 };
 
 /**
@@ -40,6 +44,12 @@ export interface StoredDocument {
   readonly storagePath: string;
   readonly mimeType: string;
   readonly sizeBytes: number;
+  /**
+   * Vacante a la que acompaña el archivo, o `null` si vive suelto en la
+   * cuenta. Un curriculum se reutiliza en muchas postulaciones y por eso no
+   * lleva ninguna; la captura de un anuncio concreto, si.
+   */
+  readonly applicationId: string | null;
   readonly createdAt: string;
 }
 
@@ -49,6 +59,7 @@ export interface RegisterDocumentInput {
   readonly storagePath: string;
   readonly mimeType: string;
   readonly sizeBytes: number;
+  readonly applicationId?: string | null;
 }
 
 export function isDocumentKind(value: unknown): value is DocumentKind {
@@ -97,6 +108,14 @@ export function isPathOwnedBy(storagePath: string, userId: string): boolean {
   return storagePath.startsWith(`${userId}/`) && !storagePath.includes('..');
 }
 
+/** Formatos admitidos por cada clase, en el lenguaje del aviso. */
+const ACCEPTED_FORMAT_LABELS: Readonly<Record<DocumentKind, string>> = {
+  resume: 'PDF',
+  'cover-letter': 'PDF',
+  'note-image': 'PNG, JPG o WebP',
+  attachment: 'PDF, PNG, JPG o WebP',
+};
+
 export interface DocumentRejection {
   readonly reason: 'kind' | 'mimeType' | 'size' | 'label';
   readonly message: string;
@@ -122,7 +141,7 @@ export function rejectDocument(input: {
   }
 
   if (!isAcceptedMimeType(input.kind, input.mimeType)) {
-    const aceptados = input.kind === 'note-image' ? 'PNG, JPG o WebP' : 'PDF';
+    const aceptados = ACCEPTED_FORMAT_LABELS[input.kind];
     return { reason: 'mimeType', message: `Solo se aceptan archivos ${aceptados}.` };
   }
 
@@ -132,6 +151,11 @@ export function rejectDocument(input: {
   }
 
   return null;
+}
+
+/** Cierto cuando el archivo puede mostrarse tal cual en la pantalla. */
+export function isViewableImage(mimeType: string): boolean {
+  return mimeType.startsWith('image/');
 }
 
 /** Tamaño legible, para mostrarlo junto al nombre del archivo. */

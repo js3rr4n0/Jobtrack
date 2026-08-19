@@ -16,6 +16,7 @@ interface DocumentRow {
   storage_path: string;
   mime_type: string;
   size_bytes: number;
+  application_id: string | null;
   created_at: string;
 }
 
@@ -27,6 +28,7 @@ const toDomain = (row: DocumentRow): StoredDocument => ({
   storagePath: row.storage_path,
   mimeType: row.mime_type,
   sizeBytes: row.size_bytes,
+  applicationId: row.application_id,
   createdAt: row.created_at,
 });
 
@@ -41,11 +43,19 @@ export class SupabaseDocumentsRepository extends DocumentsRepository {
     });
   }
 
-  async findAllByUser(userId: string, kind?: DocumentKind): Promise<StoredDocument[]> {
+  async findAllByUser(
+    userId: string,
+    kind?: DocumentKind,
+    applicationId?: string,
+  ): Promise<StoredDocument[]> {
     let query = this.client.from(TABLE_NAME).select('*').eq('user_id', userId);
 
     if (kind) {
       query = query.eq('kind', kind);
+    }
+
+    if (applicationId) {
+      query = query.eq('application_id', applicationId);
     }
 
     const { data, error } = await query.order('created_at', { ascending: false });
@@ -80,6 +90,7 @@ export class SupabaseDocumentsRepository extends DocumentsRepository {
         storage_path: record.storagePath,
         mime_type: record.mimeType,
         size_bytes: record.sizeBytes,
+        application_id: record.applicationId,
       })
       .select('*')
       .single();

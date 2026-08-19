@@ -31,6 +31,8 @@ export interface BoardFeedback {
 }
 
 export interface UseBoardResult {
+  /** Todas las postulaciones, sin filtrar por area ni agrupar por columna. */
+  readonly applications: readonly JobApplication[];
   readonly columns: ReturnType<typeof groupIntoColumns>;
   readonly categories: ReturnType<typeof listCategories>;
   readonly uncategorized: number;
@@ -222,6 +224,7 @@ export function useBoard(client: ApiClient | null, originId: string): UseBoardRe
   );
 
   return {
+    applications,
     columns,
     categories,
     uncategorized,

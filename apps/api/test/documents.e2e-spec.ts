@@ -123,4 +123,62 @@ describe('Archivos (integración)', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
   });
+
+  describe('adjuntos de una vacante', () => {
+    const crearVacante = (autor = token) =>
+      request(app.getHttpServer())
+        .post(url('/applications'))
+        .set('Authorization', `Bearer ${autor}`)
+        .send({ company: 'Acme', position: 'Backend' })
+        .expect(201);
+
+    const captura = (applicationId: string, storagePath: string) => ({
+      kind: 'attachment',
+      label: 'Captura del anuncio',
+      storagePath: `${USUARIO}/attachment/${storagePath}`,
+      mimeType: 'image/png',
+      sizeBytes: 4096,
+      applicationId,
+    });
+
+    it('guarda una captura junto a su vacante y la devuelve al filtrar por ella', async () => {
+      const vacante = await crearVacante();
+      const otra = await crearVacante();
+
+      const adjunto = await registrar(captura(vacante.body.id, 'anuncio.png')).expect(201);
+      await registrar(captura(otra.body.id, 'otra.png')).expect(201);
+
+      expect(adjunto.body.applicationId).toBe(vacante.body.id);
+
+      const listado = await request(app.getHttpServer())
+        .get(url(`/documents?applicationId=${vacante.body.id}`))
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200);
+
+      expect(listado.body.map((item: { id: string }) => item.id)).toEqual([adjunto.body.id]);
+    });
+
+    it('no deja colgar un archivo de la vacante de otra persona', async () => {
+      const ajena = await crearVacante(otroToken);
+
+      await registrar(captura(ajena.body.id, 'ajena.png')).expect(404);
+    });
+
+    it('un curriculum sigue viviendo suelto, sin vacante', async () => {
+      const creado = await registrar(
+        curriculum({ storagePath: `${USUARIO}/resume/suelto.pdf` }),
+      ).expect(201);
+
+      expect(creado.body.applicationId).toBeNull();
+    });
+
+    it('acepta un PDF como adjunto, no solo imagenes', async () => {
+      const vacante = await crearVacante();
+
+      await registrar({
+        ...captura(vacante.body.id, 'prueba.pdf'),
+        mimeType: 'application/pdf',
+      }).expect(201);
+    });
+  });
 });

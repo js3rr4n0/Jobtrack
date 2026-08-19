@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsIn, IsInt, IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
+import { IsIn, IsInt, IsOptional, IsString, IsUUID, Max, MaxLength, Min, MinLength } from 'class-validator';
 import {
   DOCUMENT_KINDS,
   DocumentKind,
@@ -37,4 +37,9 @@ export class RegisterDocumentDto {
   @Min(1, { message: 'El archivo está vacío.' })
   @Max(MAX_DOCUMENT_BYTES, { message: 'El archivo supera el tamaño permitido.' })
   sizeBytes: number;
+
+  /** Vacante a la que acompaña el archivo. Se omite si vive suelto. */
+  @IsOptional()
+  @IsUUID('4', { message: 'La vacante indicada no es válida.' })
+  applicationId?: string;
 }

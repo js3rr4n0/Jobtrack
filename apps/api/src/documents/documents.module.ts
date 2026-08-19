@@ -1,5 +1,6 @@
 import { Module, Provider } from '@nestjs/common';
 
+import { JobApplicationsModule } from '../applications/job-applications.module';
 import { AuthModule } from '../auth/auth.module';
 import { ApplicationConfig, CONFIG_TOKEN } from '../config/environment';
 import { DocumentsController } from './documents.controller';
@@ -18,7 +19,7 @@ const repositoryProvider: Provider = {
 };
 
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, JobApplicationsModule],
   controllers: [DocumentsController],
   providers: [DocumentsService, repositoryProvider],
   exports: [DocumentsService, DocumentsRepository],

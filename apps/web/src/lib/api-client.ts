@@ -132,9 +132,23 @@ export class ApiClient {
     return this.request<AdminOverviewResponse>({ method: 'GET', path: '/admin/overview' });
   }
 
-  getDocuments(kind?: DocumentKind): Promise<StoredDocument[]> {
-    const query = kind ? `?kind=${encodeURIComponent(kind)}` : '';
-    return this.request<StoredDocument[]>({ method: 'GET', path: `/documents${query}` });
+  getDocuments(kind?: DocumentKind, applicationId?: string): Promise<StoredDocument[]> {
+    const filters = new URLSearchParams();
+
+    if (kind) {
+      filters.set('kind', kind);
+    }
+
+    if (applicationId) {
+      filters.set('applicationId', applicationId);
+    }
+
+    const query = filters.toString();
+
+    return this.request<StoredDocument[]>({
+      method: 'GET',
+      path: query ? `/documents?${query}` : '/documents',
+    });
   }
 
   registerDocument(input: RegisterDocumentInput): Promise<StoredDocument> {

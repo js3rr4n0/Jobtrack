@@ -7,17 +7,26 @@ import {
   rejectDocument,
 } from '@deska/contracts';
 
+import { JobApplicationsRepository } from '../applications/repositories/job-applications.repository';
 import { RegisterDocumentDto } from './dto/register-document.dto';
 import { DocumentsRepository } from './repositories/documents.repository';
 
 const MISSING = 'El archivo no existe o no te pertenece.';
+const MISSING_APPLICATION = 'La vacante a la que quieres adjuntarlo no existe o no es tuya.';
 
 @Injectable()
 export class DocumentsService {
-  constructor(private readonly repository: DocumentsRepository) {}
+  constructor(
+    private readonly repository: DocumentsRepository,
+    private readonly applications: JobApplicationsRepository,
+  ) {}
 
-  listByUser(userId: string, kind?: DocumentKind): Promise<StoredDocument[]> {
-    return this.repository.findAllByUser(userId, kind);
+  listByUser(
+    userId: string,
+    kind?: DocumentKind,
+    applicationId?: string,
+  ): Promise<StoredDocument[]> {
+    return this.repository.findAllByUser(userId, kind, applicationId);
   }
 
   /**
@@ -38,6 +47,12 @@ export class DocumentsService {
       throw new BadRequestException(rejection.message);
     }
 
+    // Adjuntar a una vacante ajena convertiria un identificador adivinado en
+    // una via para colgar archivos del tablero de otra persona.
+    if (payload.applicationId && !(await this.applications.findById(userId, payload.applicationId))) {
+      throw new NotFoundException(MISSING_APPLICATION);
+    }
+
     return this.repository.create({
       userId,
       kind: payload.kind,
@@ -45,6 +60,7 @@ export class DocumentsService {
       storagePath: payload.storagePath,
       mimeType: payload.mimeType,
       sizeBytes: payload.sizeBytes,
+      applicationId: payload.applicationId ?? null,
     });
   }
 

@@ -34,7 +34,8 @@ function createFileId(): string {
 }
 
 /**
- * Archivos de una clase concreta. El binario viaja del navegador a Supabase
+ * Archivos de una clase concreta, opcionalmente los de una sola vacante. El
+ * binario viaja del navegador a Supabase
  * Storage sin pasar por la API —que no tendría por qué reenviar megas— y solo
  * después se registran los metadatos, de modo que una fila nunca apunta a un
  * archivo que no llegó a subirse.
@@ -43,6 +44,7 @@ export function useDocuments(
   client: ApiClient | null,
   kind: DocumentKind,
   userId: string | null,
+  applicationId?: string,
 ): UseDocumentsResult {
   const [documents, setDocuments] = useState<StoredDocument[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -57,14 +59,14 @@ export function useDocuments(
     setIsLoading(true);
 
     try {
-      setDocuments(await client.getDocuments(kind));
+      setDocuments(await client.getDocuments(kind, applicationId));
       setError(null);
     } catch (failure) {
       setError(failure instanceof ApiError ? failure.message : 'No fue posible leer tus archivos.');
     } finally {
       setIsLoading(false);
     }
-  }, [client, kind]);
+  }, [client, kind, applicationId]);
 
   useEffect(() => {
     void reload();
@@ -115,6 +117,7 @@ export function useDocuments(
           storagePath,
           mimeType: file.type,
           sizeBytes: file.size,
+          applicationId: applicationId ?? null,
         });
 
         setDocuments((current) => [registered, ...current]);
@@ -131,7 +134,7 @@ export function useDocuments(
         setUploadState('idle');
       }
     },
-    [client, kind, userId],
+    [client, kind, userId, applicationId],
   );
 
   const remove = useCallback(

@@ -9,9 +9,18 @@ import { DocumentsRepository, NewDocumentRecord } from './documents.repository';
 export class InMemoryDocumentsRepository extends DocumentsRepository {
   private readonly documents = new Map<string, StoredDocument>();
 
-  async findAllByUser(userId: string, kind?: DocumentKind): Promise<StoredDocument[]> {
+  async findAllByUser(
+    userId: string,
+    kind?: DocumentKind,
+    applicationId?: string,
+  ): Promise<StoredDocument[]> {
     return Array.from(this.documents.values())
-      .filter((item) => item.userId === userId && (!kind || item.kind === kind))
+      .filter(
+        (item) =>
+          item.userId === userId &&
+          (!kind || item.kind === kind) &&
+          (!applicationId || item.applicationId === applicationId),
+      )
       .sort((first, second) => second.createdAt.localeCompare(first.createdAt));
   }
 

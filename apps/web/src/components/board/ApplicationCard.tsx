@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import {
@@ -73,9 +74,19 @@ export function ApplicationCard({
           />
         </button>
 
+        {/*
+          El titulo es el enlace a la ficha completa. Enlazar solo aqui, y no la
+          tarjeta entera, deja intactos el asa de arrastre y los controles de
+          abajo, que necesitan el clic para lo suyo.
+        */}
         <div className="min-w-0 flex-1">
-          <h4 className="truncate font-semibold text-primary">{application.position}</h4>
-          <p className="truncate text-xs text-secondary">{application.company}</p>
+          <Link
+            href={`/tablero/${application.id}`}
+            className="focus-ring block rounded-control hover:underline"
+          >
+            <h4 className="truncate font-semibold text-primary">{application.position}</h4>
+            <p className="truncate text-xs text-secondary">{application.company}</p>
+          </Link>
         </div>
 
         <span className={`text-xs font-medium ${PRIORITY_CLASSES[application.priority]}`}>
@@ -191,6 +202,17 @@ export function ApplicationCard({
           </select>
         </label>
 
+        <Link
+          href={`/tablero/${application.id}`}
+          className="focus-ring rounded-control p-1.5 text-secondary hover:text-primary"
+        >
+          <Icon
+            name="layers"
+            pack={iconPack}
+            size={16}
+            title={`Abrir la ficha de ${application.position}`}
+          />
+        </Link>
         <button
           type="button"
           onClick={() => onEdit(application)}
