@@ -5,5 +5,6 @@ export * from './document';
 export * from './sticky-note';
 export * from './gamification';
 export * from './analytics';
+export * from './agenda';
 export * from './realtime';
 export * from './test-factories';

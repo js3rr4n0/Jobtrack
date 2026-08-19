@@ -14,6 +14,7 @@ import { ApplicationForm } from '@/components/board/ApplicationForm';
 import { CategoryTabs } from '@/components/board/CategoryTabs';
 import { ConnectionStatus } from '@/components/board/ConnectionStatus';
 import { KanbanBoard } from '@/components/board/KanbanBoard';
+import { UpcomingAgenda } from '@/components/board/UpcomingAgenda';
 import { AchievementGrid } from '@/components/gamification/AchievementGrid';
 import { LevelMeter } from '@/components/gamification/LevelMeter';
 import { LevelUpNotice } from '@/components/gamification/LevelUpNotice';
@@ -189,8 +190,18 @@ export function BoardWorkspace() {
         />
       ) : null}
 
+      {/*
+        En pantallas estrechas manda el orden vertical, y el tablero es lo que
+        se viene a ver: va justo despues de la agenda, que es lo unico que pide
+        una accion hoy. El nivel y los logros bajan al final, donde se consultan
+        de vez en cuando en lugar de estorbar cada vez.
+      */}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
-        <div className="order-2 flex min-w-0 flex-col gap-4 lg:order-1">
+        <div className="order-1 lg:order-2">
+          <UpcomingAgenda applications={board.applications} />
+        </div>
+
+        <div className="order-2 flex min-w-0 flex-col gap-4 lg:order-1 lg:row-span-2">
           <CategoryTabs
             categories={board.categories}
             uncategorized={board.uncategorized}
@@ -218,7 +229,7 @@ export function BoardWorkspace() {
           <NotesPanel notes={notes} images={noteImages} />
         </div>
 
-        <aside className="order-1 flex flex-col gap-4 lg:order-2">
+        <aside className="order-3 flex flex-col gap-4 lg:order-2">
           <div data-tour="nivel">
             <LevelMeter
               progress={board.gamification.progress}
