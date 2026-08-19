@@ -9,13 +9,18 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { useRef } from 'react';
-import { type StickyNote, translateNotePosition } from '@deska/contracts';
+import {
+  type StickyNote,
+  type StoredDocument,
+  translateNotePosition,
+} from '@deska/contracts';
 
 import { NOTE_HEIGHT, NOTE_WIDTH, remToPixels, trackSize } from '@/components/notes/note-geometry';
 import { StickyNoteCard } from '@/components/notes/StickyNoteCard';
 
 export interface NoteWallProps {
   notes: readonly StickyNote[];
+  images: readonly StoredDocument[];
   onMove: (noteId: string, x: number, y: number) => void;
   onEdit: (note: StickyNote) => void;
 }
@@ -27,7 +32,7 @@ const ROOT_FONT_SIZE = 16;
  * gesto se mide en pixeles y se guarda en porcentaje, de modo que la misma nota
  * ocupa el mismo lugar relativo en la computadora y en el teléfono.
  */
-export function NoteWall({ notes, onMove, onEdit }: NoteWallProps) {
+export function NoteWall({ notes, images, onMove, onEdit }: NoteWallProps) {
   const mural = useRef<HTMLDivElement | null>(null);
 
   const sensors = useSensors(
@@ -69,7 +74,9 @@ export function NoteWall({ notes, onMove, onEdit }: NoteWallProps) {
             quieras.
           </p>
         ) : (
-          notes.map((note) => <StickyNoteCard key={note.id} note={note} onEdit={onEdit} />)
+          notes.map((note) => (
+            <StickyNoteCard key={note.id} note={note} images={images} onEdit={onEdit} />
+          ))
         )}
       </div>
     </DndContext>

@@ -9,16 +9,22 @@ import {
   normalizeNoteText,
 } from '@deska/contracts';
 
+import { DocumentPicker } from '@/components/documents/DocumentPicker';
 import { Button } from '@/components/ui/Button';
+import type { UseDocumentsResult } from '@/hooks/use-documents';
 import { TextAreaField } from '@/components/ui/FormField';
 
 export interface NoteFormValues {
   readonly text: string;
   readonly color: NoteColor;
+  /** Captura adjunta, o cadena vacía si la nota no lleva ninguna. */
+  readonly imageId: string;
 }
 
 export interface NoteFormProps {
   initialValues?: NoteFormValues;
+  /** Capturas ya subidas, para elegir o añadir una nueva. */
+  images: UseDocumentsResult;
   submitLabel: string;
   isSubmitting: boolean;
   onSubmit: (values: NoteFormValues) => void;
@@ -39,6 +45,7 @@ const COLOR_LABELS: Record<NoteColor, string> = {
 /** Formulario de una nota: texto y color, con validación antes de enviar. */
 export function NoteForm({
   initialValues,
+  images,
   submitLabel,
   isSubmitting,
   onSubmit,
@@ -47,6 +54,7 @@ export function NoteForm({
 }: NoteFormProps) {
   const [text, setText] = useState(initialValues?.text ?? '');
   const [color, setColor] = useState<NoteColor>(initialValues?.color ?? DEFAULT_NOTE_COLOR);
+  const [imageId, setImageId] = useState(initialValues?.imageId ?? '');
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -59,7 +67,7 @@ export function NoteForm({
     }
 
     setError(null);
-    onSubmit({ text: normalized, color });
+    onSubmit({ text: normalized, color, imageId });
   };
 
   return (
@@ -99,6 +107,16 @@ export function NoteForm({
           ))}
         </div>
       </fieldset>
+
+      <DocumentPicker
+        id="nota-imagen"
+        label="Captura adjunta"
+        kind="note-image"
+        documents={images}
+        value={imageId}
+        hint="Una imagen de la oferta, del correo o de lo que quieras recordar."
+        onChange={setImageId}
+      />
 
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
         {onDelete ? (

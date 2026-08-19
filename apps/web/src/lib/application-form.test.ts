@@ -151,13 +151,11 @@ describe('seguimiento, contacto y documentos', () => {
       company: 'Nube Andina',
       position: 'Ingeniero de Datos',
       contact: '  Marta Ruiz  ',
-      resumeVersion: '  CV backend v3  ',
-      coverLetterVersion: 'Carta v2',
+      resumeId: '11111111-1111-4111-8111-111111111111',
     });
 
     expect(input.contact).toBe('Marta Ruiz');
-    expect(input.resumeVersion).toBe('CV backend v3');
-    expect(input.coverLetterVersion).toBe('Carta v2');
+    expect(input.resumeId).toBe('11111111-1111-4111-8111-111111111111');
   });
 
   it('convierte en nulo lo que se deja en blanco', () => {
@@ -166,12 +164,12 @@ describe('seguimiento, contacto y documentos', () => {
       company: 'Marca Viva',
       position: 'SEO',
       contact: '   ',
-      resumeVersion: '',
+      resumeId: '',
       followUpAt: '',
     });
 
     expect(input.contact).toBeNull();
-    expect(input.resumeVersion).toBeNull();
+    expect(input.resumeId).toBeNull();
     expect(input.followUpAt).toBeNull();
   });
 
@@ -184,19 +182,6 @@ describe('seguimiento, contacto y documentos', () => {
     });
 
     expect(errors.contact).toMatch(/160/);
-  });
-
-  it('rechaza versiones de documento demasiado largas', () => {
-    const errors = validateApplicationForm({
-      ...EMPTY_FORM_VALUES,
-      company: 'Faro',
-      position: 'Analista',
-      resumeVersion: 'a'.repeat(81),
-      coverLetterVersion: 'a'.repeat(81),
-    });
-
-    expect(errors.resumeVersion).toMatch(/80/);
-    expect(errors.coverLetterVersion).toMatch(/80/);
   });
 
   it('avisa de una fecha de seguimiento ilegible', () => {
@@ -213,16 +198,14 @@ describe('seguimiento, contacto y documentos', () => {
   it('la conversión de ida y vuelta conserva los campos nuevos', () => {
     const application = buildJobApplication({
       contact: 'Marta Ruiz',
-      resumeVersion: 'CV backend v3',
-      coverLetterVersion: 'Carta v2',
+      resumeId: '11111111-1111-4111-8111-111111111111',
       followUpAt: '2026-04-01T00:00:00.000Z',
     });
 
     const values = fromApplication(application);
 
     expect(values.contact).toBe('Marta Ruiz');
-    expect(values.resumeVersion).toBe('CV backend v3');
-    expect(values.coverLetterVersion).toBe('Carta v2');
+    expect(values.resumeId).toBe('11111111-1111-4111-8111-111111111111');
     expect(values.followUpAt).not.toBe('');
   });
 });

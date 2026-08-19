@@ -10,16 +10,19 @@ import { usePreferences } from '@/components/theme/PreferencesProvider';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { StatusBanner } from '@/components/ui/StatusBanner';
+import type { UseDocumentsResult } from '@/hooks/use-documents';
 import type { UseNotesResult } from '@/hooks/use-notes';
 
 export interface NotesPanelProps {
   notes: UseNotesResult;
+  /** Capturas ya subidas, compartidas por el editor de todas las notas. */
+  images: UseDocumentsResult;
 }
 
 type EditorState = { mode: 'closed' } | { mode: 'create' } | { mode: 'edit'; note: StickyNote };
 
 /** Mural completo: cabecera, notas arrastrables y el editor de una nota. */
-export function NotesPanel({ notes }: NotesPanelProps) {
+export function NotesPanel({ notes, images }: NotesPanelProps) {
   const { iconPack } = usePreferences();
   const [editor, setEditor] = useState<EditorState>({ mode: 'closed' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,11 +41,23 @@ export function NotesPanel({ notes }: NotesPanelProps) {
 
   const handleSubmit = (values: NoteFormValues) => {
     if (editor.mode === 'edit') {
-      void runAndClose(() => notes.updateNote(editor.note.id, values));
+      void runAndClose(() =>
+        notes.updateNote(editor.note.id, {
+          text: values.text,
+          color: values.color,
+          imageId: values.imageId || null,
+        }),
+      );
       return;
     }
 
-    void runAndClose(() => notes.createNote(values));
+    void runAndClose(() =>
+      notes.createNote({
+        text: values.text,
+        color: values.color,
+        imageId: values.imageId || null,
+      }),
+    );
   };
 
   return (
@@ -68,6 +83,7 @@ export function NotesPanel({ notes }: NotesPanelProps) {
 
       <NoteWall
         notes={notes.notes}
+        images={images.documents}
         onMove={(id, x, y) => void notes.moveNote(id, x, y)}
         onEdit={(note) => setEditor({ mode: 'edit', note })}
       />
@@ -80,12 +96,17 @@ export function NotesPanel({ notes }: NotesPanelProps) {
       >
         {editor.mode !== 'closed' ? (
           <NoteForm
+            images={images}
             // Al cambiar de nota se monta un formulario nuevo, de modo que
             // nunca quedan en pantalla los valores de la nota anterior.
             key={editor.mode === 'edit' ? editor.note.id : 'nueva'}
             initialValues={
               editor.mode === 'edit'
-                ? { text: editor.note.text, color: editor.note.color }
+                ? {
+                    text: editor.note.text,
+                    color: editor.note.color,
+                    imageId: editor.note.imageId ?? '',
+                  }
                 : undefined
             }
             submitLabel={editor.mode === 'edit' ? 'Guardar cambios' : 'Crear nota'}

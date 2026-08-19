@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { ApplicationForm } from '@/components/board/ApplicationForm';
 import { renderWithPreferences } from '../../../tests/render-helpers';
+import { emptyDocuments } from '../../../tests/document-doubles';
 
 const renderForm = (overrides: Partial<Parameters<typeof ApplicationForm>[0]> = {}) => {
   const onSubmit = vi.fn();
@@ -11,7 +12,7 @@ const renderForm = (overrides: Partial<Parameters<typeof ApplicationForm>[0]> = 
 
   renderWithPreferences(
     <ApplicationForm
-      submitLabel="Guardar postulación"
+resumes={emptyDocuments()} coverLetters={emptyDocuments()}       submitLabel="Guardar postulación"
       isSubmitting={false}
       onSubmit={onSubmit}
       onCancel={onCancel}
@@ -103,7 +104,7 @@ describe('ApplicationForm', () => {
 describe('ApplicationForm: campos opcionales', () => {
   it('abre con lo esencial y guarda el resto plegado', () => {
     renderWithPreferences(
-      <ApplicationForm submitLabel="Guardar" isSubmitting={false} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+      <ApplicationForm resumes={emptyDocuments()} coverLetters={emptyDocuments()} submitLabel="Guardar" isSubmitting={false} onSubmit={vi.fn()} onCancel={vi.fn()} />,
     );
 
     expect(screen.getByLabelText('Empresa')).toBeInTheDocument();
@@ -114,7 +115,7 @@ describe('ApplicationForm: campos opcionales', () => {
   it('despliega los campos opcionales cuando se piden', async () => {
     const user = userEvent.setup();
     renderWithPreferences(
-      <ApplicationForm submitLabel="Guardar" isSubmitting={false} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+      <ApplicationForm resumes={emptyDocuments()} coverLetters={emptyDocuments()} submitLabel="Guardar" isSubmitting={false} onSubmit={vi.fn()} onCancel={vi.fn()} />,
     );
 
     await user.click(screen.getByRole('button', { name: /Más detalles/ }));

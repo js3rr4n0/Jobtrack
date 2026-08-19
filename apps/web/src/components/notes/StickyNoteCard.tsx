@@ -2,14 +2,17 @@
 
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import type { StickyNote } from '@deska/contracts';
+import type { StickyNote, StoredDocument } from '@deska/contracts';
 
 import { Icon } from '@/components/icons';
+import { useDocumentUrl } from '@/hooks/use-document-url';
 import { usePreferences } from '@/components/theme/PreferencesProvider';
 import { NOTE_HEIGHT, NOTE_WIDTH } from '@/components/notes/note-geometry';
 
 export interface StickyNoteCardProps {
   note: StickyNote;
+  /** Capturas subidas, para resolver la que lleva esta nota. */
+  images: readonly StoredDocument[];
   onEdit: (note: StickyNote) => void;
 }
 
@@ -18,11 +21,13 @@ export interface StickyNoteCardProps {
  * (el mural menos la propia nota), así que la nota nunca sobresale por ningún
  * borde por estrecha que sea la pantalla.
  */
-export function StickyNoteCard({ note, onEdit }: StickyNoteCardProps) {
+export function StickyNoteCard({ note, images, onEdit }: StickyNoteCardProps) {
   const { iconPack } = usePreferences();
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: note.id,
   });
+  const image = images.find((item) => item.id === note.imageId) ?? null;
+  const imageUrl = useDocumentUrl(image);
 
   return (
     <article
@@ -63,7 +68,24 @@ export function StickyNoteCard({ note, onEdit }: StickyNoteCardProps) {
       {/* La nota tiene un tamaño fijo para que el arrastre sea predecible; un
           texto más largo se recorta con puntos suspensivos y se lee completo al
           abrir el editor. */}
-      <p className="line-clamp-4 break-words text-sm leading-snug">{note.text}</p>
+      {/*
+        Con captura, el texto cede sitio a la imagen: una nota adhesiva se lee
+        de un vistazo, y apilar las dos cosas a tamaño completo no cabe.
+      */}
+      {imageUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={imageUrl}
+          alt={image?.label ?? 'Captura de la nota'}
+          className="h-12 w-full rounded-sm object-cover"
+        />
+      ) : null}
+
+      <p
+        className={`${imageUrl ? 'line-clamp-2' : 'line-clamp-4'} break-words text-sm leading-snug`}
+      >
+        {note.text}
+      </p>
     </article>
   );
 }

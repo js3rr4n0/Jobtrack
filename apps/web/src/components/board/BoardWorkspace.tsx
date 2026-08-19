@@ -26,6 +26,7 @@ import { Modal } from '@/components/ui/Modal';
 import { StatusBanner } from '@/components/ui/StatusBanner';
 import { useApiClient } from '@/hooks/use-api-client';
 import { useBoard } from '@/hooks/use-board';
+import { useDocuments } from '@/hooks/use-documents';
 import { useNotes } from '@/hooks/use-notes';
 import { useRealtimeChannel } from '@/hooks/use-realtime-channel';
 import { useSession } from '@/hooks/use-session';
@@ -53,6 +54,10 @@ export function BoardWorkspace() {
   const { client, originId } = useApiClient(accessToken);
   const board = useBoard(client, originId);
   const notes = useNotes(client, originId);
+  const userId = session?.user?.id ?? null;
+  const resumes = useDocuments(client, 'resume', userId);
+  const coverLetters = useDocuments(client, 'cover-letter', userId);
+  const noteImages = useDocuments(client, 'note-image', userId);
   const realtimeStatus = useRealtimeChannel({
     accessToken,
     onBoardChange: board.applyRemoteEvent,
@@ -210,7 +215,7 @@ export function BoardWorkspace() {
             )}
           </div>
 
-          <NotesPanel notes={notes} />
+          <NotesPanel notes={notes} images={noteImages} />
         </div>
 
         <aside className="order-1 flex flex-col gap-4 lg:order-2">
@@ -232,6 +237,8 @@ export function BoardWorkspace() {
         onClose={closeEditor}
       >
         <ApplicationForm
+          resumes={resumes}
+          coverLetters={coverLetters}
           knownCategories={knownCategories}
           submitLabel="Guardar postulación"
           isSubmitting={isSubmitting}
@@ -248,6 +255,8 @@ export function BoardWorkspace() {
       >
         {editor.mode === 'edit' ? (
           <ApplicationForm
+          resumes={resumes}
+          coverLetters={coverLetters}
             initialValues={fromApplication(editor.application)}
             knownCategories={knownCategories}
             submitLabel="Guardar cambios"

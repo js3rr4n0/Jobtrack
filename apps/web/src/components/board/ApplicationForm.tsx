@@ -1,7 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import type { FormEvent, ReactNode } from "react";
+import { useState } from 'react';
+import type { FormEvent, ReactNode } from 'react';
+
+import type { UseDocumentsResult } from '@/hooks/use-documents';
 import {
   APPLICATION_STATUSES,
   type CreateJobApplicationInput,
@@ -10,22 +12,19 @@ import {
   STATUS_CATALOG,
   WORK_MODES,
   WORK_MODE_LABELS,
-} from "@deska/contracts";
+} from '@deska/contracts';
 
-import { Accordion } from "@/components/ui/Accordion";
-import { Button } from "@/components/ui/Button";
-import {
-  SelectField,
-  TextAreaField,
-  TextField,
-} from "@/components/ui/FormField";
+import { DocumentPicker } from '@/components/documents/DocumentPicker';
+import { Accordion } from '@/components/ui/Accordion';
+import { Button } from '@/components/ui/Button';
+import { SelectField, TextAreaField, TextField } from '@/components/ui/FormField';
 import {
   type ApplicationFormValues,
   EMPTY_FORM_VALUES,
   type FormErrors,
   toApplicationInput,
   validateApplicationForm,
-} from "@/lib/application-form";
+} from '@/lib/application-form';
 
 const STATUS_OPTIONS = APPLICATION_STATUSES.map((status) => ({
   value: status,
@@ -38,7 +37,7 @@ const PRIORITY_OPTIONS = PRIORITIES.map((priority) => ({
 }));
 
 const WORK_MODE_OPTIONS = [
-  { value: "", label: "Sin especificar" },
+  { value: '', label: 'Sin especificar' },
   ...WORK_MODES.map((mode) => ({ value: mode, label: WORK_MODE_LABELS[mode] })),
 ];
 
@@ -46,6 +45,9 @@ export interface ApplicationFormProps {
   initialValues?: ApplicationFormValues;
   /** Áreas ya usadas, ofrecidas como sugerencias al escribir. */
   knownCategories?: readonly string[];
+  /** Currículums y cartas ya subidos, para elegir sin salir del formulario. */
+  resumes: UseDocumentsResult;
+  coverLetters: UseDocumentsResult;
   submitLabel: string;
   isSubmitting: boolean;
   onSubmit: (input: CreateJobApplicationInput) => void;
@@ -58,13 +60,7 @@ export interface ApplicationFormProps {
  * muro; repartidos en tres bloques con nombre, se recorren de un vistazo y se
  * entiende que pide cada parte.
  */
-function FormSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
+function FormSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <fieldset>
       <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-secondary">
@@ -78,6 +74,8 @@ function FormSection({
 export function ApplicationForm({
   initialValues = EMPTY_FORM_VALUES,
   knownCategories = [],
+  resumes,
+  coverLetters,
   submitLabel,
   isSubmitting,
   onSubmit,
@@ -120,7 +118,7 @@ export function ApplicationForm({
           required
           value={values.company}
           error={errors.company}
-          onChange={(event) => updateField("company", event.target.value)}
+          onChange={(event) => updateField('company', event.target.value)}
         />
         <TextField
           id="position"
@@ -128,7 +126,7 @@ export function ApplicationForm({
           required
           value={values.position}
           error={errors.position}
-          onChange={(event) => updateField("position", event.target.value)}
+          onChange={(event) => updateField('position', event.target.value)}
         />
         <SelectField
           id="status"
@@ -137,10 +135,7 @@ export function ApplicationForm({
           value={values.status}
           hint={STATUS_CATALOG[values.status].description}
           onChange={(event) =>
-            updateField(
-              "status",
-              event.target.value as ApplicationFormValues["status"],
-            )
+            updateField('status', event.target.value as ApplicationFormValues['status'])
           }
         />
         <SelectField
@@ -149,10 +144,7 @@ export function ApplicationForm({
           options={PRIORITY_OPTIONS}
           value={values.priority}
           onChange={(event) =>
-            updateField(
-              "priority",
-              event.target.value as ApplicationFormValues["priority"],
-            )
+            updateField('priority', event.target.value as ApplicationFormValues['priority'])
           }
         />
         <TextField
@@ -162,7 +154,7 @@ export function ApplicationForm({
           value={values.sourceUrl}
           error={errors.sourceUrl}
           placeholder="https://"
-          onChange={(event) => updateField("sourceUrl", event.target.value)}
+          onChange={(event) => updateField('sourceUrl', event.target.value)}
         />
       </FormSection>
 
@@ -180,7 +172,7 @@ export function ApplicationForm({
             value={values.category}
             error={errors.category}
             hint="Por ejemplo: Desarrollo, Marketing, Diseño."
-            onChange={(event) => updateField("category", event.target.value)}
+            onChange={(event) => updateField('category', event.target.value)}
           />
           <TextField
             id="location"
@@ -188,7 +180,7 @@ export function ApplicationForm({
             value={values.location}
             error={errors.location}
             placeholder="Ciudad o pais"
-            onChange={(event) => updateField("location", event.target.value)}
+            onChange={(event) => updateField('location', event.target.value)}
           />
           <SelectField
             id="workMode"
@@ -196,10 +188,7 @@ export function ApplicationForm({
             options={WORK_MODE_OPTIONS}
             value={values.workMode}
             onChange={(event) =>
-              updateField(
-                "workMode",
-                event.target.value as ApplicationFormValues["workMode"],
-              )
+              updateField('workMode', event.target.value as ApplicationFormValues['workMode'])
             }
           />
           <TextField
@@ -209,9 +198,7 @@ export function ApplicationForm({
             value={values.salaryExpectation}
             error={errors.salaryExpectation}
             hint="Opcional. Solo números enteros."
-            onChange={(event) =>
-              updateField("salaryExpectation", event.target.value)
-            }
+            onChange={(event) => updateField('salaryExpectation', event.target.value)}
           />
           <TextField
             id="contact"
@@ -220,31 +207,27 @@ export function ApplicationForm({
             error={errors.contact}
             placeholder="Nombre, correo o teléfono"
             hint="Quién lleva el proceso dentro de la empresa."
-            onChange={(event) => updateField("contact", event.target.value)}
+            onChange={(event) => updateField('contact', event.target.value)}
           />
         </FormSection>
 
         <FormSection title="Qué enviaste">
-          <TextField
-            id="resumeVersion"
-            label="Versión del currículum"
-            value={values.resumeVersion}
-            error={errors.resumeVersion}
-            placeholder="Por ejemplo: CV backend v3"
-            hint="Para saber cuál defender en la entrevista."
-            onChange={(event) =>
-              updateField("resumeVersion", event.target.value)
-            }
+          <DocumentPicker
+            id="resumeId"
+            label="Currículum enviado"
+            kind="resume"
+            documents={resumes}
+            value={values.resumeId}
+            hint="Elige uno de los que ya subiste, o sube el que mandaste a esta vacante."
+            onChange={(documentId) => updateField('resumeId', documentId)}
           />
-          <TextField
-            id="coverLetterVersion"
-            label="Versión de la carta"
-            value={values.coverLetterVersion}
-            error={errors.coverLetterVersion}
-            placeholder="Por ejemplo: Carta producto v2"
-            onChange={(event) =>
-              updateField("coverLetterVersion", event.target.value)
-            }
+          <DocumentPicker
+            id="coverLetterId"
+            label="Carta de presentación"
+            kind="cover-letter"
+            documents={coverLetters}
+            value={values.coverLetterId}
+            onChange={(documentId) => updateField('coverLetterId', documentId)}
           />
         </FormSection>
 
@@ -255,7 +238,7 @@ export function ApplicationForm({
             type="date"
             value={values.appliedAt}
             error={errors.appliedAt}
-            onChange={(event) => updateField("appliedAt", event.target.value)}
+            onChange={(event) => updateField('appliedAt', event.target.value)}
           />
           <TextField
             id="interviewAt"
@@ -263,7 +246,7 @@ export function ApplicationForm({
             type="datetime-local"
             value={values.interviewAt}
             error={errors.interviewAt}
-            onChange={(event) => updateField("interviewAt", event.target.value)}
+            onChange={(event) => updateField('interviewAt', event.target.value)}
           />
           <TextField
             id="followUpAt"
@@ -272,7 +255,7 @@ export function ApplicationForm({
             value={values.followUpAt}
             error={errors.followUpAt}
             hint="El día que toca volver a escribir si no hay respuesta."
-            onChange={(event) => updateField("followUpAt", event.target.value)}
+            onChange={(event) => updateField('followUpAt', event.target.value)}
           />
           <div className="sm:col-span-2">
             <TextAreaField
@@ -281,7 +264,7 @@ export function ApplicationForm({
               value={values.notes}
               error={errors.notes}
               hint="Contactos, preguntas de la entrevista o siguientes pasos."
-              onChange={(event) => updateField("notes", event.target.value)}
+              onChange={(event) => updateField('notes', event.target.value)}
             />
           </div>
         </FormSection>
@@ -292,7 +275,7 @@ export function ApplicationForm({
           Cancelar
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Guardando..." : submitLabel}
+          {isSubmitting ? 'Guardando...' : submitLabel}
         </Button>
       </div>
     </form>
