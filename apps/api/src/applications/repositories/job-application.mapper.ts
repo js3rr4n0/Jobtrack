@@ -9,6 +9,7 @@ export interface JobApplicationRow {
   company: string;
   position: string;
   status: ApplicationStatus;
+  furthest_status: ApplicationStatus;
   location: string | null;
   work_mode: WorkMode | null;
   priority: Priority;
@@ -36,6 +37,7 @@ export function toDomain(row: JobApplicationRow): JobApplication {
     company: row.company,
     position: row.position,
     status: row.status,
+    furthestStatus: row.furthest_status,
     location: row.location,
     workMode: row.work_mode,
     priority: row.priority,
@@ -66,6 +68,7 @@ export function toInsertRow(record: NewJobApplicationRecord): Omit<
     company: record.company,
     position: record.position,
     status: record.status,
+    furthest_status: record.furthestStatus,
     location: record.location,
     work_mode: record.workMode,
     priority: record.priority,
@@ -89,6 +92,7 @@ const PATCH_COLUMN_BY_FIELD: Readonly<Record<string, keyof JobApplicationRow>> =
   company: 'company',
   position: 'position',
   status: 'status',
+  furthestStatus: 'furthest_status',
   location: 'location',
   workMode: 'work_mode',
   priority: 'priority',

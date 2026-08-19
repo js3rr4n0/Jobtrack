@@ -8,7 +8,7 @@ import {
   isFollowUpDue,
 } from './analytics';
 import { EXPERIENCE_REWARDS } from './gamification';
-import type { JobApplication } from './job-application';
+import { mergeFurthestStatus, type JobApplication } from './job-application';
 import { buildJobApplication } from './test-factories';
 
 const REFERENCE_DATE = new Date('2026-02-10T09:00:00.000Z');
@@ -226,5 +226,98 @@ describe('seguimientos pendientes en las estadísticas', () => {
 
   it('un tablero vacío no tiene seguimientos pendientes', () => {
     expect(buildPlayerStats([], hoy).pendingFollowUps).toBe(0);
+  });
+});
+
+describe('los puntos ganados no retroceden', () => {
+  const contratada = buildJobApplication({ status: 'hired', furthestStatus: 'hired' });
+
+  it('mantiene la experiencia al devolver una tarjeta a una etapa anterior', () => {
+    // Misma tarjeta, movida de vuelta a "me interesa": la marca de avance no
+    // cambia porque ya paso por la contratacion.
+    const devuelta: JobApplication = { ...contratada, status: 'wishlist' };
+
+    expect(calculateBaseExperience([devuelta])).toBe(calculateBaseExperience([contratada]));
+  });
+
+  it('mantiene el nivel al devolver una tarjeta a una etapa anterior', () => {
+    const devuelta: JobApplication = { ...contratada, status: 'applied' };
+
+    expect(buildGamificationProfile([devuelta], REFERENCE_DATE).progress.level).toBe(
+      buildGamificationProfile([contratada], REFERENCE_DATE).progress.level,
+    );
+  });
+
+  it('conserva los logros de las etapas por las que paso', () => {
+    const descartada: JobApplication = { ...contratada, status: 'rejected' };
+
+    const desbloqueados = buildGamificationProfile([descartada], REFERENCE_DATE)
+      .achievements.filter((achievement) => achievement.unlocked)
+      .map((achievement) => achievement.id);
+
+    expect(desbloqueados).toContain('first_interview');
+    expect(desbloqueados).toContain('first_offer');
+    expect(desbloqueados).toContain('signed');
+  });
+
+  it('cuenta cada etapa intermedia por la que necesariamente paso', () => {
+    const stats = buildPlayerStats(
+      [buildJobApplication({ status: 'offer', furthestStatus: 'offer' })],
+      REFERENCE_DATE,
+    );
+
+    expect(stats.reachedByStatus.applied).toBe(1);
+    expect(stats.reachedByStatus.interview).toBe(1);
+    expect(stats.reachedByStatus.offer).toBe(1);
+    expect(stats.reachedByStatus.hired).toBe(0);
+  });
+
+  it('el descarte no cuenta como avance ni borra lo alcanzado', () => {
+    const stats = buildPlayerStats(
+      [{ ...contratada, status: 'rejected' }],
+      REFERENCE_DATE,
+    );
+
+    expect(stats.reachedByStatus.hired).toBe(1);
+    expect(stats.reachedByStatus.rejected).toBe(1);
+  });
+
+  it('avanzar de verdad sigue sumando', () => {
+    const enEntrevista = buildJobApplication({ status: 'interview', furthestStatus: 'interview' });
+
+    expect(calculateBaseExperience([contratada])).toBeGreaterThan(
+      calculateBaseExperience([enEntrevista]),
+    );
+  });
+
+  it('suma los puntos del descarte a lo que ya se habia ganado', () => {
+    const descartada: JobApplication = {
+      ...buildJobApplication({ status: 'interview', furthestStatus: 'interview' }),
+      status: 'rejected',
+    };
+
+    const enEntrevista = buildJobApplication({ status: 'interview', furthestStatus: 'interview' });
+
+    expect(calculateBaseExperience([descartada])).toBe(
+      calculateBaseExperience([enEntrevista]) + EXPERIENCE_REWARDS.rejection_registered,
+    );
+  });
+});
+
+describe('mergeFurthestStatus', () => {
+  it('avanza cuando la etapa nueva es mas adelantada', () => {
+    expect(mergeFurthestStatus('applied', 'interview')).toBe('interview');
+  });
+
+  it('no retrocede cuando la etapa nueva es anterior', () => {
+    expect(mergeFurthestStatus('hired', 'wishlist')).toBe('hired');
+  });
+
+  it('el descarte no borra la marca alcanzada', () => {
+    expect(mergeFurthestStatus('offer', 'rejected')).toBe('offer');
+  });
+
+  it('es estable al aplicarse dos veces', () => {
+    expect(mergeFurthestStatus(mergeFurthestStatus('applied', 'offer'), 'offer')).toBe('offer');
   });
 });

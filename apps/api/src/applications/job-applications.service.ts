@@ -9,6 +9,7 @@ import {
   buildGamificationProfile,
   diffBoardPositions,
   groupIntoColumns,
+  mergeFurthestStatus,
   reorderBoard,
 } from '@deska/contracts';
 
@@ -72,6 +73,7 @@ export class JobApplicationsService {
       company: payload.company,
       position: payload.position,
       status,
+      furthestStatus: status,
       location: payload.location ?? null,
       workMode: payload.workMode ?? null,
       priority: payload.priority ?? 'medium',
@@ -101,7 +103,24 @@ export class JobApplicationsService {
     originId: string | null,
   ): Promise<JobApplication> {
     const patch = buildPatch(payload);
-    const updated = await this.repository.update(userId, applicationId, patch);
+
+    /*
+     * La marca de avance la calcula el servidor a partir de la anterior: no se
+     * acepta del cliente ni retrocede nunca. Es lo que sostiene que devolver
+     * una tarjeta a una columna anterior no borre los puntos ya ganados.
+     */
+    const withMark: JobApplicationPatch =
+      patch.status === undefined
+        ? patch
+        : {
+            ...patch,
+            furthestStatus: mergeFurthestStatus(
+              (await this.getById(userId, applicationId)).furthestStatus,
+              patch.status,
+            ),
+          };
+
+    const updated = await this.repository.update(userId, applicationId, withMark);
 
     if (!updated) {
       throw new NotFoundException('La postulación no existe o no te pertenece.');
@@ -130,6 +149,7 @@ export class JobApplicationsService {
       diffBoardPositions(applications, reordered).map((application) =>
         this.repository.update(userId, application.id, {
           status: application.status,
+          furthestStatus: mergeFurthestStatus(application.furthestStatus, application.status),
           boardOrder: application.boardOrder,
         }),
       ),

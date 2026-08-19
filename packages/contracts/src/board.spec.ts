@@ -202,3 +202,28 @@ describe('categorías', () => {
     }
   });
 });
+
+describe('la marca de avance al reordenar', () => {
+  it('sube cuando la tarjeta pasa a una etapa mas adelantada', () => {
+    const tablero = reorderBoard(
+      [buildJobApplication({ id: 'a', status: 'applied', furthestStatus: 'applied' })],
+      'a',
+      'interview',
+      0,
+    );
+
+    expect(tablero[0].furthestStatus).toBe('interview');
+  });
+
+  it('no baja cuando la tarjeta vuelve a una etapa anterior', () => {
+    const tablero = reorderBoard(
+      [buildJobApplication({ id: 'a', status: 'hired', furthestStatus: 'hired' })],
+      'a',
+      'wishlist',
+      0,
+    );
+
+    expect(tablero[0].status).toBe('wishlist');
+    expect(tablero[0].furthestStatus).toBe('hired');
+  });
+});

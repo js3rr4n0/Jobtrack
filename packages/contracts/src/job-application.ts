@@ -108,6 +108,13 @@ export interface JobApplication {
   readonly company: string;
   readonly position: string;
   readonly status: ApplicationStatus;
+  /**
+   * Etapa mas avanzada por la que ha pasado esta postulacion. Solo avanza:
+   * mover una tarjeta hacia atras corrige donde esta, no borra que llegara a
+   * estar en una entrevista. La capa de juego cuenta desde aqui para que los
+   * puntos ganados no se pierdan al reorganizar el tablero.
+   */
+  readonly furthestStatus: ApplicationStatus;
   readonly location: string | null;
   readonly workMode: WorkMode | null;
   readonly priority: Priority;
@@ -166,4 +173,18 @@ export type UpdateJobApplicationInput = Partial<CreateJobApplicationInput> & {
 export interface MoveJobApplicationInput {
   status: ApplicationStatus;
   boardOrder: number;
+}
+
+/**
+ * Combina la marca de avance con una etapa nueva y devuelve la mas avanzada de
+ * las dos. El descarte no cuenta como avance —su peso es cero—, de modo que
+ * cerrar un proceso sin oferta no borra que llego a la entrevista.
+ */
+export function mergeFurthestStatus(
+  furthest: ApplicationStatus,
+  next: ApplicationStatus,
+): ApplicationStatus {
+  return STATUS_CATALOG[next].progressWeight > STATUS_CATALOG[furthest].progressWeight
+    ? next
+    : furthest;
 }

@@ -324,5 +324,65 @@ describe('Postulaciones (integracion)', () => {
       expect(profile.body.progress.experience).toBe(board.body.gamification.progress.experience);
       expect(profile.body.stats.totalApplications).toBe(1);
     });
+
+    it('no quita los puntos ganados al devolver una tarjeta a una etapa anterior', async () => {
+      const jugador = await context.issueToken('44444444-4444-4444-8444-444444444444');
+
+      const perfil = async () =>
+        (
+          await request(app.getHttpServer())
+            .get(url('/gamification/profile'))
+            .set('Authorization', `Bearer ${jugador}`)
+            .expect(200)
+        ).body;
+
+      const creada = await request(app.getHttpServer())
+        .post(url('/applications'))
+        .set('Authorization', `Bearer ${jugador}`)
+        .send({ company: 'Empresa', position: 'Puesto', status: 'hired' })
+        .expect(201);
+
+      const contratado = await perfil();
+
+      await request(app.getHttpServer())
+        .patch(url(`/applications/${creada.body.id}/move`))
+        .set('Authorization', `Bearer ${jugador}`)
+        .send({ status: 'wishlist', boardOrder: 0 })
+        .expect(200);
+
+      const devuelto = await perfil();
+
+      expect(devuelto.progress.experience).toBe(contratado.progress.experience);
+      expect(devuelto.progress.level).toBe(contratado.progress.level);
+    });
+
+    it('la marca de avance no retrocede aunque la envie el cliente', async () => {
+      const jugador = await context.issueToken('55555555-5555-4555-8555-555555555555');
+
+      const creada = await request(app.getHttpServer())
+        .post(url('/applications'))
+        .set('Authorization', `Bearer ${jugador}`)
+        .send({ company: 'Empresa', position: 'Puesto', status: 'offer' })
+        .expect(201);
+
+      expect(creada.body.furthestStatus).toBe('offer');
+
+      // Un cliente que intentara rebajarla no debe conseguirlo: el campo no
+      // forma parte del contrato de entrada.
+      await request(app.getHttpServer())
+        .patch(url(`/applications/${creada.body.id}`))
+        .set('Authorization', `Bearer ${jugador}`)
+        .send({ furthestStatus: 'wishlist' })
+        .expect(400);
+
+      const devuelta = await request(app.getHttpServer())
+        .patch(url(`/applications/${creada.body.id}`))
+        .set('Authorization', `Bearer ${jugador}`)
+        .send({ status: 'applied' })
+        .expect(200);
+
+      expect(devuelta.body.status).toBe('applied');
+      expect(devuelta.body.furthestStatus).toBe('offer');
+    });
   });
 });

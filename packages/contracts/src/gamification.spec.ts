@@ -128,10 +128,21 @@ describe('evaluateAchievements', () => {
     expect(tenApplications?.target).toBe(10);
   });
 
-  it('considera etapas superiores al evaluar el logro de entrevista', () => {
-    const achievements = evaluateAchievements(statsWith({ byStatus: { hired: 1 } as never }));
-    const interview = achievements.find((achievement) => achievement.id === 'first_interview');
+  it('mide los hitos por las etapas alcanzadas, no por la columna actual', () => {
+    // La tarjeta esta hoy en "me interesa", pero llego a estar contratada.
+    const achievements = evaluateAchievements(
+      statsWith({
+        byStatus: { wishlist: 1 } as never,
+        reachedByStatus: { interview: 1, offer: 1, hired: 1 } as never,
+      }),
+    );
 
-    expect(interview?.unlocked).toBe(true);
+    const desbloqueados = achievements
+      .filter((achievement) => achievement.unlocked)
+      .map((achievement) => achievement.id);
+
+    expect(desbloqueados).toContain('first_interview');
+    expect(desbloqueados).toContain('first_offer');
+    expect(desbloqueados).toContain('signed');
   });
 });

@@ -34,6 +34,9 @@ create table if not exists public.job_applications (
   company text not null check (char_length(trim(company)) between 1 and 120),
   position text not null check (char_length(trim(position)) between 1 and 120),
   status public.application_status not null default 'wishlist',
+  -- Etapa mas avanzada alcanzada. Solo sube: la capa de juego cuenta desde
+  -- aqui para que reordenar el tablero no borre puntos ya ganados.
+  furthest_status public.application_status not null default 'wishlist',
   location text check (char_length(location) <= 120),
   work_mode public.work_mode,
   priority public.application_priority not null default 'medium',
@@ -57,6 +60,21 @@ create table if not exists public.job_applications (
 -- antes de los indices que la usan.
 alter table public.job_applications
   add column if not exists category text check (char_length(category) <= 60);
+
+-- Los tableros anteriores no guardaban la marca de avance. Se rellena con la
+-- etapa en que esta cada tarjeta, que es lo unico que consta de su historia.
+alter table public.job_applications
+  add column if not exists furthest_status public.application_status;
+
+update public.job_applications
+  set furthest_status = status
+  where furthest_status is null;
+
+alter table public.job_applications
+  alter column furthest_status set default 'wishlist';
+
+alter table public.job_applications
+  alter column furthest_status set not null;
 
 alter table public.job_applications
   add column if not exists contact text check (char_length(contact) <= 160);

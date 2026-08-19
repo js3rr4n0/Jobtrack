@@ -3,6 +3,7 @@ import {
   JobApplication,
   ORDERED_STATUSES,
   StatusDefinition,
+  mergeFurthestStatus,
 } from './job-application';
 
 export interface BoardColumn {
@@ -136,6 +137,10 @@ export function reorderBoard(
   destination.splice(clamp(targetIndex, 0, destination.length), 0, {
     ...moved,
     status: targetStatus,
+    // La marca de avance acompana al movimiento tambien aqui, no solo en el
+    // servidor: si no, el tablero bajaria el nivel un instante al arrastrar una
+    // tarjeta hacia atras, hasta que llegara la respuesta a desmentirlo.
+    furthestStatus: mergeFurthestStatus(moved.furthestStatus, targetStatus),
   });
 
   const renumberedDestination = destination.map((application, index) => ({

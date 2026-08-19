@@ -8,7 +8,12 @@ import {
   evaluateAchievements,
   experienceForStatusChange,
 } from './gamification';
-import { ApplicationStatus, JobApplication, APPLICATION_STATUSES } from './job-application';
+import {
+  ApplicationStatus,
+  JobApplication,
+  APPLICATION_STATUSES,
+  STATUS_CATALOG,
+} from './job-application';
 
 const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -98,6 +103,11 @@ export function buildPlayerStats(
     {} as Record<ApplicationStatus, number>,
   );
 
+  const reachedByStatus = APPLICATION_STATUSES.reduce(
+    (accumulator, status) => ({ ...accumulator, [status]: 0 }),
+    {} as Record<ApplicationStatus, number>,
+  );
+
   let notesWritten = 0;
   let interviewsScheduled = 0;
   let pendingFollowUps = 0;
@@ -105,6 +115,25 @@ export function buildPlayerStats(
 
   for (const application of applications) {
     byStatus[application.status] += 1;
+
+    /*
+     * Una postulacion que llego a la oferta tambien paso por la entrevista,
+     * asi que cuenta en todas las etapas hasta la mas avanzada que alcanzo.
+     * El descarte pesa cero y va aparte: no es un avance, es un final.
+     */
+    for (const status of APPLICATION_STATUSES) {
+      const isBehindTheMark =
+        STATUS_CATALOG[status].progressWeight <=
+        STATUS_CATALOG[application.furthestStatus].progressWeight;
+
+      if (status !== 'rejected' && isBehindTheMark) {
+        reachedByStatus[status] += 1;
+      }
+    }
+
+    if (application.status === 'rejected') {
+      reachedByStatus.rejected += 1;
+    }
 
     if (hasText(application.notes)) {
       notesWritten += 1;
@@ -126,6 +155,7 @@ export function buildPlayerStats(
   return {
     totalApplications: applications.length,
     byStatus,
+    reachedByStatus,
     notesWritten,
     interviewsScheduled,
     pendingFollowUps,
@@ -142,7 +172,18 @@ export function buildPlayerStats(
 export function calculateBaseExperience(applications: readonly JobApplication[]): number {
   return applications.reduce((total, application) => {
     let earned = EXPERIENCE_REWARDS.application_created;
-    earned += experienceForStatusChange('wishlist', application.status);
+
+    /*
+     * Los puntos de etapa se cuentan desde la marca de avance, no desde donde
+     * esta la tarjeta hoy. De lo contrario mover una postulacion fuera de
+     * "contratado" bajaba el nivel de golpe, y castigar el orden del tablero
+     * ensena a no tocarlo.
+     */
+    earned += experienceForStatusChange('wishlist', application.furthestStatus);
+
+    if (application.status === 'rejected' && application.furthestStatus !== 'rejected') {
+      earned += EXPERIENCE_REWARDS.rejection_registered;
+    }
 
     if (hasText(application.notes)) {
       earned += EXPERIENCE_REWARDS.note_written;

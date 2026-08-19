@@ -121,6 +121,12 @@ export function experienceForStatusChange(
 export interface PlayerStats {
   readonly totalApplications: number;
   readonly byStatus: Readonly<Record<ApplicationStatus, number>>;
+  /**
+   * Cuantas postulaciones han llegado alguna vez a cada etapa, aunque despues
+   * se movieran a otra columna. Los logros se miden desde aqui: un hito
+   * alcanzado no se pierde por reordenar el tablero.
+   */
+  readonly reachedByStatus: Readonly<Record<ApplicationStatus, number>>;
   readonly notesWritten: number;
   readonly interviewsScheduled: number;
   /** Procesos vivos cuya fecha de seguimiento ya llegó o pasó. */
@@ -132,6 +138,14 @@ export interface PlayerStats {
 export const EMPTY_STATS: PlayerStats = {
   totalApplications: 0,
   byStatus: {
+    wishlist: 0,
+    applied: 0,
+    interview: 0,
+    offer: 0,
+    hired: 0,
+    rejected: 0,
+  },
+  reachedByStatus: {
     wishlist: 0,
     applied: 0,
     interview: 0,
@@ -186,9 +200,8 @@ export const ACHIEVEMENTS: readonly AchievementDefinition[] = [
     description: 'Lleva una postulación hasta la etapa de entrevista.',
     iconId: 'mic',
     experienceBonus: 40,
-    isUnlocked: (stats) => stats.byStatus.interview + stats.byStatus.offer + stats.byStatus.hired >= 1,
-    progress: (stats) =>
-      countReached(stats.byStatus.interview + stats.byStatus.offer + stats.byStatus.hired, 1),
+    isUnlocked: (stats) => stats.reachedByStatus.interview >= 1,
+    progress: (stats) => countReached(stats.reachedByStatus.interview, 1),
   },
   {
     id: 'first_offer',
@@ -196,8 +209,8 @@ export const ACHIEVEMENTS: readonly AchievementDefinition[] = [
     description: 'Recibe tu primera oferta formal.',
     iconId: 'award',
     experienceBonus: 80,
-    isUnlocked: (stats) => stats.byStatus.offer + stats.byStatus.hired >= 1,
-    progress: (stats) => countReached(stats.byStatus.offer + stats.byStatus.hired, 1),
+    isUnlocked: (stats) => stats.reachedByStatus.offer >= 1,
+    progress: (stats) => countReached(stats.reachedByStatus.offer, 1),
   },
   {
     id: 'signed',
@@ -205,8 +218,8 @@ export const ACHIEVEMENTS: readonly AchievementDefinition[] = [
     description: 'Cierra un proceso como contratado.',
     iconId: 'trophy',
     experienceBonus: 150,
-    isUnlocked: (stats) => stats.byStatus.hired >= 1,
-    progress: (stats) => countReached(stats.byStatus.hired, 1),
+    isUnlocked: (stats) => stats.reachedByStatus.hired >= 1,
+    progress: (stats) => countReached(stats.reachedByStatus.hired, 1),
   },
   {
     id: 'resilient',
@@ -214,8 +227,8 @@ export const ACHIEVEMENTS: readonly AchievementDefinition[] = [
     description: 'Registra cinco procesos descartados y sigue adelante.',
     iconId: 'shield',
     experienceBonus: 60,
-    isUnlocked: (stats) => stats.byStatus.rejected >= 5,
-    progress: (stats) => countReached(stats.byStatus.rejected, 5),
+    isUnlocked: (stats) => stats.reachedByStatus.rejected >= 5,
+    progress: (stats) => countReached(stats.reachedByStatus.rejected, 5),
   },
   {
     id: 'note_taker',

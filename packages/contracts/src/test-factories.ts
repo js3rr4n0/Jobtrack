@@ -32,6 +32,9 @@ export function buildJobApplication(overrides: Partial<JobApplication> = {}): Jo
     boardOrder: 0,
     createdAt: timestamp,
     updatedAt: timestamp,
+    // La marca de avance sigue a la etapa salvo que la prueba diga otra cosa,
+    // que es lo que ocurre al crear una postulacion ya en esa columna.
+    furthestStatus: overrides.status ?? 'wishlist',
     ...overrides,
   };
 }
