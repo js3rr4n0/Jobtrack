@@ -7,7 +7,9 @@ import {
   fromApplication,
   toApplicationInput,
   toIsoDate,
+  toIsoCivilDay,
   toLocalDateTimeValue,
+  toLocalDateValue,
   validateApplicationForm,
 } from './application-form';
 
@@ -107,7 +109,9 @@ describe('conversion de fechas', () => {
   });
 
   it('convierte una fecha válida a ISO 8601', () => {
-    expect(toIsoDate('2026-03-01T10:00')).toMatch(/^2026-03-01T/);
+    // Una entrevista es un instante, no un dia: el texto UTC depende del huso,
+    // asi que se comprueba que describa el mismo momento.
+    expect(toIsoDate('2026-03-01T10:00')).toBe(new Date(2026, 2, 1, 10, 0).toISOString());
   });
 
   it('devuelve una cadena vacía al formatear fechas nulas o corruptas', () => {
@@ -119,6 +123,70 @@ describe('conversion de fechas', () => {
     const iso = toIsoDate('2026-03-01T10:30');
 
     expect(toLocalDateTimeValue(iso)).toBe('2026-03-01T10:30');
+  });
+});
+
+describe('fechas de dia completo', () => {
+  it('ancla el dia a medianoche UTC en lugar de al huso de quien escribe', () => {
+    expect(toIsoCivilDay('2026-08-14')).toBe('2026-08-14T00:00:00.000Z');
+  });
+
+  it('rechaza dias que no existen y textos que no son una fecha', () => {
+    expect(toIsoCivilDay('2026-02-31')).toBeNull();
+    expect(toIsoCivilDay('14/08/2026')).toBeNull();
+    expect(toIsoCivilDay('')).toBeNull();
+  });
+
+  it('devuelve el mismo dia que se escribio', () => {
+    expect(toLocalDateValue(toIsoCivilDay('2026-08-14'))).toBe('2026-08-14');
+  });
+
+  /**
+   * La regresion que motiva estas pruebas: guardar y reabrir varias veces
+   * restaba una jornada en cada vuelta hasta dejar la fecha irreconocible.
+   */
+  it('no mueve el dia por muchas veces que se guarde y se reabra', () => {
+    let value = '2026-08-14';
+
+    for (let round = 0; round < 10; round += 1) {
+      value = toLocalDateValue(toIsoCivilDay(value));
+    }
+
+    expect(value).toBe('2026-08-14');
+  });
+
+  it('conserva el dia de las fechas guardadas por versiones anteriores', () => {
+    // Asi las guardaba la version anterior: medianoche del huso de quien
+    // escribia, no del meridiano cero.
+    const guardadaAntes = new Date(2026, 7, 14).toISOString();
+
+    expect(toLocalDateValue(guardadaAntes)).toBe('2026-08-14');
+  });
+
+  it('acepta una fecha ya guardada sin hora', () => {
+    expect(toLocalDateValue('2026-08-14')).toBe('2026-08-14');
+  });
+
+  it('devuelve una cadena vacia ante valores nulos o corruptos', () => {
+    expect(toLocalDateValue(null)).toBe('');
+    expect(toLocalDateValue('fecha-rota')).toBe('');
+  });
+
+  it('avisa en lugar de descartar en silencio una fecha imposible', () => {
+    expect(validateApplicationForm(valuesWith({ appliedAt: '2026-02-31' })).appliedAt).toBeDefined();
+    expect(
+      validateApplicationForm(valuesWith({ followUpAt: '2026-13-01' })).followUpAt,
+    ).toBeDefined();
+    expect(validateApplicationForm(valuesWith({ appliedAt: '2026-08-14' })).appliedAt).toBeUndefined();
+  });
+
+  it('guarda en el contrato el dia escrito, no el del huso', () => {
+    const input = toApplicationInput(
+      valuesWith({ appliedAt: '2026-08-14', followUpAt: '2026-09-01' }),
+    );
+
+    expect(input.appliedAt).toBe('2026-08-14T00:00:00.000Z');
+    expect(input.followUpAt).toBe('2026-09-01T00:00:00.000Z');
   });
 });
 

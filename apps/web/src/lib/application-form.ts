@@ -120,11 +120,13 @@ export function validateApplicationForm(values: ApplicationFormValues): FormErro
     errors.interviewAt = 'Revisa la fecha y hora de la entrevista.';
   }
 
-  if (!isBlank(values.followUpAt) && Number.isNaN(Date.parse(values.followUpAt))) {
+  // Los campos de dia completo se comprueban con el mismo criterio con el que
+  // luego se guardan, para que una fecha imposible avise en lugar de perderse.
+  if (!isBlank(values.followUpAt) && toIsoCivilDay(values.followUpAt) === null) {
     errors.followUpAt = 'Revisa la fecha de seguimiento.';
   }
 
-  if (!isBlank(values.appliedAt) && Number.isNaN(Date.parse(values.appliedAt))) {
+  if (!isBlank(values.appliedAt) && toIsoCivilDay(values.appliedAt) === null) {
     errors.appliedAt = 'Revisa la fecha de postulación.';
   }
 
@@ -133,7 +135,22 @@ export function validateApplicationForm(values: ApplicationFormValues): FormErro
 
 const textOrNull = (value: string): string | null => (isBlank(value) ? null : value.trim());
 
-/** Convierte el valor local de un campo de fecha a ISO 8601 en UTC. */
+/** Formato exacto que produce y espera un campo `<input type="date">`. */
+const CIVIL_DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Las fechas de un dia completo se guardan ancladas a medianoche UTC. Asi el
+ * dia viaja como texto y no depende del huso de quien lo escribio: sin este
+ * ancla, guardar y reabrir en UTC-6 restaba una jornada en cada vuelta y la
+ * fecha se iba alejando sola.
+ */
+const CIVIL_DAY_SUFFIX = 'T00:00:00.000Z';
+
+function isCivilDay(value: string): boolean {
+  return CIVIL_DAY_PATTERN.test(value);
+}
+
+/** Convierte el valor local de un campo `datetime-local` a ISO 8601 en UTC. */
 export function toIsoDate(localValue: string): string | null {
   if (isBlank(localValue)) {
     return null;
@@ -143,7 +160,39 @@ export function toIsoDate(localValue: string): string | null {
   return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
 }
 
-/** Convierte una fecha ISO al formato que aceptan los campos `datetime-local` y `date`. */
+/**
+ * Convierte el valor de un campo `date` a ISO 8601 sin moverlo de dia. No se
+ * usa `toISOString()` sobre una fecha local a proposito: eso interpreta el
+ * texto como un instante y lo desplaza al pasar de un huso a otro.
+ */
+export function toIsoCivilDay(localValue: string): string | null {
+  if (isBlank(localValue)) {
+    return null;
+  }
+
+  const value = localValue.trim();
+
+  if (!isCivilDay(value)) {
+    return null;
+  }
+
+  const [year, month, day] = value.split('-').map(Number);
+  const anchored = new Date(Date.UTC(year, month - 1, day));
+
+  /*
+   * Descarta dias que no existen, como el 31 de febrero. No basta con que la
+   * fecha se pueda interpretar: el navegador desborda al mes siguiente en
+   * lugar de avisar, asi que se compara con lo que se pidio.
+   */
+  const isRealDay =
+    anchored.getUTCFullYear() === year &&
+    anchored.getUTCMonth() === month - 1 &&
+    anchored.getUTCDate() === day;
+
+  return isRealDay ? `${value}${CIVIL_DAY_SUFFIX}` : null;
+}
+
+/** Convierte una fecha ISO al formato que acepta un campo `datetime-local`. */
 export function toLocalDateTimeValue(isoDate: string | null): string {
   if (!isoDate) {
     return '';
@@ -162,8 +211,42 @@ export function toLocalDateTimeValue(isoDate: string | null): string {
   )}:${pad(parsed.getMinutes())}`;
 }
 
+/** Cierto cuando el instante cae justo en la medianoche del meridiano cero. */
+function isUtcMidnight(parsed: Date): boolean {
+  return (
+    parsed.getUTCHours() === 0 &&
+    parsed.getUTCMinutes() === 0 &&
+    parsed.getUTCSeconds() === 0 &&
+    parsed.getUTCMilliseconds() === 0
+  );
+}
+
+/**
+ * Devuelve el dia que hay que mostrar en un campo `date`.
+ *
+ * Convive con dos formas de guardar: las fechas nuevas llegan ancladas a
+ * medianoche UTC y su dia es el que dice el propio texto, mientras que las
+ * guardadas por versiones anteriores llevan la hora local de quien las creo y
+ * hay que leerlas en su huso para no correrlas.
+ */
 export function toLocalDateValue(isoDate: string | null): string {
-  return toLocalDateTimeValue(isoDate).slice(0, 10);
+  if (!isoDate) {
+    return '';
+  }
+
+  const value = isoDate.trim();
+
+  if (isCivilDay(value)) {
+    return value;
+  }
+
+  const parsed = new Date(value);
+
+  if (Number.isNaN(parsed.getTime())) {
+    return '';
+  }
+
+  return isUtcMidnight(parsed) ? value.slice(0, 10) : toLocalDateTimeValue(value).slice(0, 10);
 }
 
 /** Traduce el formulario al contrato que espera la API. */
@@ -185,8 +268,8 @@ export function toApplicationInput(values: ApplicationFormValues): CreateJobAppl
     resumeId: textOrNull(values.resumeId),
     coverLetterId: textOrNull(values.coverLetterId),
     interviewAt: toIsoDate(values.interviewAt),
-    followUpAt: toIsoDate(values.followUpAt),
-    appliedAt: toIsoDate(values.appliedAt),
+    followUpAt: toIsoCivilDay(values.followUpAt),
+    appliedAt: toIsoCivilDay(values.appliedAt),
   };
 }
 
