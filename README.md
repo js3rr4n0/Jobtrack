@@ -193,6 +193,10 @@ Al importar el repositorio, en **Settings -> General**:
 | Framework Preset | Next.js (se detecta solo) |
 | Build Command | por defecto (`npm run build`) |
 
+Si defines un **Build Command propio**, referénciate al workspace **por ruta**
+(`npm run build --workspace apps/web`) y no por nombre de paquete: la ruta
+sobrevive a un cambio de nombre del producto, el nombre del paquete no.
+
 El **Root Directory debe apuntar a `apps/web`**, no a la raíz: Vercel busca la
 dependencia `next` en el `package.json` de ese directorio, y el de la raíz solo
 declara los workspaces. La casilla de archivos externos es obligatoria porque la
@@ -244,8 +248,8 @@ Para cualquier otro proveedor, los comandos son:
 
 ```bash
 npm install --include=dev   # NODE_ENV=production omitiria TypeScript y la CLI de Nest
-npm run build --workspace @deska/api
-npm run start:prod --workspace @deska/api
+npm run build --workspace apps/api
+npm run start:prod --workspace apps/api
 ```
 
 La sonda de disponibilidad es `GET /api/health`.

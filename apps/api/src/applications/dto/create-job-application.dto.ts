@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsString,
   IsUrl,
+  IsUUID,
   Max,
   MaxLength,
   Min,
@@ -104,6 +105,16 @@ export class CreateJobApplicationDto {
   @IsString({ message: 'La versión de la carta debe ser texto.' })
   @MaxLength(80, { message: 'La versión de la carta admite hasta 80 caracteres.' })
   coverLetterVersion?: string | null;
+
+  @IsOptional()
+  @Transform(emptyToNull)
+  @IsUUID('4', { message: 'El currículum elegido no es válido.' })
+  resumeId?: string | null;
+
+  @IsOptional()
+  @Transform(emptyToNull)
+  @IsUUID('4', { message: 'La carta elegida no es válida.' })
+  coverLetterId?: string | null;
 
   @IsOptional()
   @Transform(emptyToNull)

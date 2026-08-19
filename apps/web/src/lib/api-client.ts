@@ -1,6 +1,9 @@
 import type {
   AdminOverview,
   CreateJobApplicationInput,
+  DocumentKind,
+  RegisterDocumentInput,
+  StoredDocument,
   CreateStickyNoteInput,
   GamificationProfile,
   JobApplication,
@@ -127,6 +130,19 @@ export class ApiClient {
   /** Informe agregado del panel de administración. Responde 403 si no eres tú. */
   getAdminOverview(): Promise<AdminOverviewResponse> {
     return this.request<AdminOverviewResponse>({ method: 'GET', path: '/admin/overview' });
+  }
+
+  getDocuments(kind?: DocumentKind): Promise<StoredDocument[]> {
+    const query = kind ? `?kind=${encodeURIComponent(kind)}` : '';
+    return this.request<StoredDocument[]>({ method: 'GET', path: `/documents${query}` });
+  }
+
+  registerDocument(input: RegisterDocumentInput): Promise<StoredDocument> {
+    return this.request<StoredDocument>({ method: 'POST', path: '/documents', body: input });
+  }
+
+  async deleteDocument(id: string): Promise<void> {
+    await this.request<null>({ method: 'DELETE', path: `/documents/${id}` });
   }
 
   getNotes(): Promise<StickyNote[]> {

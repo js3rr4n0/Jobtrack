@@ -26,6 +26,8 @@ export interface StickyNote extends NotePosition {
   readonly userId: string;
   readonly text: string;
   readonly color: NoteColor;
+  /** Captura adjunta, si la nota lleva alguna. */
+  readonly imageId: string | null;
   readonly createdAt: string;
   readonly updatedAt: string;
 }
@@ -33,6 +35,7 @@ export interface StickyNote extends NotePosition {
 export interface CreateStickyNoteInput {
   readonly text: string;
   readonly color?: NoteColor;
+  readonly imageId?: string | null;
   readonly x?: number;
   readonly y?: number;
 }
@@ -40,6 +43,7 @@ export interface CreateStickyNoteInput {
 export interface UpdateStickyNoteInput {
   readonly text?: string;
   readonly color?: NoteColor;
+  readonly imageId?: string | null;
   readonly x?: number;
   readonly y?: number;
 }

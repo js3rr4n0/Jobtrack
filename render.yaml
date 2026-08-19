@@ -12,8 +12,8 @@ services:
     # Render inyecta PORT; la API lo respeta a traves de su configuracion.
     # --include=dev es imprescindible: con NODE_ENV=production npm omitiria las
     # dependencias de desarrollo, entre ellas TypeScript y la CLI de Nest.
-    buildCommand: npm install --include=dev && npm run build --workspace @deska/api
-    startCommand: npm run start:prod --workspace @deska/api
+    buildCommand: npm install --include=dev && npm run build --workspace apps/api
+    startCommand: npm run start:prod --workspace apps/api
     healthCheckPath: /api/health
     envVars:
       # Se fija la version de Node: sin esto Render elige la mas reciente que

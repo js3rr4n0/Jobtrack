@@ -44,6 +44,7 @@ export class StickyNotesService {
       userId,
       text: normalizeNoteText(payload.text) ?? '',
       color: payload.color ?? DEFAULT_NOTE_COLOR,
+      imageId: payload.imageId ?? null,
       ...position,
     });
 
@@ -66,9 +67,10 @@ export class StickyNotesService {
 
     // Mover y editar comparten endpoint, pero se anuncian distinto para que la
     // interfaz pueda reaccionar solo al arrastre cuando le interese.
-    const kind: NoteChangeKind = patch.text === undefined && patch.color === undefined
-      ? 'moved'
-      : 'updated';
+    const kind: NoteChangeKind =
+      patch.text === undefined && patch.color === undefined && patch.imageId === undefined
+        ? 'moved'
+        : 'updated';
 
     this.notify(userId, kind, updated.id, updated, originId);
     return updated;
@@ -114,6 +116,10 @@ function buildPatch(payload: UpdateStickyNoteDto): StickyNotePatch {
 
   if (payload.color !== undefined) {
     Object.assign(patch, { color: payload.color });
+  }
+
+  if (payload.imageId !== undefined) {
+    Object.assign(patch, { imageId: payload.imageId });
   }
 
   if (payload.x !== undefined) {

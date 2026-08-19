@@ -35,5 +35,9 @@ export function getSupabaseClient(): SupabaseClient | null {
   return cachedClient;
 }
 
+/** Bucket privado de los archivos. Debe coincidir con el de la API. */
+export const DOCUMENTS_BUCKET =
+  process.env.NEXT_PUBLIC_DOCUMENTS_BUCKET ?? 'deska-documentos';
+
 export const MISSING_SUPABASE_MESSAGE =
   'Falta configurar NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY para habilitar el inicio de sesión.';

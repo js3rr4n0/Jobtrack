@@ -14,13 +14,15 @@
   },
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
-    "dev:api": "npm run start:dev --workspace @deska/api",
-    "dev:web": "npm run dev --workspace @deska/web",
-    "build": "npm run build --workspace @deska/contracts && npm run build --workspace @deska/api && npm run build --workspace @deska/web",
-    "build:contracts": "npm run build --workspace @deska/contracts",
+    "dev:api": "npm run start:dev --workspace apps/api",
+    "dev:web": "npm run dev --workspace apps/web",
+    "build": "npm run build --workspace packages/contracts && npm run build --workspace apps/api && npm run build --workspace apps/web",
+    "build:contracts": "npm run build --workspace packages/contracts",
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "test:unit": "npm run test:unit --workspaces --if-present",
-    "test:integration": "npm run test:integration --workspaces --if-present"
+    "test:integration": "npm run test:integration --workspaces --if-present",
+    "build:web": "npm run build --workspace apps/web",
+    "build:api": "npm run build --workspace apps/api"
   }
 }

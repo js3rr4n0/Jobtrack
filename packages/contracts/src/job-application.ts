@@ -119,10 +119,14 @@ export interface JobApplication {
   readonly category: string | null;
   /** Persona de contacto dentro de la empresa, con su correo o teléfono. */
   readonly contact: string | null;
-  /** Versión del currículum enviada, para saber cuál defender en la entrevista. */
+  /** Etiqueta libre del currículum enviado. Anterior a la subida de archivos. */
   readonly resumeVersion: string | null;
-  /** Versión de la carta de presentación enviada, si se envió alguna. */
+  /** Etiqueta libre de la carta enviada. Anterior a la subida de archivos. */
   readonly coverLetterVersion: string | null;
+  /** Currículum subido que se envió a esta vacante. */
+  readonly resumeId: string | null;
+  /** Carta de presentación subida que se envió a esta vacante. */
+  readonly coverLetterId: string | null;
   /** Fecha ISO 8601 de la entrevista agendada, si existe. */
   readonly interviewAt: string | null;
   /** Día en que toca volver a escribir si no hay respuesta. */
@@ -148,6 +152,8 @@ export interface CreateJobApplicationInput {
   contact?: string | null;
   resumeVersion?: string | null;
   coverLetterVersion?: string | null;
+  resumeId?: string | null;
+  coverLetterId?: string | null;
   interviewAt?: string | null;
   followUpAt?: string | null;
   appliedAt?: string | null;

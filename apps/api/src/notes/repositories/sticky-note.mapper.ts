@@ -13,6 +13,7 @@ export interface StickyNoteRow {
   user_id: string;
   text: string;
   color: string;
+  image_id: string | null;
   position_x: number | string | null;
   position_y: number | string | null;
   created_at: string;
@@ -31,6 +32,7 @@ export function toDomain(row: StickyNoteRow): StickyNote {
     userId: row.user_id,
     text: row.text,
     color: isNoteColor(row.color) ? row.color : DEFAULT_NOTE_COLOR,
+    imageId: row.image_id,
     x: position.x,
     y: position.y,
     createdAt: row.created_at,
@@ -43,6 +45,7 @@ export function toInsertRow(record: NewStickyNoteRecord): Omit<StickyNoteRow, 'i
     user_id: record.userId,
     text: record.text,
     color: record.color,
+    image_id: record.imageId,
     position_x: record.x,
     position_y: record.y,
   };
@@ -51,6 +54,7 @@ export function toInsertRow(record: NewStickyNoteRecord): Omit<StickyNoteRow, 'i
 const COLUMN_BY_FIELD: Record<keyof StickyNotePatch, keyof StickyNoteRow> = {
   text: 'text',
   color: 'color',
+  imageId: 'image_id',
   x: 'position_x',
   y: 'position_y',
 };
