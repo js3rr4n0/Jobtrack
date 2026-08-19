@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { AuthResultForwarder } from '@/components/auth/AuthResultForwarder';
 import { LandingHighlights } from '@/components/landing/LandingHighlights';
+import { ThemedBoardShot } from '@/components/landing/ThemedBoardShot';
 import { AppearanceMenu } from '@/components/theme/AppearanceMenu';
 
 export default function HomePage() {
@@ -49,27 +49,7 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/*
-        Prueba visual del producto antes del pliegue: el tablero real, con sus
-        columnas, sus areas y el panel de progreso, pesa mas que cualquier
-        descripcion. La imagen es decorativa respecto al texto que la rodea, asi
-        que su alternativa resume lo que se ve sin repetir el titular.
-      */}
-      <figure className="flex flex-col gap-2">
-        <div className="overflow-hidden rounded-card border border-subtle bg-raised shadow-lifted">
-          <Image
-            src="/tablero.jpg"
-            alt="El tablero de Deska con sus seis columnas, las pestañas de área y el panel de nivel, entrevistas y ofertas"
-            width={1280}
-            height={742}
-            className="h-auto w-full"
-            priority
-          />
-        </div>
-        <figcaption className="text-xs text-secondary">
-          Un tablero con nueve postulaciones repartidas en tres áreas.
-        </figcaption>
-      </figure>
+      <ThemedBoardShot />
 
       <ul className="grid gap-3 sm:grid-cols-3">
         {[

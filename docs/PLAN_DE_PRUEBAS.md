@@ -28,6 +28,7 @@ npm test --workspace @deska/web
 | contracts | `src/analytics.spec.ts` | Unitaria | 23 |
 | contracts | `src/board.spec.ts` | Unitaria | 20 |
 | contracts | `src/admin.spec.ts` | Unitaria | 12 |
+| contracts | `src/document.spec.ts` | Unitaria | 19 |
 | contracts | `src/sticky-note.spec.ts` | Unitaria | 22 |
 | api | `src/config/environment.spec.ts` | Unitaria | 6 |
 | api | `src/auth/token-verifier.service.spec.ts` | Unitaria | 14 |
@@ -36,6 +37,7 @@ npm test --workspace @deska/web
 | api | `test/applications.e2e-spec.ts` | Integracion | 21 |
 | api | `test/notes.e2e-spec.ts` | Integracion | 10 |
 | api | `test/admin.e2e-spec.ts` | Integracion | 6 |
+| api | `test/documents.e2e-spec.ts` | Integracion | 11 |
 | api | `test/realtime.e2e-spec.ts` | Integracion | 5 |
 | web | `src/lib/application-form.test.ts` | Unitaria | 25 |
 | web | `src/lib/api-client.test.ts` | Unitaria | 14 |
@@ -55,12 +57,14 @@ npm test --workspace @deska/web
 | web | `src/components/notes/note-geometry.test.ts` | Unitaria | 4 |
 | web | `src/components/board/ApplicationForm.test.tsx` | Componente | 8 |
 | web | `src/components/board/StageProgress.test.tsx` | Componente | 5 |
+| web | `src/components/documents/DocumentPicker.test.tsx` | Componente | 9 |
+| web | `src/components/documents/UploadProgress.test.tsx` | Componente | 5 |
 | web | `src/components/board/CategoryTabs.test.tsx` | Componente | 5 |
 | web | `src/components/icons/Icon.test.tsx` | Componente | 5 |
 | web | `src/components/gamification/LevelMeter.test.tsx` | Componente | 4 |
 | web | `tests/integration/board-workspace.test.tsx` | Integracion | 14 |
 
-**Total: 434 casos.**
+**Total: 477 casos.**
 
 ---
 
@@ -244,6 +248,10 @@ retraso de red se reporta como tal y no como un cuelgue silencioso.
 | Normalizacion de entrada | Los espacios se recortan y las cadenas vacías se guardan como `null` | `applications.e2e-spec.ts` |
 | Aislamiento entre cuentas | 404 al leer, actualizar o eliminar datos ajenos | `applications.e2e-spec.ts` |
 | Panel de administración sin token | 401 | `admin.e2e-spec.ts` |
+| Archivo en la carpeta de otra persona | 400: la ruta no corresponde a la cuenta | `documents.e2e-spec.ts` |
+| Ruta que intenta salirse de la carpeta propia | 400 | `documents.e2e-spec.ts` |
+| Formato o tamaño no admitidos | 400 con el motivo concreto | `documents.e2e-spec.ts`, `document.spec.ts` |
+| Archivos de otra persona | No aparecen en el listado ni se pueden borrar | `documents.e2e-spec.ts` |
 | Panel con una cuenta que no es la administradora | 403 | `admin.e2e-spec.ts` |
 | Panel sin `ADMIN_EMAIL` configurado | 403 incluso con sesión válida | `admin.e2e-spec.ts` |
 | Contenido del informe | No aparecen notas, contactos ni identificadores de personas | `admin.e2e-spec.ts` |
@@ -277,7 +285,7 @@ La entrega se considera correcta cuando:
 3. `npm run build` compila el paquete compartido, la API y la web.
 4. Ninguna prueba deja procesos abiertos ni depende de servicios externos.
 
-Estado actual: **434 casos, todos en verde**, sin dependencias de red externas.
+Estado actual: **477 casos, todos en verde**, sin dependencias de red externas.
 
 ## 7. Verificación manual complementaria
 
