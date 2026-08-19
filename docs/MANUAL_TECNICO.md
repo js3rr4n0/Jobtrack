@@ -99,6 +99,8 @@ probarlo de forma aislada.
 | `sticky-note.ts` | Modelo `StickyNote`, saneado de texto y color, `clampNotePosition`, `applyNoteMove` y `translateNotePosition`. |
 | `gamification.ts` | Tabla de recompensas, curva de niveles, títulos y catalogo de logros. |
 | `analytics.ts` | `buildPlayerStats`, `calculateStreaks`, `calculateBaseExperience` y `buildGamificationProfile`. |
+| `agenda.ts` | `buildAgenda`: reune entrevistas y seguimientos de todo el tablero en una lista ordenada por proximidad, con los dias contados por calendario. |
+| `document.ts` | Clases de archivo, formatos y tamaño admitidos, composicion de la ruta en el almacen y reglas de aceptacion compartidas. |
 | `realtime.ts` | Nombres de los eventos y forma de `BoardChangeEvent` y `NoteChangeEvent`. |
 
 **Por que compartir el reordenamiento.** La interfaz aplica el movimiento de
@@ -111,6 +113,18 @@ optimista y el persistido coinciden por construccion.
 deriva del estado actual del tablero mediante `buildGamificationProfile`. No hay
 contador almacenado que pueda desincronizarse: dos dispositivos con las mismas
 postulaciones calculan siempre el mismo nivel.
+
+**Por que existe `furthestStatus`.** Derivar la experiencia del estado tiene un
+efecto indeseado: mover una tarjeta fuera de *Contratado* borraba sus puntos y
+bajaba el nivel de golpe. Cada postulacion guarda por eso la etapa mas
+adelantada que ha alcanzado, una marca monotona que solo sube
+(`mergeFurthestStatus` compara por `progressWeight`, de modo que el descarte,
+con peso cero, nunca la rebaja). La experiencia y los logros se cuentan desde
+esa marca, no desde la columna actual. Sigue siendo un calculo derivado y
+reproducible: lo unico que cambia es que el dato del que deriva recuerda por
+donde paso la tarjeta. La marca la fija el servidor en `create`, `update` y
+`move`, y no forma parte de ningun DTO de entrada, asi que ningun cliente puede
+rebajarla.
 
 El paquete se compila a `dist/` con `tsc`; los scripts `build`, `dev` y `start`
 de la API y de la web lo compilan antes de arrancar. Las suites de pruebas
@@ -254,6 +268,9 @@ porque «100 % de contratación» sobre una sola postulación no dice nada.
 | `POST` | `/api/notes` | Crea una nota. |
 | `PATCH` | `/api/notes/:id` | Cambia texto, color o posición. |
 | `DELETE` | `/api/notes/:id` | Elimina una nota. |
+| `GET` | `/api/documents` | Archivos del usuario. Admite `kind` y `applicationId`. |
+| `POST` | `/api/documents` | Registra un archivo ya subido al almacen. |
+| `DELETE` | `/api/documents/:id` | Elimina la fila y su binario. |
 | `GET` | `/api/gamification/profile` | Perfil de juego del usuario. |
 | `GET` | `/api/admin/overview` | Informe agregado. Solo para `ADMIN_EMAIL`. |
 
@@ -302,7 +319,10 @@ propio eco y evita renderizados redundantes.
 | `/` | Página de bienvenida (componente de servidor). |
 | `/acceso` | Inicio de sesión. |
 | `/registro` | Alta de cuenta. |
-| `/tablero` | Tablero kanban y capa de juego. |
+| `/tablero` | Tablero kanban, agenda de proximas citas y capa de juego. |
+| `/tablero/[id]` | Ficha completa de una vacante: datos, notas largas, adjuntos y documentos enviados. |
+| `/admin` | Informe agregado de uso, restringido a la cuenta administradora. |
+| `/not-found` | Pantalla propia para direcciones inexistentes, con el tema activo. |
 
 `layout.tsx` inyecta un script de arranque que aplica el tema guardado **antes**
 de pintar, de modo que no hay parpadeo de colores al cargar.
@@ -418,12 +438,17 @@ degrade a un comportamiento predecible en vez de a una pantalla blanca.
 
 - Los tipos enumerados `application_status`, `work_mode` y `application_priority`.
 - La tabla `public.job_applications` con restricciones de longitud y de rango,
-  incluida el área libre `category`.
+  incluida el área libre `category` y la marca de avance `furthest_status`.
+- La tabla `public.documents` con los metadatos de cada archivo; el binario vive
+  en Supabase Storage. Su columna `application_id` es nula para lo que se
+  reutiliza —currículums, cartas— y apunta a la vacante en los adjuntos, que se
+  borran en cascada con ella.
 - La tabla `public.sticky_notes`, con el color restringido al catalogo y la
   posición acotada entre 0 y 100.
 - Indices por `(user_id, status, board_order)` para el tablero, por
   `(user_id, category)` para el filtro de áreas, por `(user_id, interview_at)`
-  para las entrevistas agendadas y por `(user_id, created_at)` para el mural.
+  para las entrevistas agendadas, por `(user_id, created_at)` para el mural y por
+  `(application_id, created_at)` para los adjuntos de una vacante.
 - El disparador `touch_updated_at`, que mantiene `updated_at` coherente sin
   depender de la capa de aplicación.
 - Politicas de **Row Level Security** que restringen cada operación a
@@ -431,6 +456,13 @@ degrade a un comportamiento predecible en vez de a una pantalla blanca.
 
 La RLS es una segunda línea de defensa: aunque la API ya filtra por usuario, la
 base rechazaria por su cuenta cualquier acceso cruzado.
+
+El archivo entero es idempotente y puede volver a ejecutarse sobre una base ya
+creada: las columnas nuevas se añaden con `add column if not exists` y las
+restricciones que cambian se recrean. `supabase/migrations/` guarda ademas cada
+cambio por separado, para aplicar solo lo que falta. Ambas rutas se verifican
+contra un PostgreSQL 16 real —base nueva, segunda pasada y migracion desde la
+version anterior— antes de darlas por buenas.
 
 ## 7. Pruebas
 

@@ -10,6 +10,8 @@ empleo en una partida con niveles, rachas y logros.
 3. [Registrar una oferta de empleo](#3-registrar-una-oferta-de-empleo)
 4. [Actualizar el estado de una postulación](#4-actualizar-el-estado-de-una-postulación)
 5. [Editar y eliminar postulaciones](#5-editar-y-eliminar-postulaciones)
+5.1. [La ficha completa de una vacante](#51-la-ficha-completa-de-una-vacante)
+5.2. [Lo que viene: entrevistas y seguimientos](#52-lo-que-viene-entrevistas-y-seguimientos)
 6. [Separar el tablero por áreas](#6-separar-el-tablero-por-áreas)
 7. [El mural de notas](#7-el-mural-de-notas)
 8. [Entender la capa de juego](#8-entender-la-capa-de-juego)
@@ -152,6 +154,8 @@ más comoda en telefonos.
 
 ## 5. Editar y eliminar postulaciones
 
+Para cambios rapidos desde el propio tablero:
+
 **Editar**: pulsa el icono de lapiz de la tarjeta. Se abre el formulario con los
 datos ya cargados; cambia lo que necesites y pulsa **Guardar cambios**. Es el
 lugar habitual para agregar notas después de una llamada o registrar la fecha de
@@ -160,6 +164,62 @@ una entrevista recien agendada.
 **Eliminar**: pulsa el icono de papelera. Aparece un dialogo de confirmación que
 nombra la postulación. Pulsa **Eliminar** para borrarla o **Conservar** para
 volver atras. La eliminacion no se puede deshacer.
+
+---
+
+## 5.1 La ficha completa de una vacante
+
+Una tarjeta del tablero tiene que caber en una columna, asi que ahi todo va
+recortado. **Pulsa el titulo de la tarjeta** —o el icono de capas de la fila de
+abajo— y se abre la ficha completa de esa vacante, en su propia dirección: puedes
+abrirla en otra pestaña, guardarla en marcadores o mandartela de la computadora
+al teléfono.
+
+En la ficha caben las cosas que en la tarjeta no:
+
+- **Los datos, en grande.** Prioridad, ubicación, contacto, fechas, expectativa
+  salarial y el enlace a la publicación, cada uno en su recuadro y sin recortar.
+- **Las notas del proceso.** Un campo de diez lineas para lo que preguntaron, con
+  quien hablaste y que queda pendiente. Escribe y pulsa **Guardar las notas**; si
+  te arrepientes, **Descartar los cambios** vuelve a lo que habia.
+- **Archivos y capturas.** Todo lo que acompaña a esa vacante: la captura del
+  anuncio, el correo de respuesta, la prueba tecnica en PDF. Hay tres formas de
+  añadir uno, y todas valen:
+  - **Pegar con Ctrl+V** (Cmd+V en Mac) una captura que acabas de recortar.
+  - **Arrastrar** los archivos sobre el panel.
+  - Pulsar **Añadir archivo** y elegirlos a mano.
+
+  Las imagenes se ven ahi mismo, sin descargarlas. Se aceptan PNG, JPG, WebP y
+  PDF, hasta 5 MB por archivo. Al eliminar la vacante, sus archivos se van con
+  ella.
+- **Lo que enviaste.** El currículum y la carta concretos que mandaste a esta
+  oferta, elegidos de los que ya subiste o subiendo uno nuevo sin salir de la
+  pantalla. Guardarlo evita presentarte a la entrevista con una version distinta
+  de la que leyeron.
+
+También puedes cambiar la etapa desde aqui, editar el resto de los datos y
+eliminar la vacante. **Volver al tablero**, arriba del todo, te devuelve.
+
+---
+
+## 5.2 Lo que viene: entrevistas y seguimientos
+
+Tus fechas viven repartidas por seis columnas, asi que para saber si hay algo
+mañana habria que repasar el tablero entero. El apartado **Lo que viene** las
+reune todas en una lista: cada entrevista agendada y cada fecha de seguimiento de
+los procesos que siguen abiertos.
+
+- Está ordenado de lo más urgente a lo más lejano, y abarca los próximos treinta
+  días.
+- Lo vencido va primero y en color de aviso, con el recuento arriba a la derecha:
+  es lo único que ya deberia estar hecho.
+- Cada linea dice cuando es en lenguaje normal —*hoy*, *mañana*, *en 4 días*,
+  *hace 3 días*— y lleva a la ficha de esa vacante de un clic.
+- Los procesos cerrados, contratados o descartados, no aparecen: ya no piden
+  nada.
+
+En el teléfono es lo primero que ves al abrir Deska, antes incluso del tablero.
+En pantalla ancha vive arriba de la columna derecha.
 
 ---
 
@@ -227,8 +287,12 @@ cambiar el texto, cambiar el color o pulsar **Eliminar**.
 | Cerrar como contratado | 150 |
 | Registrar un descarte | 8 |
 
-Retroceder una tarjeta nunca resta puntos: la experiencia refleja el esfuerzo
-acumulado, no el resultado.
+Retroceder una tarjeta nunca resta puntos. Cada postulación recuerda la etapa
+más adelantada por la que ha pasado, y es desde ahi desde donde se cuenta: si
+llevaste una oferta hasta *Contratado* y despues la mueves a otra columna,
+conservas los 150 puntos y el logro. Mover una tarjeta corrige donde está, no
+borra que llegaste hasta ahi. Avanzar de verdad sigue sumando; reorganizar el
+tablero no resta.
 
 **Niveles**. La barra del panel indica cuanto falta para el siguiente nivel.
 Cada nivel otorga un rango, de **Aspirante** a **Leyenda del empleo**. Al subir
@@ -240,7 +304,10 @@ viva si tu último movimiento fue hoy o ayer.
 **Logros**. Son ocho metas concretas (primera postulación, primera entrevista,
 primera oferta, contrato firmado, resiliencia, memoria de acero, constancia
 semanal y sembrando oportunidades). Cada tarjeta muestra su progreso actual y la
-bonificacion que otorga al desbloquearse.
+bonificacion que otorga al desbloquearse. Como los puntos, se miden por las
+etapas alcanzadas: un logro desbloqueado no se pierde al reordenar el tablero.
+La lista vive plegada; el encabezado muestra cuantos llevas sin necesidad de
+abrirla.
 
 ---
 
@@ -294,7 +361,8 @@ suyo: es una preferencia por dispositivo, no por cuenta.
 La interfaz se adapta sola:
 
 - Las columnas se reparten en varias filas y se recorren desplazando la página hacia abajo; nunca hay que desplazarse en horizontal.
-- El panel de progreso pasa a la parte superior.
+- El orden vertical pone delante lo que hay que hacer: primero **Lo que viene**, después el tablero, y el nivel, el resumen y los logros al final, donde se consultan de vez en cuando.
+- Los logros vienen plegados; el encabezado dice cuántos llevas.
 - Los formularios se abren como hojas a pantalla completa.
 - Los botones de la cabecera muestran solo el icono para ahorrar espacio.
 
