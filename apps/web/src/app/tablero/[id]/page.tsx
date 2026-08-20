@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { ApplicationDetail } from '@/components/board/ApplicationDetail';
 
 export const metadata: Metadata = {
-  title: 'Vacante - Deska',
+  title: 'Vacante',
 };
 
 /**

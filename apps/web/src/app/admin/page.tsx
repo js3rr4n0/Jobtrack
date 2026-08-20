@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { AdminOverviewPanel } from '@/components/admin/AdminOverviewPanel';
 
 export const metadata = {
-  title: 'Panel de administración - Deska',
+  title: 'Panel de administración',
 };
 
 export default function AdminPage() {

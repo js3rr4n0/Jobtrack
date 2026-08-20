@@ -20,6 +20,7 @@ empleo en una partida con niveles, rachas y logros.
 11. [Sincronización entre dispositivos](#11-sincronización-entre-dispositivos)
 12. [Que pasa si te quedas sin conexión](#12-que-pasa-si-te-quedas-sin-conexión)
 13. [Preguntas frecuentes](#13-preguntas-frecuentes)
+14. [Términos y privacidad](#14-términos-y-privacidad)
 
 ---
 
@@ -462,3 +463,22 @@ el logro *Resiliencia*. Registrar los descartes también mantiene viva tu racha.
 
 **Como cierro sesión.**
 Pulsa **Salir** en la cabecera del tablero.
+
+---
+
+## 14. Términos y privacidad
+
+Los dos documentos están enlazados desde el pie de todas las pantallas
+públicas, y también desde la propia pantalla de registro, antes de crear la
+cuenta.
+
+- **Términos de servicio** (`/terminos`): el servicio es gratuito, no se pide
+  tarjeta y no hay cobros. Lo que escribes sigue siendo tuyo. Deska es una
+  herramienta para organizarte, no una agencia de empleo: no intermedia con
+  ninguna empresa ni garantiza resultados.
+- **Política de privacidad** (`/privacidad`): qué datos se guardan, para qué y
+  durante cuánto tiempo. Sin anuncios, sin rastreadores de terceros y sin venta
+  de datos. El panel interno de uso solo devuelve recuentos agregados.
+
+Cada documento abre con un resumen en lenguaje llano antes del texto formal,
+porque un consentimiento que no se ha entendido no es un consentimiento.

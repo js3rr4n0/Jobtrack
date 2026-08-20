@@ -4,7 +4,7 @@ import { Logo } from '@/components/brand/Logo';
 import { AppearanceMenu } from '@/components/theme/AppearanceMenu';
 
 export const metadata = {
-  title: 'Página no encontrada · Deska',
+  title: 'Página no encontrada',
 };
 
 /**

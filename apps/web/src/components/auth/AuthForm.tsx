@@ -6,7 +6,10 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 
 import { Logo } from '@/components/brand/Logo';
+import { SiteFooter } from '@/components/layout/SiteFooter';
+import { Icon } from '@/components/icons';
 import { AppearanceMenu } from '@/components/theme/AppearanceMenu';
+import { usePreferences } from '@/components/theme/PreferencesProvider';
 import { Button } from '@/components/ui/Button';
 import { TextField } from '@/components/ui/FormField';
 import { StatusBanner } from '@/components/ui/StatusBanner';
@@ -33,12 +36,28 @@ const COPY: Record<AuthMode, { title: string; subtitle: string; submit: string; 
   },
   signUp: {
     title: 'Crea tu cuenta',
-    subtitle: 'Registra tus postulaciones y empieza a subir de nivel.',
-    submit: 'Registrarme',
+    subtitle: 'En menos de un minuto tienes tu primer tablero en marcha.',
+    submit: 'Crear mi cuenta gratis',
     alternateHref: '/acceso',
     alternateLabel: 'Ya tengo una cuenta',
   },
 };
+
+/**
+ * Los mismos beneficios que promete la portada, dichos en una linea.
+ *
+ * El registro es donde se cierra la decision, y llegar ahi para encontrar un
+ * formulario generico obliga a recordar por que se vino. Repetirlos aqui
+ * cuesta tres lineas y evita esa desconexion.
+ */
+const BENEFICIOS: readonly string[] = [
+  'No se te pasa ninguna entrevista',
+  'Ves dónde se te frena la búsqueda',
+  'El mismo tablero en la computadora y en el teléfono',
+];
+
+/** Objeciones habituales antes de dar un correo, respondidas por adelantado. */
+const GARANTIAS: readonly string[] = ['Gratis', 'Sin tarjeta', 'Menos de un minuto'];
 
 const OFFLINE_MESSAGE =
   'Sin conexión a internet. Conectate a una red para iniciar sesión o registrarte.';
@@ -50,6 +69,8 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
   const router = useRouter();
   const isOnline = useNetworkStatus();
   const copy = COPY[mode];
+  const isSignUp = mode === 'signUp';
+  const { iconPack } = usePreferences();
 
   const [values, setValues] = useState<CredentialsValues>({ email: '', password: '' });
   const [errors, setErrors] = useState<CredentialsErrors>({});
@@ -158,93 +179,151 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
   };
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-6 px-4 py-10">
-      <div className="flex items-center justify-between">
-        <Link href="/" className="focus-ring rounded-control">
-          <Logo size={30} />
-        </Link>
-        <AppearanceMenu />
-      </div>
-
-      <div className="surface-card p-6">
-        <h1 className="font-display text-2xl font-extrabold tracking-tight text-primary">{copy.title}</h1>
-        <p className="mt-1 text-sm text-secondary">{copy.subtitle}</p>
-
-        {!isOnline ? (
-          <div className="mt-4">
-            <StatusBanner tone="warning" message={OFFLINE_MESSAGE} />
-          </div>
-        ) : null}
-
-        {formError ? (
-          <div className="mt-4">
-            <StatusBanner tone="error" message={formError} onDismiss={() => setFormError(null)} />
-          </div>
-        ) : null}
-
-        {notice ? (
-          <div className="mt-4">
-            <StatusBanner tone="success" message={notice} />
-          </div>
-        ) : null}
-
-        <div className="mt-5 flex flex-col gap-2">
-          {OAUTH_PROVIDERS.map((provider) => (
-            <Button
-              key={provider.id}
-              type="button"
-              variant="secondary"
-              className="w-full"
-              disabled={redirectingTo !== null}
-              onClick={() => void handleProvider(provider)}
-            >
-              {redirectingTo === provider.id ? 'Abriendo...' : provider.label}
-            </Button>
-          ))}
-        </div>
-
-        <div className="my-5 flex items-center gap-3" aria-hidden="true">
-          <span className="h-px flex-1 bg-subtle" />
-          <span className="text-xs uppercase tracking-wide text-secondary">o con tu correo</span>
-          <span className="h-px flex-1 bg-subtle" />
-        </div>
-
-        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
-          <TextField
-            id="email"
-            name="email"
-            label="Correo electrónico"
-            type="email"
-            autoComplete="email"
-            required
-            value={values.email}
-            error={errors.email}
-            onChange={(event) => updateField('email', event.target.value)}
-          />
-          <TextField
-            id="password"
-            name="password"
-            label="Contraseña"
-            type="password"
-            required
-            autoComplete={mode === 'signIn' ? 'current-password' : 'new-password'}
-            value={values.password}
-            error={errors.password}
-            hint={mode === 'signUp' ? `Mínimo ${MINIMUM_PASSWORD_LENGTH} caracteres.` : undefined}
-            onChange={(event) => updateField('password', event.target.value)}
-          />
-
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Procesando...' : copy.submit}
-          </Button>
-        </form>
-
-        <p className="mt-4 text-center text-sm text-secondary">
-          <Link href={copy.alternateHref} className="focus-ring underline underline-offset-4">
-            {copy.alternateLabel}
+    <div className="flex min-h-screen flex-col">
+      <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-6 px-4 py-10">
+        <div className="flex items-center justify-between">
+          <Link href="/" className="focus-ring rounded-control">
+            <Logo size={30} />
           </Link>
-        </p>
-      </div>
-    </main>
+          <AppearanceMenu />
+        </div>
+
+        <div className="surface-card layered p-6">
+          <h1 className="font-display text-2xl font-extrabold tracking-tight text-primary">{copy.title}</h1>
+          <p className="mt-1 text-sm text-secondary">{copy.subtitle}</p>
+
+          {isSignUp ? (
+            <>
+              <ul className="mt-4 flex flex-col gap-1.5">
+                {BENEFICIOS.map((beneficio) => (
+                  <li key={beneficio} className="flex items-start gap-2 text-sm text-secondary">
+                    <Icon
+                      name="check"
+                      pack={iconPack}
+                      size={16}
+                      className="mt-0.5 shrink-0 text-success"
+                    />
+                    {beneficio}
+                  </li>
+                ))}
+              </ul>
+
+              <ul className="mt-4 flex flex-wrap gap-1.5">
+                {GARANTIAS.map((garantia) => (
+                  <li
+                    key={garantia}
+                    className="rounded-control bg-accent-soft px-2.5 py-1 text-xs font-medium text-primary"
+                  >
+                    {garantia}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
+
+          {!isOnline ? (
+            <div className="mt-4">
+              <StatusBanner tone="warning" message={OFFLINE_MESSAGE} />
+            </div>
+          ) : null}
+
+          {formError ? (
+            <div className="mt-4">
+              <StatusBanner tone="error" message={formError} onDismiss={() => setFormError(null)} />
+            </div>
+          ) : null}
+
+          {notice ? (
+            <div className="mt-4">
+              <StatusBanner tone="success" message={notice} />
+            </div>
+          ) : null}
+
+          <div className="mt-5 flex flex-col gap-2">
+            {OAUTH_PROVIDERS.map((provider) => (
+              <Button
+                key={provider.id}
+                type="button"
+                variant="secondary"
+                className="w-full"
+                disabled={redirectingTo !== null}
+                onClick={() => void handleProvider(provider)}
+              >
+                {redirectingTo === provider.id ? 'Abriendo...' : provider.label}
+              </Button>
+            ))}
+          </div>
+
+          <div className="my-5 flex items-center gap-3" aria-hidden="true">
+            <span className="h-px flex-1 bg-subtle" />
+            <span className="text-xs uppercase tracking-wide text-secondary">o con tu correo</span>
+            <span className="h-px flex-1 bg-subtle" />
+          </div>
+
+          <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+            <TextField
+              id="email"
+              name="email"
+              label="Correo electrónico"
+              type="email"
+              autoComplete="email"
+              required
+              value={values.email}
+              error={errors.email}
+              onChange={(event) => updateField('email', event.target.value)}
+            />
+            <TextField
+              id="password"
+              name="password"
+              label="Contraseña"
+              type="password"
+              required
+              autoComplete={mode === 'signIn' ? 'current-password' : 'new-password'}
+              value={values.password}
+              error={errors.password}
+              hint={mode === 'signUp' ? `Mínimo ${MINIMUM_PASSWORD_LENGTH} caracteres.` : undefined}
+              onChange={(event) => updateField('password', event.target.value)}
+            />
+
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Procesando...' : copy.submit}
+            </Button>
+
+            {/*
+              El consentimiento va a la vista y junto al boton que lo otorga. Un
+              aviso escondido en un pie es precisamente el que una autoridad de
+              proteccion de datos considera no prestado.
+            */}
+            {isSignUp ? (
+              <p className="text-xs text-secondary">
+                Al crear la cuenta aceptas los{' '}
+                <Link
+                  href="/terminos"
+                  className="focus-ring rounded-control text-primary underline decoration-dotted underline-offset-2"
+                >
+                  términos de servicio
+                </Link>{' '}
+                y la{' '}
+                <Link
+                  href="/privacidad"
+                  className="focus-ring rounded-control text-primary underline decoration-dotted underline-offset-2"
+                >
+                  política de privacidad
+                </Link>
+                . No vendemos tus datos ni mostramos anuncios.
+              </p>
+            ) : null}
+          </form>
+
+          <p className="mt-4 text-center text-sm text-secondary">
+            <Link href={copy.alternateHref} className="focus-ring underline underline-offset-4">
+              {copy.alternateLabel}
+            </Link>
+          </p>
+        </div>
+      </main>
+
+      <SiteFooter />
+    </div>
   );
 }

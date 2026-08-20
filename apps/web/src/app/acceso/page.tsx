@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { AuthForm } from '@/components/auth/AuthForm';
 
 export const metadata: Metadata = {
-  title: 'Iniciar sesión - Deska',
+  title: 'Iniciar sesión',
 };
 
 export default function SignInPage() {

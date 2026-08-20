@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { BoardWorkspace } from '@/components/board/BoardWorkspace';
 
 export const metadata: Metadata = {
-  title: 'Tablero - Deska',
+  title: 'Tablero',
 };
 
 export default function BoardPage() {

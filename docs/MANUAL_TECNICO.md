@@ -324,6 +324,9 @@ propio eco y evita renderizados redundantes.
 | `/tablero/[id]` | Ficha completa de una vacante: datos, notas largas, adjuntos y documentos enviados. |
 | `/admin` | Informe agregado de uso, restringido a la cuenta administradora. |
 | `/not-found` | Pantalla propia para direcciones inexistentes, con el tema activo. |
+| `/terminos` | Terminos de servicio. |
+| `/privacidad` | Politica de privacidad. |
+| `/robots.txt` y `/sitemap.xml` | Generados por Next; excluyen de los buscadores las pantallas con sesion. |
 
 `layout.tsx` inyecta un script de arranque que aplica el tema guardado **antes**
 de pintar, de modo que no hay parpadeo de colores al cargar.
