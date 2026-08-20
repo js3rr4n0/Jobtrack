@@ -1,3 +1,4 @@
+import { normalizeMeetingUrl } from '@deska/contracts';
 import type {
   ApplicationStatus,
   CreateJobApplicationInput,
@@ -21,6 +22,7 @@ export interface ApplicationFormValues {
   resumeId: string;
   coverLetterId: string;
   interviewAt: string;
+  meetingUrl: string;
   followUpAt: string;
   appliedAt: string;
 }
@@ -40,6 +42,7 @@ export const EMPTY_FORM_VALUES: ApplicationFormValues = {
   resumeId: '',
   coverLetterId: '',
   interviewAt: '',
+  meetingUrl: '',
   followUpAt: '',
   appliedAt: '',
 };
@@ -118,6 +121,12 @@ export function validateApplicationForm(values: ApplicationFormValues): FormErro
 
   if (!isBlank(values.interviewAt) && Number.isNaN(Date.parse(values.interviewAt))) {
     errors.interviewAt = 'Revisa la fecha y hora de la entrevista.';
+  }
+
+  // Se valida con la misma regla que aplica el dominio al abrirlo, para que un
+  // enlace que no serviria no llegue a guardarse.
+  if (!isBlank(values.meetingUrl) && normalizeMeetingUrl(values.meetingUrl) === null) {
+    errors.meetingUrl = 'Pega el enlace completo de la reunión, empezando por https.';
   }
 
   // Los campos de dia completo se comprueban con el mismo criterio con el que
@@ -268,6 +277,7 @@ export function toApplicationInput(values: ApplicationFormValues): CreateJobAppl
     resumeId: textOrNull(values.resumeId),
     coverLetterId: textOrNull(values.coverLetterId),
     interviewAt: toIsoDate(values.interviewAt),
+    meetingUrl: normalizeMeetingUrl(values.meetingUrl),
     followUpAt: toIsoCivilDay(values.followUpAt),
     appliedAt: toIsoCivilDay(values.appliedAt),
   };
@@ -291,6 +301,7 @@ export function fromApplication(application: JobApplication): ApplicationFormVal
     resumeId: application.resumeId ?? '',
     coverLetterId: application.coverLetterId ?? '',
     interviewAt: toLocalDateTimeValue(application.interviewAt),
+    meetingUrl: application.meetingUrl ?? '',
     followUpAt: toLocalDateValue(application.followUpAt),
     appliedAt: toLocalDateValue(application.appliedAt),
   };

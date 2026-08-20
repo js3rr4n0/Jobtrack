@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { type AgendaEntry, type JobApplication, buildAgenda } from '@deska/contracts';
 
+import { MeetingLink } from '@/components/board/MeetingLink';
 import { Icon } from '@/components/icons';
 import { usePreferences } from '@/components/theme/PreferencesProvider';
 import { formatDate, formatDateTime } from '@/lib/format';
@@ -91,6 +92,21 @@ export function UpcomingAgenda({ applications }: UpcomingAgendaProps) {
                   </span>
                 </span>
               </Link>
+
+              {/*
+                El enlace de la sala va fuera del enlace a la ficha: anidar dos
+                destinos en un mismo elemento deja sin decidir cual abre cada
+                pulsacion.
+              */}
+              {entry.meetingUrl && entry.platform ? (
+                <div className="pb-1 pl-8">
+                  <MeetingLink
+                    meetingUrl={entry.meetingUrl}
+                    platform={entry.platform}
+                    interviewAt={entry.at}
+                  />
+                </div>
+              ) : null}
             </li>
           ))}
         </ol>

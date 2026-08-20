@@ -23,6 +23,7 @@ export interface JobApplicationRow {
   resume_id: string | null;
   cover_letter_id: string | null;
   interview_at: string | null;
+  meeting_url: string | null;
   follow_up_at: string | null;
   applied_at: string | null;
   board_order: number;
@@ -51,6 +52,7 @@ export function toDomain(row: JobApplicationRow): JobApplication {
     resumeId: row.resume_id,
     coverLetterId: row.cover_letter_id,
     interviewAt: row.interview_at,
+    meetingUrl: row.meeting_url,
     followUpAt: row.follow_up_at,
     appliedAt: row.applied_at,
     boardOrder: row.board_order,
@@ -82,6 +84,7 @@ export function toInsertRow(record: NewJobApplicationRecord): Omit<
     resume_id: record.resumeId,
     cover_letter_id: record.coverLetterId,
     interview_at: record.interviewAt,
+    meeting_url: record.meetingUrl,
     follow_up_at: record.followUpAt,
     applied_at: record.appliedAt,
     board_order: record.boardOrder,
@@ -106,6 +109,7 @@ const PATCH_COLUMN_BY_FIELD: Readonly<Record<string, keyof JobApplicationRow>> =
   resumeId: 'resume_id',
   coverLetterId: 'cover_letter_id',
   interviewAt: 'interview_at',
+  meetingUrl: 'meeting_url',
   followUpAt: 'follow_up_at',
   appliedAt: 'applied_at',
   boardOrder: 'board_order',

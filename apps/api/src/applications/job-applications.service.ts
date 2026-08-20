@@ -87,6 +87,7 @@ export class JobApplicationsService {
       resumeId: payload.resumeId ?? null,
       coverLetterId: payload.coverLetterId ?? null,
       interviewAt: payload.interviewAt ?? null,
+      meetingUrl: payload.meetingUrl ?? null,
       followUpAt: payload.followUpAt ?? null,
       appliedAt: payload.appliedAt ?? this.defaultAppliedAt(status),
       boardOrder,
@@ -224,6 +225,7 @@ function buildPatch(payload: UpdateJobApplicationDto): JobApplicationPatch {
   assignIfPresent('resumeId');
   assignIfPresent('coverLetterId');
   assignIfPresent('interviewAt');
+  assignIfPresent('meetingUrl');
   assignIfPresent('followUpAt');
   assignIfPresent('appliedAt');
   assignIfPresent('boardOrder');

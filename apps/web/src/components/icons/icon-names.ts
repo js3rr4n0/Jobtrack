@@ -28,6 +28,7 @@ export const ICON_NAMES = [
   'refresh',
   'logout',
   'chevron',
+  'video',
 ] as const;
 
 export type IconName = (typeof ICON_NAMES)[number];

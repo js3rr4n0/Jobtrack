@@ -48,6 +48,8 @@ create table if not exists public.job_applications (
   resume_version text check (char_length(resume_version) <= 80),
   cover_letter_version text check (char_length(cover_letter_version) <= 80),
   interview_at timestamptz,
+  -- Enlace de la videollamada de la entrevista, distinto del de la vacante.
+  meeting_url text,
   follow_up_at timestamptz,
   applied_at timestamptz,
   board_order integer not null default 0 check (board_order >= 0),
@@ -63,6 +65,9 @@ alter table public.job_applications
 
 -- Los tableros anteriores no guardaban la marca de avance. Se rellena con la
 -- etapa en que esta cada tarjeta, que es lo unico que consta de su historia.
+alter table public.job_applications
+  add column if not exists meeting_url text;
+
 alter table public.job_applications
   add column if not exists furthest_status public.application_status;
 

@@ -100,6 +100,7 @@ probarlo de forma aislada.
 | `gamification.ts` | Tabla de recompensas, curva de niveles, títulos y catalogo de logros. |
 | `analytics.ts` | `buildPlayerStats`, `calculateStreaks`, `calculateBaseExperience` y `buildGamificationProfile`. |
 | `agenda.ts` | `buildAgenda`: reune entrevistas y seguimientos de todo el tablero en una lista ordenada por proximidad, con los dias contados por calendario. |
+| `meeting.ts` | Reconoce la plataforma de una videollamada por el host del enlace, normaliza la direccion a `http`/`https` y decide la ventana en la que tiene sentido unirse. |
 | `document.ts` | Clases de archivo, formatos y tamaño admitidos, composicion de la ruta en el almacen y reglas de aceptacion compartidas. |
 | `realtime.ts` | Nombres de los eventos y forma de `BoardChangeEvent` y `NoteChangeEvent`. |
 
@@ -438,7 +439,8 @@ degrade a un comportamiento predecible en vez de a una pantalla blanca.
 
 - Los tipos enumerados `application_status`, `work_mode` y `application_priority`.
 - La tabla `public.job_applications` con restricciones de longitud y de rango,
-  incluida el área libre `category` y la marca de avance `furthest_status`.
+  incluida el área libre `category`, la marca de avance `furthest_status` y el
+  enlace de la videollamada `meeting_url`.
 - La tabla `public.documents` con los metadatos de cada archivo; el binario vive
   en Supabase Storage. Su columna `application_id` es nula para lo que se
   reutiliza —currículums, cartas— y apunta a la vacante en los adjuntos, que se

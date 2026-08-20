@@ -290,6 +290,61 @@ describe('Postulaciones (integracion)', () => {
     });
   });
 
+  describe('enlace de la videollamada', () => {
+    it('guarda el enlace de la reunión junto a la entrevista', async () => {
+      const creada = await request(app.getHttpServer())
+        .post(url('/applications'))
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          company: 'Nube Andina',
+          position: 'Ingeniero de Datos',
+          interviewAt: '2026-08-20T15:00:00.000Z',
+          meetingUrl: 'https://meet.google.com/abc-defg-hij',
+        })
+        .expect(201);
+
+      expect(creada.body.meetingUrl).toBe('https://meet.google.com/abc-defg-hij');
+    });
+
+    it('rechaza un esquema que abriria algo inesperado', async () => {
+      await request(app.getHttpServer())
+        .post(url('/applications'))
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          company: 'Acme',
+          position: 'Backend',
+          meetingUrl: 'javascript:alert(1)',
+        })
+        .expect(400);
+    });
+
+    it('deja el enlace en nulo cuando llega vacio', async () => {
+      const creada = await request(app.getHttpServer())
+        .post(url('/applications'))
+        .set('Authorization', `Bearer ${token}`)
+        .send({ company: 'Acme', position: 'Backend', meetingUrl: '' })
+        .expect(201);
+
+      expect(creada.body.meetingUrl).toBeNull();
+    });
+
+    it('permite anadir el enlace despues, al agendar la entrevista', async () => {
+      const creada = await request(app.getHttpServer())
+        .post(url('/applications'))
+        .set('Authorization', `Bearer ${token}`)
+        .send({ company: 'Acme', position: 'Backend' })
+        .expect(201);
+
+      const actualizada = await request(app.getHttpServer())
+        .patch(url(`/applications/${creada.body.id}`))
+        .set('Authorization', `Bearer ${token}`)
+        .send({ meetingUrl: 'https://us02web.zoom.us/j/8412' })
+        .expect(200);
+
+      expect(actualizada.body.meetingUrl).toBe('https://us02web.zoom.us/j/8412');
+    });
+  });
+
   describe('tablero y gamificación', () => {
     it('devuelve el tablero con todas las columnas y el perfil del jugador', async () => {
       const response = await request(app.getHttpServer())

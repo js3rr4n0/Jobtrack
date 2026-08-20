@@ -10,10 +10,12 @@ import {
   PRIORITY_LABELS,
   STATUS_CATALOG,
   WORK_MODE_LABELS,
+  detectMeetingPlatform,
   isFollowUpDue,
 } from '@deska/contracts';
 
 import { ApplicationForm } from '@/components/board/ApplicationForm';
+import { MeetingLink } from '@/components/board/MeetingLink';
 import { StageProgress } from '@/components/board/StageProgress';
 import { AttachmentsPanel } from '@/components/documents/AttachmentsPanel';
 import { DocumentPicker } from '@/components/documents/DocumentPicker';
@@ -160,6 +162,7 @@ export function ApplicationDetail({ applicationId }: ApplicationDetailProps) {
   };
 
   const notesAreDirty = notesDraft !== remoteNotes;
+  const plataforma = detectMeetingPlatform(application.meetingUrl);
   const stage = STATUS_CATALOG[application.status];
 
   return (
@@ -277,6 +280,23 @@ export function ApplicationDetail({ applicationId }: ApplicationDetailProps) {
           </Fact>
         </dl>
       </section>
+
+      {/*
+        La videollamada va en su propio bloque, no como un dato mas de la
+        ficha: es lo unico de esta pantalla que hay que poder abrir a la carrera
+        cinco minutos antes de una entrevista.
+      */}
+      {application.meetingUrl && plataforma ? (
+        <section className="flex flex-col gap-2" aria-label="Videollamada de la entrevista">
+          <h2 className="font-display text-base font-bold text-primary">La entrevista</h2>
+          <MeetingLink
+            meetingUrl={application.meetingUrl}
+            platform={plataforma}
+            interviewAt={application.interviewAt}
+            variant="completa"
+          />
+        </section>
+      ) : null}
 
       <section className="surface-card flex flex-col gap-3 p-4" aria-label="Notas del proceso">
         <div>

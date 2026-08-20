@@ -136,6 +136,11 @@ export interface JobApplication {
   readonly coverLetterId: string | null;
   /** Fecha ISO 8601 de la entrevista agendada, si existe. */
   readonly interviewAt: string | null;
+  /**
+   * Enlace de la videollamada. Es distinto de `sourceUrl`: uno lleva al
+   * anuncio y otro a la sala donde hay que estar a una hora concreta.
+   */
+  readonly meetingUrl: string | null;
   /** Día en que toca volver a escribir si no hay respuesta. */
   readonly followUpAt: string | null;
   readonly appliedAt: string | null;
@@ -162,6 +167,7 @@ export interface CreateJobApplicationInput {
   resumeId?: string | null;
   coverLetterId?: string | null;
   interviewAt?: string | null;
+  meetingUrl?: string | null;
   followUpAt?: string | null;
   appliedAt?: string | null;
 }

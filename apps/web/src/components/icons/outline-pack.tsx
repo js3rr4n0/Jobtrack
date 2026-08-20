@@ -166,4 +166,12 @@ export const OUTLINE_SHAPES: Record<IconName, ReactNode> = {
     </>
   ),
   chevron: <polyline points="6 9 12 15 18 9" />,
+  // Camara de videollamada: cuerpo redondeado y el objetivo apuntando a la
+  // derecha, la silueta que identifica una sala en cualquier plataforma.
+  video: (
+    <>
+      <rect x="2" y="6" width="13" height="12" rx="2.5" />
+      <path d="M15 10.5 21 7v10l-6-3.5Z" />
+    </>
+  ),
 };

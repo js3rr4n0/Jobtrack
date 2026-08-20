@@ -121,6 +121,18 @@ export class CreateJobApplicationDto {
   @IsISO8601({}, { message: 'La fecha de entrevista debe tener formato ISO 8601.' })
   interviewAt?: string | null;
 
+  /*
+   * Solo http y https: cualquier otro esquema convertiria el boton de unirse
+   * en una via para lanzar algo que quien pulsa no espera.
+   */
+  @IsOptional()
+  @Transform(emptyToNull)
+  @IsUrl(
+    { require_protocol: true, protocols: ['http', 'https'] },
+    { message: 'El enlace de la reunión debe empezar por http o https.' },
+  )
+  meetingUrl?: string | null;
+
   @IsOptional()
   @Transform(emptyToNull)
   @IsISO8601({}, { message: 'La fecha de seguimiento debe tener formato ISO 8601.' })

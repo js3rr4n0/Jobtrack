@@ -249,6 +249,17 @@ export function ApplicationForm({
             onChange={(event) => updateField('interviewAt', event.target.value)}
           />
           <TextField
+            id="meetingUrl"
+            label="Enlace de la reunión"
+            type="url"
+            inputMode="url"
+            placeholder="https://meet.google.com/..."
+            value={values.meetingUrl}
+            error={errors.meetingUrl}
+            hint="Zoom, Meet, Teams o el que uses. Aparecerá con un botón para unirte."
+            onChange={(event) => updateField('meetingUrl', event.target.value)}
+          />
+          <TextField
             id="followUpAt"
             label="Fecha de seguimiento"
             type="date"

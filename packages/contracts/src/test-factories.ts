@@ -27,6 +27,7 @@ export function buildJobApplication(overrides: Partial<JobApplication> = {}): Jo
     resumeId: null,
     coverLetterId: null,
     interviewAt: null,
+    meetingUrl: null,
     followUpAt: null,
     appliedAt: null,
     boardOrder: 0,

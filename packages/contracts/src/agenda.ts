@@ -1,4 +1,5 @@
 import { ApplicationStatus, JobApplication } from './job-application';
+import { MeetingPlatform, detectMeetingPlatform } from './meeting';
 
 /**
  * Agenda de lo que toca hacer pronto. Reune en una sola lista las entrevistas
@@ -22,6 +23,9 @@ export interface AgendaEntry {
   /** Dias civiles hasta la cita. Negativo si ya paso. */
   readonly daysUntil: number;
   readonly isOverdue: boolean;
+  /** Enlace de la videollamada. Solo lo llevan las entrevistas. */
+  readonly meetingUrl: string | null;
+  readonly platform: MeetingPlatform | null;
 }
 
 /** Dias hacia adelante que abarca la agenda. Mas alla deja de ser un recordatorio. */
@@ -93,6 +97,10 @@ export function buildAgenda(
         continue;
       }
 
+      // El enlace solo acompana a la entrevista: un seguimiento es escribir un
+      // correo, no entrar a una sala.
+      const meetingUrl = cita.kind === 'interview' ? application.meetingUrl : null;
+
       entries.push({
         applicationId: application.id,
         company: application.company,
@@ -101,6 +109,8 @@ export function buildAgenda(
         at: moment.toISOString(),
         daysUntil,
         isOverdue: daysUntil < 0,
+        meetingUrl,
+        platform: detectMeetingPlatform(meetingUrl),
       });
     }
   }

@@ -11,7 +11,7 @@ empleo en una partida con niveles, rachas y logros.
 4. [Actualizar el estado de una postulación](#4-actualizar-el-estado-de-una-postulación)
 5. [Editar y eliminar postulaciones](#5-editar-y-eliminar-postulaciones)
 5.1. [La ficha completa de una vacante](#51-la-ficha-completa-de-una-vacante)
-5.2. [Lo que viene: entrevistas y seguimientos](#52-lo-que-viene-entrevistas-y-seguimientos)
+5.2. [Lo que viene: entrevistas, seguimientos y videollamadas](#52-lo-que-viene-entrevistas-y-seguimientos)
 6. [Separar el tablero por áreas](#6-separar-el-tablero-por-áreas)
 7. [El mural de notas](#7-el-mural-de-notas)
 8. [Entender la capa de juego](#8-entender-la-capa-de-juego)
@@ -220,6 +220,27 @@ los procesos que siguen abiertos.
 
 En el teléfono es lo primero que ves al abrir Deska, antes incluso del tablero.
 En pantalla ancha vive arriba de la columna derecha.
+
+### El enlace de la videollamada
+
+Al registrar una entrevista puedes pegar el **enlace de la reunión** —Zoom,
+Meet, Teams, Whereby o el que use la empresa—. Es un campo distinto del enlace
+de la vacante: uno lleva al anuncio y el otro a la sala.
+
+Cuando lo guardas, la entrevista aparece con el nombre y el color de su
+plataforma, tanto en la agenda como en la ficha de la vacante, para que
+distingas dos entrevistas del mismo día de un vistazo.
+
+Dos cosas están pensadas para que no falles:
+
+- **La hora sale en tu zona horaria, y se dice cuál es.** Quien agendó la
+  entrevista pudo darte la hora en otro país, y una hora sin zona no hay forma
+  de comprobarla. Debajo del día verás algo como *Hora de Guatemala, tu zona
+  horaria*.
+- **Quince minutos antes, el enlace se convierte en un botón de unirse**
+  destacado, y sigue así durante la hora siguiente por si te desconectas y
+  tienes que volver a entrar. Antes de eso el enlace también funciona: puedes
+  abrir la sala cuando quieras para probar la cámara.
 
 ---
 
