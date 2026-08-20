@@ -112,4 +112,26 @@ describe('Panel de administración (integración)', () => {
         .expect(403);
     });
   });
+
+  describe('sonda de salud', () => {
+    it('dice si hay administrador configurado, sin revelar quien', async () => {
+      const conAdmin = await createTestApplication({ adminEmail: ADMIN_EMAIL });
+      const sinAdmin = await createTestApplication();
+
+      const leer = async (contexto: TestContext) =>
+        (await request(contexto.app.getHttpServer()).get(url('/health')).expect(200)).body;
+
+      const declarado = await leer(conAdmin);
+      const ausente = await leer(sinAdmin);
+
+      expect(declarado.adminConfigured).toBe(true);
+      expect(ausente.adminConfigured).toBe(false);
+
+      // La direccion no sale por ninguna parte.
+      expect(JSON.stringify(declarado)).not.toContain(ADMIN_EMAIL);
+
+      await conAdmin.app.close();
+      await sinAdmin.app.close();
+    });
+  });
 });

@@ -527,3 +527,24 @@ sin cambios adicionales, siempre que su `iconId` exista en el catalogo de iconos
 
 Añade el identificador a `THEME_IDS`, la entrada descriptiva a `THEMES` y el
 bloque `[data-theme='...']` en `globals.css`. El selector lo listara solo.
+
+## 10. Como entrar al panel de administracion
+
+No hay una cuenta aparte ni una contrasena distinta: el panel reconoce a la
+cuenta normal cuyo correo coincide con la variable `ADMIN_EMAIL` de la API.
+
+1. En Render, en el servicio `jobtrack-api`, anadir la variable de entorno
+   `ADMIN_EMAIL` con el correo con el que se inicia sesion en Deska. El
+   Blueprint la declara con `sync: false`, asi que hay que darle valor a mano.
+   Render reinicia el servicio al guardarla.
+2. Comprobar que llego: `GET /api/health` devuelve `adminConfigured: true`. Es
+   un booleano y nunca la direccion, para no confirmar correos a extranos.
+3. Iniciar sesion en la aplicacion con ese mismo correo, por el metodo que sea.
+   Si se entra con Google, el correo que cuenta es el de la cuenta de Google.
+4. Abrir `/admin` escribiendo la direccion. No hay enlace en la interfaz a
+   proposito: el panel no forma parte del producto que usa la gente.
+
+La comparacion ignora mayusculas y espacios sobrantes, pero exige coincidencia
+exacta del resto. Sin la variable el panel esta cerrado para todos, incluida la
+cuenta que opera el proyecto, y el guarda responde lo mismo en los dos casos
+para no revelar si existe administrador.

@@ -6,6 +6,12 @@ export interface HealthResponse {
   status: 'ok';
   dataDriver: ApplicationConfig['dataDriver'];
   realtime: boolean;
+  /**
+   * Si hay una cuenta administradora configurada. Es un booleano y nunca la
+   * direccion: quien opera el servicio necesita poder comprobar que la variable
+   * llego, y el guarda calla a proposito para no confirmar correos a extranos.
+   */
+  adminConfigured: boolean;
   checkedAt: string;
 }
 
@@ -20,6 +26,7 @@ export class HealthController {
       status: 'ok',
       dataDriver: this.config.dataDriver,
       realtime: true,
+      adminConfigured: this.config.adminEmail !== null,
       checkedAt: new Date().toISOString(),
     };
   }

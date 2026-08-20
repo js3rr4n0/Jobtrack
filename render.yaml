@@ -31,3 +31,10 @@ services:
         sync: false
       - key: CORS_ORIGINS
         sync: false
+      # Cuenta que abre el panel de administracion y lee los mensajes de
+      # contacto. Sin ella el panel queda cerrado para todos, que es el
+      # comportamiento deseado: un panel que se abre por olvidar una variable
+      # no es un panel. Debe coincidir con el correo con el que se inicia
+      # sesion en Deska.
+      - key: ADMIN_EMAIL
+        sync: false
