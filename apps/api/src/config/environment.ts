@@ -25,8 +25,12 @@ const environmentSchema = z
      * Correo de la única cuenta con acceso al panel de administración. Si no se
      * define, el panel queda cerrado para todo el mundo: es preferible que no
      * exista a que quede abierto por descuido.
+     *
+     * Se acepta aquí como texto libre y se comprueba después, a propósito: un
+     * ajuste opcional de un panel interno no puede tener la potestad de impedir
+     * el arranque de toda la API. Ver `readAdminEmail`.
      */
-    ADMIN_EMAIL: z.string().email().optional(),
+    ADMIN_EMAIL: z.string().optional(),
     /** Bucket de Supabase Storage donde viven los archivos privados. */
     DOCUMENTS_BUCKET: z.string().min(1).default('deska-documentos'),
   })
@@ -65,6 +69,37 @@ export interface ApplicationConfig {
 /** Secreto usado unicamente cuando el driver de datos es `memory`. */
 const DEVELOPMENT_JWT_SECRET = 'deska-local-development-secret';
 
+/** Forma mínima de una dirección, la misma que aplica el resto del proyecto. */
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/**
+ * Normaliza el correo del administrador y lo descarta si no sirve.
+ *
+ * Devolver `null` ante un valor mal escrito deja el panel cerrado, que es el
+ * fallo seguro. La alternativa —detener el arranque— dejaba sin servicio a
+ * todo el mundo por un espacio de más al pegar el valor en el panel de la
+ * nube, y eso es un precio desproporcionado para una pantalla interna.
+ */
+function readAdminEmail(raw: string | undefined): string | null {
+  const value = raw?.trim().toLowerCase();
+
+  if (!value) {
+    return null;
+  }
+
+  if (!EMAIL_PATTERN.test(value)) {
+    // Se avisa en el registro para que quien lo configuró pueda corregirlo; la
+    // sonda de salud lo refleja como `adminConfigured: false`.
+    console.warn(
+      `[deska] ADMIN_EMAIL no parece una dirección de correo: "${value}". ` +
+        'El panel de administración queda cerrado hasta que se corrija.',
+    );
+    return null;
+  }
+
+  return value;
+}
+
 /**
  * Valida el entorno una sola vez al arrancar. Un fallo aquí detiene el proceso
  * con un mensaje legible en lugar de producir errores difusos en runtime.
@@ -89,7 +124,7 @@ export function loadConfiguration(source: NodeJS.ProcessEnv = process.env): Appl
     supabaseUrl: environment.SUPABASE_URL ?? '',
     supabaseServiceRoleKey: environment.SUPABASE_SERVICE_ROLE_KEY ?? '',
     dataDriver: environment.DATA_DRIVER,
-    adminEmail: environment.ADMIN_EMAIL?.trim().toLowerCase() ?? null,
+    adminEmail: readAdminEmail(environment.ADMIN_EMAIL),
     documentsBucket: environment.DOCUMENTS_BUCKET,
   };
 }
