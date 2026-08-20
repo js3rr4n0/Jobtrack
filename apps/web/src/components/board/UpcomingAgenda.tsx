@@ -45,7 +45,7 @@ export function UpcomingAgenda({ applications }: UpcomingAgendaProps) {
   return (
     <section className="surface-card layered p-4" aria-label="Próximas citas">
       <div className="mb-3 flex items-baseline justify-between gap-2">
-        <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-primary">
+        <h2 className="font-display text-sm font-bold uppercase tracking-wide text-primary">
           Lo que viene
         </h2>
         {overdue > 0 ? (

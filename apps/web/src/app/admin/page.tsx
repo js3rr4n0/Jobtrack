@@ -11,7 +11,7 @@ export default function AdminPage() {
     <main className="mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-xl font-bold text-primary">Panel de administración</h1>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-primary">Panel de administración</h1>
           <p className="text-sm text-secondary">Cómo se está usando Deska, en conjunto.</p>
         </div>
         <Link

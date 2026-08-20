@@ -19,7 +19,7 @@ export function StatsSummary({ stats }: StatsSummaryProps) {
 
   return (
     <section className="surface-card p-4" aria-label="Resumen de actividad">
-      <h3 className="mb-3 font-display text-sm font-semibold uppercase tracking-wide text-primary">
+      <h3 className="mb-3 font-display text-sm font-bold uppercase tracking-wide text-primary">
         Resumen
       </h3>
       <dl className="grid grid-cols-2 gap-3">

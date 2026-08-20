@@ -25,7 +25,7 @@ export function LevelMeter({ progress, currentStreakDays }: LevelMeterProps) {
             <p className="text-xs uppercase tracking-wide text-secondary">
               Nivel {progress.level}
             </p>
-            <p className="font-display text-base font-semibold text-primary">{progress.title}</p>
+            <p className="font-display text-base font-bold text-primary">{progress.title}</p>
           </div>
         </div>
 

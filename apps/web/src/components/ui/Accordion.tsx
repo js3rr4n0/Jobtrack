@@ -38,7 +38,7 @@ export function Accordion({ title, badge, defaultOpen = false, children }: Accor
           onClick={() => setIsOpen((current) => !current)}
           className="focus-ring flex w-full items-center justify-between gap-3 rounded-control px-1 py-2 text-left hover:bg-accent-soft"
         >
-          <span className="font-display text-sm font-semibold uppercase tracking-wide text-primary">
+          <span className="font-display text-sm font-bold uppercase tracking-wide text-primary">
             {title}
           </span>
           <span className="flex items-center gap-2">

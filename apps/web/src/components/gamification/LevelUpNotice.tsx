@@ -25,7 +25,7 @@ export function LevelUpNotice({ level, title, onDismiss }: LevelUpNoticeProps) {
           <Icon name="trophy" pack={iconPack} size={22} />
         </span>
         <div className="flex-1">
-          <p className="font-display text-sm font-semibold text-primary">
+          <p className="font-display text-sm font-bold text-primary">
             Subiste al nivel {level}
           </p>
           <p className="text-xs text-secondary">Nuevo rango: {title}</p>

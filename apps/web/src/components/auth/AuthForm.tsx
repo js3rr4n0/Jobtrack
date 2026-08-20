@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 
+import { Logo } from '@/components/brand/Logo';
 import { AppearanceMenu } from '@/components/theme/AppearanceMenu';
 import { Button } from '@/components/ui/Button';
 import { TextField } from '@/components/ui/FormField';
@@ -159,14 +160,14 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-6 px-4 py-10">
       <div className="flex items-center justify-between">
-        <Link href="/" className="focus-ring font-display text-lg font-semibold text-primary">
-          Deska
+        <Link href="/" className="focus-ring rounded-control">
+          <Logo size={30} />
         </Link>
         <AppearanceMenu />
       </div>
 
       <div className="surface-card p-6">
-        <h1 className="font-display text-2xl font-bold text-primary">{copy.title}</h1>
+        <h1 className="font-display text-2xl font-extrabold tracking-tight text-primary">{copy.title}</h1>
         <p className="mt-1 text-sm text-secondary">{copy.subtitle}</p>
 
         {!isOnline ? (

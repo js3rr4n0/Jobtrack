@@ -39,6 +39,24 @@ const config: Config = {
         display: 'var(--font-display)',
         body: 'var(--font-body)',
       },
+      /*
+       * Pesos del manual de marca. Los nombres son los de Tailwind, pero los
+       * valores son los de Deska: normal para leer, medio para destacar dentro
+       * de una frase, y los dos superiores para titulos de bloque y de seccion.
+       * Redefinirlos aqui evita que la escala se desvie clase a clase.
+       */
+      fontWeight: {
+        normal: '400',
+        medium: '650',
+        semibold: '650',
+        bold: '700',
+        extrabold: '800',
+      },
+      letterSpacing: {
+        // Los titulos van apretados; las etiquetas en versales, aireadas.
+        tight: '-0.02em',
+        wide: '0.09em',
+      },
       borderRadius: {
         card: 'var(--radius-card)',
         control: 'var(--radius-control)',

@@ -78,7 +78,7 @@ export default function AuthCallbackPage() {
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-4 px-4 py-10">
-      <h1 className="font-display text-xl font-semibold text-primary">Confirmando tu cuenta</h1>
+      <h1 className="font-display text-xl font-extrabold tracking-tight text-primary">Confirmando tu cuenta</h1>
 
       {state.status === 'working' ? (
         <p className="text-sm text-secondary">Validando tu acceso...</p>

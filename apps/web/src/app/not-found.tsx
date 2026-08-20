@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { Logo } from '@/components/brand/Logo';
 import { AppearanceMenu } from '@/components/theme/AppearanceMenu';
 
 export const metadata = {
@@ -15,15 +16,15 @@ export default function NotFound() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-col gap-8 px-4 py-8 sm:px-6 sm:py-12">
       <header className="flex items-center justify-between gap-4">
-        <Link href="/" className="focus-ring font-display text-lg font-semibold tracking-tight text-primary">
-          Deska
+        <Link href="/" className="focus-ring rounded-control">
+          <Logo size={30} />
         </Link>
         <AppearanceMenu />
       </header>
 
       <section className="surface-card flex flex-col gap-4 p-6">
-        <p className="font-display text-5xl font-bold text-accent">404</p>
-        <h1 className="font-display text-2xl font-bold text-primary">
+        <p className="font-display text-5xl font-extrabold tracking-tight text-accent">404</p>
+        <h1 className="font-display text-2xl font-extrabold tracking-tight text-primary">
           Esta página no existe
         </h1>
         <p className="text-sm text-secondary">

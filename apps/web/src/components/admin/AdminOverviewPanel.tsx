@@ -24,7 +24,7 @@ function Tile({ label, value, hint }: { label: string; value: string | number; h
   return (
     <div className="rounded-control border border-subtle bg-sunken p-3 shadow-sunken">
       <p className="text-xs text-secondary [overflow-wrap:anywhere]">{label}</p>
-      <p className="font-display text-2xl font-semibold text-primary">{value}</p>
+      <p className="font-display text-2xl font-extrabold tracking-tight text-primary">{value}</p>
       {hint ? <p className="text-xs text-secondary">{hint}</p> : null}
     </div>
   );
@@ -44,7 +44,7 @@ function CompanyTable({
 }) {
   return (
     <section className="surface-card p-4">
-      <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-primary">
+      <h2 className="font-display text-sm font-bold uppercase tracking-wide text-primary">
         {title}
       </h2>
       <p className="mb-3 text-xs text-secondary">{description}</p>
@@ -189,14 +189,14 @@ export function AdminOverviewPanel() {
       </section>
 
       <section className="surface-card p-4" aria-label="Reparto por etapa">
-        <h2 className="mb-3 font-display text-sm font-semibold uppercase tracking-wide text-primary">
+        <h2 className="mb-3 font-display text-sm font-bold uppercase tracking-wide text-primary">
           En qué etapa está todo
         </h2>
         <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {(Object.keys(overview.byStatus) as ApplicationStatus[]).map((status) => (
             <div key={status} className="rounded-control border border-subtle bg-sunken p-3">
               <dt className="text-xs text-secondary">{STATUS_CATALOG[status].label}</dt>
-              <dd className="font-display text-xl font-semibold text-primary">
+              <dd className="font-display text-xl font-extrabold tracking-tight text-primary">
                 {overview.byStatus[status]}
               </dd>
             </div>

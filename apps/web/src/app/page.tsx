@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { AuthResultForwarder } from '@/components/auth/AuthResultForwarder';
+import { Logo } from '@/components/brand/Logo';
 import { LandingHighlights } from '@/components/landing/LandingHighlights';
 import { ThemedBoardShot } from '@/components/landing/ThemedBoardShot';
 import { AppearanceMenu } from '@/components/theme/AppearanceMenu';
@@ -10,12 +11,12 @@ export default function HomePage() {
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-10 px-4 py-8 sm:px-6 sm:py-12">
       <AuthResultForwarder />
       <header className="flex items-center justify-between gap-4">
-        <p className="font-display text-lg font-semibold tracking-tight text-primary">Deska</p>
+        <Logo size={30} />
         <AppearanceMenu />
       </header>
 
       <section className="flex flex-col gap-5">
-        <h1 className="font-display text-3xl font-bold leading-tight text-primary sm:text-4xl">
+        <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-primary sm:text-4xl">
           Organiza tus postulaciones y convierte tu búsqueda en progreso visible
         </h1>
         <p className="max-w-2xl text-base text-secondary">
@@ -66,7 +67,7 @@ export default function HomePage() {
       </ul>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-display text-xl font-bold text-primary">Qué ganas usando Deska</h2>
+        <h2 className="font-display text-xl font-extrabold tracking-tight text-primary">Qué ganas usando Deska</h2>
         <ul className="flex flex-col gap-2 text-sm text-secondary">
           <li>
             <strong className="text-primary">Dejas de perder el hilo.</strong> Cada oferta guarda su

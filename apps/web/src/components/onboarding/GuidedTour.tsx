@@ -102,7 +102,7 @@ export function GuidedTour({ onFinish }: GuidedTourProps) {
         <p className="text-xs font-semibold uppercase tracking-wide text-secondary">
           Paso {index + 1} de {TOUR_STEPS.length}
         </p>
-        <h2 className="mt-1 font-display text-lg font-semibold text-primary">{step.title}</h2>
+        <h2 className="mt-1 font-display text-lg font-bold text-primary">{step.title}</h2>
         <p className="mt-1 text-sm text-secondary">{step.description}</p>
 
         <div className="mt-4 flex items-center justify-between gap-3">

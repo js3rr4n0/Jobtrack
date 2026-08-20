@@ -73,7 +73,7 @@ export function UserMenu({ profile, onSignOut }: UserMenuProps) {
           <section className="flex items-center gap-3 rounded-control border border-subtle bg-base p-3">
             <Avatar profile={profile} size={44} />
             <div className="min-w-0">
-              <p className="truncate font-display text-sm font-semibold text-primary">
+              <p className="truncate font-display text-sm font-bold text-primary">
                 {profile.name}
               </p>
               {profile.email ? (

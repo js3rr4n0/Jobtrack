@@ -184,7 +184,7 @@ export function ApplicationDetail({ applicationId }: ApplicationDetailProps) {
       <header className="surface-card layered flex flex-col gap-4 p-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0">
-            <h1 className="font-display text-2xl font-bold text-primary sm:text-3xl [overflow-wrap:anywhere]">
+            <h1 className="font-display text-2xl font-extrabold tracking-tight text-primary sm:text-3xl [overflow-wrap:anywhere]">
               {application.position}
             </h1>
             <p className="text-base text-secondary [overflow-wrap:anywhere]">

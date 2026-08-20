@@ -8,6 +8,9 @@ import type {
   JobApplication,
 } from '@deska/contracts';
 
+import Link from 'next/link';
+
+import { Logo } from '@/components/brand/Logo';
 import { GuidedTour } from '@/components/onboarding/GuidedTour';
 import { NotesPanel } from '@/components/notes/NotesPanel';
 import { ApplicationForm } from '@/components/board/ApplicationForm';
@@ -156,9 +159,19 @@ export function BoardWorkspace() {
     // espacio disponible, sin desplazamiento horizontal en ningún tamaño.
     <main className="mx-auto flex min-h-screen w-full flex-col gap-6 px-4 py-6 sm:px-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="font-display text-xl font-bold text-primary">Tu tablero</h1>
-          <ConnectionStatus isOnline={board.isOnline} realtimeStatus={realtimeStatus} />
+        <div className="flex items-center gap-3">
+          {/*
+            Dentro de la aplicacion se usa el simbolo solo: el ancho de la
+            cabecera lo comparten tres botones y el nombre ya esta en el titulo
+            de la pestana. Conserva su azul en los doce temas.
+          */}
+          <Link href="/" className="focus-ring rounded-control" aria-label="Ir al inicio">
+            <Logo variante="simbolo" size={30} />
+          </Link>
+          <div>
+            <h1 className="font-display text-xl font-extrabold tracking-tight text-primary">Tu tablero</h1>
+            <ConnectionStatus isOnline={board.isOnline} realtimeStatus={realtimeStatus} />
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
