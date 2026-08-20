@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { Logo } from '@/components/brand/Logo';
 import { LEGAL_CONTACT_URL } from '@/lib/legal';
 
-const ENLACES: readonly { href: string; label: string; externo?: boolean }[] = [
+const ENLACES: readonly { href: string; label: string }[] = [
   { href: '/terminos', label: 'Términos de servicio' },
   { href: '/privacidad', label: 'Política de privacidad' },
-  { href: LEGAL_CONTACT_URL, label: 'Contacto y soporte', externo: true },
+  { href: LEGAL_CONTACT_URL, label: 'Contacto y soporte' },
 ];
 
 /**
@@ -30,23 +30,12 @@ export function SiteFooter() {
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
             {ENLACES.map((enlace) => (
               <li key={enlace.href}>
-                {enlace.externo ? (
-                  <a
-                    href={enlace.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="focus-ring rounded-control text-xs text-secondary underline decoration-dotted underline-offset-4 hover:text-primary"
-                  >
-                    {enlace.label}
-                  </a>
-                ) : (
-                  <Link
-                    href={enlace.href}
-                    className="focus-ring rounded-control text-xs text-secondary underline decoration-dotted underline-offset-4 hover:text-primary"
-                  >
-                    {enlace.label}
-                  </Link>
-                )}
+                <Link
+                  href={enlace.href}
+                  className="focus-ring rounded-control text-xs text-secondary underline decoration-dotted underline-offset-4 hover:text-primary"
+                >
+                  {enlace.label}
+                </Link>
               </li>
             ))}
           </ul>

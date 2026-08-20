@@ -19,12 +19,22 @@ describe('SiteFooter', () => {
     expect(screen.getByRole('link', { name: 'Contacto y soporte' })).toBeInTheDocument();
   });
 
-  it('abre el contacto externo sin ceder la ventana de origen', () => {
+  /**
+   * El contacto es una pantalla del propio sitio, no un enlace a un perfil
+   * externo: quien opera el proyecto no publica correo ni perfil personal.
+   */
+  it('lleva el contacto a una pantalla propia, no a un sitio externo', () => {
     renderWithPreferences(<SiteFooter />);
     const contacto = screen.getByRole('link', { name: 'Contacto y soporte' });
 
-    expect(contacto).toHaveAttribute('target', '_blank');
-    expect(contacto).toHaveAttribute('rel', expect.stringContaining('noopener'));
+    expect(contacto).toHaveAttribute('href', '/contacto');
+    expect(contacto).not.toHaveAttribute('target');
+  });
+
+  it('no expone ningún perfil ni dirección personal', () => {
+    const { container } = renderWithPreferences(<SiteFooter />);
+
+    expect(container.innerHTML).not.toMatch(/github|mailto:|@gmail/i);
   });
 
   it('agrupa los enlaces en una navegación con nombre', () => {

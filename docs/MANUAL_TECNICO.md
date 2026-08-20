@@ -100,6 +100,7 @@ probarlo de forma aislada.
 | `gamification.ts` | Tabla de recompensas, curva de niveles, títulos y catalogo de logros. |
 | `analytics.ts` | `buildPlayerStats`, `calculateStreaks`, `calculateBaseExperience` y `buildGamificationProfile`. |
 | `agenda.ts` | `buildAgenda`: reune entrevistas y seguimientos de todo el tablero en una lista ordenada por proximidad, con los dias contados por calendario. |
+| `support.ts` | Motivos del formulario de contacto y reglas de aceptacion de un mensaje, compartidas por el navegador y el servidor. |
 | `meeting.ts` | Reconoce la plataforma de una videollamada por el host del enlace, normaliza la direccion a `http`/`https` y decide la ventana en la que tiene sentido unirse. |
 | `document.ts` | Clases de archivo, formatos y tamaño admitidos, composicion de la ruta en el almacen y reglas de aceptacion compartidas. |
 | `realtime.ts` | Nombres de los eventos y forma de `BoardChangeEvent` y `NoteChangeEvent`. |
@@ -274,6 +275,9 @@ porque «100 % de contratación» sobre una sola postulación no dice nada.
 | `DELETE` | `/api/documents/:id` | Elimina la fila y su binario. |
 | `GET` | `/api/gamification/profile` | Perfil de juego del usuario. |
 | `GET` | `/api/admin/overview` | Informe agregado. Solo para `ADMIN_EMAIL`. |
+| `POST` | `/api/support` | Envia un mensaje de contacto. Publico: no exige sesion. |
+| `GET` | `/api/support` | Mensajes recibidos. Solo para `ADMIN_EMAIL`. |
+| `PATCH` | `/api/support/:id/atendido` | Marca un mensaje como atendido. Solo `ADMIN_EMAIL`. |
 
 Todas las rutas salvo `/health` exigen JWT. El `ValidationPipe` global aplica
 `whitelist` y `forbidNonWhitelisted`, así que un cuerpo con propiedades
@@ -326,6 +330,7 @@ propio eco y evita renderizados redundantes.
 | `/not-found` | Pantalla propia para direcciones inexistentes, con el tema activo. |
 | `/terminos` | Terminos de servicio. |
 | `/privacidad` | Politica de privacidad. |
+| `/contacto` | Formulario de contacto, unico canal del proyecto. |
 | `/robots.txt` y `/sitemap.xml` | Generados por Next; excluyen de los buscadores las pantallas con sesion. |
 
 `layout.tsx` inyecta un script de arranque que aplica el tema guardado **antes**
@@ -444,6 +449,9 @@ degrade a un comportamiento predecible en vez de a una pantalla blanca.
 - La tabla `public.job_applications` con restricciones de longitud y de rango,
   incluida el área libre `category`, la marca de avance `furthest_status` y el
   enlace de la videollamada `meeting_url`.
+- La tabla `public.support_messages`, con la seguridad a nivel de fila activada
+  y **ninguna politica**: asi la clave anonima no puede leer ni escribir en ella,
+  y solo entra la API con la clave de servicio. Verificado sobre PostgreSQL real.
 - La tabla `public.documents` con los metadatos de cada archivo; el binario vive
   en Supabase Storage. Su columna `application_id` es nula para lo que se
   reutiliza —currículums, cartas— y apunta a la vacante en los adjuntos, que se

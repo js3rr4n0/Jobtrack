@@ -6,6 +6,7 @@ import { JobApplicationsRepository } from '../applications/repositories/job-appl
 import { AuthModule } from '../auth/auth.module';
 import { ApplicationConfig, CONFIG_TOKEN } from '../config/environment';
 import { AdminController } from './admin.controller';
+import { AdminGuard } from './admin.guard';
 import { AdminService } from './admin.service';
 import { AdminRepository } from './repositories/admin.repository';
 import { InMemoryAdminRepository } from './repositories/in-memory-admin.repository';
@@ -28,6 +29,7 @@ const repositoryProvider: Provider = {
 @Module({
   imports: [AuthModule, JobApplicationsModule],
   controllers: [AdminController],
-  providers: [AdminService, repositoryProvider],
+  providers: [AdminService, AdminGuard, repositoryProvider],
+  exports: [AdminGuard],
 })
 export class AdminModule {}

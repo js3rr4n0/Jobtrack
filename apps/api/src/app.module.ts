@@ -8,6 +8,7 @@ import { DocumentsModule } from './documents/documents.module';
 import { GamificationModule } from './gamification/gamification.module';
 import { HealthModule } from './health/health.module';
 import { StickyNotesModule } from './notes/sticky-notes.module';
+import { SupportModule } from './support/support.module';
 import { RealtimeModule } from './realtime/realtime.module';
 
 @Module({
@@ -20,6 +21,7 @@ import { RealtimeModule } from './realtime/realtime.module';
     DocumentsModule,
     GamificationModule,
     AdminModule,
+    SupportModule,
     HealthModule,
   ],
 })

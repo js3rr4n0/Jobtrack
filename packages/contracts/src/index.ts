@@ -7,5 +7,6 @@ export * from './gamification';
 export * from './analytics';
 export * from './agenda';
 export * from './meeting';
+export * from './support';
 export * from './realtime';
 export * from './test-factories';

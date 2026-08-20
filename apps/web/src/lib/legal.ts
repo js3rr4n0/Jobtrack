@@ -15,14 +15,18 @@ export const LEGAL_LAST_UPDATED = '20 de agosto de 2026';
  *
  * CAMBIA ESTE VALOR si resides en otro pais antes de publicar.
  */
-export const LEGAL_JURISDICTION = 'Guatemala';
+export const LEGAL_JURISDICTION = 'El Salvador';
 
 /**
- * Canal de contacto. Es el repositorio publico del proyecto en lugar de una
- * direccion de correo, por decision expresa de quien opera el servicio.
+ * Canal de contacto: un formulario dentro de la propia aplicacion.
+ *
+ * No se publica ninguna direccion de correo ni ningun perfil personal, por
+ * decision expresa de quien opera el servicio. El formulario cumple la misma
+ * funcion sin exponer datos de nadie: los mensajes llegan a la base de datos
+ * del proyecto y solo los lee la cuenta que lo administra.
  */
-export const LEGAL_CONTACT_URL = 'https://github.com/js3rr4n0/Jobtrack/issues';
-export const LEGAL_CONTACT_LABEL = 'las incidencias del repositorio del proyecto';
+export const LEGAL_CONTACT_URL = '/contacto';
+export const LEGAL_CONTACT_LABEL = 'el formulario de contacto';
 
 /**
  * Edad minima. Dieciseis es el umbral que fija el RGPD para que una persona

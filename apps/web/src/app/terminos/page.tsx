@@ -17,14 +17,12 @@ export const metadata: Metadata = {
 
 function Contacto() {
   return (
-    <a
+    <Link
       href={LEGAL_CONTACT_URL}
-      target="_blank"
-      rel="noreferrer noopener"
       className="focus-ring rounded-control text-primary underline decoration-dotted underline-offset-2"
     >
       {LEGAL_CONTACT_LABEL}
-    </a>
+    </Link>
   );
 }
 

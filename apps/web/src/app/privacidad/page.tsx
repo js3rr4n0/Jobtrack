@@ -19,14 +19,12 @@ export const metadata: Metadata = {
 /** Enlace de contacto, repetido en varios apartados. */
 function Contacto() {
   return (
-    <a
+    <Link
       href={LEGAL_CONTACT_URL}
-      target="_blank"
-      rel="noreferrer noopener"
       className="focus-ring rounded-control text-primary underline decoration-dotted underline-offset-2"
     >
       {LEGAL_CONTACT_LABEL}
-    </a>
+    </Link>
   );
 }
 
@@ -65,7 +63,13 @@ export default function PrivacidadPage() {
         </p>
         <p>
           Para cualquier asunto relacionado con tus datos, incluido el ejercicio de los derechos del
-          apartado 8, puedes escribir a través de <Contacto />.
+          apartado 8, puedes escribir a través de <Contacto />. Es un formulario dentro de la propia
+          aplicación y no requiere tener la sesión abierta, precisamente para que quien no puede
+          entrar en su cuenta pueda seguir escribiendo.
+        </p>
+        <p>
+          No publicamos una dirección de correo ni un perfil personal porque el proyecto lo mantiene
+          una sola persona. El formulario cumple la misma función y llega al mismo sitio.
         </p>
       </LegalSection>
 
@@ -93,6 +97,13 @@ export default function PrivacidadPage() {
               <strong className="text-primary">Tus preferencias.</strong> El tema visual, el estilo
               de iconos y si ya viste el tutorial. Se guardan en tu propio navegador, no en nuestros
               servidores.
+            </>,
+            <>
+              <strong className="text-primary">Lo que nos escribes por el formulario de
+              contacto.</strong>{' '}
+              El motivo, tu mensaje y, si lo dejas, un correo para responderte. Se conserva mientras
+              haga falta para atender el asunto y hasta un año después, por si hubiera que acreditar
+              cómo se resolvió.
             </>,
             <>
               <strong className="text-primary">Datos técnicos de funcionamiento.</strong> Nuestros

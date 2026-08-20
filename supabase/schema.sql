@@ -287,6 +287,32 @@ alter table public.sticky_notes
   add column if not exists image_id uuid references public.documents (id) on delete set null;
 
 -- Preferencias de interfaz sincronizadas entre dispositivos.
+-- Mensajes del formulario de contacto. Es el unico canal por el que se puede
+-- ejercer los derechos sobre los datos, porque quien opera el proyecto no
+-- publica una direccion de correo.
+--
+-- No lleva ninguna politica de acceso a proposito: con la seguridad a nivel de
+-- fila activada y sin politicas, la clave anonima no puede ni leer ni escribir
+-- aqui. Solo la API, que usa la clave de servicio, entra en esta tabla.
+create table if not exists public.support_messages (
+  id uuid primary key default gen_random_uuid(),
+  topic text not null check (topic in ('soporte', 'privacidad', 'legal', 'otro')),
+  -- Opcional: se puede escribir sin dejar forma de contacto.
+  reply_to text check (char_length(reply_to) <= 160),
+  body text not null check (char_length(trim(body)) between 10 and 2000),
+  -- Queda nulo cuando el mensaje llega sin sesion iniciada, que es el caso de
+  -- quien ya no puede entrar y escribe justamente por eso.
+  user_id uuid references auth.users (id) on delete set null,
+  created_at timestamptz not null default now(),
+  handled_at timestamptz
+);
+
+create index if not exists support_messages_pendientes_idx
+  on public.support_messages (created_at desc)
+  where handled_at is null;
+
+alter table public.support_messages enable row level security;
+
 create table if not exists public.user_preferences (
   user_id uuid primary key references auth.users (id) on delete cascade,
   theme text not null default 'light',

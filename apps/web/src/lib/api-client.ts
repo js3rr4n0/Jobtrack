@@ -1,9 +1,11 @@
 import type {
   AdminOverview,
   CreateJobApplicationInput,
+  CreateSupportMessageInput,
   DocumentKind,
   RegisterDocumentInput,
   StoredDocument,
+  SupportMessage,
   CreateStickyNoteInput,
   GamificationProfile,
   JobApplication,
@@ -66,6 +68,12 @@ const TIMEOUT_MESSAGE =
 
 export interface AdminOverviewResponse extends AdminOverview {
   generatedAt: string;
+}
+
+/** Confirmacion del envio. No repite el mensaje: quien lo escribio ya lo tiene. */
+export interface SupportReceipt {
+  readonly received: true;
+  readonly id: string;
 }
 
 export interface ApiClientOptions {
@@ -157,6 +165,23 @@ export class ApiClient {
 
   async deleteDocument(id: string): Promise<void> {
     await this.request<null>({ method: 'DELETE', path: `/documents/${id}` });
+  }
+
+  /**
+   * Envia un mensaje de contacto. No exige sesion: quien escribe por no poder
+   * entrar en su cuenta es justamente quien no la tiene.
+   */
+  sendSupportMessage(input: CreateSupportMessageInput): Promise<SupportReceipt> {
+    return this.request<SupportReceipt>({ method: 'POST', path: '/support', body: input });
+  }
+
+  /** Mensajes recibidos. Responde 403 si no eres la cuenta administradora. */
+  getSupportMessages(): Promise<SupportMessage[]> {
+    return this.request<SupportMessage[]>({ method: 'GET', path: '/support' });
+  }
+
+  async markSupportHandled(id: string): Promise<SupportMessage> {
+    return this.request<SupportMessage>({ method: 'PATCH', path: `/support/${id}/atendido` });
   }
 
   getNotes(): Promise<StickyNote[]> {

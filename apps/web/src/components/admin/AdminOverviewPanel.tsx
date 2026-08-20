@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { STATUS_CATALOG, type ApplicationStatus, type CompanyStat } from '@deska/contracts';
 
 import { usePreferences } from '@/components/theme/PreferencesProvider';
+import { SupportInbox } from '@/components/admin/SupportInbox';
 import { Button } from '@/components/ui/Button';
 import { StatusBanner } from '@/components/ui/StatusBanner';
 import { Icon } from '@/components/icons';
@@ -235,6 +236,8 @@ export function AdminOverviewPanel() {
           rate="rejectedRate"
         />
       </div>
+
+      <SupportInbox />
 
       <p className="text-xs text-secondary">
         El informe solo contiene recuentos. Las notas, los contactos y la identidad de cada persona

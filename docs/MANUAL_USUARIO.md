@@ -480,5 +480,10 @@ cuenta.
   durante cuánto tiempo. Sin anuncios, sin rastreadores de terceros y sin venta
   de datos. El panel interno de uso solo devuelve recuentos agregados.
 
+- **Contacto y soporte** (`/contacto`): un formulario dentro de la aplicación.
+  No hace falta tener la sesión abierta, precisamente para que quien no puede
+  entrar en su cuenta pueda seguir escribiendo. Puedes dejar un correo si
+  quieres respuesta, o escribir sin dejarlo.
+
 Cada documento abre con un resumen en lenguaje llano antes del texto formal,
 porque un consentimiento que no se ha entendido no es un consentimiento.
