@@ -1,11 +1,17 @@
 # Deska
 
+> **🇺🇸 In English:** Deska is a gamified job-application tracker. You log job offers on a kanban board, drag them through six stages, keep sticky-note reminders, attach your CV and cover letters, and earn XP, levels, streaks and achievements as you apply. Everything syncs live between your computer and phone over WebSockets.
+>
+> **Built with:** Next.js 14 · React 18 · TypeScript · Tailwind CSS · NestJS 10 · Socket.IO · Supabase (PostgreSQL + Auth with Row Level Security) · npm workspaces monorepo with a shared domain package · **596 automated tests** (Vitest, Jest, Supertest, Testing Library).
+>
+> The interface and the rest of this README are in Spanish.
+
 Tablero gamificado para registrar ofertas de empleo, seguir su avance y mantener
 la información sincronizada entre la computadora y el teléfono.
 
 ![Tablero kanban de Deska en tema claro](docs/capturas/tablero-claro.jpg)
 
-## Que incluye
+## Qué incluye
 
 - **Tablero kanban** con seis estados y arrastre de tarjetas entre columnas.
 - **Áreas del tablero** con nombre libre (desarrollo, marketing, lo que
@@ -23,9 +29,9 @@ la información sincronizada entre la computadora y el teléfono.
   hundidas, sombras y fondo) y con el contraste verificado por pruebas.
 - **Sincronización en vivo** por WebSockets entre todos los dispositivos de la
   misma cuenta.
-- **Tutorial guiado** la primera vez, que atenua la pantalla y destaca donde
+- **Tutorial guiado** la primera vez, que atenúa la pantalla y destaca donde
   pulsar.
-- 
+
 ## Capturas
 
 ### Temas
@@ -45,18 +51,18 @@ tema redefine el mismo conjunto de variables CSS.
 
 Sobre el tablero, una pestaña por área (con nombre libre) filtra lo que se ve sin
 tocar el progreso. Debajo, el mural recoge los recordatorios sueltos: se
-arrastran con el raton, con el dedo o con el teclado, y su posición se guarda en
-proporcion al mural, así que se conserva al cambiar de dispositivo.
+arrastran con el ratón, con el dedo o con el teclado, y su posición se guarda en
+proporción al mural, así que se conserva al cambiar de dispositivo.
 
 ![Mural de notas adhesivas bajo el tablero, en tema anime](docs/capturas/mural.jpg)
 
 ### Tutorial de bienvenida
 
-Mientras el tablero este vacío, un recorrido de cuatro pasos desenfoca el resto
+Mientras el tablero esté vacío, un recorrido de cuatro pasos desenfoca el resto
 de la interfaz y deja nitido solo el elemento que hay que usar. Se puede saltar
 en cualquier momento y no vuelve a aparecer.
 
-![Tutorial guiado destacando el boton de nueva postulación](docs/capturas/tutorial.jpg)
+![Tutorial guiado destacando el botón de nueva postulación](docs/capturas/tutorial.jpg)
 
 ### Selector de apariencia
 
@@ -70,7 +76,7 @@ dentro del panel de la cuenta.
 En pantallas pequeñas las columnas se apilan y el panel de progreso sube al
 inicio. El selector de estado de cada tarjeta sustituye al arrastre.
 
-<img src="docs/capturas/móvil-tablero.jpg" alt="Tablero en un teléfono con tema anime" width="360">
+<img src="docs/capturas/movil-tablero.jpg" alt="Tablero en un teléfono con tema anime" width="360">
 
 ### Bienvenida y acceso
 
@@ -90,21 +96,21 @@ Deska/
   supabase/
     schema.sql           Esquema PostgreSQL con RLS
   docs/
-    MANUAL_USUARIO.md    Guia paso a paso
+    MANUAL_USUARIO.md    Guía paso a paso
     MANUAL_TECNICO.md    Arquitectura, módulos y convenciones
     PLAN_DE_PRUEBAS.md   Casos, restricciones y resultados esperados
-    capturas/            Imagenes de este README
+    capturas/            Imágenes de este README
 ```
 
 Las reglas de dominio viven en `packages/contracts` y las consumen tanto la API
 como la web. Gracias a eso el reordenamiento optimista del navegador y el que
-persiste el servidor invocan la **misma** funcion, así que no pueden divergir.
+persiste el servidor invocan la **misma** función, así que no pueden divergir.
 
-El detalle de cada módulo esta en [`docs/MANUAL_TECNICO.md`](docs/MANUAL_TECNICO.md).
+El detalle de cada módulo está en [`docs/MANUAL_TECNICO.md`](docs/MANUAL_TECNICO.md).
 
 ## Stack
 
-| Capa | Tecnologia |
+| Capa | Tecnología |
 | --- | --- |
 | Interfaz | Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS 3 |
 | Arrastre | dnd-kit (puntero y teclado) |
@@ -169,18 +175,18 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
 
 ## Pruebas
 
-477 casos, todos en verde y sin dependencias de red externas:
+596 casos, todos en verde y sin dependencias de red externas:
 
 | Paquete | Herramienta | Casos |
 | --- | --- | --- |
-| `contracts` | Vitest | 113 |
-| `api` | Jest y Supertest | 104 |
-| `web` | Vitest y Testing Library | 260 |
+| `contracts` | Vitest | 159 |
+| `api` | Jest y Supertest | 128 |
+| `web` | Vitest y Testing Library | 309 |
 
 Cubren las restricciones del plan: ausencia de conexión, valores nulos, datos
 corruptos y sincronización entre dispositivos. Las pruebas de tiempo real
-levantan la API en un puerto real y usan clientes `socket.io` autenticos. El
-desglose completo esta en [`docs/PLAN_DE_PRUEBAS.md`](docs/PLAN_DE_PRUEBAS.md).
+levantan la API en un puerto real y usan clientes `socket.io` auténticos. El
+desglose completo está en [`docs/PLAN_DE_PRUEBAS.md`](docs/PLAN_DE_PRUEBAS.md).
 
 ## Despliegue
 
