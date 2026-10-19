@@ -1,127 +1,105 @@
 # Deska
 
-> **🇺🇸 In English:** Deska is a gamified job-application tracker. You log job offers on a kanban board, drag them through six stages, keep sticky-note reminders, attach your CV and cover letters, and earn XP, levels, streaks and achievements as you apply. Everything syncs live between your computer and phone over WebSockets.
->
-> **Built with:** Next.js 14 · React 18 · TypeScript · Tailwind CSS · NestJS 10 · Socket.IO · Supabase (PostgreSQL + Auth with Row Level Security) · npm workspaces monorepo with a shared domain package · **596 automated tests** (Vitest, Jest, Supertest, Testing Library).
->
-> The interface and the rest of this README are in Spanish.
+<p align="center"><b>English</b> · <a href="README.es.md">Español</a></p>
 
-Tablero gamificado para registrar ofertas de empleo, seguir su avance y mantener
-la información sincronizada entre la computadora y el teléfono.
+A gamified board for tracking job applications, following their progress, and keeping everything in sync between your computer and your phone.
 
-![Tablero kanban de Deska en tema claro](docs/capturas/tablero-claro.jpg)
+![Deska kanban board, light theme](docs/capturas/tablero-claro.jpg)
 
-## Qué incluye
+The interface is in Spanish.
 
-- **Tablero kanban** con seis estados y arrastre de tarjetas entre columnas.
-- **Áreas del tablero** con nombre libre (desarrollo, marketing, lo que
-  necesites) y un selector para ver una a la vez.
-- **Mural de notas adhesivas** con arrastre libre, cinco colores y posición que
-  se conserva entre dispositivos.
-- **Captura manual** de empresa, puesto, ubicación, modalidad, prioridad,
-  expectativa salarial, enlace, contacto, notas del proceso y fechas de
-  postulación, entrevista y seguimiento.
-- **Currículums y cartas subidos** a un bucket privado, elegibles desde la
-  vacante; las notas admiten capturas.
-- **Capa de juego**: experiencia, niveles con rango, racha diaria y ocho logros.
-- **Doce temas visuales** nacidos de paletas propias y **dos paquetes de iconos**
-  SVG intercambiables, cada uno con su capa de profundidad (superficies
-  hundidas, sombras y fondo) y con el contraste verificado por pruebas.
-- **Sincronización en vivo** por WebSockets entre todos los dispositivos de la
-  misma cuenta.
-- **Tutorial guiado** la primera vez, que atenúa la pantalla y destaca donde
-  pulsar.
+## Features
 
-## Capturas
+- **Kanban board** with six stages and drag-and-drop between columns.
+- **Board areas** with free-form names (development, marketing, anything you need) and a switcher to view one at a time.
+- **Sticky-note wall** with free dragging, five colors, and positions that persist across devices.
+- **Manual entry** of company, role, location, work mode, priority, salary expectation, link, contact, process notes, and application, interview and follow-up dates.
+- **Uploaded CVs and cover letters** stored in a private bucket and selectable from each application; notes accept screenshots.
+- **Game layer**: experience points, levels with ranks, a daily streak, and eight achievements.
+- **Twelve visual themes** built from custom palettes and **two swappable SVG icon packs**, each with its own depth layer (inset surfaces, shadows and background), with contrast verified by tests.
+- **Live sync** over WebSockets across every device on the same account.
+- **Guided tutorial** on first use that dims the screen and highlights where to click.
 
-### Temas
+## Screenshots
 
-El mismo tablero cambia por completo de personalidad sin tocar el markup: cada
-tema redefine el mismo conjunto de variables CSS.
+### Themes
 
-| Oscuro | Galaxy |
+The same board completely changes personality without touching the markup: each theme redefines the same set of CSS variables.
+
+| Dark | Galaxy |
 | --- | --- |
-| ![Tema oscuro](docs/capturas/tablero-oscuro.jpg) | ![Tema galaxy](docs/capturas/tablero-galaxy.jpg) |
+| ![Dark theme](docs/capturas/tablero-oscuro.jpg) | ![Galaxy theme](docs/capturas/tablero-galaxy.jpg) |
 
-| Pixel rosa (con iconos pixel) | Gaming |
+| Pixel pink (with pixel icons) | Gaming |
 | --- | --- |
-| ![Tema pixel rosa](docs/capturas/tablero-pixel-rosa.jpg) | ![Tema gaming](docs/capturas/tablero-gaming.jpg) |
+| ![Pixel pink theme](docs/capturas/tablero-pixel-rosa.jpg) | ![Gaming theme](docs/capturas/tablero-gaming.jpg) |
 
-### Áreas y mural de notas
+### Areas and sticky-note wall
 
-Sobre el tablero, una pestaña por área (con nombre libre) filtra lo que se ve sin
-tocar el progreso. Debajo, el mural recoge los recordatorios sueltos: se
-arrastran con el ratón, con el dedo o con el teclado, y su posición se guarda en
-proporción al mural, así que se conserva al cambiar de dispositivo.
+Above the board, one tab per area (free-form name) filters what you see without affecting progress. Below it, the wall holds loose reminders: they can be dragged with a mouse, a finger or the keyboard, and their position is stored relative to the wall, so it survives switching devices.
 
-![Mural de notas adhesivas bajo el tablero, en tema anime](docs/capturas/mural.jpg)
+![Sticky-note wall below the board, anime theme](docs/capturas/mural.jpg)
 
-### Tutorial de bienvenida
+### Welcome tutorial
 
-Mientras el tablero esté vacío, un recorrido de cuatro pasos desenfoca el resto
-de la interfaz y deja nitido solo el elemento que hay que usar. Se puede saltar
-en cualquier momento y no vuelve a aparecer.
+While the board is empty, a four-step tour blurs the rest of the interface and keeps only the element you need to use in focus. It can be skipped at any time and never comes back.
 
-![Tutorial guiado destacando el botón de nueva postulación](docs/capturas/tutorial.jpg)
+![Guided tutorial highlighting the new application button](docs/capturas/tutorial.jpg)
 
-### Selector de apariencia
+### Appearance picker
 
-Doce temas agrupados en cuatro familias, dos paquetes de iconos con vista previa
-dentro del panel de la cuenta.
+Twelve themes grouped into four families, plus two icon packs with a live preview inside the account panel.
 
-![Panel de cuenta con los doce temas y los dos paquetes de iconos](docs/capturas/temas.jpg)
+![Account panel with the twelve themes and two icon packs](docs/capturas/temas.jpg)
 
-### Móvil
+### Mobile
 
-En pantallas pequeñas las columnas se apilan y el panel de progreso sube al
-inicio. El selector de estado de cada tarjeta sustituye al arrastre.
+On small screens the columns stack and the progress panel moves to the top. Each card's status selector replaces drag-and-drop.
 
-<img src="docs/capturas/movil-tablero.jpg" alt="Tablero en un teléfono con tema anime" width="360">
+<img src="docs/capturas/movil-tablero.jpg" alt="Board on a phone, anime theme" width="360">
 
-### Bienvenida y acceso
+### Landing and sign-in
 
-| Página de inicio | Inicio de sesión |
+| Landing page | Sign-in |
 | --- | --- |
-| ![Página de bienvenida](docs/capturas/inicio.jpg) | ![Formulario de acceso](docs/capturas/acceso.jpg) |
+| ![Landing page](docs/capturas/inicio.jpg) | ![Sign-in form](docs/capturas/acceso.jpg) |
 
-## Arquitectura
+## Architecture
 
 ```
 Deska/
   apps/
-    api/                 API NestJS 10 (REST + WebSockets)
-    web/                 Interfaz Next.js 14 (App Router) + Tailwind CSS 3
+    api/                 NestJS 10 API (REST + WebSockets)
+    web/                 Next.js 14 interface (App Router) + Tailwind CSS 3
   packages/
-    contracts/           Tipos y reglas de dominio compartidos
+    contracts/           Shared types and domain rules
   supabase/
-    schema.sql           Esquema PostgreSQL con RLS
+    schema.sql           PostgreSQL schema with Row Level Security
   docs/
-    MANUAL_USUARIO.md    Guía paso a paso
-    MANUAL_TECNICO.md    Arquitectura, módulos y convenciones
-    PLAN_DE_PRUEBAS.md   Casos, restricciones y resultados esperados
-    capturas/            Imágenes de este README
+    MANUAL_USUARIO.md    Step-by-step user guide (Spanish)
+    MANUAL_TECNICO.md    Architecture, modules and conventions (Spanish)
+    PLAN_DE_PRUEBAS.md   Test cases, constraints and expected results (Spanish)
+    capturas/            Images used in this README
 ```
 
-Las reglas de dominio viven en `packages/contracts` y las consumen tanto la API
-como la web. Gracias a eso el reordenamiento optimista del navegador y el que
-persiste el servidor invocan la **misma** función, así que no pueden divergir.
+Domain rules live in `packages/contracts` and are used by both the API and the web app. Because of that, the optimistic reordering in the browser and the reordering the server persists call the **same** function, so they can't drift apart.
 
-El detalle de cada módulo está en [`docs/MANUAL_TECNICO.md`](docs/MANUAL_TECNICO.md).
+Module details are in [`docs/MANUAL_TECNICO.md`](docs/MANUAL_TECNICO.md).
 
-## Stack
+## Tech stack
 
-| Capa | Tecnología |
+| Layer | Technology |
 | --- | --- |
-| Interfaz | Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS 3 |
-| Arrastre | dnd-kit (puntero y teclado) |
+| Interface | Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS 3 |
+| Drag and drop | dnd-kit (pointer and keyboard) |
 | API | NestJS 10, class-validator, Socket.IO, Helmet |
-| Autenticación | Supabase Auth: Google y correo con contraseña; JWT verificado en la API |
-| Base de datos | PostgreSQL 15 gestionado por Supabase, con Row Level Security |
-| Pruebas | Vitest y Testing Library en la web, Jest y Supertest en la API |
+| Authentication | Supabase Auth: Google and email/password; JWT verified in the API |
+| Database | PostgreSQL 15 managed by Supabase, with Row Level Security |
+| Testing | Vitest and Testing Library on the web, Jest and Supertest on the API |
 
-## Puesta en marcha
+## Getting started
 
-Requisitos: Node.js 20 o superior.
+Requirements: Node.js 20 or later.
 
 ```bash
 npm install
@@ -129,147 +107,122 @@ cp apps/api/.env.example apps/api/.env
 cp apps/web/.env.example apps/web/.env.local
 ```
 
-Arranca los dos procesos en terminales separadas:
+Start both processes in separate terminals:
 
 ```bash
 npm run dev:api    # http://localhost:4000/api
 npm run dev:web    # http://localhost:3000
 ```
 
-Con la configuración de ejemplo la API usa el driver `memory`, así que arranca
-sin credenciales externas. Para persistir en PostgreSQL, ejecuta
-`supabase/schema.sql` en tu proyecto de Supabase y completa en `apps/api/.env`:
+With the example configuration the API uses the `memory` driver, so it starts without any external credentials. To persist data in PostgreSQL, run `supabase/schema.sql` in your Supabase project and fill in `apps/api/.env`:
 
 ```
 DATA_DRIVER=supabase
-SUPABASE_URL=https://<proyecto>.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=<clave de servicio>
-ADMIN_EMAIL=<tu correo>          # opcional: habilita /admin solo para esa cuenta
+SUPABASE_URL=https://<project>.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=<service key>
+ADMIN_EMAIL=<your email>          # optional: enables /admin for that account only
 ```
 
-El esquema se puede volver a ejecutar entero sobre un proyecto que ya existe:
-tipos, tablas, indices y politicas se crean solo si faltan, y las columnas
-añadidas después se aplican al final con `alter table ... add column if not exists`.
+The schema can be re-run in full on an existing project: types, tables, indexes and policies are only created if missing, and columns added later are applied at the end with `alter table ... add column if not exists`.
 
-La API verifica los tokens con las claves publicas del proyecto (`SUPABASE_URL`),
-así que no hace falta ningún secreto de firma. Solo los proyectos que aun usan el
-esquema heredado HS256 necesitan además `SUPABASE_JWT_SECRET`.
+The API verifies tokens with the project's public keys (`SUPABASE_URL`), so no signing secret is needed. Only projects still on the legacy HS256 scheme also need `SUPABASE_JWT_SECRET`.
 
-Y en `apps/web/.env.local`:
+And in `apps/web/.env.local`:
 
 ```
 NEXT_PUBLIC_API_URL=http://localhost:4000/api
-NEXT_PUBLIC_SUPABASE_URL=https://<proyecto>.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
+NEXT_PUBLIC_SUPABASE_URL=https://<project>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<public key>
 ```
 
-## Comandos
+## Commands
 
-| Comando | Efecto |
+| Command | What it does |
 | --- | --- |
-| `npm run build` | Compila el paquete compartido, la API y la web |
-| `npm test` | Ejecuta las suites de los tres paquetes |
-| `npm run test:unit` | Solo pruebas unitarias |
-| `npm run test:integration` | Solo pruebas de integracion |
-| `npm run lint` | Análisis estático de la API y la web |
+| `npm run build` | Builds the shared package, the API and the web app |
+| `npm test` | Runs the test suites of all three packages |
+| `npm run test:unit` | Unit tests only |
+| `npm run test:integration` | Integration tests only |
+| `npm run lint` | Static analysis of the API and the web app |
 
-## Pruebas
+## Testing
 
-596 casos, todos en verde y sin dependencias de red externas:
+596 tests, all passing, with no external network dependencies:
 
-| Paquete | Herramienta | Casos |
+| Package | Tool | Tests |
 | --- | --- | --- |
 | `contracts` | Vitest | 159 |
-| `api` | Jest y Supertest | 128 |
-| `web` | Vitest y Testing Library | 309 |
+| `api` | Jest and Supertest | 128 |
+| `web` | Vitest and Testing Library | 309 |
 
-Cubren las restricciones del plan: ausencia de conexión, valores nulos, datos
-corruptos y sincronización entre dispositivos. Las pruebas de tiempo real
-levantan la API en un puerto real y usan clientes `socket.io` auténticos. El
-desglose completo está en [`docs/PLAN_DE_PRUEBAS.md`](docs/PLAN_DE_PRUEBAS.md).
+They cover the plan's constraints: offline use, null values, corrupted data and cross-device sync. The real-time tests start the API on a real port and use real `socket.io` clients. The full breakdown is in [`docs/PLAN_DE_PRUEBAS.md`](docs/PLAN_DE_PRUEBAS.md).
 
-## Despliegue
+## Deployment
 
-### Web en Vercel
+### Web app on Vercel
 
-Al importar el repositorio, en **Settings -> General**:
+When importing the repository, under **Settings -> General**:
 
-| Ajuste | Valor |
+| Setting | Value |
 | --- | --- |
 | Root Directory | `apps/web` |
-| Include files outside the root directory | **Activado** |
-| Framework Preset | Next.js (se detecta solo) |
-| Build Command | por defecto (`npm run build`) |
+| Include files outside the root directory | **Enabled** |
+| Framework Preset | Next.js (detected automatically) |
+| Build Command | default (`npm run build`) |
 
-Si defines un **Build Command propio**, referénciate al workspace **por ruta**
-(`npm run build --workspace apps/web`) y no por nombre de paquete: la ruta
-sobrevive a un cambio de nombre del producto, el nombre del paquete no.
+If you set a **custom Build Command**, reference the workspace **by path** (`npm run build --workspace apps/web`) rather than by package name: the path survives a product rename, the package name doesn't.
 
-El **Root Directory debe apuntar a `apps/web`**, no a la raíz: Vercel busca la
-dependencia `next` en el `package.json` de ese directorio, y el de la raíz solo
-declara los workspaces. La casilla de archivos externos es obligatoria porque la
-web compila `packages/contracts` antes de construirse.
+The **Root Directory must point to `apps/web`**, not the repo root: Vercel looks for the `next` dependency in that directory's `package.json`, and the root one only declares the workspaces. The outside-files option is required because the web app builds `packages/contracts` first.
 
-Variables de entorno del proyecto:
+Project environment variables:
 
 ```
-NEXT_PUBLIC_API_URL=https://<tu-api>/api
-NEXT_PUBLIC_SUPABASE_URL=https://<proyecto>.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<clave publica>
+NEXT_PUBLIC_API_URL=https://<your-api>/api
+NEXT_PUBLIC_SUPABASE_URL=https://<project>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<public key>
 ```
 
-Sin ellas la aplicación despliega igual y muestra un aviso explicando que falta
-configurar Supabase, pero no permite iniciar sesión.
+Without them the app still deploys and shows a notice explaining that Supabase isn't configured, but sign-in is disabled.
 
-### Autenticación en producción
+### Authentication in production
 
-En **Authentication -> URL Configuration** del proyecto de Supabase:
+In the Supabase project, under **Authentication -> URL Configuration**:
 
-| Campo | Valor |
+| Field | Value |
 | --- | --- |
-| Site URL | El dominio publico de la web |
-| Redirect URLs | `https://<dominio>/**` |
+| Site URL | The public domain of the web app |
+| Redirect URLs | `https://<domain>/**` |
 
-Para habilitar los accesos externos, en **Authentication -> Providers** pega el
-identificador y el secreto de cada aplicación OAuth. En todas ellas el URI de
-redireccion autorizado es `https://<proyecto>.supabase.co/auth/v1/callback`.
+To enable external sign-in, paste each OAuth app's client ID and secret under **Authentication -> Providers**. For all of them, the authorized redirect URI is `https://<project>.supabase.co/auth/v1/callback`.
 
-| Proveedor de Supabase | Donde se crea la aplicación |
+| Supabase provider | Where the app is created |
 | --- | --- |
-| Google | Google Cloud, apartado de credenciales OAuth |
+| Google | Google Cloud, OAuth credentials section |
 
-El servicio de correo integrado de Supabase esta pensado para desarrollo y
-limita los envíos por hora. Un despliegue real que use registro por correo
-necesita un **SMTP propio** configurado en *Project Settings -> Authentication*.
+Supabase's built-in email service is meant for development and limits sends per hour. A real deployment that uses email sign-up needs its own **SMTP** server, configured under *Project Settings -> Authentication*.
 
-### API en Render
+### API on Render
 
-El repositorio incluye `render.yaml`, así que basta con **New -> Blueprint** y
-seleccionar el repositorio. Render pedirá tres valores al crear el servicio:
-`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` y `CORS_ORIGINS` (el dominio publico
-de la web).
+The repository includes `render.yaml`, so you only need **New -> Blueprint** and select the repository. Render asks for three values when creating the service: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and `CORS_ORIGINS` (the web app's public domain).
 
-La API es un proceso persistente con WebSockets, así que no encaja en las
-funciones serverless de Vercel: necesita un servicio con proceso continuo.
+The API is a long-running process with WebSockets, so it doesn't fit Vercel's serverless functions: it needs a service with a persistent process.
 
-Para cualquier otro proveedor, los comandos son:
+For any other provider, the commands are:
 
 ```bash
-npm install --include=dev   # NODE_ENV=production omitiria TypeScript y la CLI de Nest
+npm install --include=dev   # NODE_ENV=production would skip TypeScript and the Nest CLI
 npm run build --workspace apps/api
 npm run start:prod --workspace apps/api
 ```
 
-La sonda de disponibilidad es `GET /api/health`.
+The health check is `GET /api/health`.
 
-## Convenciones de código
+## Code conventions
 
-- TypeScript estricto en los tres paquetes.
-- Sin emojis en el código ni en la interfaz; la iconografia es SVG vectorial
-  (ver [`apps/web/src/components/icons/ICONS_LICENSE.md`](apps/web/src/components/icons/ICONS_LICENSE.md)).
-- Una sola fuente por regla: si una logica se necesita en la API y en la web,
-  vive en `@deska/contracts`.
+- Strict TypeScript in all three packages.
+- No emojis in the code or the interface; icons are vector SVGs (see [`apps/web/src/components/icons/ICONS_LICENSE.md`](apps/web/src/components/icons/ICONS_LICENSE.md)).
+- One source of truth per rule: if logic is needed in both the API and the web app, it lives in `@deska/contracts`.
 
-## Licencia
+## License
 
 MIT.
